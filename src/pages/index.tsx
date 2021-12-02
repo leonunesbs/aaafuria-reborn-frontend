@@ -1,75 +1,108 @@
-import Head from 'next/head';
-import Image from 'next/image';
+import React, { useContext, useEffect } from 'react';
+import {
+  Box,
+  BoxProps,
+  Button,
+  Divider,
+  Heading,
+  Image,
+  Stack,
+  useColorModeValue,
+} from '@chakra-ui/react';
 
-import styles from '@/styles/Home.module.css';
+import { MdLogin, MdLogout, MdPerson, MdGroups, MdStore } from 'react-icons/md';
+import { Card } from '@/components/Card';
+import { useRouter } from 'next/router';
+import { AuthContext } from '@/contexts/AuthContext';
+import { parseCookies } from 'nookies';
 
-export default function Home() {
+type HomeProps = BoxProps;
+
+export default function Home({}: HomeProps) {
+  const router = useRouter();
+  const { signOut, isAuthenticated, checkSocio } = useContext(AuthContext);
+
+  const { ['aaafuriaIsSocio']: isSocio } = parseCookies();
+
+  useEffect(() => {
+    checkSocio();
+  }, [checkSocio]);
+
   return (
-    <div className={styles.container}>
-      <Head>
-        <title>TypeScript starter for Next.js</title>
-        <meta
-          name="description"
-          content="TypeScript starter for Next.js that includes all you need to build amazing apps"
+    <Box
+      bg={useColorModeValue('gray.50', 'inherit')}
+      minH="100vh"
+      py="12"
+      px={{ base: '4', lg: '8' }}
+    >
+      <Box maxW="xl" mx="auto">
+        <Image
+          h="180px"
+          w="270px"
+          objectFit="cover"
+          src="/logo-aaafuria-h.png"
+          alt="logo"
+          mx="auto"
+          mb={{ base: '8', md: '12' }}
         />
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
-
-      <main className={styles.main}>
-        <h1 className={styles.title}>
-          Welcome to <a href="https://nextjs.org">Next.js!</a>
-        </h1>
-
-        <p className={styles.description}>
-          Get started by editing{` `}
-          <code className={styles.code}>pages/index.tsx</code>
-        </p>
-
-        <p className={styles.description}>This is not an official starter!</p>
-
-        <div className={styles.grid}>
-          <a href="https://nextjs.org/docs" className={styles.card}>
-            <h2>Documentation &rarr;</h2>
-            <p>Find in-depth information about Next.js features and API.</p>
-          </a>
-
-          <a href="https://nextjs.org/learn" className={styles.card}>
-            <h2>Learn &rarr;</h2>
-            <p>Learn about Next.js in an interactive course with quizzes!</p>
-          </a>
-
-          <a
-            href="https://github.com/vercel/next.js/tree/master/examples"
-            className={styles.card}
-          >
-            <h2>Examples &rarr;</h2>
-            <p>Discover and deploy boilerplate example Next.js projects.</p>
-          </a>
-
-          <a
-            href="https://vercel.com/new?utm_source=typescript-nextjs-starter"
-            className={styles.card}
-          >
-            <h2>Deploy &rarr;</h2>
-            <p>
-              Instantly deploy your Next.js site to a public URL with Vercel.
-            </p>
-          </a>
-        </div>
-      </main>
-
-      <footer className={styles.footer}>
-        <a
-          href="https://vercel.com?utm_source=typescript-nextjs-starter"
-          target="_blank"
-          rel="noopener noreferrer"
+        <Heading
+          as="h1"
+          textAlign="center"
+          size="xl"
+          fontWeight="extrabold"
+          mb={4}
         >
-          Powered by{` `}
-          <span className={styles.logo}>
-            <Image src="/vercel.svg" alt="Vercel Logo" width={72} height={16} />
-          </span>
-        </a>
-      </footer>
-    </div>
+          Selecione uma opção
+        </Heading>
+        <Card>
+          <Stack>
+            {isSocio !== 'true' && (
+              <Button
+                leftIcon={<MdGroups size="20px" />}
+                colorScheme="green"
+                onClick={() => router.push('/sejasocio')}
+              >
+                Seja Sócio
+              </Button>
+            )}
+            <Button
+              leftIcon={<MdStore size="20px" />}
+              colorScheme="green"
+              onClick={() => router.push('/loja')}
+            >
+              Loja
+            </Button>
+            <Divider height="5px" />
+
+            <Button
+              leftIcon={<MdPerson size="20px" />}
+              colorScheme="green"
+              onClick={() => router.push('/areasocio')}
+            >
+              Área do Sócio
+            </Button>
+            {isAuthenticated ? (
+              <>
+                <Button
+                  leftIcon={<MdLogout size="20px" />}
+                  colorScheme="red"
+                  onClick={signOut}
+                >
+                  Sair
+                </Button>
+              </>
+            ) : (
+              <Button
+                leftIcon={<MdLogin size="20px" />}
+                colorScheme="green"
+                onClick={() => router.push('/entrar')}
+              >
+                Entrar
+              </Button>
+            )}
+          </Stack>
+        </Card>
+      </Box>
+    </Box>
   );
 }
