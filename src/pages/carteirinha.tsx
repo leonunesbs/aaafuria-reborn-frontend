@@ -26,6 +26,7 @@ import { useRouter } from 'next/router';
 import { parseCookies } from 'nookies';
 import React from 'react';
 import { MdRefresh } from 'react-icons/md';
+import Head from 'next/head';
 
 const GET_SOCIO = gql`
   query {
@@ -65,6 +66,9 @@ function Carteirinha({ token }: CarteirinhaProps) {
       py="12"
       px={{ base: '4', lg: '8' }}
     >
+      <Head>
+        <title>@aaafuria - Carteirinha</title>
+      </Head>
       <Box maxW="2xl" mx="auto">
         <Heading
           as="h1"
@@ -296,7 +300,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
   if (!token) {
     return {
       redirect: {
-        destination: '/entrar',
+        destination: '/entrar?after=/carteirinha',
         permanent: false,
       },
     };

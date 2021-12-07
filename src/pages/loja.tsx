@@ -1,3 +1,4 @@
+import Layout from '@/components/Layout';
 import { ProdutoCard } from '@/components/ProdutoCard';
 import { AuthContext } from '@/contexts/AuthContext';
 import { gql, useQuery } from '@apollo/client';
@@ -8,7 +9,6 @@ import {
   IconButton,
   SimpleGrid,
   Stack,
-  useColorModeValue,
   Grid,
   GridItem,
 } from '@chakra-ui/react';
@@ -61,12 +61,7 @@ function Loja() {
   }, [isSocio, checkSocio]);
 
   return (
-    <Box
-      bg={useColorModeValue('gray.50', 'inherit')}
-      minH="100vh"
-      py="12"
-      px={{ base: '4', lg: '8' }}
-    >
+    <Layout title="Loja">
       <Box maxW="5xl" mx="auto">
         <Grid
           mx="auto"
@@ -135,7 +130,7 @@ function Loja() {
           </Button>
         </Stack>
       </Box>
-    </Box>
+    </Layout>
   );
 }
 

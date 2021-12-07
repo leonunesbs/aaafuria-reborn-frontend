@@ -39,6 +39,7 @@ interface AuthProviderProps {
 type SignInData = {
   matricula: string;
   pin: string;
+  redirectUrl?: string;
 };
 
 type UserData = {
@@ -56,7 +57,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
   const isAuthenticated = !!token;
 
-  const signIn = async ({ matricula, pin }: SignInData) => {
+  const signIn = async ({ matricula, pin, redirectUrl }: SignInData) => {
     return await client
       .mutate({
         mutation: SIGN_IN,
@@ -76,7 +77,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
         });
         setUser({ matricula: data.tokenAuth.payload.username });
 
-        router.push('/');
+        router.push(redirectUrl || '/');
         return data;
       })
       .catch((err) => {

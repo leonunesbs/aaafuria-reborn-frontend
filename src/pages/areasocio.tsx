@@ -1,12 +1,5 @@
 import { Card } from '@/components/Card';
-import {
-  Box,
-  Button,
-  Divider,
-  Heading,
-  Stack,
-  useColorModeValue,
-} from '@chakra-ui/react';
+import { Box, Button, Divider, Heading, Stack } from '@chakra-ui/react';
 import { useRouter } from 'next/router';
 import React, { useContext, useEffect } from 'react';
 import { MdManageAccounts } from 'react-icons/md';
@@ -17,6 +10,7 @@ import { GetServerSideProps } from 'next';
 import { parseCookies } from 'nookies';
 import { gql, useQuery } from '@apollo/client';
 import { AuthContext } from '@/contexts/AuthContext';
+import Layout from '@/components/Layout';
 
 const QUERY_PORTAL = gql`
   query portal {
@@ -53,12 +47,7 @@ function AreaSocio() {
   };
 
   return (
-    <Box
-      bg={useColorModeValue('gray.50', 'inherit')}
-      minH="100vh"
-      py="12"
-      px={{ base: '4', lg: '8' }}
-    >
+    <Layout title="Área do Socio">
       <Box maxW="xl" mx="auto">
         <Heading
           as="h1"
@@ -104,24 +93,24 @@ function AreaSocio() {
           </Stack>
         </Card>
       </Box>
-    </Box>
+    </Layout>
   );
 }
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const { ['aaafuriaIsSocio']: isSocio } = parseCookies(ctx);
 
-  if (isSocio === 'false') {
+  if (isSocio === 'true') {
     return {
-      redirect: {
-        destination: '/sejasocio',
-        permanent: false,
-      },
+      props: {},
     };
   }
 
   return {
-    props: {},
+    redirect: {
+      destination: '/sejasocio',
+      permanent: false,
+    },
   };
 };
 

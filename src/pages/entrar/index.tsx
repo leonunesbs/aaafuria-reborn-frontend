@@ -14,6 +14,7 @@ import {
   Image,
   useColorModeValue,
   Center,
+  chakra,
 } from '@chakra-ui/react';
 
 import { useForm, SubmitHandler } from 'react-hook-form';
@@ -51,10 +52,13 @@ export default function Entrar() {
   const { signIn, signOut } = useContext(AuthContext);
   const { register, handleSubmit, setValue, getValues } = useForm<Inputs>();
   const [entrar, setEntrar] = React.useState(false);
+  const [loading, setLoading] = React.useState(false);
   const [cadastro, setCadastro] = React.useState(false);
 
   const [matricula, setMatricula] = React.useState('');
   const [errorMesage, setErrorMesage] = React.useState('');
+
+  const ChakraNextImage = chakra(Image);
 
   const formValues = getValues();
 
@@ -82,9 +86,13 @@ export default function Entrar() {
 
   const onSubmit: SubmitHandler<Inputs> = useCallback(
     async ({ matricula: mtr, pin }) => {
+      setLoading(true);
       query.refetch({ username: mtr });
+
+      const { after }: { after?: string } = router.query;
+
       if (entrar) {
-        signIn({ matricula: mtr, pin }).catch((err) => {
+        signIn({ matricula: mtr, pin, redirectUrl: after }).catch((err) => {
           setErrorMesage(err.message);
           signOut();
         });
@@ -108,8 +116,10 @@ export default function Entrar() {
         setCadastro(true);
         setErrorMesage('Matrícula inválida');
       }
+
+      setLoading(false);
     },
-    [entrar, query, signIn, signOut],
+    [setLoading, entrar, query, signIn, signOut, router.query],
   );
 
   return (
@@ -120,14 +130,21 @@ export default function Entrar() {
       px={{ base: '4', lg: '8' }}
     >
       <Box maxW="md" mx="auto">
-        <Image
-          boxSize="250px"
-          objectFit="cover"
-          src="/calango-verde.png"
-          alt="logo"
-          mx="auto"
-          mb={{ base: '8', md: '12' }}
-        />
+        <Center>
+          <Box boxSize="250px" position="relative">
+            <ChakraNextImage
+              placeholder="blur"
+              blurDataURL="/calango-verde.png"
+              layout="fill"
+              objectFit="cover"
+              src="/calango-verde.png"
+              quality={1}
+              alt="logo"
+              mx="auto"
+              mb={{ base: '8', md: '12' }}
+            />
+          </Box>
+        </Center>
         <Heading textAlign="center" size="xl" fontWeight="extrabold" mb={4}>
           Acesse a plataforma
         </Heading>
@@ -205,6 +222,7 @@ export default function Entrar() {
                     leftIcon={<MdLogin size="20px" />}
                     colorScheme="green"
                     mt={4}
+                    isLoading={loading}
                     type="submit"
                   >
                     Entrar

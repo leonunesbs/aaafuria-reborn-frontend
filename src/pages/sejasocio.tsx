@@ -1,6 +1,5 @@
 import {
   Box,
-  useColorModeValue,
   Heading,
   Button,
   Text,
@@ -26,6 +25,7 @@ import { AuthContext } from '@/contexts/AuthContext';
 import { MdLogin } from 'react-icons/md';
 import { gql, useMutation } from '@apollo/client';
 import { parseCookies } from 'nookies';
+import Layout from '@/components/Layout';
 
 const NOVO_PAGAMENTO = gql`
   mutation novoPagamento($tipoPlano: String!) {
@@ -72,12 +72,7 @@ function SejaSocio() {
   );
 
   return (
-    <Box
-      bg={useColorModeValue('gray.50', 'inherit')}
-      minH="100vh"
-      py="12"
-      px={{ base: '4', lg: '8' }}
-    >
+    <Layout title="Seja sócio">
       <Box maxW="5xl" mx="auto">
         <Heading
           as="h1"
@@ -185,7 +180,9 @@ function SejaSocio() {
                               <Button
                                 colorScheme="green"
                                 leftIcon={<MdLogin />}
-                                onClick={() => router.push('/entrar')}
+                                onClick={() =>
+                                  router.push('/entrar?after=/sejasocio')
+                                }
                               >
                                 Entrar
                               </Button>
@@ -229,7 +226,7 @@ function SejaSocio() {
           </Button>
         </Stack>
       </Box>
-    </Box>
+    </Layout>
   );
 }
 

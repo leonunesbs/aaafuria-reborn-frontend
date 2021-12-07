@@ -1,4 +1,5 @@
 import { Card } from '@/components/Card';
+import Layout from '@/components/Layout';
 import { gql, useMutation, useQuery } from '@apollo/client';
 import {
   Box,
@@ -19,7 +20,6 @@ import {
   Th,
   Thead,
   Tr,
-  useColorModeValue,
   Text,
   Image,
   HStack,
@@ -114,12 +114,7 @@ function Carrinho() {
   }, [data?.userCarrinho?.produtos?.edges, router]);
 
   return (
-    <Box
-      bg={useColorModeValue('gray.50', 'inherit')}
-      minH="100vh"
-      py="12"
-      px={{ base: '4', lg: '8' }}
-    >
+    <Layout title="Carrinho">
       <Box maxW="6xl" mx="auto">
         <Heading
           as="h1"
@@ -280,7 +275,7 @@ function Carrinho() {
           </Portal>
         </Popover>
       </Box>
-    </Box>
+    </Layout>
   );
 }
 

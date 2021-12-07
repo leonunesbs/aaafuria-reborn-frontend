@@ -259,7 +259,7 @@ export default function Cadastro() {
               <Button type="submit" colorScheme="green">
                 Cadastrar
               </Button>
-              <Button colorScheme="gray" onClick={() => router.push('/entrar')}>
+              <Button colorScheme="gray" onClick={() => router.back()}>
                 Voltar
               </Button>
               <Button colorScheme="gray" onClick={() => router.push('/')}>
