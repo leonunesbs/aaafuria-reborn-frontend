@@ -7,10 +7,38 @@ class Document extends NextDocument {
     return (
       <Html lang="pt-br">
         <Head>
-          <link rel="manifest" href="/manifest.json" />
-          <link rel="apple-touch-icon" href="/icon-256x256.png"></link>
-          <meta name="theme-color" content="#2F855A" />
-          <link rel="shortcut icon" href="/icon-192x192.png" />
+          <link
+            rel="apple-touch-icon"
+            sizes="180x180"
+            href="/favicon/apple-touch-icon.png"
+          />
+          <link
+            rel="icon"
+            type="image/png"
+            sizes="32x32"
+            href="/favicon/favicon-32x32.png"
+          />
+          <link
+            rel="icon"
+            type="image/png"
+            sizes="16x16"
+            href="/favicon/favicon-16x16.png"
+          />
+          <link rel="manifest" href="/favicon/site.webmanifest" />
+          <link
+            rel="mask-icon"
+            href="/favicon/safari-pinned-tab.svg"
+            color="#2f855a"
+          />
+          <link rel="shortcut icon" href="/favicon/favicon.ico" />
+          <meta name="apple-mobile-web-app-title" content="@aaafuria" />
+          <meta name="application-name" content="@aaafuria" />
+          <meta name="msapplication-TileColor" content="#ffffff" />
+          <meta
+            name="msapplication-config"
+            content="/favicon/browserconfig.xml"
+          />
+          <meta name="theme-color" content="#ffffff"></meta>
         </Head>
         <body>
           <Main />

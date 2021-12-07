@@ -43,10 +43,10 @@ export default function Home({}: HomeProps) {
           <Box width="270px" height="180px" position="relative">
             <ChakraNextImage
               placeholder="blur"
-              blurDataURL="/logo-aaafuria-h.png"
+              blurDataURL="/logo-aaafuria-h.webp"
               layout="fill"
               objectFit="cover"
-              src="/logo-aaafuria-h.png"
+              src="/logo-aaafuria-h.webp"
               quality={1}
               alt="logo"
               mx="auto"
@@ -68,6 +68,7 @@ export default function Home({}: HomeProps) {
             <Stack>
               {isSocio !== 'true' && (
                 <Button
+                  as="h2"
                   leftIcon={<MdGroups size="20px" />}
                   colorScheme="green"
                   onClick={() => {
@@ -79,6 +80,7 @@ export default function Home({}: HomeProps) {
                 </Button>
               )}
               <Button
+                as="h2"
                 leftIcon={<MdStore size="20px" />}
                 colorScheme="green"
                 onClick={() => {
@@ -93,6 +95,7 @@ export default function Home({}: HomeProps) {
               {isAuthenticated ? (
                 <>
                   <Button
+                    as="h2"
                     leftIcon={<MdPerson size="20px" />}
                     colorScheme="green"
                     onClick={() => {
@@ -103,6 +106,7 @@ export default function Home({}: HomeProps) {
                     Área do Sócio
                   </Button>
                   <Button
+                    as="h2"
                     leftIcon={<MdLogout size="20px" />}
                     colorScheme="red"
                     onClick={() => {
@@ -115,6 +119,7 @@ export default function Home({}: HomeProps) {
                 </>
               ) : (
                 <Button
+                  as="h2"
                   leftIcon={<MdLogin size="20px" />}
                   colorScheme="green"
                   onClick={() => {
