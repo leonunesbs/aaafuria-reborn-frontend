@@ -38,7 +38,7 @@ class Document extends NextDocument {
             name="msapplication-config"
             content="/favicon/browserconfig.xml"
           />
-          <meta name="theme-color" content="#ffffff"></meta>
+          <meta name="theme-color" content="#2F855A"></meta>
         </Head>
         <body>
           <Main />
