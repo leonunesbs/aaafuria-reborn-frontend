@@ -26,6 +26,7 @@ import { MdLogin } from 'react-icons/md';
 import { gql, useMutation } from '@apollo/client';
 import { parseCookies } from 'nookies';
 import Layout from '@/components/Layout';
+import PageHeading from '@/components/PageHeading';
 
 const NOVO_PAGAMENTO = gql`
   mutation novoPagamento($tipoPlano: String!) {
@@ -74,19 +75,13 @@ function SejaSocio() {
   return (
     <Layout title="Seja sócio">
       <Box maxW="5xl" mx="auto">
-        <Heading
-          as="h1"
-          textAlign="center"
-          size="xl"
-          fontWeight="extrabold"
-          mb={4}
-        >
+        <PageHeading>
           Junte-se a nós, seja um{' '}
           <Text as="span" color="green">
             sócio Fúria
           </Text>
           !
-        </Heading>
+        </PageHeading>
         <SimpleGrid
           columns={{ base: 1, lg: 3 }}
           spacing={{ base: '8', lg: '2' }}

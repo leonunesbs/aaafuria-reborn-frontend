@@ -1,5 +1,5 @@
 import { Card } from '@/components/Card';
-import { Box, Button, Divider, Heading, Stack } from '@chakra-ui/react';
+import { Box, Button, Divider, Stack } from '@chakra-ui/react';
 import { useRouter } from 'next/router';
 import React, { useContext, useEffect } from 'react';
 import { MdManageAccounts } from 'react-icons/md';
@@ -11,6 +11,7 @@ import { parseCookies } from 'nookies';
 import { gql, useQuery } from '@apollo/client';
 import { AuthContext } from '@/contexts/AuthContext';
 import Layout from '@/components/Layout';
+import PageHeading from '@/components/PageHeading';
 
 const QUERY_PORTAL = gql`
   query portal {
@@ -49,15 +50,7 @@ function AreaSocio() {
   return (
     <Layout title="Área do Socio">
       <Box maxW="xl" mx="auto">
-        <Heading
-          as="h1"
-          textAlign="center"
-          size="xl"
-          fontWeight="extrabold"
-          mb={4}
-        >
-          Área do sócio
-        </Heading>
+        <PageHeading>Área do sócio</PageHeading>
         <Card>
           <Stack>
             <Button

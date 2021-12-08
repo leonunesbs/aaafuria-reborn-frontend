@@ -5,7 +5,6 @@ import {
   FormControl,
   Text,
   FormLabel,
-  Heading,
   HStack,
   Input,
   PinInput,
@@ -28,6 +27,7 @@ import { parseCookies } from 'nookies';
 import { GetServerSideProps } from 'next';
 import { MdLogin } from 'react-icons/md';
 import { AiFillHome } from 'react-icons/ai';
+import PageHeading from '@/components/PageHeading';
 
 const QUERY = gql`
   query BuscarSocio($username: String!) {
@@ -145,9 +145,7 @@ export default function Entrar() {
             />
           </Box>
         </Center>
-        <Heading textAlign="center" size="xl" fontWeight="extrabold" mb={4}>
-          Acesse a plataforma
-        </Heading>
+        <PageHeading>Acesse a plataforma</PageHeading>
         <Card>
           <form onSubmit={handleSubmit(onSubmit)} name="entrarForm">
             <Stack spacing={4}>

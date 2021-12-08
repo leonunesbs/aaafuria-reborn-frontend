@@ -6,7 +6,6 @@ import {
   Center,
   chakra,
   Divider,
-  Heading,
   Skeleton,
   Stack,
 } from '@chakra-ui/react';
@@ -19,6 +18,7 @@ import { useRouter } from 'next/router';
 import { AuthContext } from '@/contexts/AuthContext';
 import { parseCookies } from 'nookies';
 import Layout from '@/components/Layout';
+import PageHeading from '@/components/PageHeading';
 
 type HomeProps = BoxProps;
 
@@ -54,15 +54,7 @@ export default function Home({}: HomeProps) {
             />
           </Box>
         </Center>
-        <Heading
-          as="h1"
-          textAlign="center"
-          size="xl"
-          fontWeight="extrabold"
-          mb={4}
-        >
-          Selecione uma opção
-        </Heading>
+        <PageHeading>Selecione uma opção</PageHeading>
         <Skeleton isLoaded={!loading}>
           <Card>
             <Stack>

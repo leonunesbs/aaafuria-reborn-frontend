@@ -1,11 +1,11 @@
 import Layout from '@/components/Layout';
+import PageHeading from '@/components/PageHeading';
 import { ProdutoCard } from '@/components/ProdutoCard';
 import { AuthContext } from '@/contexts/AuthContext';
 import { gql, useQuery } from '@apollo/client';
 import {
   Box,
   Button,
-  Heading,
   IconButton,
   SimpleGrid,
   Stack,
@@ -69,15 +69,7 @@ function Loja() {
         >
           <GridItem colSpan={{ lg: 2 }}></GridItem>
           <GridItem justify="flex-end" colSpan={{ lg: 3 }}>
-            <Heading
-              as="h1"
-              textAlign="center"
-              size="xl"
-              fontWeight="extrabold"
-              mb={4}
-            >
-              Loja
-            </Heading>
+            <PageHeading>Loja</PageHeading>
           </GridItem>
           <GridItem
             colSpan={{ lg: 2 }}

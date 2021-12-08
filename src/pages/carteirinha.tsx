@@ -1,7 +1,6 @@
 import { Card } from '@/components/Card';
 import { gql, useQuery } from '@apollo/client';
 import InputMask from 'react-input-mask';
-import { useColorModeValue } from '@chakra-ui/color-mode';
 import {
   Avatar,
   Box,
@@ -11,7 +10,6 @@ import {
   Flex,
   Image,
   FormLabel,
-  Heading,
   Input,
   Stack,
   Text,
@@ -26,7 +24,8 @@ import { useRouter } from 'next/router';
 import { parseCookies } from 'nookies';
 import React from 'react';
 import { MdRefresh } from 'react-icons/md';
-import Head from 'next/head';
+import PageHeading from '@/components/PageHeading';
+import Layout from '@/components/Layout';
 
 const GET_SOCIO = gql`
   query {
@@ -60,25 +59,9 @@ function Carteirinha({ token }: CarteirinhaProps) {
   });
 
   return (
-    <Box
-      bg={useColorModeValue('gray.50', 'inherit')}
-      minH="100vh"
-      py="12"
-      px={{ base: '4', lg: '8' }}
-    >
-      <Head>
-        <title>@aaafuria - Carteirinha</title>
-      </Head>
+    <Layout title="Carteirinha">
       <Box maxW="2xl" mx="auto">
-        <Heading
-          as="h1"
-          textAlign="center"
-          size="xl"
-          fontWeight="extrabold"
-          mb={4}
-        >
-          Carteirinha
-        </Heading>
+        <PageHeading>Carteirinha</PageHeading>
         <Card
           overflow="hidden"
           position="relative"
@@ -290,7 +273,7 @@ function Carteirinha({ token }: CarteirinhaProps) {
           </Button>
         </Stack>
       </Box>
-    </Box>
+    </Layout>
   );
 }
 

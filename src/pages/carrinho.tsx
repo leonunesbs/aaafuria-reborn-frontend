@@ -1,10 +1,10 @@
 import { Card } from '@/components/Card';
 import Layout from '@/components/Layout';
+import PageHeading from '@/components/PageHeading';
 import { gql, useMutation, useQuery } from '@apollo/client';
 import {
   Box,
   Button,
-  Heading,
   Popover,
   PopoverArrow,
   PopoverBody,
@@ -116,15 +116,7 @@ function Carrinho() {
   return (
     <Layout title="Carrinho">
       <Box maxW="6xl" mx="auto">
-        <Heading
-          as="h1"
-          textAlign="center"
-          size="xl"
-          fontWeight="extrabold"
-          mb={4}
-        >
-          Carrinho
-        </Heading>
+        <PageHeading>Carrinho</PageHeading>
         <Card overflowX="auto">
           <Table size="sm">
             <Thead>

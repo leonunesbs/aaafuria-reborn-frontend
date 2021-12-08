@@ -14,13 +14,13 @@ import {
   Box,
   Text,
   useColorModeValue,
-  Heading,
   FormHelperText,
 } from '@chakra-ui/react';
 import { useRouter } from 'next/router';
 import React, { useContext, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { AuthContext } from '@/contexts/AuthContext';
+import PageHeading from '@/components/PageHeading';
 
 type Inputs = {
   matricula: string;
@@ -113,9 +113,7 @@ export default function Cadastro() {
       px={{ base: '4', lg: '8' }}
     >
       <Box maxW="2xl" mx="auto">
-        <Heading textAlign="center" size="xl" fontWeight="extrabold" mb={4}>
-          Crie sua conta na plataforma
-        </Heading>
+        <PageHeading>Crie sua conta na plataforma</PageHeading>
         <Card>
           <form id="signUp" onSubmit={handleSubmit(signUp)}>
             <Stack spacing={4}>
