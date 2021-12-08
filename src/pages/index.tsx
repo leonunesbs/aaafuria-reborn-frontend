@@ -12,19 +12,21 @@ import {
 
 import NextImage from 'next/image';
 
-import { MdLogin, MdLogout, MdPerson, MdGroups, MdStore } from 'react-icons/md';
+import { MdLogin, MdGroups } from 'react-icons/md';
 import { Card } from '@/components/Card';
 import { useRouter } from 'next/router';
 import { AuthContext } from '@/contexts/AuthContext';
 import { parseCookies } from 'nookies';
 import Layout from '@/components/Layout';
 import PageHeading from '@/components/PageHeading';
+import AuthenticatedHomeMenu from '@/components/AuthenticatedHomeMenu';
+import HomeMenu from '@/components/HomeMenu';
 
 type HomeProps = BoxProps;
 
 export default function Home({}: HomeProps) {
   const router = useRouter();
-  const { signOut, isAuthenticated, checkSocio } = useContext(AuthContext);
+  const { isAuthenticated, checkSocio } = useContext(AuthContext);
 
   const [loading, setLoading] = useState(false);
 
@@ -71,44 +73,12 @@ export default function Home({}: HomeProps) {
                   Seja Sócio
                 </Button>
               )}
-              <Button
-                as="h2"
-                leftIcon={<MdStore size="20px" />}
-                colorScheme="green"
-                onClick={() => {
-                  setLoading(true);
-                  router.push('/loja');
-                }}
-              >
-                Loja
-              </Button>
+
+              <HomeMenu setLoading={setLoading} />
               <Divider height="5px" />
 
               {isAuthenticated ? (
-                <>
-                  <Button
-                    as="h2"
-                    leftIcon={<MdPerson size="20px" />}
-                    colorScheme="green"
-                    onClick={() => {
-                      setLoading(true);
-                      router.push('/areasocio');
-                    }}
-                  >
-                    Área do Sócio
-                  </Button>
-                  <Button
-                    as="h2"
-                    leftIcon={<MdLogout size="20px" />}
-                    colorScheme="red"
-                    onClick={() => {
-                      setLoading(true);
-                      signOut();
-                    }}
-                  >
-                    Sair
-                  </Button>
-                </>
+                <AuthenticatedHomeMenu setLoading={setLoading} />
               ) : (
                 <Button
                   as="h2"

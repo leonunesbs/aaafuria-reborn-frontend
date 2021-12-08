@@ -1,17 +1,15 @@
 import { Card } from '@/components/Card';
-import { Box, Button, Divider, Stack } from '@chakra-ui/react';
+import { Box } from '@chakra-ui/react';
 import { useRouter } from 'next/router';
 import React, { useContext, useEffect } from 'react';
-import { MdManageAccounts } from 'react-icons/md';
-import { AiFillIdcard, AiFillHome } from 'react-icons/ai';
-import { FaVolleyballBall } from 'react-icons/fa';
-import { FiExternalLink } from 'react-icons/fi';
+
 import { GetServerSideProps } from 'next';
 import { parseCookies } from 'nookies';
 import { gql, useQuery } from '@apollo/client';
 import { AuthContext } from '@/contexts/AuthContext';
 import Layout from '@/components/Layout';
 import PageHeading from '@/components/PageHeading';
+import AreaSocioMenu from '@/components/AreaSocioMenu';
 
 const QUERY_PORTAL = gql`
   query portal {
@@ -52,38 +50,7 @@ function AreaSocio() {
       <Box maxW="xl" mx="auto">
         <PageHeading>Área do sócio</PageHeading>
         <Card>
-          <Stack>
-            <Button
-              leftIcon={<AiFillIdcard size="20px" />}
-              colorScheme="green"
-              onClick={() => router.push('/carteirinha')}
-            >
-              Carteirinha
-            </Button>
-            <Button
-              leftIcon={<FaVolleyballBall size="20px" />}
-              colorScheme="green"
-              isDisabled
-            >
-              Treinos
-            </Button>
-            <Divider height="15px" />
-            <Button
-              leftIcon={<MdManageAccounts size="20px" />}
-              rightIcon={<FiExternalLink size="15px" />}
-              colorScheme="yellow"
-              onClick={handleAssociacao}
-            >
-              Gerenciar Associação
-            </Button>
-            <Button
-              leftIcon={<AiFillHome size="20px" />}
-              colorScheme="gray"
-              onClick={() => router.push('/')}
-            >
-              Voltar
-            </Button>
-          </Stack>
+          <AreaSocioMenu handleAssociacao={handleAssociacao} />
         </Card>
       </Box>
     </Layout>

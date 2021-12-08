@@ -96,8 +96,6 @@ export default function Entrar() {
           setErrorMesage(err.message);
           signOut();
         });
-
-        localStorage.setItem('aaafuriaMatricula', mtr);
       }
       if (mtr.length === 8) {
         // Check edges lenght from query.data

@@ -20,6 +20,9 @@ const QUERY_SOCIO = gql`
       nome
       email
       isSocio
+      user {
+        isStaff
+      }
     }
   }
 `;
@@ -90,6 +93,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
     destroyCookie(null, 'aaafuriaToken');
     destroyCookie(null, 'aaafuriaMatricula');
     destroyCookie(null, 'aaafuriaIsSocio');
+    destroyCookie(null, 'aaafuriaIsStaff');
     try {
       localStorage.removeItem('aaafuria@signUpMatricula');
     } catch (err) {
@@ -119,6 +123,17 @@ export function AuthProvider({ children }: AuthProviderProps) {
           path: '/',
         },
       );
+      if (response.data.socioByMatricula?.user.isStaff) {
+        setCookie(
+          null,
+          'aaafuriaIsStaff',
+          response.data.socioByMatricula?.user.isStaff,
+          {
+            maxAge: 60 * 60 * 24 * 7,
+            path: '/',
+          },
+        );
+      }
       return response.data.socioByMatricula?.isSocio;
     }
   };
