@@ -3,7 +3,6 @@ import { Box } from '@chakra-ui/react';
 import { useRouter } from 'next/router';
 import React, { useContext, useEffect } from 'react';
 
-import { GetServerSideProps } from 'next';
 import { parseCookies } from 'nookies';
 import { gql, useQuery } from '@apollo/client';
 import { AuthContext } from '@/contexts/AuthContext';
@@ -42,7 +41,6 @@ function AreaSocio() {
   }, [checkSocio, isSocio, router]);
 
   const handleAssociacao = () => {
-    console.log(data);
     router.push(data.createPortalUrl.stripePortalUrl);
   };
 
@@ -57,22 +55,4 @@ function AreaSocio() {
     </Layout>
   );
 }
-
-export const getServerSideProps: GetServerSideProps = async (ctx) => {
-  const { ['aaafuriaIsSocio']: isSocio } = parseCookies(ctx);
-
-  if (isSocio === 'true') {
-    return {
-      props: {},
-    };
-  }
-
-  return {
-    redirect: {
-      destination: '/sejasocio',
-      permanent: false,
-    },
-  };
-};
-
 export default AreaSocio;
