@@ -12,7 +12,10 @@ import {
   Stack,
   Grid,
   GridItem,
+  Link,
+  chakra,
 } from '@chakra-ui/react';
+import NextLink from 'next/link';
 import router from 'next/router';
 import { parseCookies } from 'nookies';
 import React, { useContext, useEffect } from 'react';
@@ -52,6 +55,8 @@ function Loja() {
   const { data } = useQuery(PRODUTO_QUERY);
   const { checkSocio } = useContext(AuthContext);
   const [isSocio, setIsSocio] = React.useState(false);
+
+  const ChakraNextLink = chakra(NextLink);
 
   useEffect(() => {
     checkSocio();
@@ -100,29 +105,35 @@ function Loja() {
             return <ProdutoCard key={node.id} node={node} />;
           })}
         </SimpleGrid>
-        <Stack align="center" mt={4}>
-          <Button
-            mt={4}
-            colorScheme="yellow"
-            variant="ghost"
-            w="100%"
-            maxW="sm"
-            onClick={() => router.push('/carrinho')}
-            leftIcon={<MdShoppingCart size="25px" />}
-          >
-            Carrinho
-          </Button>
-          <Button
-            mt={4}
-            colorScheme="red"
-            variant="ghost"
-            w="100%"
-            maxW="sm"
-            onClick={() => router.push('/')}
-            leftIcon={<MdHome size="25px" />}
-          >
-            Voltar ao início
-          </Button>
+        <Stack mt={4} align="center">
+          <ChakraNextLink passHref href="/carrinho">
+            <Link _hover={{ textDecoration: 'none' }}>
+              <Button
+                mt={4}
+                colorScheme="yellow"
+                variant="ghost"
+                w="full"
+                onClick={() => router.push('/carrinho')}
+                leftIcon={<MdShoppingCart size="25px" />}
+              >
+                Carrinho
+              </Button>
+            </Link>
+          </ChakraNextLink>
+          <ChakraNextLink passHref href="/">
+            <Link _hover={{ textDecoration: 'none' }}>
+              <Button
+                mt={4}
+                colorScheme="red"
+                variant="ghost"
+                w="full"
+                onClick={() => router.push('/')}
+                leftIcon={<MdHome size="25px" />}
+              >
+                Voltar ao início
+              </Button>
+            </Link>
+          </ChakraNextLink>
         </Stack>
 
         <Social mt={[4, 8]} />

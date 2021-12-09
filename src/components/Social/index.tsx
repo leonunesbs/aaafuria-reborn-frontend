@@ -1,12 +1,20 @@
 import { IconButton } from '@chakra-ui/button';
-import { Box, chakra, Divider, Heading, HStack, Text } from '@chakra-ui/react';
+import {
+  Box,
+  chakra,
+  Divider,
+  Heading,
+  HStack,
+  Link,
+  Text,
+} from '@chakra-ui/react';
 import React from 'react';
 import { AiFillFacebook, AiFillInstagram } from 'react-icons/ai';
 import { FaTiktok } from 'react-icons/fa';
-import Link from 'next/link';
+import NextLink from 'next/link';
 
 export const Social = ({ ...rest }) => {
-  const ChakraNextLink = chakra(Link);
+  const ChakraNextLink = chakra(NextLink);
   return (
     <Box {...rest}>
       <Divider h="15px" mb={4} />
@@ -20,30 +28,26 @@ export const Social = ({ ...rest }) => {
         </i>
       </Heading>
       <HStack justify="center" spacing={4} p={2}>
-        <ChakraNextLink href="https://facebook.com/aaafuria">
-          <IconButton
-            aria-label="Facebook"
-            colorScheme="green"
-            variant="ghost"
-            icon={
-              <a>
-                <AiFillFacebook size="35px" />
-              </a>
-            }
-          />
+        <ChakraNextLink passHref href="https://facebook.com/aaafuria">
+          <Link>
+            <IconButton
+              aria-label="Facebook"
+              colorScheme="green"
+              variant="ghost"
+              icon={<AiFillFacebook size="35px" />}
+            />
+          </Link>
         </ChakraNextLink>
 
-        <ChakraNextLink href="https://instagram.com/aaafuria">
-          <IconButton
-            aria-label="Instagram"
-            colorScheme="green"
-            variant="ghost"
-            icon={
-              <a>
-                <AiFillInstagram size="35px" />
-              </a>
-            }
-          />
+        <ChakraNextLink passHref href="https://instagram.com/aaafuria">
+          <Link>
+            <IconButton
+              aria-label="Instagram"
+              colorScheme="green"
+              variant="ghost"
+              icon={<AiFillInstagram size="35px" />}
+            />
+          </Link>
         </ChakraNextLink>
         <IconButton
           aria-label="Instagram"

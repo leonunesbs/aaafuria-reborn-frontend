@@ -23,6 +23,8 @@ import AuthenticatedHomeMenu from '@/components/AuthenticatedHomeMenu';
 import HomeMenu from '@/components/HomeMenu';
 import { Social } from '@/components/Social';
 import SejaSocioButton from '@/components/SejaSocioButton';
+import NextLink from 'next/link';
+import { Link } from '@chakra-ui/react';
 
 type HomeProps = BoxProps;
 
@@ -35,7 +37,7 @@ export default function Home({}: HomeProps) {
   const { ['aaafuriaIsSocio']: isSocio } = parseCookies();
 
   const ChakraNextImage = chakra(NextImage);
-
+  const ChakraNextLink = chakra(NextLink);
   useEffect(() => {
     checkSocio();
   }, [checkSocio]);
@@ -73,18 +75,24 @@ export default function Home({}: HomeProps) {
                 <AuthenticatedHomeMenu setLoading={setLoading} />
               )}
               {!isAuthenticated && (
-                <Button
-                  as="h2"
-                  leftIcon={<MdLogin size="20px" />}
-                  colorScheme="green"
-                  variant="ghost"
-                  onClick={() => {
-                    setLoading(true);
-                    router.push('/entrar');
-                  }}
-                >
-                  Entrar
-                </Button>
+                <ChakraNextLink href="/entrar" passHref>
+                  <Link _hover={{ textDecoration: 'none' }}>
+                    <Button
+                      as="h2"
+                      name="entrar"
+                      leftIcon={<MdLogin size="20px" />}
+                      colorScheme="green"
+                      variant="ghost"
+                      onClick={() => {
+                        setLoading(true);
+                        router.push('/entrar');
+                      }}
+                      w="full"
+                    >
+                      Entrar
+                    </Button>
+                  </Link>
+                </ChakraNextLink>
               )}
             </Stack>
           </Card>

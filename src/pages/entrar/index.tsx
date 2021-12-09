@@ -66,6 +66,7 @@ export default function Entrar() {
     variables: { username: formValues.matricula || '' },
   });
   const handleReset = useCallback(() => {
+    localStorage.removeItem('aaafuria@signUpMatricula');
     setEntrar(false);
     setCadastro(false);
     setMatricula('');
