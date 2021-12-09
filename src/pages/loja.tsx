@@ -1,6 +1,7 @@
 import Layout from '@/components/Layout';
 import PageHeading from '@/components/PageHeading';
 import { ProdutoCard } from '@/components/ProdutoCard';
+import { Social } from '@/components/Social';
 import { AuthContext } from '@/contexts/AuthContext';
 import { gql, useQuery } from '@apollo/client';
 import {
@@ -102,7 +103,8 @@ function Loja() {
         <Stack align="center" mt={4}>
           <Button
             mt={4}
-            colorScheme="gray"
+            colorScheme="yellow"
+            variant="ghost"
             w="100%"
             maxW="sm"
             onClick={() => router.push('/carrinho')}
@@ -113,6 +115,7 @@ function Loja() {
           <Button
             mt={4}
             colorScheme="red"
+            variant="ghost"
             w="100%"
             maxW="sm"
             onClick={() => router.push('/')}
@@ -121,6 +124,8 @@ function Loja() {
             Voltar ao início
           </Button>
         </Stack>
+
+        <Social mt={[4, 8]} />
       </Box>
     </Layout>
   );

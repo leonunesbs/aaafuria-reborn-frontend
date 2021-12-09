@@ -17,6 +17,7 @@ function AreaSocioMenu({ handleAssociacao, ...rest }: AreaSocioMenuProps) {
       <Button
         leftIcon={<AiFillIdcard size="20px" />}
         colorScheme="green"
+        variant="ghost"
         onClick={() => router.push('/carteirinha')}
       >
         Carteirinha
@@ -24,6 +25,7 @@ function AreaSocioMenu({ handleAssociacao, ...rest }: AreaSocioMenuProps) {
       <Button
         leftIcon={<FaVolleyballBall size="20px" />}
         colorScheme="green"
+        variant="ghost"
         isDisabled
       >
         Treinos
@@ -33,13 +35,15 @@ function AreaSocioMenu({ handleAssociacao, ...rest }: AreaSocioMenuProps) {
         leftIcon={<MdManageAccounts size="20px" />}
         rightIcon={<FiExternalLink size="15px" />}
         colorScheme="yellow"
+        variant="ghost"
         onClick={handleAssociacao}
       >
         Gerenciar Associação
       </Button>
       <Button
         leftIcon={<AiFillHome size="20px" />}
-        colorScheme="gray"
+        colorScheme="red"
+        variant="ghost"
         onClick={() => router.push('/')}
       >
         Voltar

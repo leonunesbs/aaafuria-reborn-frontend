@@ -212,6 +212,7 @@ function Carrinho() {
             <PopoverTrigger>
               <Button
                 colorScheme="green"
+                variant="ghost"
                 size="lg"
                 ml={4}
                 leftIcon={<MdPayment size="20px" />}
@@ -221,9 +222,10 @@ function Carrinho() {
               </Button>
             </PopoverTrigger>
             <Button
+              variant="ghost"
               leftIcon={<MdStore size="20px" />}
               size="lg"
-              colorScheme="gray"
+              colorScheme="yellow"
               onClick={() => router.push('/loja')}
             >
               Loja

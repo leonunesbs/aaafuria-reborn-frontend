@@ -15,6 +15,7 @@ import {
 } from '@chakra-ui/react';
 import React, { useCallback, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
+import { AiFillCheckCircle } from 'react-icons/ai';
 
 const QUERY_SOCIO = gql`
   query socioByMatricula($matricula: String!) {
@@ -43,6 +44,7 @@ function Plantao() {
   });
 
   const [socioData, setSocioData] = useState(null);
+  const [matriculaInput, setMatriculaInput] = useState('');
 
   const submitMatricula: SubmitHandler<Inputs> = useCallback(
     ({ matricula }) => {
@@ -50,6 +52,12 @@ function Plantao() {
     },
     [query],
   );
+
+  const handleRestart = useCallback(() => {
+    setMatriculaInput('');
+    setSocioData(null);
+    matriculaForm.reset();
+  }, [setSocioData, setMatriculaInput, matriculaForm]);
 
   return (
     <Layout title="Área do Diretor">
@@ -68,8 +76,10 @@ function Plantao() {
                   <PinInput
                     size="lg"
                     focusBorderColor="green.500"
+                    value={matriculaInput}
                     onChange={(value) => {
                       matriculaForm.setValue('matricula', value);
+                      setMatriculaInput(value);
                     }}
                     isDisabled={socioData !== null}
                     placeholder=""
@@ -86,8 +96,18 @@ function Plantao() {
                   </PinInput>
                 </HStack>
               </FormControl>
-              <Button w="100%" colorScheme="green" type="submit">
+              <Button
+                w="100%"
+                colorScheme="green"
+                type="submit"
+                variant="ghost"
+                isDisabled={socioData != null}
+                leftIcon={<AiFillCheckCircle size="25px" />}
+              >
                 Confirmar
+              </Button>
+              <Button w="100%" colorScheme="gray" onClick={handleRestart}>
+                Recomeçar
               </Button>
             </Stack>
           </Card>

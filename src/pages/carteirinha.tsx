@@ -23,7 +23,7 @@ import { GetServerSideProps } from 'next';
 import { useRouter } from 'next/router';
 import { parseCookies } from 'nookies';
 import React from 'react';
-import { MdRefresh } from 'react-icons/md';
+import { MdHome, MdRefresh } from 'react-icons/md';
 import PageHeading from '@/components/PageHeading';
 import Layout from '@/components/Layout';
 
@@ -257,6 +257,7 @@ function Carteirinha({ token }: CarteirinhaProps) {
           <Button
             leftIcon={<MdRefresh size="25px" />}
             colorScheme="green"
+            variant="ghost"
             maxW="md"
             w="100%"
             onClick={() => router.reload()}
@@ -264,7 +265,9 @@ function Carteirinha({ token }: CarteirinhaProps) {
             Atualizar
           </Button>
           <Button
+            leftIcon={<MdHome size="25px" />}
             colorScheme="red"
+            variant="ghost"
             maxW="md"
             w="100%"
             onClick={() => router.push('/areasocio')}

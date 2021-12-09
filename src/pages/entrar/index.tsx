@@ -217,6 +217,7 @@ export default function Entrar() {
                   <Button
                     leftIcon={<MdLogin size="20px" />}
                     colorScheme="green"
+                    variant="ghost"
                     mt={4}
                     isLoading={loading}
                     type="submit"
@@ -226,10 +227,10 @@ export default function Entrar() {
                   <Button
                     leftIcon={<AiFillHome size="20px" />}
                     colorScheme="gray"
-                    maxW="sm"
+                    variant="ghost"
                     onClick={() => router.push('/')}
                   >
-                    Voltar
+                    Início
                   </Button>
                 </Stack>
               )}

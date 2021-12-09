@@ -42,6 +42,7 @@ function AreaSocio() {
   }, [checkSocio, isSocio, router]);
 
   const handleAssociacao = () => {
+    console.log(data);
     router.push(data.createPortalUrl.stripePortalUrl);
   };
 

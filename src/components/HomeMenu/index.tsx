@@ -15,6 +15,7 @@ function HomeMenu({ setLoading }: HomeMenuProps) {
         as="h2"
         leftIcon={<MdStore size="20px" />}
         colorScheme="green"
+        variant="ghost"
         onClick={() => {
           setLoading(true);
           router.push('/loja');

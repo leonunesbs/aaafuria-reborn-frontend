@@ -60,48 +60,6 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
   const isAuthenticated = !!token;
 
-  const signIn = async ({ matricula, pin, redirectUrl }: SignInData) => {
-    return await client
-      .mutate({
-        mutation: SIGN_IN,
-        variables: {
-          matricula: matricula,
-          pin: pin,
-        },
-      })
-      .then(({ data }) => {
-        setCookie(null, 'aaafuriaToken', data.tokenAuth.token, {
-          maxAge: 60 * 60 * 24 * 7,
-          path: '/',
-        });
-        setCookie(null, 'aaafuriaMatricula', matricula, {
-          maxAge: 60 * 60 * 24 * 7,
-          path: '/',
-        });
-        setUser({ matricula: data.tokenAuth.payload.username });
-
-        router.push(redirectUrl || '/');
-        return data;
-      })
-      .catch((err) => {
-        throw err;
-      });
-  };
-
-  const signOut = () => {
-    setUser(null);
-    destroyCookie(null, 'aaafuriaToken');
-    destroyCookie(null, 'aaafuriaMatricula');
-    destroyCookie(null, 'aaafuriaIsSocio');
-    destroyCookie(null, 'aaafuriaIsStaff');
-    try {
-      localStorage.removeItem('aaafuria@signUpMatricula');
-    } catch (err) {
-      console.log(err);
-    }
-    router.push('/entrar');
-  };
-
   const checkSocio = async () => {
     if (isAuthenticated) {
       const matricula = parseCookies()['aaafuriaMatricula'];
@@ -136,6 +94,50 @@ export function AuthProvider({ children }: AuthProviderProps) {
       }
       return response.data.socioByMatricula?.isSocio;
     }
+  };
+
+  const signIn = async ({ matricula, pin, redirectUrl }: SignInData) => {
+    return await client
+      .mutate({
+        mutation: SIGN_IN,
+        variables: {
+          matricula: matricula,
+          pin: pin,
+        },
+      })
+      .then(({ data }) => {
+        setCookie(null, 'aaafuriaToken', data.tokenAuth.token, {
+          maxAge: 60 * 60 * 24 * 7,
+          path: '/',
+        });
+        setCookie(null, 'aaafuriaMatricula', matricula, {
+          maxAge: 60 * 60 * 24 * 7,
+          path: '/',
+        });
+        setUser({ matricula: data.tokenAuth.payload.username });
+
+        checkSocio();
+
+        router.push(redirectUrl || '/');
+        return data;
+      })
+      .catch((err) => {
+        throw err;
+      });
+  };
+
+  const signOut = () => {
+    setUser(null);
+    destroyCookie(null, 'aaafuriaToken');
+    destroyCookie(null, 'aaafuriaMatricula');
+    destroyCookie(null, 'aaafuriaIsSocio');
+    destroyCookie(null, 'aaafuriaIsStaff');
+    try {
+      localStorage.removeItem('aaafuria@signUpMatricula');
+    } catch (err) {
+      console.log(err);
+    }
+    router.push('/entrar');
   };
 
   return (

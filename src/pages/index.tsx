@@ -12,7 +12,7 @@ import {
 
 import NextImage from 'next/image';
 
-import { MdLogin, MdGroups } from 'react-icons/md';
+import { MdLogin } from 'react-icons/md';
 import { Card } from '@/components/Card';
 import { useRouter } from 'next/router';
 import { AuthContext } from '@/contexts/AuthContext';
@@ -21,6 +21,8 @@ import Layout from '@/components/Layout';
 import PageHeading from '@/components/PageHeading';
 import AuthenticatedHomeMenu from '@/components/AuthenticatedHomeMenu';
 import HomeMenu from '@/components/HomeMenu';
+import { Social } from '@/components/Social';
+import SejaSocioButton from '@/components/SejaSocioButton';
 
 type HomeProps = BoxProps;
 
@@ -40,7 +42,7 @@ export default function Home({}: HomeProps) {
 
   return (
     <Layout title="Início">
-      <Box maxW="xl" mx="auto">
+      <Stack maxW="xl" mx="auto" spacing={4}>
         <Center>
           <Box width="270px" height="180px" position="relative">
             <ChakraNextImage
@@ -61,29 +63,21 @@ export default function Home({}: HomeProps) {
           <Card>
             <Stack>
               {isSocio !== 'true' && (
-                <Button
-                  as="h2"
-                  leftIcon={<MdGroups size="20px" />}
-                  colorScheme="green"
-                  onClick={() => {
-                    setLoading(true);
-                    router.push('/sejasocio');
-                  }}
-                >
-                  Seja Sócio
-                </Button>
+                <SejaSocioButton setLoading={setLoading} />
               )}
 
               <HomeMenu setLoading={setLoading} />
               <Divider height="5px" />
 
-              {isAuthenticated ? (
+              {isAuthenticated && (
                 <AuthenticatedHomeMenu setLoading={setLoading} />
-              ) : (
+              )}
+              {!isAuthenticated && (
                 <Button
                   as="h2"
                   leftIcon={<MdLogin size="20px" />}
                   colorScheme="green"
+                  variant="ghost"
                   onClick={() => {
                     setLoading(true);
                     router.push('/entrar');
@@ -95,7 +89,8 @@ export default function Home({}: HomeProps) {
             </Stack>
           </Card>
         </Skeleton>
-      </Box>
+        <Social />
+      </Stack>
     </Layout>
   );
 }

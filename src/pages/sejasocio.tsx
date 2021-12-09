@@ -27,6 +27,7 @@ import { gql, useMutation } from '@apollo/client';
 import { parseCookies } from 'nookies';
 import Layout from '@/components/Layout';
 import PageHeading from '@/components/PageHeading';
+import { Social } from '@/components/Social';
 
 const NOVO_PAGAMENTO = gql`
   mutation novoPagamento($tipoPlano: String!) {
@@ -209,10 +210,12 @@ function SejaSocio() {
             );
           })}
         </SimpleGrid>
+        <Social mt={[4, 8]} />
         <Stack align="center">
           <Button
             mt={4}
             colorScheme="red"
+            variant="ghost"
             w="100%"
             maxW="sm"
             onClick={() => router.push('/')}

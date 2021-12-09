@@ -12,6 +12,7 @@ function AreaDiretorMenu({ ...rest }: AreaDiretorMenuProps) {
       <Button
         leftIcon={<MdStore size="20px" />}
         colorScheme="green"
+        variant="ghost"
         onClick={() => router.push('/areadiretor/plantao')}
       >
         Plantão
