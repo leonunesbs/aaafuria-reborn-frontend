@@ -1,4 +1,14 @@
+import PageHeading from '@/components/PageHeading';
 import React, { useCallback, useContext, useEffect } from 'react';
+import { AiFillHome } from 'react-icons/ai';
+import { AuthContext } from '@/contexts/AuthContext';
+import { Card } from '@/components/Card';
+import { GetServerSideProps } from 'next';
+import { gql, useQuery } from '@apollo/client';
+import { MdLogin } from 'react-icons/md';
+import { parseCookies } from 'nookies';
+import { SubmitHandler, useForm } from 'react-hook-form';
+import { useRouter } from 'next/router';
 import {
   Box,
   Button,
@@ -15,19 +25,6 @@ import {
   Center,
   chakra,
 } from '@chakra-ui/react';
-
-import { useForm, SubmitHandler } from 'react-hook-form';
-
-import { useQuery, gql } from '@apollo/client';
-
-import { Card } from '@/components/Card';
-import { AuthContext } from '@/contexts/AuthContext';
-import { useRouter } from 'next/router';
-import { parseCookies } from 'nookies';
-import { GetServerSideProps } from 'next';
-import { MdLogin } from 'react-icons/md';
-import { AiFillHome } from 'react-icons/ai';
-import PageHeading from '@/components/PageHeading';
 
 const QUERY = gql`
   query BuscarSocio($username: String!) {

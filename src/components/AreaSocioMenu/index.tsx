@@ -1,10 +1,11 @@
+import CustomButtom from '../CustomButtom';
 import React from 'react';
-import { Button, Divider, Stack, StackProps } from '@chakra-ui/react';
-import { useRouter } from 'next/router';
-import { AiFillIdcard, AiFillHome } from 'react-icons/ai';
+import { AiFillHome, AiFillIdcard } from 'react-icons/ai';
+import { Divider, Stack, StackProps } from '@chakra-ui/react';
 import { FaVolleyballBall } from 'react-icons/fa';
 import { FiExternalLink } from 'react-icons/fi';
 import { MdManageAccounts } from 'react-icons/md';
+import { useRouter } from 'next/router';
 
 interface AreaSocioMenuProps extends StackProps {
   handleAssociacao: () => void;
@@ -14,40 +15,31 @@ function AreaSocioMenu({ handleAssociacao, ...rest }: AreaSocioMenuProps) {
   const router = useRouter();
   return (
     <Stack {...rest}>
-      <Button
+      <CustomButtom
         leftIcon={<AiFillIdcard size="20px" />}
-        colorScheme="green"
-        variant="ghost"
         onClick={() => router.push('/carteirinha')}
       >
         Carteirinha
-      </Button>
-      <Button
-        leftIcon={<FaVolleyballBall size="20px" />}
-        colorScheme="green"
-        variant="ghost"
-        isDisabled
-      >
+      </CustomButtom>
+      <CustomButtom leftIcon={<FaVolleyballBall size="20px" />} isDisabled>
         Treinos
-      </Button>
+      </CustomButtom>
       <Divider height="15px" />
-      <Button
+      <CustomButtom
         leftIcon={<MdManageAccounts size="20px" />}
         rightIcon={<FiExternalLink size="15px" />}
         colorScheme="yellow"
-        variant="ghost"
         onClick={handleAssociacao}
       >
         Gerenciar Associação
-      </Button>
-      <Button
+      </CustomButtom>
+      <CustomButtom
         leftIcon={<AiFillHome size="20px" />}
         colorScheme="red"
-        variant="ghost"
         onClick={() => router.push('/')}
       >
         Voltar
-      </Button>
+      </CustomButtom>
     </Stack>
   );
 }

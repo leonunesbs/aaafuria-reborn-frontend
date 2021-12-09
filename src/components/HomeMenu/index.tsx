@@ -1,9 +1,9 @@
-import { Button } from '@chakra-ui/button';
-import { chakra, Link } from '@chakra-ui/react';
+import CustomButtom from '../CustomButtom';
 import NextLink from 'next/link';
-import { useRouter } from 'next/router';
 import React from 'react';
+import { chakra, Link } from '@chakra-ui/react';
 import { MdStore } from 'react-icons/md';
+import { useRouter } from 'next/router';
 
 interface HomeMenuProps {
   setLoading: React.Dispatch<React.SetStateAction<boolean>>;
@@ -15,19 +15,15 @@ function HomeMenu({ setLoading }: HomeMenuProps) {
   return (
     <ChakraNextLink href="/loja" passHref>
       <Link _hover={{ textDecoration: 'none' }}>
-        <Button
-          as="h2"
+        <CustomButtom
           leftIcon={<MdStore size="20px" />}
-          colorScheme="green"
-          variant="ghost"
           onClick={() => {
             setLoading(true);
             router.push('/loja');
           }}
-          w="full"
         >
           Loja
-        </Button>
+        </CustomButtom>
       </Link>
     </ChakraNextLink>
   );

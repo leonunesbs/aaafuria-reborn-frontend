@@ -1,9 +1,14 @@
 import Layout from '@/components/Layout';
+import NextLink from 'next/link';
 import PageHeading from '@/components/PageHeading';
-import { ProdutoCard } from '@/components/ProdutoCard';
-import { Social } from '@/components/Social';
+import React, { useContext, useEffect } from 'react';
+import router from 'next/router';
 import { AuthContext } from '@/contexts/AuthContext';
 import { gql, useQuery } from '@apollo/client';
+import { MdHome, MdShoppingCart } from 'react-icons/md';
+import { parseCookies } from 'nookies';
+import { ProdutoCard } from '@/components/ProdutoCard';
+import { Social } from '@/components/Social';
 import {
   Box,
   Button,
@@ -15,11 +20,6 @@ import {
   Link,
   chakra,
 } from '@chakra-ui/react';
-import NextLink from 'next/link';
-import router from 'next/router';
-import { parseCookies } from 'nookies';
-import React, { useContext, useEffect } from 'react';
-import { MdHome, MdShoppingCart } from 'react-icons/md';
 
 const PRODUTO_QUERY = gql`
   query getProdutos {

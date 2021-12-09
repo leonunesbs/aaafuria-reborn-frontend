@@ -1,6 +1,11 @@
+import InputMask from 'react-input-mask';
+import PageHeading from '@/components/PageHeading';
+import React, { useContext, useEffect } from 'react';
+import { AuthContext } from '@/contexts/AuthContext';
 import { Card } from '@/components/Card';
 import { gql, useMutation } from '@apollo/client';
-import InputMask from 'react-input-mask';
+import { useForm } from 'react-hook-form';
+import { useRouter } from 'next/router';
 
 import {
   Stack,
@@ -16,11 +21,6 @@ import {
   useColorModeValue,
   FormHelperText,
 } from '@chakra-ui/react';
-import { useRouter } from 'next/router';
-import React, { useContext, useEffect } from 'react';
-import { useForm } from 'react-hook-form';
-import { AuthContext } from '@/contexts/AuthContext';
-import PageHeading from '@/components/PageHeading';
 
 type Inputs = {
   matricula: string;

@@ -1,8 +1,7 @@
-import { createContext, useState } from 'react';
-
-import { gql } from '@apollo/client';
 import client from '@/services/apollo-client';
-import { setCookie, destroyCookie, parseCookies } from 'nookies';
+import { createContext, useState } from 'react';
+import { destroyCookie, parseCookies, setCookie } from 'nookies';
+import { gql } from '@apollo/client';
 import { useRouter } from 'next/router';
 
 const SIGN_IN = gql`

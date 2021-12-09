@@ -1,14 +1,13 @@
-import { Card } from '@/components/Card';
-import { Box } from '@chakra-ui/react';
-import { useRouter } from 'next/router';
-import React, { useContext, useEffect } from 'react';
-
-import { parseCookies } from 'nookies';
-import { gql, useQuery } from '@apollo/client';
-import { AuthContext } from '@/contexts/AuthContext';
+import AreaSocioMenu from '@/components/AreaSocioMenu';
 import Layout from '@/components/Layout';
 import PageHeading from '@/components/PageHeading';
-import AreaSocioMenu from '@/components/AreaSocioMenu';
+import React, { useContext, useEffect } from 'react';
+import { AuthContext } from '@/contexts/AuthContext';
+import { Box } from '@chakra-ui/react';
+import { Card } from '@/components/Card';
+import { gql, useQuery } from '@apollo/client';
+import { parseCookies } from 'nookies';
+import { useRouter } from 'next/router';
 
 const QUERY_PORTAL = gql`
   query portal {

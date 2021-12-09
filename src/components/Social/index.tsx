@@ -1,3 +1,6 @@
+import NextLink from 'next/link';
+import React from 'react';
+import { FaTiktok } from 'react-icons/fa';
 import { IconButton } from '@chakra-ui/button';
 import {
   Box,
@@ -8,14 +11,11 @@ import {
   Link,
   Text,
 } from '@chakra-ui/react';
-import React from 'react';
 import {
   AiFillFacebook,
   AiFillInstagram,
   AiFillTwitterSquare,
 } from 'react-icons/ai';
-import { FaTiktok } from 'react-icons/fa';
-import NextLink from 'next/link';
 
 export const Social = ({ ...rest }) => {
   const ChakraNextLink = chakra(NextLink);

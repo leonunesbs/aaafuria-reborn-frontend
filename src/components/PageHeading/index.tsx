@@ -1,4 +1,4 @@
-import { HeadingProps, Heading } from '@chakra-ui/react';
+import { Heading, HeadingProps } from '@chakra-ui/react';
 import { ReactNode } from 'react';
 
 interface PageHeadingProps extends HeadingProps {

@@ -1,6 +1,13 @@
-import { Card } from '@/components/Card';
-import { gql, useQuery } from '@apollo/client';
 import InputMask from 'react-input-mask';
+import Layout from '@/components/Layout';
+import PageHeading from '@/components/PageHeading';
+import React from 'react';
+import { Card } from '@/components/Card';
+import { GetServerSideProps } from 'next';
+import { gql, useQuery } from '@apollo/client';
+import { MdHome, MdRefresh } from 'react-icons/md';
+import { parseCookies } from 'nookies';
+import { useRouter } from 'next/router';
 import {
   Avatar,
   Box,
@@ -19,13 +26,6 @@ import {
   Grid,
   GridItem,
 } from '@chakra-ui/react';
-import { GetServerSideProps } from 'next';
-import { useRouter } from 'next/router';
-import { parseCookies } from 'nookies';
-import React from 'react';
-import { MdHome, MdRefresh } from 'react-icons/md';
-import PageHeading from '@/components/PageHeading';
-import Layout from '@/components/Layout';
 
 const GET_SOCIO = gql`
   query {

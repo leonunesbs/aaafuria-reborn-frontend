@@ -1,8 +1,21 @@
-import React, { useContext, useEffect, useState } from 'react';
+import AuthenticatedHomeMenu from '@/components/AuthenticatedHomeMenu';
+import CustomButtom from '@/components/CustomButtom';
+import HomeMenu from '@/components/HomeMenu';
+import Layout from '@/components/Layout';
+import NextImage from 'next/image';
+import NextLink from 'next/link';
+import PageHeading from '@/components/PageHeading';
+import React, { useContext, useState } from 'react';
+import SejaSocioButton from '@/components/SejaSocioButton';
+import { AuthContext } from '@/contexts/AuthContext';
+import { Card } from '@/components/Card';
+import { Link } from '@chakra-ui/react';
+import { MdLogin } from 'react-icons/md';
+import { Social } from '@/components/Social';
+import { useRouter } from 'next/router';
 import {
   Box,
   BoxProps,
-  Button,
   Center,
   chakra,
   Divider,
@@ -10,37 +23,16 @@ import {
   Stack,
 } from '@chakra-ui/react';
 
-import NextImage from 'next/image';
-
-import { MdLogin } from 'react-icons/md';
-import { Card } from '@/components/Card';
-import { useRouter } from 'next/router';
-import { AuthContext } from '@/contexts/AuthContext';
-import { parseCookies } from 'nookies';
-import Layout from '@/components/Layout';
-import PageHeading from '@/components/PageHeading';
-import AuthenticatedHomeMenu from '@/components/AuthenticatedHomeMenu';
-import HomeMenu from '@/components/HomeMenu';
-import { Social } from '@/components/Social';
-import SejaSocioButton from '@/components/SejaSocioButton';
-import NextLink from 'next/link';
-import { Link } from '@chakra-ui/react';
-
 type HomeProps = BoxProps;
 
 export default function Home({}: HomeProps) {
   const router = useRouter();
-  const { isAuthenticated, checkSocio } = useContext(AuthContext);
+  const { isAuthenticated } = useContext(AuthContext);
 
   const [loading, setLoading] = useState(false);
 
-  const { ['aaafuriaIsSocio']: isSocio } = parseCookies();
-
   const ChakraNextImage = chakra(NextImage);
   const ChakraNextLink = chakra(NextLink);
-  useEffect(() => {
-    checkSocio();
-  }, [checkSocio]);
 
   return (
     <Layout title="Início">
@@ -64,9 +56,7 @@ export default function Home({}: HomeProps) {
         <Skeleton isLoaded={!loading}>
           <Card>
             <Stack>
-              {isSocio !== 'true' && (
-                <SejaSocioButton setLoading={setLoading} />
-              )}
+              <SejaSocioButton setLoading={setLoading} />
 
               <HomeMenu setLoading={setLoading} />
               <Divider height="5px" />
@@ -77,20 +67,16 @@ export default function Home({}: HomeProps) {
               {!isAuthenticated && (
                 <ChakraNextLink href="/entrar" passHref>
                   <Link _hover={{ textDecoration: 'none' }}>
-                    <Button
-                      as="h2"
+                    <CustomButtom
                       name="entrar"
                       leftIcon={<MdLogin size="20px" />}
-                      colorScheme="green"
-                      variant="ghost"
                       onClick={() => {
                         setLoading(true);
                         router.push('/entrar');
                       }}
-                      w="full"
                     >
                       Entrar
-                    </Button>
+                    </CustomButtom>
                   </Link>
                 </ChakraNextLink>
               )}

@@ -1,3 +1,14 @@
+import Layout from '@/components/Layout';
+import PageHeading from '@/components/PageHeading';
+import React, { useCallback, useContext, useEffect } from 'react';
+import { AuthContext } from '@/contexts/AuthContext';
+import { BsCurrencyDollar } from 'react-icons/bs';
+import { Card } from '@/components/Card';
+import { gql, useMutation } from '@apollo/client';
+import { MdLogin } from 'react-icons/md';
+import { parseCookies } from 'nookies';
+import { Social } from '@/components/Social';
+import { useRouter } from 'next/router';
 import {
   Box,
   Heading,
@@ -16,18 +27,6 @@ import {
   PopoverTrigger,
   Portal,
 } from '@chakra-ui/react';
-import { useRouter } from 'next/router';
-import { Card } from '@/components/Card';
-import React, { useCallback, useContext, useEffect } from 'react';
-
-import { BsCurrencyDollar } from 'react-icons/bs';
-import { AuthContext } from '@/contexts/AuthContext';
-import { MdLogin } from 'react-icons/md';
-import { gql, useMutation } from '@apollo/client';
-import { parseCookies } from 'nookies';
-import Layout from '@/components/Layout';
-import PageHeading from '@/components/PageHeading';
-import { Social } from '@/components/Social';
 
 const NOVO_PAGAMENTO = gql`
   mutation novoPagamento($tipoPlano: String!) {

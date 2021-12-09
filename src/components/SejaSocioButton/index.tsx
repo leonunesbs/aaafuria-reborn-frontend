@@ -1,9 +1,12 @@
-import React from 'react';
-import { Button, ButtonProps } from '@chakra-ui/button';
-import router from 'next/router';
-import { MdGroups } from 'react-icons/md';
+import CustomButtom from '../CustomButtom';
 import NextLink from 'next/link';
+import React, { useContext, useEffect, useState } from 'react';
+import router from 'next/router';
+import { AuthContext } from '@/contexts/AuthContext';
+import { ButtonProps } from '@chakra-ui/button';
 import { chakra, Link } from '@chakra-ui/react';
+import { MdGroups } from 'react-icons/md';
+import { parseCookies } from 'nookies';
 
 interface SejaSocioButtonProps extends ButtonProps {
   setLoading: React.Dispatch<React.SetStateAction<boolean>>;
@@ -11,24 +14,32 @@ interface SejaSocioButtonProps extends ButtonProps {
 
 function SejaSocioButton({ setLoading, ...rest }: SejaSocioButtonProps) {
   const ChakraNextLink = chakra(NextLink);
+  const { checkSocio } = useContext(AuthContext);
+
+  const [isSocio, setIsSocio] = useState(false);
+  useEffect(() => {
+    checkSocio();
+    setIsSocio(parseCookies()['aaafuriaIsSocio'] === 'true');
+  }, [checkSocio]);
+
+  if (isSocio) {
+    return <></>;
+  }
 
   return (
     <ChakraNextLink passHref href="/sejasocio">
       <Link _hover={{ textDecoration: 'none' }}>
-        <Button
-          as="h2"
+        <CustomButtom
           leftIcon={<MdGroups size="20px" />}
-          colorScheme="green"
           variant="outline"
           onClick={() => {
             setLoading(true);
             router.push('/sejasocio');
           }}
-          w="full"
           {...rest}
         >
           Clique aqui e Seja Sócio!
-        </Button>
+        </CustomButtom>
       </Link>
     </ChakraNextLink>
   );

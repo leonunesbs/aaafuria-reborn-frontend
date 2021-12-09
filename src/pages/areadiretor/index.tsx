@@ -1,12 +1,12 @@
-import React, { useContext, useEffect } from 'react';
+import AreaDiretorMenu from '@/components/AreaDiretorMenu';
 import Layout from '@/components/Layout';
 import PageHeading from '@/components/PageHeading';
+import React, { useContext, useEffect } from 'react';
+import { AuthContext } from '@/contexts/AuthContext';
 import { Box } from '@chakra-ui/react';
 import { Card } from '@/components/Card';
-import AreaDiretorMenu from '@/components/AreaDiretorMenu';
 import { GetServerSideProps } from 'next';
 import { parseCookies } from 'nookies';
-import { AuthContext } from '@/contexts/AuthContext';
 import { useRouter } from 'next/router';
 
 function AreaDiretor() {

@@ -1,7 +1,11 @@
-import { Card } from '@/components/Card';
 import Layout from '@/components/Layout';
 import PageHeading from '@/components/PageHeading';
+import React, { useEffect } from 'react';
+import { Card } from '@/components/Card';
 import { gql, useMutation, useQuery } from '@apollo/client';
+import { MdCreditCard, MdDelete, MdPayment, MdStore } from 'react-icons/md';
+import { parseCookies } from 'nookies';
+import { useRouter } from 'next/router';
 import {
   Box,
   Button,
@@ -26,10 +30,6 @@ import {
   Stack,
   IconButton,
 } from '@chakra-ui/react';
-import { useRouter } from 'next/router';
-import { parseCookies } from 'nookies';
-import React, { useEffect } from 'react';
-import { MdCreditCard, MdDelete, MdPayment, MdStore } from 'react-icons/md';
 
 const GET_USER_CARRINHO = gql`
   query getUserCarrinho {

@@ -1,7 +1,10 @@
-import { Card } from '@/components/Card';
 import Layout from '@/components/Layout';
 import PageHeading from '@/components/PageHeading';
+import React, { useCallback, useState } from 'react';
+import { AiFillCheckCircle } from 'react-icons/ai';
+import { Card } from '@/components/Card';
 import { gql, useQuery } from '@apollo/client';
+import { SubmitHandler, useForm } from 'react-hook-form';
 import {
   Box,
   Button,
@@ -13,9 +16,6 @@ import {
   PinInputField,
   Stack,
 } from '@chakra-ui/react';
-import React, { useCallback, useState } from 'react';
-import { SubmitHandler, useForm } from 'react-hook-form';
-import { AiFillCheckCircle } from 'react-icons/ai';
 
 const QUERY_SOCIO = gql`
   query socioByMatricula($matricula: String!) {

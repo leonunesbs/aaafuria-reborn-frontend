@@ -1,10 +1,9 @@
-import { AppProps } from 'next/app';
-import { ApolloProvider } from '@apollo/client';
 import client from '../services/apollo-client';
-
-import { ChakraProvider } from '@chakra-ui/react';
 import React from 'react';
+import { ApolloProvider } from '@apollo/client';
+import { AppProps } from 'next/app';
 import { AuthProvider } from '@/contexts/AuthContext';
+import { ChakraProvider } from '@chakra-ui/react';
 
 export default function MyApp({ Component, pageProps }: AppProps) {
   return (

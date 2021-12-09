@@ -1,7 +1,12 @@
+import React, { useCallback, useContext, useEffect } from 'react';
 import { AuthContext } from '@/contexts/AuthContext';
-import { ProdutoType } from '@/pages/loja';
+import { Card } from '../Card';
+import { Flex, Heading, HStack, Stack } from '@chakra-ui/layout';
 import { gql, useMutation, useQuery } from '@apollo/client';
-import { Flex, Stack, Heading, HStack } from '@chakra-ui/layout';
+import { MdShoppingCart } from 'react-icons/md';
+import { parseCookies } from 'nookies';
+import { ProdutoType } from '@/pages/loja';
+import { SubmitHandler, useForm } from 'react-hook-form';
 import {
   FormControl,
   Button,
@@ -10,11 +15,6 @@ import {
   useToast,
   Select,
 } from '@chakra-ui/react';
-import { parseCookies } from 'nookies';
-import React, { useCallback, useContext, useEffect } from 'react';
-import { SubmitHandler, useForm } from 'react-hook-form';
-import { MdShoppingCart } from 'react-icons/md';
-import { Card } from '../Card';
 
 type ProdutoCardProps = ProdutoType;
 
