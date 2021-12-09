@@ -9,7 +9,11 @@ import {
   Text,
 } from '@chakra-ui/react';
 import React from 'react';
-import { AiFillFacebook, AiFillInstagram } from 'react-icons/ai';
+import {
+  AiFillFacebook,
+  AiFillInstagram,
+  AiFillTwitterSquare,
+} from 'react-icons/ai';
 import { FaTiktok } from 'react-icons/fa';
 import NextLink from 'next/link';
 
@@ -49,13 +53,27 @@ export const Social = ({ ...rest }) => {
             />
           </Link>
         </ChakraNextLink>
-        <IconButton
-          aria-label="Instagram"
-          colorScheme="green"
-          variant="ghost"
-          icon={<FaTiktok size="35px" />}
-          isDisabled
-        />
+        <ChakraNextLink passHref href="https://twitter.com/Aaafuria">
+          <Link>
+            <IconButton
+              aria-label="Twitter"
+              colorScheme="green"
+              variant="ghost"
+              icon={<AiFillTwitterSquare size="35px" />}
+            />
+          </Link>
+        </ChakraNextLink>
+        <ChakraNextLink passHref href="#">
+          <Link>
+            <IconButton
+              aria-label="TikTok"
+              colorScheme="green"
+              variant="ghost"
+              icon={<FaTiktok size="35px" />}
+              isDisabled
+            />
+          </Link>
+        </ChakraNextLink>
       </HStack>
     </Box>
   );
