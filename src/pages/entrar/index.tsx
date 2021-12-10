@@ -24,7 +24,9 @@ import {
   useColorModeValue,
   Center,
   chakra,
+  useDisclosure,
 } from '@chakra-ui/react';
+import CadastroDrawer from '@/components/CadastroDrawer';
 
 const QUERY = gql`
   query BuscarSocio($username: String!) {
@@ -45,6 +47,8 @@ type Inputs = {
 
 export default function Entrar() {
   const router = useRouter();
+
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
   const { signIn, signOut } = useContext(AuthContext);
   const { register, handleSubmit, setValue, getValues } = useForm<Inputs>();
@@ -195,13 +199,10 @@ export default function Entrar() {
               {errorMesage && <Text>{errorMesage}</Text>}
               {cadastro ? (
                 <>
-                  <Button
-                    colorScheme="green"
-                    mt={4}
-                    onClick={() => router.push('/cadastro')}
-                  >
+                  <Button colorScheme="green" mt={4} onClick={onOpen}>
                     Cadastre-se!
                   </Button>
+                  <CadastroDrawer isOpen={isOpen} onClose={onClose} />
                   <Button
                     colorScheme="red"
                     mt={4}
