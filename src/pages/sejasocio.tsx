@@ -61,7 +61,7 @@ function SejaSocio() {
     checkCredentials().then(() => {
       if (isSocio) {
         alert('Você já é um sócio!');
-        router.push('/areadosocio');
+        router.push('/areasocio');
       }
     });
   }, [checkCredentials, isSocio, router]);
