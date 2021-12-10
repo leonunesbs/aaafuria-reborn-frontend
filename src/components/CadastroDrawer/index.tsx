@@ -18,11 +18,11 @@ import {
   Stack,
   Text,
 } from '@chakra-ui/react';
-import { Card } from '../Card';
 import { gql, useMutation } from '@apollo/client';
 import { useContext, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import CustomButtom from '../CustomButtom';
+import { Card } from '../Card';
 
 interface CadastroDrawerProps {
   isOpen: boolean;
@@ -110,13 +110,19 @@ function CadastroDrawer({ isOpen, onClose, ...rest }: CadastroDrawerProps) {
     });
   };
   return (
-    <Drawer placement="bottom" onClose={onClose} isOpen={isOpen} {...rest}>
+    <Drawer
+      size="sm"
+      placement="top"
+      onClose={onClose}
+      isOpen={isOpen}
+      {...rest}
+    >
       <DrawerOverlay />
       <DrawerContent>
         <DrawerHeader borderBottomWidth="1px">
-          <PageHeading>Crie sua conta na plataforma</PageHeading>
+          <PageHeading>Crie sua conta</PageHeading>
         </DrawerHeader>
-        <DrawerBody>
+        <DrawerBody pb="130px">
           <Card>
             <form id="signUp" onSubmit={handleSubmit(signUp)}>
               <Stack spacing={4}>
