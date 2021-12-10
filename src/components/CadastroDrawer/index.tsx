@@ -146,7 +146,6 @@ function CadastroDrawer({ isOpen, onClose, ...rest }: CadastroDrawerProps) {
                         focusBorderColor="green.500"
                         value={matricula}
                         placeholder=""
-                        autoFocus
                         isDisabled
                       >
                         <PinInputField borderColor="green.500" />
