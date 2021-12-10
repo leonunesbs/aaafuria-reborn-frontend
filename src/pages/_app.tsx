@@ -4,6 +4,7 @@ import { ApolloProvider } from '@apollo/client';
 import { AppProps } from 'next/app';
 import { AuthProvider } from '@/contexts/AuthContext';
 import { ChakraProvider } from '@chakra-ui/react';
+import { ShortenUrlProvider } from 'react-shorten-url';
 
 export default function MyApp({ Component, pageProps }: AppProps) {
   return (

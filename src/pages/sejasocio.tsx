@@ -43,7 +43,8 @@ function SejaSocio() {
   const { ['aaafuriaToken']: token } = parseCookies();
   const [mutateFunction, { loading, data }] = useMutation(NOVO_PAGAMENTO);
 
-  const { isAuthenticated } = useContext(AuthContext);
+  const { isAuthenticated, checkCredentials, isSocio } =
+    useContext(AuthContext);
   const planos = [
     { nome: 'Mensal', valor: '14,90' },
     { nome: 'Semestral', valor: '84,90', best: true },
@@ -55,6 +56,15 @@ function SejaSocio() {
       router.push(data.novoPagamento.pagamento.checkoutUrl);
     }
   }, [data, router]);
+
+  useEffect(() => {
+    checkCredentials().then(() => {
+      if (isSocio) {
+        alert('Você já é um sócio!');
+        router.push('/areadosocio');
+      }
+    });
+  }, [checkCredentials, isSocio, router]);
 
   const handlePagar = useCallback(
     (tipoPlano: string) => {

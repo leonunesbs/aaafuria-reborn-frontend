@@ -19,7 +19,7 @@ const QUERY_PORTAL = gql`
 
 function AreaSocio() {
   const router = useRouter();
-  const { checkSocio } = useContext(AuthContext);
+  const { checkCredentials } = useContext(AuthContext);
   const [isSocio] = React.useState(parseCookies()['aaafuriaIsSocio']);
 
   const { data } = useQuery(QUERY_PORTAL, {
@@ -31,13 +31,13 @@ function AreaSocio() {
   });
 
   useEffect(() => {
-    checkSocio();
+    checkCredentials();
 
     if (isSocio !== 'true') {
       alert('Você não tem permissão para acessar esta área.');
       router.push('/sejasocio');
     }
-  }, [checkSocio, isSocio, router]);
+  }, [checkCredentials, isSocio, router]);
 
   const handleAssociacao = () => {
     router.push(data.createPortalUrl.stripePortalUrl);

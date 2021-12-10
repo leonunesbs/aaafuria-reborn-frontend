@@ -1,13 +1,16 @@
+import CustomButtom from '@/components/CustomButtom';
 import Layout from '@/components/Layout';
+import LojaPlantao from '@/components/LojaPlantao';
+import NextLink from 'next/link';
 import PageHeading from '@/components/PageHeading';
 import React, { useCallback, useState } from 'react';
-import { AiFillCheckCircle } from 'react-icons/ai';
 import { Card } from '@/components/Card';
 import { gql, useQuery } from '@apollo/client';
+import { MdCheck, MdHome, MdRefresh, MdShoppingCart } from 'react-icons/md';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import {
   Box,
-  Button,
+  Text,
   FormControl,
   FormLabel,
   HStack,
@@ -15,12 +18,15 @@ import {
   PinInput,
   PinInputField,
   Stack,
+  Link,
+  chakra,
 } from '@chakra-ui/react';
 
 const QUERY_SOCIO = gql`
   query socioByMatricula($matricula: String!) {
     socioByMatricula(matricula: $matricula) {
       nome
+      matricula
       email
       isSocio
       user {
@@ -34,6 +40,8 @@ type Inputs = {
   matricula: string;
 };
 
+const ChakraNextLink = chakra(NextLink);
+
 function Plantao() {
   const matriculaForm = useForm<Inputs>();
 
@@ -43,21 +51,27 @@ function Plantao() {
     },
   });
 
-  const [socioData, setSocioData] = useState(null);
+  const [socioData, setSocioData] = useState<any | null>(null);
   const [matriculaInput, setMatriculaInput] = useState('');
-
-  const submitMatricula: SubmitHandler<Inputs> = useCallback(
-    ({ matricula }) => {
-      query.refetch({ matricula }).then(({ data }) => setSocioData(data));
-    },
-    [query],
-  );
 
   const handleRestart = useCallback(() => {
     setMatriculaInput('');
     setSocioData(null);
     matriculaForm.reset();
   }, [setSocioData, setMatriculaInput, matriculaForm]);
+
+  const submitMatricula: SubmitHandler<Inputs> = useCallback(
+    ({ matricula }) => {
+      query.refetch({ matricula }).then(({ data }) => {
+        setSocioData(data.socioByMatricula);
+        if (!data.socioByMatricula) {
+          alert('Matrícula não encontrada');
+          handleRestart();
+        }
+      });
+    },
+    [handleRestart, query],
+  );
 
   return (
     <Layout title="Área do Diretor">
@@ -71,6 +85,7 @@ function Plantao() {
                 <HStack>
                   <Input
                     type="hidden"
+                    autoFocus
                     {...matriculaForm.register('matricula')}
                   />
                   <PinInput
@@ -96,23 +111,67 @@ function Plantao() {
                   </PinInput>
                 </HStack>
               </FormControl>
-              <Button
-                w="100%"
-                colorScheme="green"
-                type="submit"
-                variant="ghost"
-                isDisabled={socioData != null}
-                leftIcon={<AiFillCheckCircle size="25px" />}
-              >
-                Confirmar
-              </Button>
-              <Button w="100%" colorScheme="gray" onClick={handleRestart}>
-                Recomeçar
-              </Button>
+              {socioData && (
+                <Card textAlign="center">
+                  <Text>{socioData.matricula}</Text>
+                  <Text>{socioData.turma}</Text>
+                  <Text>{socioData.nome}</Text>
+                  <Text>
+                    {socioData.isSocio ? (
+                      <Text textColor="green" fontWeight="bold">
+                        Sócio ativo
+                      </Text>
+                    ) : (
+                      'Sócio inativo'
+                    )}
+                  </Text>
+                </Card>
+              )}
+              <Stack>
+                <CustomButtom
+                  type="submit"
+                  isDisabled={socioData != null}
+                  leftIcon={<MdCheck size="25px" />}
+                >
+                  Confirmar
+                </CustomButtom>
+                <CustomButtom
+                  leftIcon={<MdRefresh size="25px" />}
+                  colorScheme="yellow"
+                  onClick={handleRestart}
+                >
+                  Recomeçar
+                </CustomButtom>
+              </Stack>
             </Stack>
           </Card>
         </form>
+        <LojaPlantao matriculaSocio={socioData?.matricula} />
       </Box>
+      <Stack mt={10} align="center">
+        {socioData && (
+          <ChakraNextLink
+            passHref
+            href={`/areadiretor/plantao/carrinho?m=${socioData.matricula}`}
+          >
+            <Link _hover={{ textDecoration: 'none' }}>
+              <CustomButtom
+                colorScheme="gray"
+                leftIcon={<MdShoppingCart size="25px" />}
+              >
+                Carrinho
+              </CustomButtom>
+            </Link>
+          </ChakraNextLink>
+        )}
+        <ChakraNextLink passHref href="/">
+          <Link _hover={{ textDecoration: 'none' }}>
+            <CustomButtom colorScheme="red" leftIcon={<MdHome size="25px" />}>
+              Voltar ao início
+            </CustomButtom>
+          </Link>
+        </ChakraNextLink>
+      </Stack>
     </Layout>
   );
 }

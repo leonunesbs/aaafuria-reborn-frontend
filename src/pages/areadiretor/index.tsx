@@ -11,17 +11,17 @@ import { useRouter } from 'next/router';
 
 function AreaDiretor() {
   const router = useRouter();
-  const { checkSocio } = useContext(AuthContext);
+  const { checkCredentials } = useContext(AuthContext);
   const [isStaff] = React.useState(parseCookies()['aaafuriaIsStaff']);
 
   useEffect(() => {
-    checkSocio();
+    checkCredentials();
 
     if (isStaff !== 'true') {
       alert('Você não tem permissão para acessar esta área.');
       router.push('/');
     }
-  }, [checkSocio, isStaff, router]);
+  }, [checkCredentials, isStaff, router]);
 
   return (
     <Layout title="Área do Diretor">

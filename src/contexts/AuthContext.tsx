@@ -29,7 +29,9 @@ const QUERY_SOCIO = gql`
 interface AuthContextProps {
   isAuthenticated: boolean;
   signIn: (data: SignInData) => Promise<void>;
-  checkSocio: () => Promise<boolean>;
+  checkCredentials: () => Promise<boolean>;
+  isStaff: boolean;
+  isSocio: boolean;
   signOut: () => void;
   user: UserData | null;
 }
@@ -52,6 +54,8 @@ export const AuthContext = createContext({} as AuthContextProps);
 
 export function AuthProvider({ children }: AuthProviderProps) {
   const [user, setUser] = useState<UserData | null>(null);
+  const [isStaff, setIsStaff] = useState<boolean>(false);
+  const [isSocio, setIsSocio] = useState<boolean>(false);
 
   const router = useRouter();
 
@@ -59,7 +63,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
   const isAuthenticated = !!token;
 
-  const checkSocio = async () => {
+  const checkCredentials = async () => {
     if (isAuthenticated) {
       const matricula = parseCookies()['aaafuriaMatricula'];
       if (!matricula) {
@@ -80,6 +84,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
           path: '/',
         },
       );
+
       if (response.data.socioByMatricula?.user.isStaff) {
         setCookie(
           null,
@@ -91,6 +96,12 @@ export function AuthProvider({ children }: AuthProviderProps) {
           },
         );
       }
+
+      const { ['aaafuriaIsSocio']: aaafuriaIsSocio } = parseCookies();
+      const { ['aaafuriaIsStaff']: aaafuriaIsStaff } = parseCookies();
+
+      setIsSocio(aaafuriaIsSocio === 'true');
+      setIsStaff(aaafuriaIsStaff === 'true');
       return response.data.socioByMatricula?.isSocio;
     }
   };
@@ -115,13 +126,14 @@ export function AuthProvider({ children }: AuthProviderProps) {
         });
         setUser({ matricula: data.tokenAuth.payload.username });
 
-        checkSocio();
+        checkCredentials();
 
         router.push(redirectUrl || '/');
         return data;
       })
       .catch((err) => {
-        throw err;
+        console.log(err);
+        router.reload();
       });
   };
 
@@ -146,7 +158,9 @@ export function AuthProvider({ children }: AuthProviderProps) {
         isAuthenticated,
         signIn,
         signOut,
-        checkSocio,
+        checkCredentials,
+        isSocio,
+        isStaff,
       }}
     >
       {children}

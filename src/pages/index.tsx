@@ -12,7 +12,6 @@ import { Card } from '@/components/Card';
 import { Link } from '@chakra-ui/react';
 import { MdLogin } from 'react-icons/md';
 import { Social } from '@/components/Social';
-import { useRouter } from 'next/router';
 import {
   Box,
   BoxProps,
@@ -26,7 +25,6 @@ import {
 type HomeProps = BoxProps;
 
 export default function Home({}: HomeProps) {
-  const router = useRouter();
   const { isAuthenticated } = useContext(AuthContext);
 
   const [loading, setLoading] = useState(false);
@@ -72,7 +70,6 @@ export default function Home({}: HomeProps) {
                       leftIcon={<MdLogin size="20px" />}
                       onClick={() => {
                         setLoading(true);
-                        router.push('/entrar');
                       }}
                     >
                       Entrar

@@ -53,18 +53,18 @@ export type ProdutoType = {
 
 function Loja() {
   const { data } = useQuery(PRODUTO_QUERY);
-  const { checkSocio } = useContext(AuthContext);
+  const { checkCredentials } = useContext(AuthContext);
   const [isSocio, setIsSocio] = React.useState(false);
 
   const ChakraNextLink = chakra(NextLink);
 
   useEffect(() => {
-    checkSocio();
+    checkCredentials();
 
     if (parseCookies()['aaafuriaIsSocio'] === 'true') {
       setIsSocio(true);
     }
-  }, [isSocio, checkSocio]);
+  }, [isSocio, checkCredentials]);
 
   return (
     <Layout title="Loja">
@@ -113,7 +113,6 @@ function Loja() {
                 colorScheme="yellow"
                 variant="ghost"
                 w="full"
-                onClick={() => router.push('/carrinho')}
                 leftIcon={<MdShoppingCart size="25px" />}
               >
                 Carrinho
@@ -127,7 +126,6 @@ function Loja() {
                 colorScheme="red"
                 variant="ghost"
                 w="full"
-                onClick={() => router.push('/')}
                 leftIcon={<MdHome size="25px" />}
               >
                 Voltar ao início

@@ -11,7 +11,6 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { useRouter } from 'next/router';
 import {
   Box,
-  Button,
   FormControl,
   Text,
   FormLabel,
@@ -21,12 +20,13 @@ import {
   PinInputField,
   Stack,
   Image,
-  useColorModeValue,
   Center,
   chakra,
   useDisclosure,
 } from '@chakra-ui/react';
 import CadastroDrawer from '@/components/CadastroDrawer';
+import CustomButtom from '@/components/CustomButtom';
+import Layout from '@/components/Layout';
 
 const QUERY = gql`
   query BuscarSocio($username: String!) {
@@ -123,18 +123,12 @@ export default function Entrar() {
   );
 
   return (
-    <Box
-      bg={useColorModeValue('gray.50', 'inherit')}
-      minH="100vh"
-      py="12"
-      px={{ base: '4', lg: '8' }}
-    >
+    <Layout title="Entrar" desc="Acesse a plataforma de Sócios da @aaafuria!">
       <Box maxW="md" mx="auto">
         <Center>
           <Box boxSize="250px" position="relative">
             <ChakraNextImage
               placeholder="blur"
-              blurDataURL="/calango-verde.png"
               layout="fill"
               objectFit="cover"
               src="/calango-verde.png"
@@ -199,38 +193,34 @@ export default function Entrar() {
               {errorMesage && <Text>{errorMesage}</Text>}
               {cadastro ? (
                 <>
-                  <Button colorScheme="green" mt={4} onClick={onOpen}>
+                  <CustomButtom mt={4} onClick={onOpen}>
                     Cadastre-se!
-                  </Button>
-                  <CadastroDrawer isOpen={isOpen} onClose={onClose} />
-                  <Button
+                  </CustomButtom>
+                  <CustomButtom
                     colorScheme="red"
                     mt={4}
                     onClick={() => handleReset()}
                   >
                     Cancelar
-                  </Button>
+                  </CustomButtom>
                 </>
               ) : (
                 <Stack>
-                  <Button
+                  <CustomButtom
                     leftIcon={<MdLogin size="20px" />}
-                    colorScheme="green"
-                    variant="ghost"
                     mt={4}
                     isLoading={loading}
                     type="submit"
                   >
                     Entrar
-                  </Button>
-                  <Button
+                  </CustomButtom>
+                  <CustomButtom
                     leftIcon={<AiFillHome size="20px" />}
                     colorScheme="gray"
-                    variant="ghost"
                     onClick={() => router.push('/')}
                   >
                     Início
-                  </Button>
+                  </CustomButtom>
                 </Stack>
               )}
             </Stack>
@@ -242,7 +232,8 @@ export default function Entrar() {
           </Text>
         </Center>
       </Box>
-    </Box>
+      <CadastroDrawer isOpen={isOpen} onClose={onClose} />
+    </Layout>
   );
 }
 

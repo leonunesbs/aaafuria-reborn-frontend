@@ -2,24 +2,23 @@ import router from 'next/router';
 import { AuthContext } from '@/contexts/AuthContext';
 import { Button } from '@chakra-ui/react';
 import { MdManageAccounts } from 'react-icons/md';
-import { parseCookies } from 'nookies';
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect } from 'react';
 
 interface AreaDiretorButtonProps {
   setLoading: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 function AreaDiretorButton({ setLoading }: AreaDiretorButtonProps) {
-  const { checkSocio } = useContext(AuthContext);
-  const [isStaff, setIsStaff] = useState(false);
+  const { checkCredentials, isStaff } = useContext(AuthContext);
+
   useEffect(() => {
-    checkSocio();
-    setIsStaff(parseCookies()['aaafuriaIsStaff'] === 'true');
-  }, [checkSocio]);
+    checkCredentials();
+  }, [checkCredentials]);
 
   if (!isStaff) {
     return <></>;
   }
+
   return (
     <Button
       as="h2"

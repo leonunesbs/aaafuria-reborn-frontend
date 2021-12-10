@@ -23,6 +23,7 @@ import { useContext, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import CustomButtom from '../CustomButtom';
 import { Card } from '../Card';
+import Layout from '../Layout';
 
 interface CadastroDrawerProps {
   isOpen: boolean;
@@ -30,6 +31,7 @@ interface CadastroDrawerProps {
 }
 type Inputs = {
   matricula: string;
+  turma: string;
   pin: string;
   pin_confirmar: string;
   email: string;
@@ -46,6 +48,7 @@ const NOVO_USER = gql`
     $nome: String!
     $apelido: String!
     $matricula: String!
+    $turma: String!
     $pin: String!
     $email: String!
     $rg: String!
@@ -57,6 +60,7 @@ const NOVO_USER = gql`
       nome: $nome
       apelido: $apelido
       matricula: $matricula
+      turma: $turma
       pin: $pin
       email: $email
       rg: $rg
@@ -94,6 +98,7 @@ function CadastroDrawer({ isOpen, onClose, ...rest }: CadastroDrawerProps) {
     mutateFunction({
       variables: {
         matricula: data.matricula,
+        turma: data.turma,
         email: data.email,
         nome: data.nome,
         apelido: data.apelido,
@@ -122,154 +127,174 @@ function CadastroDrawer({ isOpen, onClose, ...rest }: CadastroDrawerProps) {
         <DrawerHeader borderBottomWidth="1px">
           <PageHeading>Crie sua conta</PageHeading>
         </DrawerHeader>
-        <DrawerBody pb="130px">
-          <Card>
-            <form id="signUp" onSubmit={handleSubmit(signUp)}>
-              <Stack spacing={4}>
-                <FormControl>
-                  <FormLabel>Matrícula: </FormLabel>
-                  <HStack>
-                    <Input type="hidden" {...register('matricula')} required />
-                    <PinInput
-                      size="lg"
-                      focusBorderColor="green.500"
-                      value={matricula}
-                      placeholder=""
-                      autoFocus
-                      isDisabled
-                    >
-                      <PinInputField borderColor="green.500" />
-                      <PinInputField borderColor="green.500" />
-                      <PinInputField borderColor="green.500" />
-                      <PinInputField borderColor="green.500" />
-                      <PinInputField borderColor="green.500" />
-                      <PinInputField borderColor="green.500" />
-                      <PinInputField borderColor="green.500" />
-                      <PinInputField borderColor="green.500" />
-                    </PinInput>
-                  </HStack>
-                </FormControl>
-                <FormControl>
-                  <FormLabel>Email: </FormLabel>
-                  <Input
-                    type="email"
-                    focusBorderColor="green.500"
-                    required
-                    {...register('email')}
-                  />
-                </FormControl>
-                <FormControl>
-                  <FormLabel>Nome completo: </FormLabel>
-                  <Input
-                    focusBorderColor="green.500"
-                    {...register('nome')}
-                    required
-                  />
-                </FormControl>
-                <FormControl>
-                  <FormLabel>Apelido: </FormLabel>
-                  <Input
-                    focusBorderColor="green.500"
-                    {...register('apelido')}
-                    required
-                  />
-                </FormControl>
-                <FormControl>
-                  <FormLabel>Data de nascimento: </FormLabel>
-                  <Input
-                    type="date"
-                    focusBorderColor="green.500"
-                    {...register('dataNascimento')}
-                    required
-                  />
-                </FormControl>
-                <FormControl>
-                  <FormLabel>Whatsapp: </FormLabel>
-                  <Input
-                    as={InputMask}
-                    mask="(99) 99999-9999"
-                    type="tel"
-                    focusBorderColor="green.500"
-                    {...register('whatsapp')}
-                    required
-                  />
-                </FormControl>
-                <FormControl>
-                  <FormLabel>CPF: </FormLabel>
-                  <Input
-                    as={InputMask}
-                    mask="999.999.999-99"
-                    focusBorderColor="green.500"
-                    {...register('cpf')}
-                    required
-                  />
-                </FormControl>
-                <FormControl>
-                  <FormLabel>RG: </FormLabel>
-                  <Input
-                    focusBorderColor="green.500"
-                    {...register('rg')}
-                    required
-                  />
-                </FormControl>
 
-                <FormControl>
-                  <FormLabel>PIN: </FormLabel>
-                  <HStack>
-                    <Input type="hidden" {...register('pin')} required />
-                    <PinInput
-                      size="lg"
-                      focusBorderColor="green.500"
-                      mask
-                      onChange={(value) => setValue('pin', value)}
-                      onComplete={(value) => setValue('pin', value)}
-                    >
-                      <PinInputField />
-                      <PinInputField />
-                      <PinInputField />
-                      <PinInputField />
-                      <PinInputField />
-                      <PinInputField />
-                    </PinInput>
-                  </HStack>
-                  <FormHelperText>Escolha um PIN de 6 números.</FormHelperText>
-                </FormControl>
-                <FormControl>
-                  <FormLabel>Confirmar PIN: </FormLabel>
-                  <HStack>
+        <DrawerBody>
+          <Layout title="Cadastro" desc="Crie sua conta na plataforma!">
+            <Card>
+              <form id="signUp" onSubmit={handleSubmit(signUp)}>
+                <Stack spacing={4}>
+                  <FormControl>
+                    <FormLabel>Matrícula: </FormLabel>
+                    <HStack>
+                      <Input
+                        type="hidden"
+                        {...register('matricula')}
+                        required
+                      />
+                      <PinInput
+                        size="lg"
+                        focusBorderColor="green.500"
+                        value={matricula}
+                        placeholder=""
+                        autoFocus
+                        isDisabled
+                      >
+                        <PinInputField borderColor="green.500" />
+                        <PinInputField borderColor="green.500" />
+                        <PinInputField borderColor="green.500" />
+                        <PinInputField borderColor="green.500" />
+                        <PinInputField borderColor="green.500" />
+                        <PinInputField borderColor="green.500" />
+                        <PinInputField borderColor="green.500" />
+                        <PinInputField borderColor="green.500" />
+                      </PinInput>
+                    </HStack>
+                  </FormControl>
+                  <FormControl>
+                    <FormLabel>Email: </FormLabel>
                     <Input
-                      type="hidden"
-                      {...register('pin_confirmar')}
+                      type="email"
+                      focusBorderColor="green.500"
+                      required
+                      {...register('email')}
+                    />
+                  </FormControl>
+                  <FormControl>
+                    <FormLabel>Turma: </FormLabel>
+                    <Input
+                      as={InputMask}
+                      mask="MED: 99"
+                      type="tel"
+                      focusBorderColor="green.500"
+                      {...register('turma')}
                       required
                     />
-                    <PinInput
-                      size="lg"
+                  </FormControl>
+                  <FormControl>
+                    <FormLabel>Nome completo: </FormLabel>
+                    <Input
                       focusBorderColor="green.500"
-                      mask
-                      onChange={(value) => setValue('pin_confirmar', value)}
-                      onComplete={(value) => setValue('pin_confirmar', value)}
-                    >
-                      <PinInputField />
-                      <PinInputField />
-                      <PinInputField />
-                      <PinInputField />
-                      <PinInputField />
-                      <PinInputField />
-                    </PinInput>
-                  </HStack>
-                </FormControl>
-                <Text textAlign="center" fontSize="sm" color="red.500">
-                  {error && error.message}
-                </Text>
-              </Stack>
-              <Stack mt={8}>
-                <CustomButtom type="submit">Cadastrar</CustomButtom>
-                <CustomButtom colorScheme="gray" onClick={onClose}>
-                  Fechar
-                </CustomButtom>
-              </Stack>
-            </form>
-          </Card>
+                      {...register('nome')}
+                      required
+                    />
+                  </FormControl>
+                  <FormControl>
+                    <FormLabel>Apelido: </FormLabel>
+                    <Input
+                      focusBorderColor="green.500"
+                      {...register('apelido')}
+                      required
+                    />
+                  </FormControl>
+                  <FormControl>
+                    <FormLabel>Data de nascimento: </FormLabel>
+                    <Input
+                      type="date"
+                      focusBorderColor="green.500"
+                      {...register('dataNascimento')}
+                      required
+                    />
+                  </FormControl>
+                  <FormControl>
+                    <FormLabel>Whatsapp: </FormLabel>
+                    <Input
+                      as={InputMask}
+                      mask="(99) 99999-9999"
+                      type="tel"
+                      focusBorderColor="green.500"
+                      {...register('whatsapp')}
+                      required
+                    />
+                  </FormControl>
+                  <FormControl>
+                    <FormLabel>CPF: </FormLabel>
+                    <Input
+                      as={InputMask}
+                      mask="999.999.999-99"
+                      focusBorderColor="green.500"
+                      {...register('cpf')}
+                      required
+                    />
+                  </FormControl>
+                  <FormControl>
+                    <FormLabel>RG: </FormLabel>
+                    <Input
+                      focusBorderColor="green.500"
+                      {...register('rg')}
+                      required
+                    />
+                  </FormControl>
+
+                  <FormControl>
+                    <FormLabel>PIN: </FormLabel>
+                    <HStack>
+                      <Input type="hidden" {...register('pin')} required />
+                      <PinInput
+                        size="lg"
+                        focusBorderColor="green.500"
+                        mask
+                        onChange={(value) => setValue('pin', value)}
+                        onComplete={(value) => setValue('pin', value)}
+                      >
+                        <PinInputField />
+                        <PinInputField />
+                        <PinInputField />
+                        <PinInputField />
+                        <PinInputField />
+                        <PinInputField />
+                      </PinInput>
+                    </HStack>
+                    <FormHelperText>
+                      Escolha um PIN de 6 números.
+                    </FormHelperText>
+                  </FormControl>
+                  <FormControl>
+                    <FormLabel>Confirmar PIN: </FormLabel>
+                    <HStack>
+                      <Input
+                        type="hidden"
+                        {...register('pin_confirmar')}
+                        required
+                      />
+                      <PinInput
+                        size="lg"
+                        focusBorderColor="green.500"
+                        mask
+                        onChange={(value) => setValue('pin_confirmar', value)}
+                        onComplete={(value) => setValue('pin_confirmar', value)}
+                      >
+                        <PinInputField />
+                        <PinInputField />
+                        <PinInputField />
+                        <PinInputField />
+                        <PinInputField />
+                        <PinInputField />
+                      </PinInput>
+                    </HStack>
+                  </FormControl>
+                  <Text textAlign="center" fontSize="sm" color="red.500">
+                    {error && error.message}
+                  </Text>
+                </Stack>
+                <Stack mt={8}>
+                  <CustomButtom type="submit">Cadastrar</CustomButtom>
+                  <CustomButtom colorScheme="gray" onClick={onClose}>
+                    Fechar
+                  </CustomButtom>
+                </Stack>
+              </form>
+            </Card>
+          </Layout>
         </DrawerBody>
       </DrawerContent>
     </Drawer>

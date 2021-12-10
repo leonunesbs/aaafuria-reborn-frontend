@@ -1,32 +1,33 @@
-import React, { useCallback, useContext, useEffect } from 'react';
-import { AuthContext } from '@/contexts/AuthContext';
 import { Card } from '../Card';
-import { Flex, Heading, HStack, Stack } from '@chakra-ui/layout';
 import { gql, useMutation, useQuery } from '@apollo/client';
 import { MdShoppingCart } from 'react-icons/md';
 import { parseCookies } from 'nookies';
-import { ProdutoType } from '@/pages/loja';
+import { ProdutoType } from '../LojaPlantao';
+import { useCallback, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import {
-  FormControl,
   Button,
-  Text,
-  Image,
-  useToast,
+  FormControl,
+  Heading,
+  HStack,
   Select,
+  Stack,
+  useToast,
+  Image,
+  Text,
 } from '@chakra-ui/react';
 
-type ProdutoCardProps = ProdutoType;
-
-const ADD_TO_CART = gql`
-  mutation addToCart(
+const ADD_TO_CART_PLANTAO = gql`
+  mutation addToCartPlantao(
     $productId: String!
     $quantidade: Int!
+    $matriculaSocio: String!
     $variacaoId: String
   ) {
-    adicionarAoCarrinho(
+    adicionarAoCarrinhoPlantao(
       productId: $productId
       quantidade: $quantidade
+      matriculaSocio: $matriculaSocio
       variacaoId: $variacaoId
     ) {
       ok
@@ -43,9 +44,13 @@ const GET_VARIATIONS = gql`
   }
 `;
 
-export const ProdutoCard = ({ node }: ProdutoCardProps) => {
+interface ProdutoPlantaoCardProps extends ProdutoType {
+  matriculaSocio: string;
+}
+
+function ProdutoPlantaoCard({ node, matriculaSocio }: ProdutoPlantaoCardProps) {
   const { register, handleSubmit } = useForm<any>();
-  const [addToCart, { loading }] = useMutation(ADD_TO_CART, {
+  const [addToCartPlantao, { loading }] = useMutation(ADD_TO_CART_PLANTAO, {
     context: {
       headers: {
         Authorization: `JWT ${parseCookies()['aaafuriaToken']}`,
@@ -59,28 +64,18 @@ export const ProdutoCard = ({ node }: ProdutoCardProps) => {
     },
   });
 
-  const { checkCredentials, isAuthenticated, isSocio } =
-    useContext(AuthContext);
-  const [isLoading, setIsLoading] = React.useState(loading);
+  const [isLoading, setIsLoading] = useState(loading);
   const toast = useToast();
 
-  useEffect(() => {
-    checkCredentials();
-  }, [checkCredentials]);
-
-  useEffect(() => {
-    setIsLoading(loading);
-  }, [loading]);
-
-  // Handle submit
   const onSubmit: SubmitHandler<any> = useCallback(
     (formData) => {
       const productId = node.id;
       const quantidade = 1;
       const variacaoId = formData.variacaoId;
 
-      addToCart({
+      addToCartPlantao({
         variables: {
+          matriculaSocio,
           productId: productId,
           quantidade: quantidade,
           variacaoId: variacaoId,
@@ -94,9 +89,8 @@ export const ProdutoCard = ({ node }: ProdutoCardProps) => {
         });
       });
     },
-    [addToCart, setIsLoading, toast, node],
+    [node, addToCartPlantao, matriculaSocio, toast],
   );
-
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <Card
@@ -107,31 +101,6 @@ export const ProdutoCard = ({ node }: ProdutoCardProps) => {
         px="0"
         py="0"
       >
-        {isSocio && (
-          <Flex
-            zIndex={1}
-            bg="green"
-            position="absolute"
-            left={-16}
-            top={6}
-            width="210px"
-            transform="rotate(-45deg)"
-            py={2}
-            justifyContent="center"
-            alignItems="center"
-          >
-            <Text
-              fontSize={{ base: 'xs', lg: 'sm' }}
-              textTransform="uppercase"
-              fontWeight="bold"
-              letterSpacing="wider"
-              color="gray.100"
-            >
-              {((node.precoSocio / node.preco) * 100 - 100).toPrecision(2)}%
-              OFF!
-            </Text>
-          </Flex>
-        )}
         <Image
           w="full"
           objectFit="cover"
@@ -146,7 +115,7 @@ export const ProdutoCard = ({ node }: ProdutoCardProps) => {
                 {node.nome}
               </Heading>
               <Heading as="h4" size="sm">
-                <Text as={isSocio ? 's' : 'span'}>
+                <Text>
                   R${' '}
                   {node.preco
                     .toLocaleString('pt-BR', {
@@ -155,23 +124,21 @@ export const ProdutoCard = ({ node }: ProdutoCardProps) => {
                     })
                     .replace('.', ',')}
                 </Text>
-                {isSocio && (
-                  <Text
-                    as="span"
-                    fontSize="xl"
-                    fontWeight="extrabold"
-                    color="green.500"
-                  >
-                    {' '}
-                    R${' '}
-                    {node.precoSocio
-                      .toLocaleString('pt-BR', {
-                        style: 'currency',
-                        currency: 'BRL',
-                      })
-                      .replace('.', ',')}
-                  </Text>
-                )}
+                <Text
+                  as="span"
+                  fontSize="xl"
+                  fontWeight="extrabold"
+                  color="green.500"
+                >
+                  {' '}
+                  R${' '}
+                  {node.precoSocio
+                    .toLocaleString('pt-BR', {
+                      style: 'currency',
+                      currency: 'BRL',
+                    })
+                    .replace('.', ',')}
+                </Text>
               </Heading>
             </Stack>
             <HStack>
@@ -199,15 +166,13 @@ export const ProdutoCard = ({ node }: ProdutoCardProps) => {
             leftIcon={<MdShoppingCart size="20px" />}
             colorScheme="green"
             isLoading={isLoading}
-            loadingText="Adicionando..."
-            isDisabled={!isAuthenticated}
           >
-            {isAuthenticated
-              ? 'Adicionar ao carrinho'
-              : 'Faça login para comprar'}
+            Adicionar ao carrinho
           </Button>
         </Stack>
       </Card>
     </form>
   );
-};
+}
+
+export default ProdutoPlantaoCard;
