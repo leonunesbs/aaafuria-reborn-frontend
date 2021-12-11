@@ -113,7 +113,7 @@ function Carrinho() {
       },
     });
     window.open(
-      `/qrcode?id=${data.stripeCheckoutPlantao.carrinho.id}&m=${matriculaSocio}&total=${carrinho.total}&u=${data.stripeCheckoutPlantao.carrinho.stripeShortCheckoutUrl}`,
+      `/areadiretor/plantao/qrcode?id=${data.stripeCheckoutPlantao.carrinho.id}&m=${matriculaSocio}&total=${carrinho.total}&u=${data.stripeCheckoutPlantao.carrinho.stripeShortCheckoutUrl}`,
       '_blank',
     );
   };

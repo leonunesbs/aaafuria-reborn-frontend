@@ -105,11 +105,11 @@ function Qrcode() {
               fgColor="gray"
               pixParams={{
                 chave: 'leonunesbs@gmail.com',
-                recebedor: 'Nome do reebedor',
+                recebedor: '@aaafuria',
                 cidade: 'Teresina',
                 identificador: id,
                 valor: parseFloat(total),
-                mensagem: 'minha mensagem',
+                mensagem: `ID: ${id} - Matrícula: ${matricula}`,
               }}
               imageSettings={{
                 src: '/calango-verde-3.png',
