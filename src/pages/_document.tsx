@@ -6,6 +6,7 @@ class Document extends NextDocument {
     return (
       <Html lang="pt-br">
         <Head>
+          <link rel="preconnect" href="https://aaafuria-reborn.herokuapp.com" />
           <link
             rel="apple-touch-icon"
             sizes="180x180"
