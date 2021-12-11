@@ -112,9 +112,8 @@ function Carrinho() {
         matriculaSocio,
       },
     });
-    window.open(
+    router.push(
       `/areadiretor/plantao/qrcode?id=${data.stripeCheckoutPlantao.carrinho.id}&m=${matriculaSocio}&total=${carrinho.total}&u=${data.stripeCheckoutPlantao.carrinho.stripeShortCheckoutUrl}`,
-      '_blank',
     );
   };
 

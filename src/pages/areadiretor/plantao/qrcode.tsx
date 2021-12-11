@@ -15,7 +15,7 @@ import {
 import { useRouter } from 'next/router';
 import { PixQRCode } from 'pix-react';
 import { useCallback, useEffect, useState, useRef } from 'react';
-import { MdClose, MdCopyAll } from 'react-icons/md';
+import { MdArrowLeft, MdCopyAll } from 'react-icons/md';
 import QRCode from 'react-qr-code';
 
 const ChakraQRCode = chakra(QRCode);
@@ -122,12 +122,12 @@ function Qrcode() {
           </SimpleGrid>
         </Card>
         <CustomButtom
-          leftIcon={<MdClose size="25px" />}
+          leftIcon={<MdArrowLeft size="25px" />}
           colorScheme="red"
           mt={4}
-          onClick={() => close()}
+          onClick={() => router.back()}
         >
-          Fechar
+          Voltar
         </CustomButtom>
       </Box>
     </Layout>
