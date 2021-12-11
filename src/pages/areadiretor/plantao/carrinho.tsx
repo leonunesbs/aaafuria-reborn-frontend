@@ -1,8 +1,9 @@
+import CustomButtom from '@/components/CustomButtom';
 import Layout from '@/components/Layout';
 import PageHeading from '@/components/PageHeading';
 import { Card } from '@/components/Card';
 import { gql, useMutation, useQuery } from '@apollo/client';
-import { MdCreditCard, MdDelete, MdPayment, MdStore } from 'react-icons/md';
+import { MdDelete, MdPayment, MdStore } from 'react-icons/md';
 import { parseCookies } from 'nookies';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
@@ -16,19 +17,7 @@ import {
   IconButton,
   Tfoot,
   Box,
-  Button,
   HStack,
-  Popover,
-  PopoverArrow,
-  PopoverBody,
-  PopoverCloseButton,
-  PopoverContent,
-  PopoverHeader,
-  PopoverTrigger,
-  Portal,
-  Stack,
-  Text,
-  Image,
 } from '@chakra-ui/react';
 
 const GET_PLANTAO_CARRINHO = gql`
@@ -74,6 +63,7 @@ const STRIPE_CHECKOUT_PLANTAO = gql`
     stripeCheckoutPlantao(matriculaSocio: $matriculaSocio) {
       ok
       carrinho {
+        id
         stripeShortCheckoutUrl
       }
     }
@@ -116,14 +106,14 @@ function Carrinho() {
     },
   );
 
-  const handleStripeCheckout = async () => {
+  const handleCheckout = async () => {
     const { data } = await stripeCheckoutPlantao({
       variables: {
         matriculaSocio,
       },
     });
     window.open(
-      `/qrcode?u=${data.stripeCheckoutPlantao.carrinho.stripeShortCheckoutUrl}`,
+      `/qrcode?id=${data.stripeCheckoutPlantao.carrinho.id}&m=${matriculaSocio}&total=${carrinho.total}&u=${data.stripeCheckoutPlantao.carrinho.stripeShortCheckoutUrl}`,
       '_blank',
     );
   };
@@ -223,83 +213,27 @@ function Carrinho() {
             </Tfoot>
           </Table>
         </Card>
-        <Popover placement="top">
-          <HStack flexDir="row-reverse" mt={4}>
-            <PopoverTrigger>
-              <Button
-                colorScheme="green"
-                variant="ghost"
-                size="lg"
-                ml={4}
-                leftIcon={<MdPayment size="20px" />}
-              >
-                Pagamento
-              </Button>
-            </PopoverTrigger>
-            <Button
-              variant="ghost"
-              size="lg"
-              colorScheme="yellow"
-              leftIcon={<MdStore size="20px" />}
-              onClick={() => router.push('/areadiretor/plantao')}
-            >
-              Plantão
-            </Button>
-          </HStack>
-          <Portal>
-            <PopoverContent>
-              <PopoverArrow />
-              <PopoverHeader>
-                <Text fontWeight="bold">Pagar com: </Text>
-              </PopoverHeader>
-              <PopoverCloseButton />
-              <PopoverBody>
-                <Stack>
-                  <Button
-                    colorScheme="green"
-                    leftIcon={<MdCreditCard size="25px" />}
-                    onClick={handleStripeCheckout}
-                    isLoading={loading}
-                  >
-                    Cartão de crédito
-                  </Button>
-                  <Button
-                    isDisabled
-                    colorScheme="green"
-                    variant="outline"
-                    leftIcon={
-                      <Image
-                        boxSize="25px"
-                        objectFit="cover"
-                        src="/pix.png"
-                        alt="pix"
-                        mx="auto"
-                      />
-                    }
-                  >
-                    PIX
-                  </Button>
-                  <Button
-                    isDisabled
-                    colorScheme="green"
-                    variant="outline"
-                    leftIcon={
-                      <Image
-                        boxSize="25px"
-                        objectFit="cover"
-                        src="/calango-verde.png"
-                        alt="calangos"
-                        mx="auto"
-                      />
-                    }
-                  >
-                    Calangos
-                  </Button>
-                </Stack>
-              </PopoverBody>
-            </PopoverContent>
-          </Portal>
-        </Popover>
+        <HStack flexDir="row-reverse" mt={4}>
+          <CustomButtom
+            maxW="xs"
+            size="lg"
+            ml={4}
+            leftIcon={<MdPayment size="20px" />}
+            onClick={handleCheckout}
+            isLoading={loading}
+          >
+            Pagamento
+          </CustomButtom>
+          <CustomButtom
+            maxW="xs"
+            size="lg"
+            colorScheme="yellow"
+            leftIcon={<MdStore size="20px" />}
+            onClick={() => router.push('/areadiretor/plantao')}
+          >
+            Plantão
+          </CustomButtom>
+        </HStack>
       </Box>
     </Layout>
   );
