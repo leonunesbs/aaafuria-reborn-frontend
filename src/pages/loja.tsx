@@ -23,7 +23,7 @@ import {
 
 const PRODUTO_QUERY = gql`
   query getProdutos {
-    allProduto {
+    allProduto (isHidden: false) {
       edges {
         node {
           id
