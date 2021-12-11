@@ -3,11 +3,12 @@ import Layout from '@/components/Layout';
 import LojaPlantao from '@/components/LojaPlantao';
 import NextLink from 'next/link';
 import PageHeading from '@/components/PageHeading';
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { Card } from '@/components/Card';
 import { gql, useQuery } from '@apollo/client';
 import { MdCheck, MdHome, MdRefresh, MdShoppingCart } from 'react-icons/md';
 import { SubmitHandler, useForm } from 'react-hook-form';
+import { useRouter } from 'next/router';
 import {
   Box,
   Text,
@@ -44,6 +45,8 @@ const ChakraNextLink = chakra(NextLink);
 
 function Plantao() {
   const matriculaForm = useForm<Inputs>();
+  const router = useRouter();
+  const { m }: any = router.query;
 
   const query = useQuery(QUERY_SOCIO, {
     variables: {
@@ -57,21 +60,37 @@ function Plantao() {
   const handleRestart = useCallback(() => {
     setMatriculaInput('');
     setSocioData(null);
+    router.replace('/areadiretor/plantao');
     matriculaForm.reset();
-  }, [setSocioData, setMatriculaInput, matriculaForm]);
+  }, [router, matriculaForm]);
 
-  const submitMatricula: SubmitHandler<Inputs> = useCallback(
-    ({ matricula }) => {
+  const getSocioData = useCallback(
+    ({ matricula }: { matricula: string }) =>
       query.refetch({ matricula }).then(({ data }) => {
         setSocioData(data.socioByMatricula);
         if (!data.socioByMatricula) {
           alert('Matrícula não encontrada');
           handleRestart();
         }
-      });
-    },
+      }),
     [handleRestart, query],
   );
+
+  const submitMatricula: SubmitHandler<Inputs> = useCallback(
+    ({ matricula }) => {
+      getSocioData({ matricula });
+      router.replace(`/areadiretor/plantao?m=${matricula}`);
+    },
+    [getSocioData, router],
+  );
+
+  useEffect(() => {
+    if (m) {
+      setMatriculaInput(m);
+      submitMatricula({ matricula: m });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [m]);
 
   return (
     <Layout title="Área do Diretor">

@@ -3,7 +3,7 @@ import Layout from '@/components/Layout';
 import PageHeading from '@/components/PageHeading';
 import { Card } from '@/components/Card';
 import { gql, useMutation, useQuery } from '@apollo/client';
-import { MdDelete, MdPayment, MdStore } from 'react-icons/md';
+import { MdArrowLeft, MdDelete, MdPayment } from 'react-icons/md';
 import { parseCookies } from 'nookies';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
@@ -228,10 +228,10 @@ function Carrinho() {
             maxW="xs"
             size="lg"
             colorScheme="yellow"
-            leftIcon={<MdStore size="20px" />}
-            onClick={() => router.push('/areadiretor/plantao')}
+            leftIcon={<MdArrowLeft size="20px" />}
+            onClick={() => router.back()}
           >
-            Plantão
+            Voltar
           </CustomButtom>
         </HStack>
       </Box>
