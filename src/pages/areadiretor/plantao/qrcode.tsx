@@ -9,6 +9,11 @@ import {
   InputGroup,
   InputRightElement,
   SimpleGrid,
+  Tab,
+  TabList,
+  TabPanel,
+  TabPanels,
+  Tabs,
   Text,
   useToast,
 } from '@chakra-ui/react';
@@ -61,65 +66,76 @@ function Qrcode() {
           <Text textAlign={'center'}>
             <b>Total:</b> R$ {total}
           </Text>
-          <SimpleGrid
-            mt={10}
-            columns={{ base: 1, lg: 2 }}
-            spacing={{ base: '8', lg: '2' }}
-            mx="auto"
-            justifyItems="center"
-            alignItems="center"
-          >
-            <ChakraQRCode value={url} size={256} fgColor="blue" />
-            <Box>
-              <InputGroup size="lg">
-                <Input
-                  ref={inputRef}
-                  pr="4.5rem"
-                  value={url}
-                  readOnly
-                  focusBorderColor="green.500"
-                />
-                <InputRightElement width="4.5rem">
-                  <CustomButtom w="40px" size="xs" onClick={handleCopy}>
-                    <MdCopyAll size="25px" />
-                  </CustomButtom>
-                </InputRightElement>
-              </InputGroup>
-            </Box>
-          </SimpleGrid>
-          <SimpleGrid
-            mt={10}
-            columns={{ base: 1, lg: 2 }}
-            spacing={{ base: '8', lg: '2' }}
-            mx="auto"
-            justifyItems="center"
-            alignItems="center"
-          >
-            <Box>
-              <Text>PIX</Text>
-            </Box>
-            <PixQRCode
-              size={256}
-              renderAs="svg"
-              includeMargin
-              fgColor="gray"
-              pixParams={{
-                chave: 'leonunesbs@gmail.com',
-                recebedor: '@aaafuria',
-                cidade: 'Teresina',
-                identificador: id,
-                valor: parseFloat(total),
-                mensagem: `ID: ${id} - Matrícula: ${matricula}`,
-              }}
-              imageSettings={{
-                src: '/calango-verde-3.png',
-                height: 100,
-                width: 100,
-                alt: 'Pix',
-                excavate: false,
-              }}
-            />
-          </SimpleGrid>
+
+          <Tabs align="center" colorScheme="green" mt={6} isFitted>
+            <TabList>
+              <Tab>Cartão de crédito</Tab>
+              <Tab>PIX</Tab>
+            </TabList>
+
+            <TabPanels>
+              <TabPanel>
+                <SimpleGrid
+                  mt={10}
+                  columns={{ base: 1, lg: 2 }}
+                  spacing={{ base: '8', lg: '2' }}
+                  mx="auto"
+                  justifyItems="center"
+                  alignItems="center"
+                >
+                  <ChakraQRCode value={url} size={256} fgColor="green" />
+                  <Box>
+                    <InputGroup size="lg">
+                      <Input
+                        ref={inputRef}
+                        pr="4.5rem"
+                        value={url}
+                        readOnly
+                        focusBorderColor="green.500"
+                      />
+                      <InputRightElement width="4.5rem">
+                        <CustomButtom w="40px" size="xs" onClick={handleCopy}>
+                          <MdCopyAll size="25px" />
+                        </CustomButtom>
+                      </InputRightElement>
+                    </InputGroup>
+                  </Box>
+                </SimpleGrid>
+              </TabPanel>
+              <TabPanel>
+                <SimpleGrid
+                  mt={10}
+                  columns={{ base: 1, lg: 2 }}
+                  spacing={{ base: '8', lg: '2' }}
+                  mx="auto"
+                  justifyItems="center"
+                  alignItems="center"
+                >
+                  <PixQRCode
+                    size={256}
+                    renderAs="svg"
+                    includeMargin
+                    fgColor="gray"
+                    pixParams={{
+                      chave: 'leonunesbs@gmail.com',
+                      recebedor: '@aaafuria',
+                      cidade: 'Teresina',
+                      identificador: id,
+                      valor: parseFloat(total),
+                      mensagem: `ID: ${id} - Matrícula: ${matricula}`,
+                    }}
+                    imageSettings={{
+                      src: '/calango-verde-3.png',
+                      height: 100,
+                      width: 100,
+                      alt: 'Pix',
+                      excavate: false,
+                    }}
+                  />
+                </SimpleGrid>
+              </TabPanel>
+            </TabPanels>
+          </Tabs>
         </Card>
         <CustomButtom
           leftIcon={<MdArrowLeft size="25px" />}
