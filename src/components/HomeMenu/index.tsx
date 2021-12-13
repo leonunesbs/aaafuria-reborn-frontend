@@ -1,7 +1,6 @@
 import CustomButtom from '../CustomButtom';
-import NextLink from 'next/link';
+import CustomChakraNextLink from '../CustomChakraNextLink';
 import React from 'react';
-import { chakra, Link } from '@chakra-ui/react';
 import { MdStore } from 'react-icons/md';
 
 interface HomeMenuProps {
@@ -9,20 +8,17 @@ interface HomeMenuProps {
 }
 
 function HomeMenu({ setLoading }: HomeMenuProps) {
-  const ChakraNextLink = chakra(NextLink);
   return (
-    <ChakraNextLink href="/loja" passHref>
-      <Link _hover={{ textDecoration: 'none' }}>
-        <CustomButtom
-          leftIcon={<MdStore size="20px" />}
-          onClick={() => {
-            setLoading(true);
-          }}
-        >
-          Loja
-        </CustomButtom>
-      </Link>
-    </ChakraNextLink>
+    <CustomChakraNextLink href="/loja">
+      <CustomButtom
+        leftIcon={<MdStore size="20px" />}
+        onClick={() => {
+          setLoading(true);
+        }}
+      >
+        Loja
+      </CustomButtom>
+    </CustomChakraNextLink>
   );
 }
 

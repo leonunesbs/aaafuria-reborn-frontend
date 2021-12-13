@@ -1,15 +1,14 @@
 import AuthenticatedHomeMenu from '@/components/AuthenticatedHomeMenu';
 import CustomButtom from '@/components/CustomButtom';
+import CustomChakraNextLink from '@/components/CustomChakraNextLink';
 import HomeMenu from '@/components/HomeMenu';
 import Layout from '@/components/Layout';
 import NextImage from 'next/image';
-import NextLink from 'next/link';
 import PageHeading from '@/components/PageHeading';
 import React, { useContext, useState } from 'react';
 import SejaSocioButton from '@/components/SejaSocioButton';
 import { AuthContext } from '@/contexts/AuthContext';
 import { Card } from '@/components/Card';
-import { Link } from '@chakra-ui/react';
 import { MdLogin } from 'react-icons/md';
 import { Social } from '@/components/Social';
 import {
@@ -30,7 +29,6 @@ export default function Home({}: HomeProps) {
   const [loading, setLoading] = useState(false);
 
   const ChakraNextImage = chakra(NextImage);
-  const ChakraNextLink = chakra(NextLink);
 
   return (
     <Layout title="Início">
@@ -63,19 +61,17 @@ export default function Home({}: HomeProps) {
                 <AuthenticatedHomeMenu setLoading={setLoading} />
               )}
               {!isAuthenticated && (
-                <ChakraNextLink href="/entrar" passHref>
-                  <Link _hover={{ textDecoration: 'none' }}>
-                    <CustomButtom
-                      name="entrar"
-                      leftIcon={<MdLogin size="20px" />}
-                      onClick={() => {
-                        setLoading(true);
-                      }}
-                    >
-                      Entrar
-                    </CustomButtom>
-                  </Link>
-                </ChakraNextLink>
+                <CustomChakraNextLink href="/entrar">
+                  <CustomButtom
+                    name="entrar"
+                    leftIcon={<MdLogin size="20px" />}
+                    onClick={() => {
+                      setLoading(true);
+                    }}
+                  >
+                    Entrar
+                  </CustomButtom>
+                </CustomChakraNextLink>
               )}
             </Stack>
           </Card>

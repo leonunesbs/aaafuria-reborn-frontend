@@ -1,5 +1,5 @@
+import CustomChakraNextLink from '@/components/CustomChakraNextLink';
 import Layout from '@/components/Layout';
-import NextLink from 'next/link';
 import PageHeading from '@/components/PageHeading';
 import React, { useContext, useEffect } from 'react';
 import router from 'next/router';
@@ -17,8 +17,6 @@ import {
   Stack,
   Grid,
   GridItem,
-  Link,
-  chakra,
 } from '@chakra-ui/react';
 
 const PRODUTO_QUERY = gql`
@@ -55,8 +53,6 @@ function Loja() {
   const { data } = useQuery(PRODUTO_QUERY);
   const { checkCredentials } = useContext(AuthContext);
   const [isSocio, setIsSocio] = React.useState(false);
-
-  const ChakraNextLink = chakra(NextLink);
 
   useEffect(() => {
     checkCredentials();
@@ -106,32 +102,28 @@ function Loja() {
           })}
         </SimpleGrid>
         <Stack mt={4} align="center">
-          <ChakraNextLink passHref href="/carrinho">
-            <Link _hover={{ textDecoration: 'none' }}>
-              <Button
-                mt={4}
-                colorScheme="yellow"
-                variant="ghost"
-                w="full"
-                leftIcon={<MdShoppingCart size="25px" />}
-              >
-                Carrinho
-              </Button>
-            </Link>
-          </ChakraNextLink>
-          <ChakraNextLink passHref href="/">
-            <Link _hover={{ textDecoration: 'none' }}>
-              <Button
-                mt={4}
-                colorScheme="red"
-                variant="ghost"
-                w="full"
-                leftIcon={<MdHome size="25px" />}
-              >
-                Voltar ao início
-              </Button>
-            </Link>
-          </ChakraNextLink>
+          <CustomChakraNextLink href="/carrinho">
+            <Button
+              mt={4}
+              colorScheme="yellow"
+              variant="ghost"
+              w="full"
+              leftIcon={<MdShoppingCart size="25px" />}
+            >
+              Carrinho
+            </Button>
+          </CustomChakraNextLink>
+          <CustomChakraNextLink href="/">
+            <Button
+              mt={4}
+              colorScheme="red"
+              variant="ghost"
+              w="full"
+              leftIcon={<MdHome size="25px" />}
+            >
+              Voltar ao início
+            </Button>
+          </CustomChakraNextLink>
         </Stack>
 
         <Social mt={[4, 8]} />

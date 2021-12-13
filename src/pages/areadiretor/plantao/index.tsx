@@ -1,7 +1,7 @@
 import CustomButtom from '@/components/CustomButtom';
+import CustomChakraNextLink from '@/components/CustomChakraNextLink';
 import Layout from '@/components/Layout';
 import LojaPlantao from '@/components/LojaPlantao';
-import NextLink from 'next/link';
 import PageHeading from '@/components/PageHeading';
 import React, { useCallback, useEffect, useState } from 'react';
 import { Card } from '@/components/Card';
@@ -19,8 +19,6 @@ import {
   PinInput,
   PinInputField,
   Stack,
-  Link,
-  chakra,
 } from '@chakra-ui/react';
 
 const QUERY_SOCIO = gql`
@@ -40,8 +38,6 @@ const QUERY_SOCIO = gql`
 type Inputs = {
   matricula: string;
 };
-
-const ChakraNextLink = chakra(NextLink);
 
 function Plantao() {
   const matriculaForm = useForm<Inputs>();
@@ -169,27 +165,22 @@ function Plantao() {
       </Box>
       <Stack mt={10} align="center">
         {socioData && (
-          <ChakraNextLink
-            passHref
+          <CustomChakraNextLink
             href={`/areadiretor/plantao/carrinho?m=${socioData.matricula}`}
           >
-            <Link _hover={{ textDecoration: 'none' }}>
-              <CustomButtom
-                colorScheme="gray"
-                leftIcon={<MdShoppingCart size="25px" />}
-              >
-                Carrinho
-              </CustomButtom>
-            </Link>
-          </ChakraNextLink>
-        )}
-        <ChakraNextLink passHref href="/">
-          <Link _hover={{ textDecoration: 'none' }}>
-            <CustomButtom colorScheme="red" leftIcon={<MdHome size="25px" />}>
-              Voltar ao início
+            <CustomButtom
+              colorScheme="gray"
+              leftIcon={<MdShoppingCart size="25px" />}
+            >
+              Carrinho
             </CustomButtom>
-          </Link>
-        </ChakraNextLink>
+          </CustomChakraNextLink>
+        )}
+        <CustomChakraNextLink href="/">
+          <CustomButtom colorScheme="red" leftIcon={<MdHome size="25px" />}>
+            Voltar ao início
+          </CustomButtom>
+        </CustomChakraNextLink>
       </Stack>
     </Layout>
   );

@@ -1,9 +1,8 @@
 import AreaDiretorButton from '../AreaDiretorButton';
 import CustomButtom from '../CustomButtom';
-import NextLink from 'next/link';
+import CustomChakraNextLink from '../CustomChakraNextLink';
 import React, { useContext } from 'react';
 import { AuthContext } from '@/contexts/AuthContext';
-import { chakra, Link } from '@chakra-ui/react';
 import { MdLogout, MdPerson } from 'react-icons/md';
 import { useRouter } from 'next/router';
 
@@ -12,25 +11,22 @@ interface AuthenticatedHomeMenuProps {
 }
 function AuthenticatedHomeMenu({ setLoading }: AuthenticatedHomeMenuProps) {
   const router = useRouter();
-  const ChakraNextLink = chakra(NextLink);
   const { signOut } = useContext(AuthContext);
 
   return (
     <>
-      <ChakraNextLink href="/areasocio" passHref>
-        <Link _hover={{ textDecoration: 'none' }}>
-          <CustomButtom
-            name="area-socio"
-            leftIcon={<MdPerson size="20px" />}
-            onClick={() => {
-              setLoading(true);
-              router.push('/areasocio');
-            }}
-          >
-            Área do Sócio
-          </CustomButtom>
-        </Link>
-      </ChakraNextLink>
+      <CustomChakraNextLink href="/areasocio">
+        <CustomButtom
+          name="area-socio"
+          leftIcon={<MdPerson size="20px" />}
+          onClick={() => {
+            setLoading(true);
+            router.push('/areasocio');
+          }}
+        >
+          Área do Sócio
+        </CustomButtom>
+      </CustomChakraNextLink>
       <AreaDiretorButton setLoading={setLoading} />
       <CustomButtom
         name="sair"
