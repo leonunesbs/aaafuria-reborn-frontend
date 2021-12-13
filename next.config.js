@@ -11,6 +11,6 @@ module.exports = withPWA({
     domains: ['picsum.photos'],
   },
   env: {
-    BACKEND_DOMAIN: 'http://192.168.1.110:8000',
+    BACKEND_DOMAIN: 'https://aaafuria-reborn.herokuapp.com',
   },
 });
