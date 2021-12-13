@@ -28,7 +28,7 @@ function Atividades({}: AtividadesProps) {
           <AtividadesSocioTable />
         </Card>
         <Stack mt={6}>
-          {!isStaff && (
+          {isStaff && (
             <>
               <CustomChakraNextLink
                 href={`${process.env.BACKEND_DOMAIN}/admin/atividades/programacao/add/`}
