@@ -8,10 +8,15 @@ import { AuthContext } from '@/contexts/AuthContext';
 import { Card } from '@/components/Card';
 import { GetServerSideProps } from 'next';
 import { gql, useQuery } from '@apollo/client';
-import { MdCheck, MdHome, MdRefresh, MdShoppingCart } from 'react-icons/md';
 import { parseCookies } from 'nookies';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useRouter } from 'next/router';
+import {
+  MdArrowLeft,
+  MdCheck,
+  MdRefresh,
+  MdShoppingCart,
+} from 'react-icons/md';
 import {
   Box,
   Text,
@@ -180,13 +185,16 @@ function Plantao() {
               colorScheme="gray"
               leftIcon={<MdShoppingCart size="25px" />}
             >
-              Carrinho
+              Ir para o carrinho
             </CustomButtom>
           </CustomChakraNextLink>
         )}
-        <CustomChakraNextLink href="/">
-          <CustomButtom colorScheme="red" leftIcon={<MdHome size="25px" />}>
-            Voltar ao início
+        <CustomChakraNextLink href="/areadiretor">
+          <CustomButtom
+            colorScheme="red"
+            leftIcon={<MdArrowLeft size="25px" />}
+          >
+            Voltar ao menu
           </CustomButtom>
         </CustomChakraNextLink>
       </Stack>

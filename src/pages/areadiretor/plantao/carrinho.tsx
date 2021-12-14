@@ -25,6 +25,7 @@ import {
 const GET_PLANTAO_CARRINHO = gql`
   query getPlantaoCarrinho($matriculaSocio: String!) {
     plantaoCarrinho(matriculaSocio: $matriculaSocio) {
+      id
       total
       produtos {
         edges {
@@ -60,18 +61,6 @@ const REMOVE_FROM_PLANTAO_CART = gql`
   }
 `;
 
-const STRIPE_CHECKOUT_PLANTAO = gql`
-  mutation stripeCheckoutPlantao($matriculaSocio: String!) {
-    stripeCheckoutPlantao(matriculaSocio: $matriculaSocio) {
-      ok
-      carrinho {
-        id
-        stripeShortCheckoutUrl
-      }
-    }
-  }
-`;
-
 function Carrinho() {
   const router = useRouter();
   const { isStaff } = useContext(AuthContext);
@@ -99,26 +88,13 @@ function Carrinho() {
     },
   });
 
-  const [stripeCheckoutPlantao, { loading }] = useMutation(
-    STRIPE_CHECKOUT_PLANTAO,
-    {
-      context: {
-        headers: {
-          authorization: `JWT ${parseCookies()['aaafuriaToken']}`,
-        },
-      },
-    },
-  );
-
   const handleCheckout = async () => {
-    const { data } = await stripeCheckoutPlantao({
-      variables: {
-        matriculaSocio,
-      },
-    });
-    router.push(
-      `/areadiretor/plantao/qrcode?id=${data.stripeCheckoutPlantao.carrinho.id}&m=${matriculaSocio}&total=${carrinho.total}&u=${data.stripeCheckoutPlantao.carrinho.stripeShortCheckoutUrl}`,
-    );
+    // const { data } = await stripeCheckoutPlantao({
+    //   variables: {
+    //     matriculaSocio,
+    //   },
+    // });
+    router.push(`/areadiretor/plantao/pagamento?id=${carrinho.id}`);
   };
 
   useEffect(() => {
@@ -141,7 +117,7 @@ function Carrinho() {
   return (
     <Layout title="Carrinho Plantão">
       <Box maxW="6xl" mx="auto">
-        <PageHeading>Carrinho Plantão</PageHeading>
+        <PageHeading>Carrinho plantão</PageHeading>
         <Card mt={10} overflowX="auto">
           <Table size="sm">
             <Thead>
@@ -227,7 +203,6 @@ function Carrinho() {
             ml={4}
             leftIcon={<MdPayment size="20px" />}
             onClick={handleCheckout}
-            isLoading={loading}
           >
             Pagamento
           </CustomButtom>

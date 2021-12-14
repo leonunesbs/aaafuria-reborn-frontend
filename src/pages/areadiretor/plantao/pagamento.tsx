@@ -2,59 +2,85 @@ import CustomButtom from '@/components/CustomButtom';
 import CustomChakraNextLink from '@/components/CustomChakraNextLink';
 import Layout from '@/components/Layout';
 import PageHeading from '@/components/PageHeading';
-import QRCode from 'react-qr-code';
 import { Card } from '@/components/Card';
-import { MdArrowLeft, MdCopyAll } from 'react-icons/md';
-import { PixQRCode } from 'pix-react';
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { CartaoCreditoTabPanelContent } from '@/components/pagamento/CartaoCreditoTabPanelContent';
+import { gql, useQuery } from '@apollo/client';
+import { MdArrowLeft } from 'react-icons/md';
+import { PixTabPanelContent } from '@/components/pagamento/PIXTabPanelContent';
+import { useContext, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import {
   Box,
-  chakra,
-  Input,
-  InputGroup,
-  InputRightElement,
-  SimpleGrid,
+  Modal,
+  ModalBody,
+  ModalCloseButton,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  ModalOverlay,
   Tab,
   TabList,
   TabPanel,
   TabPanels,
   Tabs,
   Text,
-  useToast,
+  useDisclosure,
 } from '@chakra-ui/react';
+import { GetServerSideProps } from 'next';
+import { parseCookies } from 'nookies';
+import { AuthContext } from '@/contexts/AuthContext';
 
-const ChakraQRCode = chakra(QRCode);
+const GET_CARRINHO = gql`
+  query getCarrinho($id: ID!) {
+    carrinho(id: $id) {
+      id
+      user {
+        socio {
+          matricula
+          nome
+        }
+      }
+      total
+    }
+  }
+`;
+
+export type CarrinhoData = {
+  carrinho: {
+    id: string;
+    user: {
+      socio: {
+        matricula: string;
+        nome: string;
+      };
+    };
+    total: any;
+  };
+};
 
 function Pagamento() {
-  const inputRef = useRef<HTMLInputElement>(null);
+  const { isStaff } = useContext(AuthContext);
+
   const router = useRouter();
-  const [url, setUrl] = useState('');
-  const { id, u, total, m: matricula }: any = router.query;
-  const toast = useToast();
+  const { id = '' }: any = router.query;
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
-  const handleCopy = useCallback(() => {
-    inputRef.current?.select();
-    document.execCommand('copy');
-
-    toast({
-      title: 'Copiado',
-      description: 'QR Code copiado para a área de transferência.',
-      status: 'success',
-      duration: 5000,
-      isClosable: true,
-    });
-  }, [toast]);
+  const { data } = useQuery<CarrinhoData>(GET_CARRINHO, {
+    variables: {
+      id,
+    },
+    fetchPolicy: 'no-cache',
+  });
 
   useEffect(() => {
-    if (!id || !u || !total || !matricula) {
+    if (!id) {
       return;
     }
-  }, [total, matricula, u, id]);
+  }, [id]);
 
   useEffect(() => {
-    setUrl(`${u}`);
-  }, [u]);
+    isStaff === false && router.replace('/');
+  }, [isStaff, router]);
 
   return (
     <Layout>
@@ -62,10 +88,10 @@ function Pagamento() {
         <PageHeading>Pagamento</PageHeading>
         <Card>
           <Text textAlign={'center'}>
-            <b>Matrícula:</b> {matricula}
+            <b>Matrícula: </b> {data?.carrinho.user.socio.matricula}
           </Text>
           <Text textAlign={'center'}>
-            <b>Total:</b> R$ {total}
+            <b>Total: </b> R$ {data?.carrinho.total}
           </Text>
 
           <Tabs isLazy align="center" colorScheme="green" mt={6} isFitted>
@@ -76,80 +102,63 @@ function Pagamento() {
 
             <TabPanels>
               <TabPanel>
-                <SimpleGrid
-                  mt={10}
-                  columns={{ base: 1, lg: 2 }}
-                  spacing={{ base: '8', lg: '2' }}
-                  mx="auto"
-                  justifyItems="center"
-                  alignItems="center"
-                >
-                  <PixQRCode
-                    size={256}
-                    renderAs="svg"
-                    includeMargin
-                    fgColor="gray"
-                    pixParams={{
-                      chave: 'leonunesbs@gmail.com',
-                      recebedor: '@aaafuria',
-                      cidade: 'Teresina',
-                      identificador: id,
-                      valor: parseFloat(total),
-                      mensagem: `ID: ${id} - Matrícula: ${matricula}`,
-                    }}
-                    imageSettings={{
-                      src: '/calango-verde-3.png',
-                      height: 100,
-                      width: 100,
-                      alt: 'Pix',
-                      excavate: false,
-                    }}
-                  />
-                </SimpleGrid>
+                <PixTabPanelContent
+                  parentData={{
+                    data,
+                    onOpen,
+                  }}
+                />
               </TabPanel>
               <TabPanel>
-                <SimpleGrid
-                  mt={10}
-                  columns={{ base: 1, lg: 2 }}
-                  spacing={{ base: '8', lg: '2' }}
-                  mx="auto"
-                  justifyItems="center"
-                  alignItems="center"
-                >
-                  <ChakraQRCode value={url} size={256} fgColor="green" />
-                  <Box>
-                    <InputGroup size="lg">
-                      <Input
-                        ref={inputRef}
-                        pr="4.5rem"
-                        value={url}
-                        readOnly
-                        focusBorderColor="green.500"
-                      />
-                      <InputRightElement width="4.5rem">
-                        <CustomButtom w="40px" size="xs" onClick={handleCopy}>
-                          <MdCopyAll size="25px" />
-                        </CustomButtom>
-                      </InputRightElement>
-                    </InputGroup>
-                  </Box>
-                </SimpleGrid>
+                <CartaoCreditoTabPanelContent checkoutId={data?.carrinho.id} />
               </TabPanel>
             </TabPanels>
           </Tabs>
         </Card>
+        <Modal isOpen={isOpen} onClose={onClose}>
+          <ModalOverlay />
+          <ModalContent>
+            <ModalHeader>Confirmar pagamento?</ModalHeader>
+            <ModalCloseButton />
+            <ModalBody>Teste</ModalBody>
+
+            <ModalFooter>
+              <CustomButtom color="red" onClick={onClose}>
+                Fechar
+              </CustomButtom>
+              <CustomButtom mr={3}>Confimar</CustomButtom>
+            </ModalFooter>
+          </ModalContent>
+        </Modal>
         <CustomChakraNextLink href={'/areadiretor/plantao'}>
           <CustomButtom
             leftIcon={<MdArrowLeft size="25px" />}
             colorScheme="red"
             mt={4}
           >
-            Voltar
+            Voltar ao plantão
           </CustomButtom>
         </CustomChakraNextLink>
       </Box>
     </Layout>
   );
 }
+
+export const getServerSideProps: GetServerSideProps = async (ctx) => {
+  const { ['aaafuriaToken']: token } = parseCookies(ctx);
+
+  if (!token) {
+    return {
+      redirect: {
+        destination: `/entrar?after=${ctx.resolvedUrl}`,
+        permanent: false,
+      },
+    };
+  }
+
+  return {
+    props: {},
+  };
+};
 
 export default Pagamento;
