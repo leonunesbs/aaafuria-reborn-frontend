@@ -11,13 +11,12 @@ import { useRouter } from 'next/router';
 
 function AreaDiretor() {
   const router = useRouter();
-  const { checkCredentials } = useContext(AuthContext);
-  const [isStaff] = React.useState(parseCookies()['aaafuriaIsStaff']);
+  const { checkCredentials, isStaff } = useContext(AuthContext);
 
   useEffect(() => {
     checkCredentials();
 
-    if (isStaff !== 'true') {
+    if (isStaff === false) {
       alert('Você não tem permissão para acessar esta área.');
       router.push('/');
     }
@@ -36,19 +35,19 @@ function AreaDiretor() {
 }
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
-  const { ['aaafuriaIsStaff']: isStaff } = parseCookies(ctx);
+  const { ['aaafuriaToken']: token } = parseCookies(ctx);
 
-  if (isStaff === 'true') {
+  if (!token) {
     return {
-      props: {},
+      redirect: {
+        destination: `/entrar?after=${ctx.resolvedUrl}`,
+        permanent: false,
+      },
     };
   }
 
   return {
-    redirect: {
-      destination: '/',
-      permanent: false,
-    },
+    props: {},
   };
 };
 

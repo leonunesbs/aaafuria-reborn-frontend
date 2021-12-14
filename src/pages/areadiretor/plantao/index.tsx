@@ -3,10 +3,13 @@ import CustomChakraNextLink from '@/components/CustomChakraNextLink';
 import Layout from '@/components/Layout';
 import LojaPlantao from '@/components/LojaPlantao';
 import PageHeading from '@/components/PageHeading';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useContext, useEffect, useState } from 'react';
+import { AuthContext } from '@/contexts/AuthContext';
 import { Card } from '@/components/Card';
+import { GetServerSideProps } from 'next';
 import { gql, useQuery } from '@apollo/client';
 import { MdCheck, MdHome, MdRefresh, MdShoppingCart } from 'react-icons/md';
+import { parseCookies } from 'nookies';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useRouter } from 'next/router';
 import {
@@ -40,6 +43,7 @@ type Inputs = {
 };
 
 function Plantao() {
+  const { isStaff } = useContext(AuthContext);
   const matriculaForm = useForm<Inputs>();
   const router = useRouter();
   const { m }: any = router.query;
@@ -87,6 +91,10 @@ function Plantao() {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [m]);
+
+  useEffect(() => {
+    isStaff === false && router.replace('/');
+  }, [isStaff, router]);
 
   return (
     <Layout title="Área do Diretor">
@@ -185,5 +193,22 @@ function Plantao() {
     </Layout>
   );
 }
+
+export const getServerSideProps: GetServerSideProps = async (ctx) => {
+  const { ['aaafuriaToken']: token } = parseCookies(ctx);
+
+  if (!token) {
+    return {
+      redirect: {
+        destination: `/entrar?after=${ctx.resolvedUrl}`,
+        permanent: false,
+      },
+    };
+  }
+
+  return {
+    props: {},
+  };
+};
 
 export default Plantao;

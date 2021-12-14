@@ -54,7 +54,6 @@ export default function Entrar() {
   const { register, handleSubmit, setValue, getValues } = useForm<Inputs>();
   const [entrar, setEntrar] = React.useState(false);
   const [loading, setLoading] = React.useState(false);
-  const [cadastro, setCadastro] = React.useState(false);
 
   const [matricula, setMatricula] = React.useState('');
   const [errorMesage, setErrorMesage] = React.useState('');
@@ -65,11 +64,12 @@ export default function Entrar() {
 
   const query = useQuery(QUERY, {
     variables: { username: formValues.matricula || '' },
+    fetchPolicy: 'no-cache',
   });
+
   const handleReset = useCallback(() => {
     localStorage.removeItem('aaafuria@signUpMatricula');
     setEntrar(false);
-    setCadastro(false);
     setMatricula('');
     setErrorMesage('');
   }, []);
@@ -77,7 +77,6 @@ export default function Entrar() {
   useEffect(() => {
     if (matricula.length < 8) {
       setEntrar(false);
-      setCadastro(false);
       setErrorMesage('');
     }
   }, [matricula]);
@@ -87,9 +86,8 @@ export default function Entrar() {
   }, [handleReset]);
 
   const onSubmit: SubmitHandler<Inputs> = useCallback(
-    async ({ matricula: mtr, pin }) => {
+    ({ matricula: mtr, pin }) => {
       setLoading(true);
-      query.refetch({ username: mtr });
 
       const { after }: { after?: string } = router.query;
 
@@ -99,27 +97,27 @@ export default function Entrar() {
           signOut();
         });
       }
+
       if (mtr.length === 8) {
-        // Check edges lenght from query.data
-        if (query.data.allSocio.edges.length === 0) {
-          signOut();
-          setCadastro(true);
+        query.refetch({ username: mtr });
+
+        if (query?.data?.allSocio?.edges?.length === 0) {
           setEntrar(false);
           localStorage.setItem('aaafuria@signUpMatricula', mtr);
-          alert('Matrícula não encontrada. Cadastre-se!');
+          alert('Matrícula não encontrada. Cadastre-se a seguir!');
+          onOpen();
         } else {
           setEntrar(true);
         }
       } else {
         setEntrar(false);
         signOut();
-        setCadastro(true);
         setErrorMesage('Matrícula inválida');
       }
 
       setLoading(false);
     },
-    [setLoading, entrar, query, signIn, signOut, router.query],
+    [entrar, onOpen, query, router.query, signIn, signOut],
   );
 
   return (
@@ -190,39 +188,28 @@ export default function Entrar() {
                   </HStack>
                 </FormControl>
               )}
-              {errorMesage && <Text>{errorMesage}</Text>}
-              {cadastro ? (
-                <>
-                  <CustomButtom mt={4} onClick={onOpen}>
-                    Cadastre-se!
-                  </CustomButtom>
-                  <CustomButtom
-                    colorScheme="red"
-                    mt={4}
-                    onClick={() => handleReset()}
-                  >
-                    Cancelar
-                  </CustomButtom>
-                </>
-              ) : (
-                <Stack>
-                  <CustomButtom
-                    leftIcon={<MdLogin size="20px" />}
-                    mt={4}
-                    isLoading={loading}
-                    type="submit"
-                  >
-                    Entrar
-                  </CustomButtom>
-                  <CustomButtom
-                    leftIcon={<AiFillHome size="20px" />}
-                    colorScheme="gray"
-                    onClick={() => router.push('/')}
-                  >
-                    Início
-                  </CustomButtom>
-                </Stack>
+              {errorMesage && (
+                <Text textAlign="center" textColor="gray.500">
+                  <i>{errorMesage}</i>
+                </Text>
               )}
+              <Stack>
+                <CustomButtom
+                  leftIcon={<MdLogin size="20px" />}
+                  mt={4}
+                  isLoading={loading}
+                  type="submit"
+                >
+                  Entrar
+                </CustomButtom>
+                <CustomButtom
+                  leftIcon={<AiFillHome size="20px" />}
+                  colorScheme="gray"
+                  onClick={() => router.push('/')}
+                >
+                  Início
+                </CustomButtom>
+              </Stack>
             </Stack>
           </form>
         </Card>
@@ -232,7 +219,13 @@ export default function Entrar() {
           </Text>
         </Center>
       </Box>
-      <CadastroDrawer isOpen={isOpen} onClose={onClose} />
+      <CadastroDrawer
+        isOpen={isOpen}
+        onClose={() => {
+          onClose();
+          handleReset();
+        }}
+      />
     </Layout>
   );
 }

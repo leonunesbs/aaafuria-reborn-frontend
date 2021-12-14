@@ -5,53 +5,50 @@ import React, { useContext, useEffect } from 'react';
 import { AuthContext } from '@/contexts/AuthContext';
 import { Box } from '@chakra-ui/react';
 import { Card } from '@/components/Card';
-import { gql, useQuery } from '@apollo/client';
 import { parseCookies } from 'nookies';
 import { useRouter } from 'next/router';
-
-const QUERY_PORTAL = gql`
-  query portal {
-    createPortalUrl {
-      stripePortalUrl
-    }
-  }
-`;
+import { GetServerSideProps } from 'next';
 
 function AreaSocio() {
   const router = useRouter();
-  const { checkCredentials } = useContext(AuthContext);
-  const [isSocio] = React.useState(parseCookies()['aaafuriaIsSocio']);
-
-  const { data } = useQuery(QUERY_PORTAL, {
-    context: {
-      headers: {
-        authorization: `JWT ${parseCookies()['aaafuriaToken']}`,
-      },
-    },
-  });
+  const { checkCredentials, isSocio } = useContext(AuthContext);
 
   useEffect(() => {
     checkCredentials();
 
-    if (isSocio !== 'true') {
+    if (isSocio === false) {
       alert('Você não tem permissão para acessar esta área.');
       router.push('/sejasocio');
     }
   }, [checkCredentials, isSocio, router]);
-
-  const handleAssociacao = () => {
-    router.push(data.createPortalUrl.stripePortalUrl);
-  };
 
   return (
     <Layout title="Área do Socio">
       <Box maxW="xl" mx="auto">
         <PageHeading>Área do sócio</PageHeading>
         <Card>
-          <AreaSocioMenu handleAssociacao={handleAssociacao} />
+          <AreaSocioMenu />
         </Card>
       </Box>
     </Layout>
   );
 }
+
+export const getServerSideProps: GetServerSideProps = async (ctx) => {
+  const { ['aaafuriaToken']: token } = parseCookies(ctx);
+
+  if (!token) {
+    return {
+      redirect: {
+        destination: `/entrar?after=${ctx.resolvedUrl}`,
+        permanent: false,
+      },
+    };
+  }
+
+  return {
+    props: {},
+  };
+};
+
 export default AreaSocio;

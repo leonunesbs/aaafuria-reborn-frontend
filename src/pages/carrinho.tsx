@@ -30,6 +30,7 @@ import {
   Stack,
   IconButton,
 } from '@chakra-ui/react';
+import { GetServerSideProps } from 'next';
 
 const GET_USER_CARRINHO = gql`
   query getUserCarrinho {
@@ -272,5 +273,22 @@ function Carrinho() {
     </Layout>
   );
 }
+
+export const getServerSideProps: GetServerSideProps = async (ctx) => {
+  const { ['aaafuriaToken']: token } = parseCookies(ctx);
+
+  if (!token) {
+    return {
+      redirect: {
+        destination: `/entrar?after=${ctx.resolvedUrl}`,
+        permanent: false,
+      },
+    };
+  }
+
+  return {
+    props: {},
+  };
+};
 
 export default Carrinho;

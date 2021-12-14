@@ -1,16 +1,36 @@
 import CustomButtom from '../CustomButtom';
 import CustomChakraNextLink from '../CustomChakraNextLink';
 import React from 'react';
+import router from 'next/router';
 import { AiFillHome, AiFillIdcard } from 'react-icons/ai';
 import { Box, Divider, Stack, StackProps } from '@chakra-ui/react';
 import { FaDrum, FaVolleyballBall } from 'react-icons/fa';
+import { gql, useQuery } from '@apollo/client';
 import { MdManageAccounts } from 'react-icons/md';
+import { parseCookies } from 'nookies';
 
-interface AreaSocioMenuProps extends StackProps {
-  handleAssociacao: () => void;
-}
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
+interface AreaSocioMenuProps extends StackProps {}
 
-function AreaSocioMenu({ handleAssociacao, ...rest }: AreaSocioMenuProps) {
+const QUERY_PORTAL = gql`
+  query portal {
+    createPortalUrl {
+      stripePortalUrl
+    }
+  }
+`;
+
+function AreaSocioMenu({ ...rest }: AreaSocioMenuProps) {
+  const { data } = useQuery(QUERY_PORTAL, {
+    context: {
+      headers: {
+        authorization: `JWT ${parseCookies()['aaafuriaToken']}`,
+      },
+    },
+  });
+  const handleAssociacao = () => {
+    router.push(data.createPortalUrl.stripePortalUrl);
+  };
   return (
     <Stack {...rest}>
       <CustomChakraNextLink href="/carteirinha">

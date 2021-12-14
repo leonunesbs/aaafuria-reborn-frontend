@@ -58,12 +58,11 @@ function SejaSocio() {
   }, [data, router]);
 
   useEffect(() => {
-    checkCredentials().then(() => {
-      if (isSocio) {
-        alert('Você já é um sócio!');
-        router.push('/areasocio');
-      }
-    });
+    checkCredentials();
+    if (isSocio) {
+      alert('Você já é um sócio!');
+      router.push('/areasocio');
+    }
   }, [checkCredentials, isSocio, router]);
 
   const handlePagar = useCallback(

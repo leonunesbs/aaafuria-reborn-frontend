@@ -1,7 +1,13 @@
-import { Card } from '@/components/Card';
 import CustomButtom from '@/components/CustomButtom';
+import CustomChakraNextLink from '@/components/CustomChakraNextLink';
 import Layout from '@/components/Layout';
 import PageHeading from '@/components/PageHeading';
+import QRCode from 'react-qr-code';
+import { Card } from '@/components/Card';
+import { MdArrowLeft, MdCopyAll } from 'react-icons/md';
+import { PixQRCode } from 'pix-react';
+import { useCallback, useEffect, useRef, useState } from 'react';
+import { useRouter } from 'next/router';
 import {
   Box,
   chakra,
@@ -17,15 +23,10 @@ import {
   Text,
   useToast,
 } from '@chakra-ui/react';
-import { useRouter } from 'next/router';
-import { PixQRCode } from 'pix-react';
-import { useCallback, useEffect, useState, useRef } from 'react';
-import { MdArrowLeft, MdCopyAll } from 'react-icons/md';
-import QRCode from 'react-qr-code';
 
 const ChakraQRCode = chakra(QRCode);
 
-function Qrcode() {
+function Pagamento() {
   const inputRef = useRef<HTMLInputElement>(null);
   const router = useRouter();
   const [url, setUrl] = useState('');
@@ -67,41 +68,13 @@ function Qrcode() {
             <b>Total:</b> R$ {total}
           </Text>
 
-          <Tabs align="center" colorScheme="green" mt={6} isFitted>
+          <Tabs isLazy align="center" colorScheme="green" mt={6} isFitted>
             <TabList>
-              <Tab>Cartão de crédito</Tab>
               <Tab>PIX</Tab>
+              <Tab>Cartão de crédito</Tab>
             </TabList>
 
             <TabPanels>
-              <TabPanel>
-                <SimpleGrid
-                  mt={10}
-                  columns={{ base: 1, lg: 2 }}
-                  spacing={{ base: '8', lg: '2' }}
-                  mx="auto"
-                  justifyItems="center"
-                  alignItems="center"
-                >
-                  <ChakraQRCode value={url} size={256} fgColor="green" />
-                  <Box>
-                    <InputGroup size="lg">
-                      <Input
-                        ref={inputRef}
-                        pr="4.5rem"
-                        value={url}
-                        readOnly
-                        focusBorderColor="green.500"
-                      />
-                      <InputRightElement width="4.5rem">
-                        <CustomButtom w="40px" size="xs" onClick={handleCopy}>
-                          <MdCopyAll size="25px" />
-                        </CustomButtom>
-                      </InputRightElement>
-                    </InputGroup>
-                  </Box>
-                </SimpleGrid>
-              </TabPanel>
               <TabPanel>
                 <SimpleGrid
                   mt={10}
@@ -134,20 +107,49 @@ function Qrcode() {
                   />
                 </SimpleGrid>
               </TabPanel>
+              <TabPanel>
+                <SimpleGrid
+                  mt={10}
+                  columns={{ base: 1, lg: 2 }}
+                  spacing={{ base: '8', lg: '2' }}
+                  mx="auto"
+                  justifyItems="center"
+                  alignItems="center"
+                >
+                  <ChakraQRCode value={url} size={256} fgColor="green" />
+                  <Box>
+                    <InputGroup size="lg">
+                      <Input
+                        ref={inputRef}
+                        pr="4.5rem"
+                        value={url}
+                        readOnly
+                        focusBorderColor="green.500"
+                      />
+                      <InputRightElement width="4.5rem">
+                        <CustomButtom w="40px" size="xs" onClick={handleCopy}>
+                          <MdCopyAll size="25px" />
+                        </CustomButtom>
+                      </InputRightElement>
+                    </InputGroup>
+                  </Box>
+                </SimpleGrid>
+              </TabPanel>
             </TabPanels>
           </Tabs>
         </Card>
-        <CustomButtom
-          leftIcon={<MdArrowLeft size="25px" />}
-          colorScheme="red"
-          mt={4}
-          onClick={() => router.back()}
-        >
-          Voltar
-        </CustomButtom>
+        <CustomChakraNextLink href={'/areadiretor/plantao'}>
+          <CustomButtom
+            leftIcon={<MdArrowLeft size="25px" />}
+            colorScheme="red"
+            mt={4}
+          >
+            Voltar
+          </CustomButtom>
+        </CustomChakraNextLink>
       </Box>
     </Layout>
   );
 }
 
-export default Qrcode;
+export default Pagamento;

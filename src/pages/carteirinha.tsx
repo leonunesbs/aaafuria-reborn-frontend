@@ -286,7 +286,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
   if (!token) {
     return {
       redirect: {
-        destination: '/entrar?after=/carteirinha',
+        destination: `/entrar?after=${ctx.resolvedUrl}`,
         permanent: false,
       },
     };

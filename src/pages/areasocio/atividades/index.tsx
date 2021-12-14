@@ -10,6 +10,8 @@ import { Box, Stack } from '@chakra-ui/react';
 import { Card } from '@/components/Card';
 import { FaArrowLeft, FaPlus } from 'react-icons/fa';
 import { useContext, useEffect } from 'react';
+import { GetServerSideProps } from 'next';
+import { parseCookies } from 'nookies';
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 interface AtividadesProps {}
@@ -72,5 +74,22 @@ function Atividades({}: AtividadesProps) {
     </Layout>
   );
 }
+
+export const getServerSideProps: GetServerSideProps = async (ctx) => {
+  const { ['aaafuriaToken']: token } = parseCookies(ctx);
+
+  if (!token) {
+    return {
+      redirect: {
+        destination: `/entrar?after=${ctx.resolvedUrl}`,
+        permanent: false,
+      },
+    };
+  }
+
+  return {
+    props: {},
+  };
+};
 
 export default Atividades;

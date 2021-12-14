@@ -30,8 +30,8 @@ interface AuthContextProps {
   isAuthenticated: boolean;
   signIn: (data: SignInData) => Promise<void>;
   checkCredentials: () => Promise<boolean>;
-  isStaff: boolean;
-  isSocio: boolean;
+  isStaff: boolean | null;
+  isSocio: boolean | null;
   signOut: () => void;
   user: UserData | null;
 }
@@ -54,8 +54,8 @@ export const AuthContext = createContext({} as AuthContextProps);
 
 export function AuthProvider({ children }: AuthProviderProps) {
   const [user, setUser] = useState<UserData | null>(null);
-  const [isStaff, setIsStaff] = useState<boolean>(false);
-  const [isSocio, setIsSocio] = useState<boolean>(false);
+  const [isStaff, setIsStaff] = useState<boolean | null>(null);
+  const [isSocio, setIsSocio] = useState<boolean | null>(null);
 
   const router = useRouter();
 

@@ -1,11 +1,13 @@
 import CustomButtom from '@/components/CustomButtom';
 import Layout from '@/components/Layout';
 import PageHeading from '@/components/PageHeading';
+import { AuthContext } from '@/contexts/AuthContext';
 import { Card } from '@/components/Card';
+import { GetServerSideProps } from 'next';
 import { gql, useMutation, useQuery } from '@apollo/client';
 import { MdArrowLeft, MdDelete, MdPayment } from 'react-icons/md';
 import { parseCookies } from 'nookies';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import {
   Table,
@@ -72,6 +74,8 @@ const STRIPE_CHECKOUT_PLANTAO = gql`
 
 function Carrinho() {
   const router = useRouter();
+  const { isStaff } = useContext(AuthContext);
+
   const { m: matriculaSocio } = router.query;
   const [carrinho, setCarrinho] = useState<any | null>(null);
 
@@ -122,6 +126,10 @@ function Carrinho() {
       setCarrinho(data.plantaoCarrinho);
     }
   }, [data]);
+
+  useEffect(() => {
+    isStaff === false && router.replace('/');
+  }, [isStaff, router]);
 
   if (!carrinho) {
     return null;
@@ -237,5 +245,21 @@ function Carrinho() {
     </Layout>
   );
 }
+export const getServerSideProps: GetServerSideProps = async (ctx) => {
+  const { ['aaafuriaToken']: token } = parseCookies(ctx);
+
+  if (!token) {
+    return {
+      redirect: {
+        destination: `/entrar?after=${ctx.resolvedUrl}`,
+        permanent: false,
+      },
+    };
+  }
+
+  return {
+    props: {},
+  };
+};
 
 export default Carrinho;
