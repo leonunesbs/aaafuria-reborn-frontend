@@ -29,7 +29,7 @@ function AreaSocioMenu({ ...rest }: AreaSocioMenuProps) {
     },
   });
   const handleAssociacao = () => {
-    router.push(data.createPortalUrl.stripePortalUrl);
+    router.push();
   };
   return (
     <Stack {...rest}>
@@ -52,14 +52,20 @@ function AreaSocioMenu({ ...rest }: AreaSocioMenuProps) {
         </CustomButtom>
       </CustomChakraNextLink>
       <Divider height="15px" />
-      <CustomButtom
-        leftIcon={<MdManageAccounts size="20px" />}
-        hasExternalIcon
-        colorScheme="yellow"
-        onClick={handleAssociacao}
+      <CustomChakraNextLink
+        chakraLinkProps={{
+          target: '_blank',
+        }}
+        href={`${data.createPortalUrl.stripePortalUrl}`}
       >
-        Gerenciar associação
-      </CustomButtom>
+        <CustomButtom
+          leftIcon={<MdManageAccounts size="20px" />}
+          hasExternalIcon
+          colorScheme="yellow"
+        >
+          Gerenciar associação
+        </CustomButtom>
+      </CustomChakraNextLink>
       <CustomChakraNextLink href="/">
         <CustomButtom leftIcon={<AiFillHome size="20px" />} colorScheme="gray">
           Voltar ao início
