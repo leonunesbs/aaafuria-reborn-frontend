@@ -7,6 +7,9 @@ class Document extends NextDocument {
       <Html lang="pt-br">
         <Head>
           <link rel="preconnect" href="https://aaafuria-reborn.herokuapp.com" />
+          <meta name="apple-mobile-web-app-title" content="@aaafuria" />
+          <meta name="apple-mobile-web-app-capable" content="yes" />
+
           <link
             rel="apple-touch-icon"
             sizes="180x180"
@@ -31,7 +34,6 @@ class Document extends NextDocument {
             color="#2f855a"
           />
           <link rel="shortcut icon" href="/favicon/favicon.ico" />
-          <meta name="apple-mobile-web-app-title" content="@aaafuria" />
           <meta name="application-name" content="@aaafuria" />
           <meta name="msapplication-TileColor" content="#ffffff" />
           <meta
