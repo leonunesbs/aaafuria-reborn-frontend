@@ -12,5 +12,6 @@ module.exports = withPWA({
   },
   env: {
     BACKEND_DOMAIN: 'https://aaafuria-reborn.herokuapp.com',
+    NEXT_PUBLIC_GA_ID: 'G-K5LPGWWJL1',
   },
 });
