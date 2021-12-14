@@ -53,7 +53,7 @@ function AreaSocioMenu({ ...rest }: AreaSocioMenuProps) {
         chakraLinkProps={{
           target: '_blank',
         }}
-        href={`${data.createPortalUrl.stripePortalUrl}`}
+        href={`${data?.createPortalUrl.stripePortalUrl}`}
       >
         <CustomButtom
           leftIcon={<MdManageAccounts size="20px" />}
