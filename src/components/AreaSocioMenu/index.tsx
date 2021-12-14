@@ -1,7 +1,6 @@
 import CustomButtom from '../CustomButtom';
 import CustomChakraNextLink from '../CustomChakraNextLink';
 import React from 'react';
-import router from 'next/router';
 import { AiFillHome, AiFillIdcard } from 'react-icons/ai';
 import { Box, Divider, Stack, StackProps } from '@chakra-ui/react';
 import { FaDrum, FaVolleyballBall } from 'react-icons/fa';
@@ -28,9 +27,7 @@ function AreaSocioMenu({ ...rest }: AreaSocioMenuProps) {
       },
     },
   });
-  const handleAssociacao = () => {
-    router.push();
-  };
+
   return (
     <Stack {...rest}>
       <CustomChakraNextLink href="/carteirinha">
