@@ -1,22 +1,14 @@
+import { Card } from '@/components/Card';
 import Layout from '@/components/Layout';
 import PageHeading from '@/components/PageHeading';
-import React, { useCallback, useContext, useEffect } from 'react';
+import { SocialIcons } from '@/components/SocialIcons';
 import { AuthContext } from '@/contexts/AuthContext';
-import { BsCurrencyDollar } from 'react-icons/bs';
-import { Card } from '@/components/Card';
 import { gql, useMutation } from '@apollo/client';
-import { MdLogin } from 'react-icons/md';
-import { parseCookies } from 'nookies';
-import { Social } from '@/components/Social';
-import { useRouter } from 'next/router';
 import {
   Box,
-  Heading,
   Button,
-  Text,
-  SimpleGrid,
-  Stack,
   Flex,
+  Heading,
   Popover,
   PopoverArrow,
   PopoverBody,
@@ -26,7 +18,15 @@ import {
   PopoverHeader,
   PopoverTrigger,
   Portal,
+  SimpleGrid,
+  Stack,
+  Text,
 } from '@chakra-ui/react';
+import { useRouter } from 'next/router';
+import { parseCookies } from 'nookies';
+import React, { useCallback, useContext, useEffect } from 'react';
+import { BsCurrencyDollar } from 'react-icons/bs';
+import { MdLogin } from 'react-icons/md';
 
 const NOVO_PAGAMENTO = gql`
   mutation novoPagamento($tipoPlano: String!) {
@@ -218,7 +218,7 @@ function SejaSocio() {
             );
           })}
         </SimpleGrid>
-        <Social mt={[4, 8]} />
+        <SocialIcons mt={[4, 8]} />
         <Stack align="center">
           <Button
             mt={4}

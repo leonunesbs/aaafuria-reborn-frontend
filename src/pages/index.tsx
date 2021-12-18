@@ -1,16 +1,13 @@
 import AuthenticatedHomeMenu from '@/components/AuthenticatedHomeMenu';
+import { Card } from '@/components/Card';
 import CustomButtom from '@/components/CustomButtom';
 import CustomChakraNextLink from '@/components/CustomChakraNextLink';
 import HomeMenu from '@/components/HomeMenu';
 import Layout from '@/components/Layout';
-import NextImage from 'next/image';
 import PageHeading from '@/components/PageHeading';
-import React, { useContext, useState } from 'react';
 import SejaSocioButton from '@/components/SejaSocioButton';
+import { SocialIcons } from '@/components/SocialIcons';
 import { AuthContext } from '@/contexts/AuthContext';
-import { Card } from '@/components/Card';
-import { MdLogin } from 'react-icons/md';
-import { Social } from '@/components/Social';
 import {
   Box,
   BoxProps,
@@ -20,6 +17,9 @@ import {
   Skeleton,
   Stack,
 } from '@chakra-ui/react';
+import NextImage from 'next/image';
+import React, { useContext, useState } from 'react';
+import { MdLogin } from 'react-icons/md';
 
 type HomeProps = BoxProps;
 
@@ -76,7 +76,7 @@ export default function Home({}: HomeProps) {
             </Stack>
           </Card>
         </Skeleton>
-        <Social />
+        <SocialIcons />
       </Stack>
     </Layout>
   );

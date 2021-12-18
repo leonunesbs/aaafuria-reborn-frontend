@@ -1,23 +1,23 @@
 import CustomChakraNextLink from '@/components/CustomChakraNextLink';
 import Layout from '@/components/Layout';
 import PageHeading from '@/components/PageHeading';
-import React, { useContext, useEffect } from 'react';
-import router from 'next/router';
+import { ProdutoCard } from '@/components/ProdutoCard';
+import { SocialIcons } from '@/components/SocialIcons';
 import { AuthContext } from '@/contexts/AuthContext';
 import { gql, useQuery } from '@apollo/client';
-import { MdHome, MdShoppingCart } from 'react-icons/md';
-import { parseCookies } from 'nookies';
-import { ProdutoCard } from '@/components/ProdutoCard';
-import { Social } from '@/components/Social';
 import {
   Box,
   Button,
+  Grid,
+  GridItem,
   IconButton,
   SimpleGrid,
   Stack,
-  Grid,
-  GridItem,
 } from '@chakra-ui/react';
+import router from 'next/router';
+import { parseCookies } from 'nookies';
+import React, { useContext, useEffect } from 'react';
+import { MdHome, MdShoppingCart } from 'react-icons/md';
 
 const PRODUTO_QUERY = gql`
   query getProdutos {
@@ -126,7 +126,7 @@ function Loja() {
           </CustomChakraNextLink>
         </Stack>
 
-        <Social mt={[4, 8]} />
+        <SocialIcons mt={[4, 8]} />
       </Box>
     </Layout>
   );

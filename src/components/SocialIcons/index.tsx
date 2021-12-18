@@ -1,15 +1,15 @@
-import React from 'react';
-import { FaTiktok } from 'react-icons/fa';
 import { IconButton } from '@chakra-ui/button';
 import { Box, Divider, Heading, HStack, Text } from '@chakra-ui/react';
+import React from 'react';
 import {
   AiFillFacebook,
   AiFillInstagram,
   AiFillTwitterSquare,
 } from 'react-icons/ai';
+import { FaTiktok } from 'react-icons/fa';
 import CustomChakraNextLink from '../CustomChakraNextLink';
 
-export const Social = ({ ...rest }) => {
+export const SocialIcons = ({ ...rest }) => {
   return (
     <Box {...rest}>
       <Divider h="15px" mb={4} />
@@ -31,7 +31,6 @@ export const Social = ({ ...rest }) => {
             icon={<AiFillFacebook size="35px" />}
           />
         </CustomChakraNextLink>
-
         <CustomChakraNextLink href="https://instagram.com/aaafuria">
           <IconButton
             aria-label="Instagram"
