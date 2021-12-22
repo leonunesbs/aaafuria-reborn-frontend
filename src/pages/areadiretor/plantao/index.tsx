@@ -126,7 +126,6 @@ function Plantao() {
                     }}
                     isDisabled={socioData !== null}
                     placeholder=""
-                    autoFocus
                   >
                     <PinInputField borderColor="green.500" />
                     <PinInputField borderColor="green.500" />

@@ -14,14 +14,7 @@ import {
 } from '@chakra-ui/react';
 import router from 'next/router';
 import { parseCookies } from 'nookies';
-import { PixQRCode } from 'pix-react';
 import { useCallback } from 'react';
-
-interface PixTabPanelProps {
-  parentData: {
-    data: CarrinhoData | undefined;
-  };
-}
 
 const CHECKOUT_PLANTAO = gql`
   mutation checkoutPlantao($checkoutId: ID!, $formaPagamento: String!) {
@@ -31,9 +24,15 @@ const CHECKOUT_PLANTAO = gql`
   }
 `;
 
-export const PixTabPanelContent = ({
-  parentData: parentData,
-}: PixTabPanelProps) => {
+interface EspecieTabPanelProps {
+  parentData: {
+    data: CarrinhoData | undefined;
+  };
+}
+
+export const EspecieTabPanelContent = ({
+  parentData,
+}: EspecieTabPanelProps) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const [checkoutPlantao] = useMutation(CHECKOUT_PLANTAO, {
@@ -44,7 +43,7 @@ export const PixTabPanelContent = ({
     },
     variables: {
       checkoutId: parentData.data?.carrinho.id,
-      formaPagamento: 'pix',
+      formaPagamento: 'especie',
     },
   });
 
@@ -54,7 +53,6 @@ export const PixTabPanelContent = ({
     router.push('/areadiretor/plantao/');
   }, [checkoutPlantao, onClose]);
 
-  const chavePix = '02544977302';
   return (
     <>
       <SimpleGrid
@@ -65,27 +63,6 @@ export const PixTabPanelContent = ({
         justifyItems="center"
         alignItems="center"
       >
-        <PixQRCode
-          size={256}
-          renderAs="svg"
-          includeMargin
-          fgColor="gray"
-          pixParams={{
-            chave: chavePix,
-            recebedor: '@aaafuria',
-            cidade: 'Teresina',
-            identificador: `${parentData.data?.carrinho.id}`,
-            valor: parseFloat(parentData.data?.carrinho.total),
-            mensagem: `ID: ${parentData.data?.carrinho.id} - Matrícula: ${parentData.data?.carrinho.user.socio.matricula}`,
-          }}
-          imageSettings={{
-            src: '/calango-verde-3.png',
-            height: 100,
-            width: 100,
-            alt: 'Pix',
-            excavate: false,
-          }}
-        />
         <CustomButtom onClick={onOpen}>Confirmar pagamento</CustomButtom>
       </SimpleGrid>
       <Modal isOpen={isOpen} onClose={onClose}>
@@ -93,7 +70,7 @@ export const PixTabPanelContent = ({
         <ModalContent>
           <ModalHeader>Confirmar pagamento?</ModalHeader>
           <ModalCloseButton />
-          <ModalBody>PIX</ModalBody>
+          <ModalBody>Espécie</ModalBody>
 
           <ModalFooter>
             <CustomButtom color="red" onClick={onClose}>

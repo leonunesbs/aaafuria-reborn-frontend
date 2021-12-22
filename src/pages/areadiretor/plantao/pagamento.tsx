@@ -1,34 +1,27 @@
+import { Card } from '@/components/Card';
 import CustomButtom from '@/components/CustomButtom';
 import CustomChakraNextLink from '@/components/CustomChakraNextLink';
 import Layout from '@/components/Layout';
-import PageHeading from '@/components/PageHeading';
-import { Card } from '@/components/Card';
 import { CartaoCreditoTabPanelContent } from '@/components/pagamento/CartaoCreditoTabPanelContent';
-import { gql, useQuery } from '@apollo/client';
-import { MdArrowLeft } from 'react-icons/md';
+import { EspecieTabPanelContent } from '@/components/pagamento/EspecieTabPanel';
 import { PixTabPanelContent } from '@/components/pagamento/PIXTabPanelContent';
-import { useContext, useEffect } from 'react';
-import { useRouter } from 'next/router';
+import PageHeading from '@/components/PageHeading';
+import { AuthContext } from '@/contexts/AuthContext';
+import { gql, useQuery } from '@apollo/client';
 import {
   Box,
-  Modal,
-  ModalBody,
-  ModalCloseButton,
-  ModalContent,
-  ModalFooter,
-  ModalHeader,
-  ModalOverlay,
   Tab,
   TabList,
   TabPanel,
   TabPanels,
   Tabs,
   Text,
-  useDisclosure,
 } from '@chakra-ui/react';
 import { GetServerSideProps } from 'next';
+import { useRouter } from 'next/router';
 import { parseCookies } from 'nookies';
-import { AuthContext } from '@/contexts/AuthContext';
+import { useContext, useEffect } from 'react';
+import { MdArrowLeft } from 'react-icons/md';
 
 const GET_CARRINHO = gql`
   query getCarrinho($id: ID!) {
@@ -63,7 +56,6 @@ function Pagamento() {
 
   const router = useRouter();
   const { id = '' }: any = router.query;
-  const { isOpen, onOpen, onClose } = useDisclosure();
 
   const { data } = useQuery<CarrinhoData>(GET_CARRINHO, {
     variables: {
@@ -96,16 +88,23 @@ function Pagamento() {
 
           <Tabs isLazy align="center" colorScheme="green" mt={6} isFitted>
             <TabList>
+              <Tab>Espécie</Tab>
               <Tab>PIX</Tab>
               <Tab>Cartão de crédito</Tab>
             </TabList>
 
             <TabPanels>
               <TabPanel>
+                <EspecieTabPanelContent
+                  parentData={{
+                    data,
+                  }}
+                />
+              </TabPanel>
+              <TabPanel>
                 <PixTabPanelContent
                   parentData={{
                     data,
-                    onOpen,
                   }}
                 />
               </TabPanel>
@@ -115,21 +114,6 @@ function Pagamento() {
             </TabPanels>
           </Tabs>
         </Card>
-        <Modal isOpen={isOpen} onClose={onClose}>
-          <ModalOverlay />
-          <ModalContent>
-            <ModalHeader>Confirmar pagamento?</ModalHeader>
-            <ModalCloseButton />
-            <ModalBody>Teste</ModalBody>
-
-            <ModalFooter>
-              <CustomButtom color="red" onClick={onClose}>
-                Fechar
-              </CustomButtom>
-              <CustomButtom mr={3}>Confimar</CustomButtom>
-            </ModalFooter>
-          </ModalContent>
-        </Modal>
         <CustomChakraNextLink href={'/areadiretor/plantao'}>
           <CustomButtom
             leftIcon={<MdArrowLeft size="25px" />}
