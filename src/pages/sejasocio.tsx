@@ -46,9 +46,9 @@ function SejaSocio() {
   const { isAuthenticated, checkCredentials, isSocio } =
     useContext(AuthContext);
   const planos = [
-    { nome: 'Mensal', valor: '14,90' },
-    { nome: 'Semestral', valor: '84,90', best: true },
-    { nome: 'Anual', valor: '169,80' },
+    { nome: 'Mensal', valor: '24,90' },
+    { nome: 'Semestral', valor: '99,50', best: true },
+    { nome: 'Anual', valor: '198,00' },
   ];
 
   useEffect(() => {
