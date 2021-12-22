@@ -135,6 +135,7 @@ function SejaSocio() {
                   <Heading as="h3" size="md">
                     Plano {plano.nome}
                   </Heading>
+
                   <Text fontSize="2xl" fontWeight="extrabold" color="green">
                     R${plano.valor}
                     <Text fontSize="lg" fontWeight="light" as="i" color="black">
@@ -142,6 +143,11 @@ function SejaSocio() {
                       {plano.nome === 'Semestral' && '/semestre'}
                       {plano.nome === 'Anual' && '/ano'}
                     </Text>
+                  </Text>
+
+                  <Text textAlign="center" as="em">
+                    Assine agora e aproveite 10% de desconto nos primeiros 12
+                    meses da <strong>primeira associação</strong>!
                   </Text>
 
                   <Popover placement="top">
