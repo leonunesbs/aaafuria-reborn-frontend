@@ -17,7 +17,7 @@ const defaultOptions: DefaultOptions = {
 };
 
 const httpLink = createHttpLink({
-  uri: 'https://aaafuria-reborn.herokuapp.com/graphql',
+  uri: 'https://backend.aaafuria.site/graphql',
   credentials: 'same-origin',
 });
 
