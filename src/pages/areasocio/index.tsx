@@ -1,26 +1,32 @@
 import AreaSocioMenu from '@/components/AreaSocioMenu';
+import { Card } from '@/components/Card';
 import Layout from '@/components/Layout';
 import PageHeading from '@/components/PageHeading';
-import React, { useContext, useEffect } from 'react';
 import { AuthContext } from '@/contexts/AuthContext';
-import { Box } from '@chakra-ui/react';
-import { Card } from '@/components/Card';
-import { parseCookies } from 'nookies';
-import { useRouter } from 'next/router';
+import { Box, useToast } from '@chakra-ui/react';
 import { GetServerSideProps } from 'next';
+import { useRouter } from 'next/router';
+import { parseCookies } from 'nookies';
+import React, { useContext, useEffect } from 'react';
 
 function AreaSocio() {
   const router = useRouter();
   const { checkCredentials, isSocio } = useContext(AuthContext);
+  const toast = useToast();
 
   useEffect(() => {
     checkCredentials();
 
     if (isSocio === false) {
-      alert('Você não tem permissão para acessar esta área.');
+      toast({
+        description: 'Você não tem permissão para acessar esta área.',
+        status: 'warning',
+        duration: 2000,
+        isClosable: true,
+      });
       router.push('/sejasocio');
     }
-  }, [checkCredentials, isSocio, router]);
+  }, [checkCredentials, isSocio, router, toast]);
 
   return (
     <Layout title="Área do Socio">

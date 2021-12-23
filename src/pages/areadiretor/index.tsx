@@ -1,26 +1,33 @@
 import AreaDiretorMenu from '@/components/AreaDiretorMenu';
+import { Card } from '@/components/Card';
 import Layout from '@/components/Layout';
 import PageHeading from '@/components/PageHeading';
-import React, { useContext, useEffect } from 'react';
 import { AuthContext } from '@/contexts/AuthContext';
-import { Box } from '@chakra-ui/react';
-import { Card } from '@/components/Card';
+import { Box, useToast } from '@chakra-ui/react';
 import { GetServerSideProps } from 'next';
-import { parseCookies } from 'nookies';
 import { useRouter } from 'next/router';
+import { parseCookies } from 'nookies';
+import React, { useContext, useEffect } from 'react';
 
 function AreaDiretor() {
   const router = useRouter();
+  const toast = useToast();
   const { checkCredentials, isStaff } = useContext(AuthContext);
 
   useEffect(() => {
     checkCredentials();
 
     if (isStaff === false) {
-      alert('Você não tem permissão para acessar esta área.');
+      toast({
+        title: 'Restrito.',
+        description: 'Você não tem permissão para acessar esta área.',
+        status: 'warning',
+        duration: 2000,
+        isClosable: true,
+      });
       router.push('/');
     }
-  }, [checkCredentials, isStaff, router]);
+  }, [checkCredentials, isStaff, router, toast]);
 
   return (
     <Layout title="Área do Diretor">

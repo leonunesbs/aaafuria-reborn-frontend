@@ -1,32 +1,33 @@
-import PageHeading from '@/components/PageHeading';
-import React, { useCallback, useContext, useEffect } from 'react';
-import { AiFillHome } from 'react-icons/ai';
-import { AuthContext } from '@/contexts/AuthContext';
+import CadastroDrawer from '@/components/CadastroDrawer';
 import { Card } from '@/components/Card';
-import { GetServerSideProps } from 'next';
+import CustomButtom from '@/components/CustomButtom';
+import Layout from '@/components/Layout';
+import PageHeading from '@/components/PageHeading';
+import { AuthContext } from '@/contexts/AuthContext';
 import { gql, useQuery } from '@apollo/client';
-import { MdLogin } from 'react-icons/md';
-import { parseCookies } from 'nookies';
-import { SubmitHandler, useForm } from 'react-hook-form';
-import { useRouter } from 'next/router';
 import {
   Box,
+  Center,
+  chakra,
   FormControl,
-  Text,
   FormLabel,
   HStack,
+  Image,
   Input,
   PinInput,
   PinInputField,
   Stack,
-  Image,
-  Center,
-  chakra,
+  Text,
   useDisclosure,
+  useToast,
 } from '@chakra-ui/react';
-import CadastroDrawer from '@/components/CadastroDrawer';
-import CustomButtom from '@/components/CustomButtom';
-import Layout from '@/components/Layout';
+import { GetServerSideProps } from 'next';
+import { useRouter } from 'next/router';
+import { parseCookies } from 'nookies';
+import React, { useCallback, useContext, useEffect } from 'react';
+import { SubmitHandler, useForm } from 'react-hook-form';
+import { AiFillHome } from 'react-icons/ai';
+import { MdLogin } from 'react-icons/md';
 
 const QUERY = gql`
   query BuscarSocio($username: String!) {
@@ -57,6 +58,8 @@ export default function Entrar() {
 
   const [matricula, setMatricula] = React.useState('');
   const [errorMesage, setErrorMesage] = React.useState('');
+
+  const toast = useToast();
 
   const ChakraNextImage = chakra(Image);
 
@@ -104,7 +107,12 @@ export default function Entrar() {
         if (query?.data?.allSocio?.edges?.length === 0) {
           setEntrar(false);
           localStorage.setItem('aaafuria@signUpMatricula', mtr);
-          alert('Matrícula não encontrada. Cadastre-se a seguir!');
+          toast({
+            description: 'Matrícula não encontrada. Cadastre-se!',
+            status: 'info',
+            duration: 2000,
+            isClosable: true,
+          });
           onOpen();
         } else {
           setEntrar(true);
@@ -117,7 +125,7 @@ export default function Entrar() {
 
       setLoading(false);
     },
-    [entrar, onOpen, query, router.query, signIn, signOut],
+    [entrar, onOpen, query, router.query, signIn, signOut, toast],
   );
 
   return (

@@ -1,25 +1,13 @@
+import { Card } from '@/components/Card';
 import CustomButtom from '@/components/CustomButtom';
 import CustomChakraNextLink from '@/components/CustomChakraNextLink';
 import Layout from '@/components/Layout';
 import LojaPlantao from '@/components/LojaPlantao';
 import PageHeading from '@/components/PageHeading';
-import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { AuthContext } from '@/contexts/AuthContext';
-import { Card } from '@/components/Card';
-import { GetServerSideProps } from 'next';
 import { gql, useQuery } from '@apollo/client';
-import { parseCookies } from 'nookies';
-import { SubmitHandler, useForm } from 'react-hook-form';
-import { useRouter } from 'next/router';
-import {
-  MdArrowLeft,
-  MdCheck,
-  MdRefresh,
-  MdShoppingCart,
-} from 'react-icons/md';
 import {
   Box,
-  Text,
   FormControl,
   FormLabel,
   HStack,
@@ -27,7 +15,20 @@ import {
   PinInput,
   PinInputField,
   Stack,
+  Text,
+  useToast,
 } from '@chakra-ui/react';
+import { GetServerSideProps } from 'next';
+import { useRouter } from 'next/router';
+import { parseCookies } from 'nookies';
+import React, { useCallback, useContext, useEffect, useState } from 'react';
+import { SubmitHandler, useForm } from 'react-hook-form';
+import {
+  MdArrowLeft,
+  MdCheck,
+  MdRefresh,
+  MdShoppingCart,
+} from 'react-icons/md';
 
 const QUERY_SOCIO = gql`
   query socioByMatricula($matricula: String!) {
@@ -52,6 +53,7 @@ function Plantao() {
   const matriculaForm = useForm<Inputs>();
   const router = useRouter();
   const { m }: any = router.query;
+  const toast = useToast();
 
   const query = useQuery(QUERY_SOCIO, {
     variables: {
@@ -74,11 +76,16 @@ function Plantao() {
       query.refetch({ matricula }).then(({ data }) => {
         setSocioData(data.socioByMatricula);
         if (!data.socioByMatricula) {
-          alert('Matrícula não encontrada');
+          toast({
+            description: 'Matrícula não encontrada.',
+            status: 'warning',
+            duration: 2000,
+            isClosable: true,
+          });
           handleRestart();
         }
       }),
-    [handleRestart, query],
+    [handleRestart, query, toast],
   );
 
   const submitMatricula: SubmitHandler<Inputs> = useCallback(

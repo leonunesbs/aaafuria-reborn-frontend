@@ -1,7 +1,5 @@
-import InputMask from 'react-input-mask';
-import PageHeading from '../PageHeading';
-import React from 'react';
 import { AuthContext } from '@/contexts/AuthContext';
+import { gql, useMutation } from '@apollo/client';
 import {
   Drawer,
   DrawerBody,
@@ -17,13 +15,15 @@ import {
   PinInputField,
   Stack,
   Text,
+  useToast,
 } from '@chakra-ui/react';
-import { gql, useMutation } from '@apollo/client';
-import { useContext, useEffect } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
-import CustomButtom from '../CustomButtom';
+import InputMask from 'react-input-mask';
 import { Card } from '../Card';
+import CustomButtom from '../CustomButtom';
 import Layout from '../Layout';
+import PageHeading from '../PageHeading';
 
 interface CadastroDrawerProps {
   isOpen: boolean;
@@ -79,6 +79,7 @@ const NOVO_USER = gql`
 function CadastroDrawer({ isOpen, onClose, ...rest }: CadastroDrawerProps) {
   const { register, handleSubmit, setValue } = useForm<Inputs>();
   const [matricula, setMatricula] = React.useState('');
+  const toast = useToast();
 
   const { signIn } = useContext(AuthContext);
 
@@ -91,7 +92,12 @@ function CadastroDrawer({ isOpen, onClose, ...rest }: CadastroDrawerProps) {
 
   const signUp = async (data: Inputs) => {
     if (data.pin !== data.pin_confirmar) {
-      alert('PINs não conferem');
+      toast({
+        description: 'Os PINs inseridos são diferentes.',
+        status: 'warning',
+        duration: 2000,
+        isClosable: true,
+      });
       return;
     }
 

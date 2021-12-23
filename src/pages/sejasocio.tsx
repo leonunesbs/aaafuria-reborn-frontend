@@ -21,6 +21,7 @@ import {
   SimpleGrid,
   Stack,
   Text,
+  useToast,
 } from '@chakra-ui/react';
 import { useRouter } from 'next/router';
 import { parseCookies } from 'nookies';
@@ -40,6 +41,7 @@ const NOVO_PAGAMENTO = gql`
 
 function SejaSocio() {
   const router = useRouter();
+  const toast = useToast();
   const { ['aaafuriaToken']: token } = parseCookies();
   const [mutateFunction, { loading, data }] = useMutation(NOVO_PAGAMENTO);
 
@@ -60,10 +62,15 @@ function SejaSocio() {
   useEffect(() => {
     checkCredentials();
     if (isSocio) {
-      alert('Você já é um sócio!');
+      toast({
+        description: 'Você já é Sócio.',
+        status: 'info',
+        duration: 2000,
+        isClosable: true,
+      });
       router.push('/areasocio');
     }
-  }, [checkCredentials, isSocio, router]);
+  }, [checkCredentials, isSocio, router, toast]);
 
   const handlePagar = useCallback(
     (tipoPlano: string) => {
