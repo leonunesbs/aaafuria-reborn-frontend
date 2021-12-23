@@ -112,6 +112,7 @@ export default function Entrar() {
             status: 'info',
             duration: 2000,
             isClosable: true,
+            position: 'top',
           });
           onOpen();
         } else {
