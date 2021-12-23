@@ -10,7 +10,7 @@ interface LayoutProps extends BoxProps {
 }
 
 function Layout({ children, title, desc }: LayoutProps) {
-  const bg = useColorModeValue('gray.50', 'inherit');
+  const bg = useColorModeValue('gray.50', 'gray.900');
   const router = useRouter();
 
   return (
