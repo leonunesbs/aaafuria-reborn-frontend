@@ -91,6 +91,7 @@ export const ProdutoCard = ({ node }: ProdutoCardProps) => {
           title: `[${node.nome}] adicionado ao carrinho!`,
           status: 'success',
           isClosable: true,
+          position: 'top-left',
         });
       });
     },

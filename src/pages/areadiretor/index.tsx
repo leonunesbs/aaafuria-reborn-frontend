@@ -22,8 +22,9 @@ function AreaDiretor() {
         title: 'Restrito.',
         description: 'Você não tem permissão para acessar esta área.',
         status: 'warning',
-        duration: 2000,
+        duration: 2500,
         isClosable: true,
+        position: 'top-left',
       });
       router.push('/');
     }

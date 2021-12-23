@@ -65,8 +65,9 @@ function SejaSocio() {
       toast({
         description: 'Você já é Sócio.',
         status: 'info',
-        duration: 2000,
+        duration: 2500,
         isClosable: true,
+        position: 'top-left',
       });
       router.push('/areasocio');
     }

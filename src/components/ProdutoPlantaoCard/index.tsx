@@ -86,6 +86,7 @@ function ProdutoPlantaoCard({ node, matriculaSocio }: ProdutoPlantaoCardProps) {
           title: `[${node.nome}] adicionado ao carrinho!`,
           status: 'success',
           isClosable: true,
+          position: 'top-left',
         });
       });
     },

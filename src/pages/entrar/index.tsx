@@ -35,6 +35,7 @@ const QUERY = gql`
       edges {
         node {
           nome
+          apelido
         }
       }
     }
@@ -99,6 +100,13 @@ export default function Entrar() {
           setErrorMesage(err.message);
           signOut();
         });
+        toast({
+          description: `Olá ${query.data?.allSocio.edges[0].node.apelido}, bem vind@ de volta!`,
+          status: 'success',
+          duration: 2500,
+          isClosable: true,
+          position: 'top-left',
+        });
       }
 
       if (mtr.length === 8) {
@@ -110,9 +118,9 @@ export default function Entrar() {
           toast({
             description: 'Matrícula não encontrada. Cadastre-se!',
             status: 'info',
-            duration: 2000,
+            duration: 2500,
             isClosable: true,
-            position: 'top',
+            position: 'top-left',
           });
           onOpen();
         } else {

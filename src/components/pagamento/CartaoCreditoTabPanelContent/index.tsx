@@ -62,6 +62,7 @@ export const CartaoCreditoTabPanelContent = ({
       status: 'success',
       duration: 5000,
       isClosable: true,
+      position: 'top-left',
     });
   }, [toast]);
 

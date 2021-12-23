@@ -79,8 +79,9 @@ function Plantao() {
           toast({
             description: 'Matrícula não encontrada.',
             status: 'warning',
-            duration: 2000,
+            duration: 2500,
             isClosable: true,
+            position: 'top-left',
           });
           handleRestart();
         }

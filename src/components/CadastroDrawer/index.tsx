@@ -95,8 +95,9 @@ function CadastroDrawer({ isOpen, onClose, ...rest }: CadastroDrawerProps) {
       toast({
         description: 'Os PINs inseridos são diferentes.',
         status: 'warning',
-        duration: 2000,
+        duration: 2500,
         isClosable: true,
+        position: 'top-left',
       });
       return;
     }
