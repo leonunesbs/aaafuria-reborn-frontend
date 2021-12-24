@@ -33,7 +33,7 @@ function AreaDiretorMenu({ ...rest }: AreaDiretorMenuProps) {
           colorScheme="yellow"
           hasExternalIcon
           chakraLinkProps={{
-            target: "_blank"
+            target: '_blank'
           }}
         >
           Painel
