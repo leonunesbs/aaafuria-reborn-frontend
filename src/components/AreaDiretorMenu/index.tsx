@@ -1,32 +1,26 @@
+import { Divider, Stack, StackProps } from '@chakra-ui/react';
+import React from 'react';
+import { AiFillHome, AiFillSetting } from 'react-icons/ai';
+import { MdStore } from 'react-icons/md';
 import CustomButtom from '../CustomButtom';
 import CustomChakraNextLink from '../CustomChakraNextLink';
-import React from 'react';
-import router from 'next/router';
-import { AiFillHome, AiFillSetting } from 'react-icons/ai';
-import { Divider, Stack, StackProps } from '@chakra-ui/react';
-import { MdStore } from 'react-icons/md';
 
 type AreaDiretorMenuProps = StackProps;
 
 function AreaDiretorMenu({ ...rest }: AreaDiretorMenuProps) {
   return (
     <Stack {...rest}>
-      <CustomButtom
-        leftIcon={<MdStore size="20px" />}
-        onClick={() => router.push('/areadiretor/plantao')}
-      >
-        Plantão
-      </CustomButtom>
+      <CustomChakraNextLink href="/areadiretor/plantao">
+        <CustomButtom leftIcon={<MdStore size="20px" />}>Plantão</CustomButtom>
+      </CustomChakraNextLink>
 
       <Divider height="15px" />
 
-      <CustomButtom
-        leftIcon={<AiFillHome size="20px" />}
-        colorScheme="gray"
-        onClick={() => router.push('/')}
-      >
-        Voltar
-      </CustomButtom>
+      <CustomChakraNextLink href="/">
+        <CustomButtom leftIcon={<AiFillHome size="20px" />} colorScheme="gray">
+          Voltar
+        </CustomButtom>
+      </CustomChakraNextLink>
       <CustomChakraNextLink
         chakraLinkProps={{
           target: '_blank',
