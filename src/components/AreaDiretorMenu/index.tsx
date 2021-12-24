@@ -29,7 +29,7 @@ function AreaDiretorMenu({ ...rest }: AreaDiretorMenuProps) {
       </CustomButtom>
       <CustomChakraNextLink href={`${process.env.BACKEND_DOMAIN}/admin`}>
         <CustomButtom
-          leftIcon={<AifillSetting size="20px" />}
+          leftIcon={<AiFillSetting size="20px" />}
           colorScheme="yellow"
           hasExternalIcon
         >
