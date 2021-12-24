@@ -11,7 +11,7 @@ module.exports = withPWA({
     domains: ['picsum.photos'],
   },
   env: {
-    BACKEND_DOMAIN: 'https://aaafuria-reborn.herokuapp.com',
+    BACKEND_DOMAIN: 'https://backend.aaafuria.site',
     NEXT_PUBLIC_GA_ID: 'G-K5LPGWWJL1',
   },
 });
