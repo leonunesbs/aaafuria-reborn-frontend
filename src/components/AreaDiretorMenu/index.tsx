@@ -1,9 +1,10 @@
-import React from 'react';
-import router from 'next/router';
-import { AiFillHome } from 'react-icons/ai';
-import { Divider, Stack, StackProps } from '@chakra-ui/react';
-import { MdStore } from 'react-icons/md';
-import CustomButtom from '../CustomButtom';
+import React from "react";
+import router from "next/router";
+import { AiFillHome, AiFillSetting } from "react-icons/ai";
+import { Divider, Stack, StackProps } from "@chakra-ui/react";
+import { MdStore } from "react-icons/md";
+import CustomButtom from "../CustomButtom";
+import CustomChakraNextLink from "../CustomChakraNextLink";
 
 type AreaDiretorMenuProps = StackProps;
 
@@ -12,7 +13,7 @@ function AreaDiretorMenu({ ...rest }: AreaDiretorMenuProps) {
     <Stack {...rest}>
       <CustomButtom
         leftIcon={<MdStore size="20px" />}
-        onClick={() => router.push('/areadiretor/plantao')}
+        onClick={() => router.push("/areadiretor/plantao")}
       >
         Plantão
       </CustomButtom>
@@ -22,10 +23,19 @@ function AreaDiretorMenu({ ...rest }: AreaDiretorMenuProps) {
       <CustomButtom
         leftIcon={<AiFillHome size="20px" />}
         colorScheme="gray"
-        onClick={() => router.push('/')}
+        onClick={() => router.push("/")}
       >
         Voltar
       </CustomButtom>
+      <CustomChakraNextLink href={`${process.env.BACKEND_DOMAIN}/admin`}>
+        <CustomButtom
+          leftIcon={<AifillSetting size="20px" />}
+          colorScheme="yellow"
+          hasExternalIcon
+        >
+          Painel
+        </CustomButtom>
+      </CustomChakraNextLink>
     </Stack>
   );
 }
