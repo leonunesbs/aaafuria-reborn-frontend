@@ -13,14 +13,6 @@ function AreaDiretorMenu({ ...rest }: AreaDiretorMenuProps) {
       <CustomChakraNextLink href="/areadiretor/plantao">
         <CustomButtom leftIcon={<MdStore size="20px" />}>Plantão</CustomButtom>
       </CustomChakraNextLink>
-
-      <Divider height="15px" />
-
-      <CustomChakraNextLink href="/">
-        <CustomButtom leftIcon={<AiFillHome size="20px" />} colorScheme="gray">
-          Voltar
-        </CustomButtom>
-      </CustomChakraNextLink>
       <CustomChakraNextLink
         chakraLinkProps={{
           target: '_blank',
@@ -35,6 +27,15 @@ function AreaDiretorMenu({ ...rest }: AreaDiretorMenuProps) {
           Painel
         </CustomButtom>
       </CustomChakraNextLink>
+
+      <Divider height="15px" />
+
+      <CustomChakraNextLink href="/">
+        <CustomButtom leftIcon={<AiFillHome size="20px" />} colorScheme="gray">
+          Voltar
+        </CustomButtom>
+      </CustomChakraNextLink>
+
     </Stack>
   );
 }
