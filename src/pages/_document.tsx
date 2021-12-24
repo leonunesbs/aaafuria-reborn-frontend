@@ -8,10 +8,7 @@ class Document extends NextDocument {
     return (
       <Html lang="pt-br">
         <Head>
-          <link
-            rel="preconnect"
-            href="https://backend.aaafuria.site/graphql"
-          />
+          <link rel="preconnect" href="https://backend.aaafuria.site/graphql" />
           <meta name="apple-mobile-web-app-title" content="@aaafuria" />
           <meta name="apple-mobile-web-app-capable" content="yes" />
 
