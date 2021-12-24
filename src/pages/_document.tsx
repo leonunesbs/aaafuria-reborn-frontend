@@ -10,7 +10,7 @@ class Document extends NextDocument {
         <Head>
           <link
             rel="preconnect"
-            href="https://aaafuria-reborn.herokuapp.com/graphql"
+            href="https://backend.aaafuria.site/graphql"
           />
           <meta name="apple-mobile-web-app-title" content="@aaafuria" />
           <meta name="apple-mobile-web-app-capable" content="yes" />
