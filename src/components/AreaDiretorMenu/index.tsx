@@ -35,7 +35,6 @@ function AreaDiretorMenu({ ...rest }: AreaDiretorMenuProps) {
           Voltar
         </CustomButtom>
       </CustomChakraNextLink>
-
     </Stack>
   );
 }
