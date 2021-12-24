@@ -21,6 +21,7 @@ import {
   SimpleGrid,
   Stack,
   Text,
+  useColorModeValue,
   useToast,
 } from '@chakra-ui/react';
 import { useRouter } from 'next/router';
@@ -44,6 +45,7 @@ function SejaSocio() {
   const toast = useToast();
   const { ['aaafuriaToken']: token } = parseCookies();
   const [mutateFunction, { loading, data }] = useMutation(NOVO_PAGAMENTO);
+  const color = useColorModeValue('black', 'white');
 
   const { isAuthenticated, checkCredentials, isSocio } =
     useContext(AuthContext);
@@ -146,7 +148,7 @@ function SejaSocio() {
 
                   <Text fontSize="2xl" fontWeight="extrabold" color="green">
                     R${plano.valor}
-                    <Text fontSize="lg" fontWeight="light" as="i" color="black">
+                    <Text fontSize="lg" fontWeight="light" as="i" color={color}>
                       {plano.nome === 'Mensal' && '/mês'}
                       {plano.nome === 'Semestral' && '/semestre'}
                       {plano.nome === 'Anual' && '/ano'}
