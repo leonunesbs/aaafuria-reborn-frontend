@@ -11,7 +11,6 @@ class Document extends NextDocument {
           <link rel="preconnect" href="https://backend.aaafuria.site/graphql" />
           <meta name="apple-mobile-web-app-title" content="@aaafuria" />
           <meta name="apple-mobile-web-app-capable" content="yes" />
-
           <link
             rel="apple-touch-icon"
             sizes="180x180"
