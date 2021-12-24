@@ -27,14 +27,16 @@ function AreaDiretorMenu({ ...rest }: AreaDiretorMenuProps) {
       >
         Voltar
       </CustomButtom>
-      <CustomChakraNextLink href={`${process.env.BACKEND_DOMAIN}/admin`}>
+      <CustomChakraNextLink
+        chakraLinkProps={{
+          target: "_blank",
+        }}
+        href={`${process.env.BACKEND_DOMAIN}/admin`}
+      >
         <CustomButtom
           leftIcon={<AiFillSetting size="20px" />}
           colorScheme="yellow"
           hasExternalIcon
-          chakraLinkProps={{
-            target: '_blank'
-          }}
         >
           Painel
         </CustomButtom>
