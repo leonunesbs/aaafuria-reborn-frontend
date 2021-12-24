@@ -32,6 +32,9 @@ function AreaDiretorMenu({ ...rest }: AreaDiretorMenuProps) {
           leftIcon={<AiFillSetting size="20px" />}
           colorScheme="yellow"
           hasExternalIcon
+          chakraLinkProps={{
+            target="_blank"
+          }}
         >
           Painel
         </CustomButtom>
