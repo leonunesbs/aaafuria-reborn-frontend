@@ -17,7 +17,7 @@ function AreaDiretorMenu({ ...rest }: AreaDiretorMenuProps) {
         chakraLinkProps={{
           target: '_blank',
         }}
-        href={`${process.env.BACKEND_DOMAIN}/admin`}
+        href="https://diretoria.aaafuria.site/admin"
       >
         <CustomButtom
           leftIcon={<AiFillSetting size="20px" />}
