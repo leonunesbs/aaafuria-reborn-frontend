@@ -34,7 +34,7 @@ function Atividades({}: AtividadesProps) {
           {isStaff && (
             <>
               <CustomChakraNextLink
-                href={`${process.env.BACKEND_DOMAIN}/admin/atividades/programacao/add/`}
+                href="https://diretoria.aaafuria.site/admin/atividades/programacao/add"
                 chakraLinkProps={{
                   target: '_blank',
                 }}
@@ -48,7 +48,7 @@ function Atividades({}: AtividadesProps) {
                 </CustomButtom>
               </CustomChakraNextLink>
               <CustomChakraNextLink
-                href={`${process.env.BACKEND_DOMAIN}/admin/atividades/programacao`}
+                href="https://diretoria.aaafuria.site/admin/atividades/programacao"
                 chakraLinkProps={{
                   target: '_blank',
                 }}
