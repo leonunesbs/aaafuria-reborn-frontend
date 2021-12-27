@@ -1,6 +1,7 @@
 import CadastroDrawer from '@/components/CadastroDrawer';
 import { Card } from '@/components/Card';
 import CustomButtom from '@/components/CustomButtom';
+import CustomChakraNextLink from '@/components/CustomChakraNextLink';
 import Layout from '@/components/Layout';
 import PageHeading from '@/components/PageHeading';
 import { AuthContext } from '@/contexts/AuthContext';
@@ -185,31 +186,44 @@ export default function Entrar() {
                 </HStack>
               </FormControl>
               {entrar && (
-                <FormControl>
-                  <FormLabel>PIN: </FormLabel>
-                  <HStack>
-                    <Input type="hidden" {...register('pin')} />
-                    <PinInput
-                      size="lg"
-                      mask
-                      focusBorderColor="green.500"
-                      onChange={(value) => setValue('pin', value)}
-                    >
-                      <PinInputField />
-                      <PinInputField />
-                      <PinInputField />
-                      <PinInputField />
-                      <PinInputField />
-                      <PinInputField />
-                    </PinInput>
-                  </HStack>
-                </FormControl>
+                <>
+                  <FormControl>
+                    <FormLabel>PIN: </FormLabel>
+                    <HStack>
+                      <Input type="hidden" {...register('pin')} />
+                      <PinInput
+                        size="lg"
+                        mask
+                        focusBorderColor="green.500"
+                        onChange={(value) => setValue('pin', value)}
+                      >
+                        <PinInputField />
+                        <PinInputField />
+                        <PinInputField />
+                        <PinInputField />
+                        <PinInputField />
+                        <PinInputField />
+                      </PinInput>
+                    </HStack>
+                  </FormControl>
+                  <CustomChakraNextLink
+                    href="https://diretoria.aaafuria.site/accounts/password_reset/"
+                    chakraLinkProps={{
+                      color: 'green',
+                      textAlign: 'right',
+                      mt: 4,
+                    }}
+                  >
+                    Esqueceu o seu PIN?
+                  </CustomChakraNextLink>
+                </>
               )}
               {errorMesage && (
                 <Text textAlign="center" textColor="gray.500">
                   <i>{errorMesage}</i>
                 </Text>
               )}
+
               <Stack>
                 <CustomButtom
                   leftIcon={<MdLogin size="20px" />}
