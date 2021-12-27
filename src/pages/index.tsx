@@ -1,12 +1,16 @@
-import AuthenticatedHomeMenu from '@/components/AuthenticatedHomeMenu';
-import { Card } from '@/components/Card';
-import CustomButtom from '@/components/CustomButtom';
-import CustomChakraNextLink from '@/components/CustomChakraNextLink';
-import HomeMenu from '@/components/HomeMenu';
-import Layout from '@/components/Layout';
-import PageHeading from '@/components/PageHeading';
-import SejaSocioButton from '@/components/SejaSocioButton';
-import { SocialIcons } from '@/components/SocialIcons';
+import {
+  CustomButtom,
+  CustomChakraNextLink,
+  PageHeading,
+  SejaSocioButton,
+} from '@/components/atoms';
+import {
+  AuthenticatedHomeMenu,
+  Card,
+  HomeMenu,
+  SocialIcons,
+} from '@/components/molecules';
+import { Layout } from '@/components/templates';
 import { AuthContext } from '@/contexts/AuthContext';
 import {
   Box,

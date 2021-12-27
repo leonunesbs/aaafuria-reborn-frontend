@@ -1,7 +1,6 @@
-import { Card } from '@/components/Card';
-import Layout from '@/components/Layout';
-import PageHeading from '@/components/PageHeading';
-import { SocialIcons } from '@/components/SocialIcons';
+import { PageHeading } from '@/components/atoms';
+import { Card, SocialIcons } from '@/components/molecules';
+import { Layout } from '@/components/templates';
 import { AuthContext } from '@/contexts/AuthContext';
 import { gql, useMutation } from '@apollo/client';
 import {

@@ -1,13 +1,13 @@
-import { Analytics } from '@/components/Analytics';
-import { AuthProvider } from '@/contexts/AuthContext';
-import { theme } from '@/styles/theme';
-import { ApolloProvider } from '@apollo/client';
-import { ChakraProvider } from '@chakra-ui/react';
 import * as gtag from 'lib/gtag';
-import { AppProps } from 'next/app';
-import { useRouter } from 'next/router';
-import React, { useEffect } from 'react';
 import client from '../services/apollo-client';
+import React, { useEffect } from 'react';
+import { Analytics } from '@/components/atoms';
+import { ApolloProvider } from '@apollo/client';
+import { AppProps } from 'next/app';
+import { AuthProvider } from '@/contexts/AuthContext';
+import { ChakraProvider } from '@chakra-ui/react';
+import { theme } from '@/styles/theme';
+import { useRouter } from 'next/router';
 
 export default function MyApp({ Component, pageProps }: AppProps) {
   const router = useRouter();

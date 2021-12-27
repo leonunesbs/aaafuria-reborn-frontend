@@ -1,17 +1,18 @@
-import AtividadesSocioTable from '@/components/AtividadesSocioTable';
-import CustomButtom from '@/components/CustomButtom';
-import CustomChakraNextLink from '@/components/CustomChakraNextLink';
-import Layout from '@/components/Layout';
-import PageHeading from '@/components/PageHeading';
 import router from 'next/router';
 import { AiOutlineCalendar } from 'react-icons/ai';
+import { AtividadesSocioTable, Card } from '@/components/molecules';
 import { AuthContext } from '@/contexts/AuthContext';
 import { Box, Stack } from '@chakra-ui/react';
-import { Card } from '@/components/Card';
 import { FaArrowLeft, FaPlus } from 'react-icons/fa';
-import { useContext, useEffect } from 'react';
 import { GetServerSideProps } from 'next';
+import { Layout } from '@/components/templates';
 import { parseCookies } from 'nookies';
+import { useContext, useEffect } from 'react';
+import {
+  CustomButtom,
+  CustomChakraNextLink,
+  PageHeading,
+} from '@/components/atoms';
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 interface AtividadesProps {}

@@ -1,13 +1,13 @@
-import AreaDiretorMenu from '@/components/AreaDiretorMenu';
-import { Card } from '@/components/Card';
-import Layout from '@/components/Layout';
-import PageHeading from '@/components/PageHeading';
+import React, { useContext, useEffect } from 'react';
 import { AuthContext } from '@/contexts/AuthContext';
 import { Box, useToast } from '@chakra-ui/react';
 import { GetServerSideProps } from 'next';
-import { useRouter } from 'next/router';
 import { parseCookies } from 'nookies';
-import React, { useContext, useEffect } from 'react';
+import { useRouter } from 'next/router';
+
+import { AreaDiretorMenu, Card } from '@/components/molecules';
+import { Layout } from '@/components/templates';
+import { PageHeading } from '@/components/atoms';
 
 function AreaDiretor() {
   const router = useRouter();

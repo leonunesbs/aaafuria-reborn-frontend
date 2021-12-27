@@ -1,8 +1,4 @@
-import CustomButtom from '@/components/CustomButtom';
-import Layout from '@/components/Layout';
-import PageHeading from '@/components/PageHeading';
 import { AuthContext } from '@/contexts/AuthContext';
-import { Card } from '@/components/Card';
 import { GetServerSideProps } from 'next';
 import { gql, useMutation, useQuery } from '@apollo/client';
 import { MdArrowLeft, MdDelete, MdPayment } from 'react-icons/md';
@@ -21,6 +17,9 @@ import {
   Box,
   HStack,
 } from '@chakra-ui/react';
+import { PageHeading, CustomButtom } from '@/components/atoms';
+import { Card } from '@/components/molecules';
+import { Layout } from '@/components/templates';
 
 const GET_PLANTAO_CARRINHO = gql`
   query getPlantaoCarrinho($matriculaSocio: String!) {

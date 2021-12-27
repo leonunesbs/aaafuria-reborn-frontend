@@ -1,13 +1,22 @@
-import { Card } from '@/components/Card';
-import CustomButtom from '@/components/CustomButtom';
-import CustomChakraNextLink from '@/components/CustomChakraNextLink';
-import Layout from '@/components/Layout';
-import { CartaoCreditoTabPanelContent } from '@/components/pagamento/CartaoCreditoTabPanelContent';
-import { EspecieTabPanelContent } from '@/components/pagamento/EspecieTabPanel';
-import { PixTabPanelContent } from '@/components/pagamento/PIXTabPanelContent';
-import PageHeading from '@/components/PageHeading';
 import { AuthContext } from '@/contexts/AuthContext';
+import { GetServerSideProps } from 'next';
 import { gql, useQuery } from '@apollo/client';
+import { Layout } from '@/components/templates';
+import { MdArrowLeft } from 'react-icons/md';
+import { parseCookies } from 'nookies';
+import { useContext, useEffect } from 'react';
+import { useRouter } from 'next/router';
+import {
+  PageHeading,
+  CustomChakraNextLink,
+  CustomButtom,
+} from '@/components/atoms';
+import {
+  Card,
+  EspecieTabPanelContent,
+  PixTabPanelContent,
+  CartaoCreditoTabPanelContent,
+} from '@/components/molecules';
 import {
   Box,
   Tab,
@@ -17,11 +26,6 @@ import {
   Tabs,
   Text,
 } from '@chakra-ui/react';
-import { GetServerSideProps } from 'next';
-import { useRouter } from 'next/router';
-import { parseCookies } from 'nookies';
-import { useContext, useEffect } from 'react';
-import { MdArrowLeft } from 'react-icons/md';
 
 const GET_CARRINHO = gql`
   query getCarrinho($id: ID!) {

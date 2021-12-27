@@ -1,11 +1,19 @@
-import CadastroDrawer from '@/components/CadastroDrawer';
-import { Card } from '@/components/Card';
-import CustomButtom from '@/components/CustomButtom';
-import CustomChakraNextLink from '@/components/CustomChakraNextLink';
-import Layout from '@/components/Layout';
-import PageHeading from '@/components/PageHeading';
+import React, { useCallback, useContext, useEffect } from 'react';
+import { AiFillHome } from 'react-icons/ai';
 import { AuthContext } from '@/contexts/AuthContext';
+import { CadastroDrawer, Card } from '@/components/molecules';
+import { GetServerSideProps } from 'next';
 import { gql, useQuery } from '@apollo/client';
+import { Layout } from '@/components/templates';
+import { MdLogin } from 'react-icons/md';
+import { parseCookies } from 'nookies';
+import { SubmitHandler, useForm } from 'react-hook-form';
+import { useRouter } from 'next/router';
+import {
+  PageHeading,
+  CustomChakraNextLink,
+  CustomButtom,
+} from '@/components/atoms';
 import {
   Box,
   Center,
@@ -22,13 +30,6 @@ import {
   useDisclosure,
   useToast,
 } from '@chakra-ui/react';
-import { GetServerSideProps } from 'next';
-import { useRouter } from 'next/router';
-import { parseCookies } from 'nookies';
-import React, { useCallback, useContext, useEffect } from 'react';
-import { SubmitHandler, useForm } from 'react-hook-form';
-import { AiFillHome } from 'react-icons/ai';
-import { MdLogin } from 'react-icons/md';
 
 const QUERY = gql`
   query BuscarSocio($username: String!) {

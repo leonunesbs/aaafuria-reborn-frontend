@@ -1,14 +1,13 @@
-import Layout from '@/components/Layout';
-import PageHeading from '@/components/PageHeading';
-import React, { useEffect } from 'react';
-import { Card } from '@/components/Card';
+import { PageHeading } from '@/components/atoms';
+import { Card } from '@/components/molecules';
+import { Layout } from '@/components/templates';
 import { gql, useMutation, useQuery } from '@apollo/client';
-import { MdCreditCard, MdDelete, MdPayment, MdStore } from 'react-icons/md';
-import { parseCookies } from 'nookies';
-import { useRouter } from 'next/router';
 import {
   Box,
   Button,
+  HStack,
+  IconButton,
+  Image,
   Popover,
   PopoverArrow,
   PopoverBody,
@@ -17,20 +16,21 @@ import {
   PopoverHeader,
   PopoverTrigger,
   Portal,
+  Stack,
   Table,
   Tbody,
   Td,
+  Text,
   Tfoot,
   Th,
   Thead,
   Tr,
-  Text,
-  Image,
-  HStack,
-  Stack,
-  IconButton,
 } from '@chakra-ui/react';
 import { GetServerSideProps } from 'next';
+import { useRouter } from 'next/router';
+import { parseCookies } from 'nookies';
+import React, { useEffect } from 'react';
+import { MdCreditCard, MdDelete, MdPayment, MdStore } from 'react-icons/md';
 
 const GET_USER_CARRINHO = gql`
   query getUserCarrinho {

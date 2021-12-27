@@ -1,8 +1,6 @@
-import CustomChakraNextLink from '@/components/CustomChakraNextLink';
-import Layout from '@/components/Layout';
-import PageHeading from '@/components/PageHeading';
-import { ProdutoCard } from '@/components/ProdutoCard';
-import { SocialIcons } from '@/components/SocialIcons';
+import { CustomChakraNextLink, PageHeading } from '@/components/atoms';
+import { ProdutoCard, SocialIcons } from '@/components/molecules';
+import { Layout } from '@/components/templates';
 import { AuthContext } from '@/contexts/AuthContext';
 import { gql, useQuery } from '@apollo/client';
 import {

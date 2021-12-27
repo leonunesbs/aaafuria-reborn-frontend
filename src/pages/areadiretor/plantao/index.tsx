@@ -1,11 +1,18 @@
-import { Card } from '@/components/Card';
-import CustomButtom from '@/components/CustomButtom';
-import CustomChakraNextLink from '@/components/CustomChakraNextLink';
-import Layout from '@/components/Layout';
-import LojaPlantao from '@/components/LojaPlantao';
-import PageHeading from '@/components/PageHeading';
+import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { AuthContext } from '@/contexts/AuthContext';
+import { Card } from '@/components/molecules';
+import { GetServerSideProps } from 'next';
 import { gql, useQuery } from '@apollo/client';
+import { Layout } from '@/components/templates';
+import { LojaPlantao } from '@/components/organisms';
+import { parseCookies } from 'nookies';
+import { SubmitHandler, useForm } from 'react-hook-form';
+import { useRouter } from 'next/router';
+import {
+  PageHeading,
+  CustomButtom,
+  CustomChakraNextLink,
+} from '@/components/atoms';
 import {
   Box,
   FormControl,
@@ -18,11 +25,7 @@ import {
   Text,
   useToast,
 } from '@chakra-ui/react';
-import { GetServerSideProps } from 'next';
-import { useRouter } from 'next/router';
-import { parseCookies } from 'nookies';
-import React, { useCallback, useContext, useEffect, useState } from 'react';
-import { SubmitHandler, useForm } from 'react-hook-form';
+
 import {
   MdArrowLeft,
   MdCheck,

@@ -1,7 +1,6 @@
-import AreaSocioMenu from '@/components/AreaSocioMenu';
-import { Card } from '@/components/Card';
-import Layout from '@/components/Layout';
-import PageHeading from '@/components/PageHeading';
+import { PageHeading } from '@/components/atoms';
+import { Card, AreaSocioMenu } from '@/components/molecules';
+import { Layout } from '@/components/templates';
 import { AuthContext } from '@/contexts/AuthContext';
 import { Box, useToast } from '@chakra-ui/react';
 import { GetServerSideProps } from 'next';

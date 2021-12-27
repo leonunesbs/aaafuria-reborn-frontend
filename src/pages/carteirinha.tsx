@@ -1,11 +1,11 @@
 import InputMask from 'react-input-mask';
-import Layout from '@/components/Layout';
-import PageHeading from '@/components/PageHeading';
 import React from 'react';
-import { Card } from '@/components/Card';
+import { Card } from '@/components/molecules';
 import { GetServerSideProps } from 'next';
 import { gql, useQuery } from '@apollo/client';
+import { Layout } from '@/components/templates';
 import { MdHome, MdRefresh } from 'react-icons/md';
+import { PageHeading } from '@/components/atoms';
 import { parseCookies } from 'nookies';
 import { useRouter } from 'next/router';
 import {
