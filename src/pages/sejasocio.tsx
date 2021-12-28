@@ -236,7 +236,6 @@ function SejaSocio() {
             );
           })}
         </SimpleGrid>
-        <SocialIcons mt={[4, 8]} />
         <Stack align="center">
           <Button
             mt={4}
@@ -249,6 +248,7 @@ function SejaSocio() {
             Voltar ao início
           </Button>
         </Stack>
+        <SocialIcons mt={[4, 8]} />
       </Box>
     </Layout>
   );
