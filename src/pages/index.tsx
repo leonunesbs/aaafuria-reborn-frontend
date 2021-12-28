@@ -3,15 +3,15 @@ import {
   CustomChakraNextLink,
   PageHeading,
   SejaSocioButton,
-} from '@/components/atoms';
+} from "@/components/atoms";
 import {
   AuthenticatedHomeMenu,
   Card,
   HomeMenu,
   SocialIcons,
-} from '@/components/molecules';
-import { Layout } from '@/components/templates';
-import { AuthContext } from '@/contexts/AuthContext';
+} from "@/components/molecules";
+import { Layout } from "@/components/templates";
+import { AuthContext } from "@/contexts/AuthContext";
 import {
   Box,
   BoxProps,
@@ -20,18 +20,16 @@ import {
   Divider,
   Skeleton,
   Stack,
-} from '@chakra-ui/react';
-import NextImage from 'next/image';
-import React, { useContext, useState } from 'react';
-import { MdLogin } from 'react-icons/md';
+} from "@chakra-ui/react";
+import NextImage from "next/image";
+import React, { useContext, useState } from "react";
+import { MdLogin } from "react-icons/md";
 
 type HomeProps = BoxProps;
 
 export default function Home({}: HomeProps) {
   const { isAuthenticated } = useContext(AuthContext);
-
   const [loading, setLoading] = useState(false);
-
   const ChakraNextImage = chakra(NextImage);
 
   return (
@@ -48,7 +46,7 @@ export default function Home({}: HomeProps) {
               quality={1}
               alt="logo"
               mx="auto"
-              mb={{ base: '8', md: '12' }}
+              mb={{ base: "8", md: "12" }}
             />
           </Box>
         </Center>
@@ -57,10 +55,8 @@ export default function Home({}: HomeProps) {
           <Card>
             <Stack>
               <SejaSocioButton setLoading={setLoading} />
-
               <HomeMenu setLoading={setLoading} />
               <Divider height="5px" />
-
               {isAuthenticated && (
                 <AuthenticatedHomeMenu setLoading={setLoading} />
               )}
