@@ -15,18 +15,20 @@ function AreaSocio() {
 
   useEffect(() => {
     checkCredentials();
+  }, [checkCredentials]);
 
-    // if (isSocio === false) {
-    //   toast({
-    //     description: 'Você não tem permissão para acessar esta área.',
-    //     status: 'warning',
-    //     duration: 2500,
-    //     isClosable: true,
-    //     position: 'top-left',
-    //   });
-    //   router.push('/sejasocio');
-    // }
-  }, [checkCredentials, isSocio, router, toast]);
+  useEffect(() => {
+    if (!isSocio) {
+      toast({
+        description: 'Você não tem permissão para acessar esta área.',
+        status: 'warning',
+        duration: 2500,
+        isClosable: true,
+        position: 'top-left',
+      });
+      router.push('/sejasocio');
+    }
+  }, [isSocio, router, toast]);
 
   return (
     <Layout title="Área do Socio">

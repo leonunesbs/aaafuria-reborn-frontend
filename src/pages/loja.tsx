@@ -3,16 +3,7 @@ import { ProdutoCard, SocialIcons } from '@/components/molecules';
 import { Layout } from '@/components/templates';
 import { AuthContext } from '@/contexts/AuthContext';
 import { gql, useQuery } from '@apollo/client';
-import {
-  Box,
-  Button,
-  Grid,
-  GridItem,
-  IconButton,
-  SimpleGrid,
-  Stack,
-} from '@chakra-ui/react';
-import router from 'next/router';
+import { Box, Button, SimpleGrid, Stack, Text } from '@chakra-ui/react';
 import { parseCookies } from 'nookies';
 import React, { useContext, useEffect } from 'react';
 import { MdHome, MdShoppingCart } from 'react-icons/md';
@@ -63,30 +54,7 @@ function Loja() {
   return (
     <Layout title="Loja">
       <Box maxW="5xl" mx="auto">
-        <Grid
-          mx="auto"
-          templateColumns={{ base: 'repeat(3, 1fr)', lg: 'repeat(7, 1fr)' }}
-        >
-          <GridItem colSpan={{ lg: 2 }}></GridItem>
-          <GridItem justify="flex-end" colSpan={{ lg: 3 }}>
-            <PageHeading>Loja</PageHeading>
-          </GridItem>
-          <GridItem
-            colSpan={{ lg: 2 }}
-            d={{ base: 'flex', lg: 'inline' }}
-            flexDir="column"
-          >
-            <IconButton
-              aria-label="Carrinho"
-              size="md"
-              colorScheme="green"
-              variant="outline"
-              icon={<MdShoppingCart size="25px" />}
-              alignSelf="flex-end"
-              onClick={() => router.push('/carrinho')}
-            />
-          </GridItem>
-        </Grid>
+        <PageHeading>Loja</PageHeading>
         <SimpleGrid
           columns={{ base: 1, md: 2, lg: 3 }}
           spacing={{ base: '8', lg: '2' }}
@@ -99,6 +67,11 @@ function Loja() {
             return <ProdutoCard key={node.id} node={node} />;
           })}
         </SimpleGrid>
+        {data?.allProduto?.edges?.length === 0 && (
+          <Text textAlign={'center'} colspa>
+            <em>Nenhum produto disponível para compra online no momento.</em>
+          </Text>
+        )}
         <Stack mt={4} align="center">
           <CustomChakraNextLink href="/carrinho">
             <Button

@@ -25,6 +25,7 @@ import {
   Th,
   Thead,
   Tr,
+  useToast,
 } from '@chakra-ui/react';
 import { GetServerSideProps } from 'next';
 import { useRouter } from 'next/router';
@@ -77,6 +78,7 @@ const REMOVE_FROM_CART = gql`
 
 function Carrinho() {
   const router = useRouter();
+  const toast = useToast();
   const { data } = useQuery(GET_USER_CARRINHO, {
     context: {
       headers: {
@@ -109,10 +111,18 @@ function Carrinho() {
 
   useEffect(() => {
     const produtos = data?.userCarrinho?.produtos?.edges;
-    if (produtos && produtos.length === 0) {
+    if (produtos?.length === 0) {
+      toast({
+        title: 'Carrinho vazio',
+        description: 'Seu carrinho está vazio',
+        status: 'warning',
+        duration: 5000,
+        isClosable: true,
+        position: 'top-left',
+      });
       router.push('/loja');
     }
-  }, [data?.userCarrinho?.produtos?.edges, router]);
+  }, [data?.userCarrinho?.produtos?.edges, router, toast]);
 
   return (
     <Layout title="Carrinho">

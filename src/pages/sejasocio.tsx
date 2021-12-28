@@ -62,9 +62,12 @@ function SejaSocio() {
 
   useEffect(() => {
     checkCredentials();
+  }, [checkCredentials]);
+
+  useEffect(() => {
     if (isSocio) {
       toast({
-        description: 'Você já é Sócio.',
+        title: 'Você já é um sócio!',
         status: 'info',
         duration: 2500,
         isClosable: true,
@@ -72,7 +75,7 @@ function SejaSocio() {
       });
       router.push('/areasocio');
     }
-  }, [checkCredentials, isSocio, router, toast]);
+  }, [isSocio, router, toast]);
 
   const handlePagar = useCallback(
     (tipoPlano: string) => {
