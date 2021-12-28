@@ -1,4 +1,3 @@
-/* eslint-disable prettier/prettier */
 export { Analytics } from './Analytics';
 export { AreaDiretorButton } from './AreaDiretorButton';
 export { AtividadesSocioTableRow } from './AtividadesSocioTableRow';
