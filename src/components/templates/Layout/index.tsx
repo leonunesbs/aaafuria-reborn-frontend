@@ -35,6 +35,7 @@ export const Layout = ({
               : 'Plataforma de sócios e loja da Associação Atlética de Medicina Fúria Uniniovafapi. Seja sócio da Maior do Piaiuí e aproveite as vantagens.'
           }
         />
+        <link rel="canonical" href={'https://aaafuria.site/'} />
 
         {/* Open Graph / Facebook */}
         <meta property="og:type" content="website" />
@@ -55,6 +56,8 @@ export const Layout = ({
           }
         />
         <meta property="og:image" content="/calango-verde.png" />
+        <meta property="og:image:alt" content="calango" />
+        <meta property="og:locale" content="pt_BR" />
 
         {/* Twitter */}
         <meta property="twitter:card" content="summary_large_image" />
@@ -75,6 +78,7 @@ export const Layout = ({
           }
         />
         <meta property="twitter:image" content="/calango-verde.png" />
+        <meta name="twitter:image:alt" content="calango" />
       </Head>
       {isHeaded && <Header />}
       <Box bg={bg} minH="100vh" py="12" px={{ base: '4', lg: '8' }}>
