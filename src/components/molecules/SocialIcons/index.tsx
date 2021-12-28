@@ -47,13 +47,12 @@ export const SocialIcons = ({ ...rest }) => {
             icon={<AiFillTwitterSquare size="35px" />}
           />
         </CustomChakraNextLink>
-        <CustomChakraNextLink href="#">
+        <CustomChakraNextLink href="https://tiktok.com/@aaafuria">
           <IconButton
             aria-label="TikTok"
             colorScheme="green"
             variant="ghost"
             icon={<FaTiktok size="35px" />}
-            isDisabled
           />
         </CustomChakraNextLink>
       </HStack>
