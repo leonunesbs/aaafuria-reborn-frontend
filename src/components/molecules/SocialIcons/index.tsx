@@ -13,7 +13,7 @@ export const SocialIcons = ({ ...rest }) => {
   return (
     <Box {...rest}>
       <Divider h="15px" mb={4} />
-      <Heading as="h3" size="sm" fontWeight="light" textAlign="center">
+      <Heading size="sm" fontWeight="light" textAlign="center">
         <i>
           Siga a{' '}
           <Text as="span" color="green.800" fontWeight="bold">
