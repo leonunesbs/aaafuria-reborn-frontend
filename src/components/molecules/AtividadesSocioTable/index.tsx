@@ -1,6 +1,6 @@
 import { AtividadesSocioTableRow } from '@/components/atoms';
 import { gql, useQuery } from '@apollo/client';
-import { Table, TableProps, Tbody, Th, Thead, Tr } from '@chakra-ui/react';
+import { Table, TableProps, Tbody, Td, Th, Thead, Tr } from '@chakra-ui/react';
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 interface AtividadesSocioTableProps extends TableProps {}
@@ -131,6 +131,13 @@ export const AtividadesSocioTable = ({
           .map(({ node }: { node: ProgramacaoData }) => {
             return <AtividadesSocioTableRow key={node.id} node={node} />;
           })}
+        {programacao.length === 0 && (
+          <Tr>
+            <Td colSpan={6} textAlign="center">
+              <em>Nenhuma atividade programada.</em>
+            </Td>
+          </Tr>
+        )}
       </Tbody>
     </Table>
   );

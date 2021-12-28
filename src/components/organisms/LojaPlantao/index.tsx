@@ -46,7 +46,7 @@ export const LojaPlantao = ({ matriculaSocio }: LojaPlantaoProps) => {
   return (
     <SimpleGrid
       mt={10}
-      columns={{ base: 1, md: 2, lg: 3 }}
+      columns={{ base: 1, lg: 3 }}
       spacing={{ base: '8', lg: '2' }}
       maxW="7xl"
       mx="auto"

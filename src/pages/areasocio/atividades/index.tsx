@@ -58,7 +58,7 @@ function Atividades({}: AtividadesProps) {
                   leftIcon={<AiOutlineCalendar size="20px" />}
                   hasExternalIcon
                 >
-                  Gerenciar
+                  Gerenciar programações
                 </CustomButtom>
               </CustomChakraNextLink>
             </>

@@ -4,6 +4,8 @@ export { AtividadesSocioTable } from './AtividadesSocioTable';
 export { AuthenticatedHomeMenu } from './AuthenticatedHomeMenu';
 export { CadastroDrawer } from './CadastroDrawer';
 export { Card } from './Card';
+export { Header } from './Header';
+export { Footer } from './Footer';
 export { HomeMenu } from './HomeMenu';
 export {
   CartaoCreditoTabPanelContent,

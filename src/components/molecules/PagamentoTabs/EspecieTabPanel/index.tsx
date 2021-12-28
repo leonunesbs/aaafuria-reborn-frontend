@@ -9,8 +9,8 @@ import {
   ModalFooter,
   ModalHeader,
   ModalOverlay,
-  SimpleGrid,
   useDisclosure,
+  useToast,
 } from '@chakra-ui/react';
 import router from 'next/router';
 import { parseCookies } from 'nookies';
@@ -34,6 +34,7 @@ export const EspecieTabPanelContent = ({
   parentData,
 }: EspecieTabPanelProps) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const toast = useToast();
 
   const [checkoutPlantao] = useMutation(CHECKOUT_PLANTAO, {
     context: {
@@ -50,21 +51,19 @@ export const EspecieTabPanelContent = ({
   const handleConfirmar = useCallback(() => {
     checkoutPlantao();
     onClose();
+    toast({
+      title: 'Pagamento confirmado',
+      status: 'success',
+      duration: 5000,
+      isClosable: true,
+      position: 'top-left',
+    });
     router.push('/areadiretor/plantao/');
-  }, [checkoutPlantao, onClose]);
+  }, [checkoutPlantao, onClose, toast]);
 
   return (
     <>
-      <SimpleGrid
-        mt={10}
-        columns={{ base: 1, lg: 2 }}
-        spacing={{ base: '8', lg: '2' }}
-        mx="auto"
-        justifyItems="center"
-        alignItems="center"
-      >
-        <CustomButtom onClick={onOpen}>Confirmar pagamento</CustomButtom>
-      </SimpleGrid>
+      <CustomButtom onClick={onOpen}>Confirmar pagamento</CustomButtom>
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent>

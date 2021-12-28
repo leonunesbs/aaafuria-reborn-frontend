@@ -1,4 +1,4 @@
-import { CustomButtom } from '@/components/atoms';
+import { CustomIconButton } from '@/components/atoms';
 import { gql, useMutation } from '@apollo/client';
 import {
   Box,
@@ -8,10 +8,11 @@ import {
   InputRightElement,
   SimpleGrid,
   Skeleton,
+  useClipboard,
   useToast,
 } from '@chakra-ui/react';
 import { parseCookies } from 'nookies';
-import { useRef, useCallback, useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { MdCopyAll } from 'react-icons/md';
 import QRCode from 'react-qr-code';
 
@@ -37,8 +38,7 @@ export const CartaoCreditoTabPanelContent = ({
   const ChakraQRCode = chakra(QRCode);
   const toast = useToast();
   const [url, setUrl] = useState('');
-
-  const inputRef = useRef<HTMLInputElement>(null);
+  const { hasCopied, onCopy } = useClipboard(url);
 
   const [stripeCheckoutPlantao, { loading }] = useMutation(
     STRIPE_CHECKOUT_PLANTAO,
@@ -52,20 +52,18 @@ export const CartaoCreditoTabPanelContent = ({
     },
   );
 
-  const handleCopy = useCallback(() => {
-    inputRef.current?.select();
-    document.execCommand('copy');
-
-    toast({
-      title: 'Copiado',
-      description: 'QR Code copiado para a área de transferência.',
-      status: 'success',
-      duration: 5000,
-      isClosable: true,
-      position: 'top-left',
-    });
-  }, [toast]);
-
+  useEffect(() => {
+    if (hasCopied) {
+      toast({
+        title: 'Copiado',
+        description: 'QR Code copiado para a área de transferência.',
+        status: 'success',
+        duration: 5000,
+        isClosable: true,
+        position: 'top-left',
+      });
+    }
+  }, [hasCopied, toast]);
   useEffect(() => {
     stripeCheckoutPlantao().then(({ data }) => {
       setUrl(data.stripeCheckoutPlantao.carrinho.stripeShortCheckoutUrl);
@@ -86,16 +84,17 @@ export const CartaoCreditoTabPanelContent = ({
         <Box>
           <InputGroup size="lg">
             <Input
-              ref={inputRef}
               pr="4.5rem"
               value={url}
               readOnly
               focusBorderColor="green.500"
             />
-            <InputRightElement width="4.5rem">
-              <CustomButtom w="40px" size="xs" onClick={handleCopy}>
-                <MdCopyAll size="25px" />
-              </CustomButtom>
+            <InputRightElement>
+              <CustomIconButton
+                aria-label="copy"
+                icon={<MdCopyAll size="25px" />}
+                onClick={onCopy}
+              />
             </InputRightElement>
           </InputGroup>
         </Box>

@@ -1,15 +1,24 @@
 import Head from 'next/head';
 import React, { ReactNode } from 'react';
 import { Box, BoxProps, useColorModeValue } from '@chakra-ui/react';
+import { Footer, Header } from '@/components/molecules';
 import { useRouter } from 'next/router';
 
 interface LayoutProps extends BoxProps {
   children: ReactNode;
   title?: string;
   desc?: string;
+  isHeaded?: boolean;
+  isFooted?: boolean;
 }
 
-export const Layout = ({ children, title, desc }: LayoutProps) => {
+export const Layout = ({
+  children,
+  title,
+  desc,
+  isFooted = true,
+  isHeaded = true,
+}: LayoutProps) => {
   const bg = useColorModeValue('gray.50', 'gray.900');
   const router = useRouter();
 
@@ -67,9 +76,11 @@ export const Layout = ({ children, title, desc }: LayoutProps) => {
         />
         <meta property="twitter:image" content="/calango-verde.png" />
       </Head>
+      {isHeaded && <Header />}
       <Box bg={bg} minH="100vh" py="12" px={{ base: '4', lg: '8' }}>
         {children}
       </Box>
+      {isFooted && <Footer />}
     </>
   );
 };

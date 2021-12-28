@@ -15,6 +15,7 @@ import {
   ModalOverlay,
   SimpleGrid,
   useDisclosure,
+  useToast,
 } from '@chakra-ui/react';
 
 interface PixTabPanelProps {
@@ -35,6 +36,7 @@ export const PixTabPanelContent = ({
   parentData: parentData,
 }: PixTabPanelProps) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const toast = useToast();
 
   const [checkoutPlantao] = useMutation(CHECKOUT_PLANTAO, {
     context: {
@@ -51,8 +53,15 @@ export const PixTabPanelContent = ({
   const handleConfirmar = useCallback(() => {
     checkoutPlantao();
     onClose();
+    toast({
+      title: 'Pagamento confirmado',
+      status: 'success',
+      duration: 5000,
+      isClosable: true,
+      position: 'top-left',
+    });
     router.push('/areadiretor/plantao/');
-  }, [checkoutPlantao, onClose]);
+  }, [checkoutPlantao, onClose, toast]);
 
   const chavePix = '02544977302';
   return (

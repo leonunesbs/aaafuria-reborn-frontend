@@ -1,4 +1,5 @@
 export { Analytics } from './Analytics';
+export { ColorModeToggle } from './ColorModeToggle';
 export { AreaDiretorButton } from './AreaDiretorButton';
 export { AtividadesSocioTableRow } from './AtividadesSocioTableRow';
 export { CustomButtom } from './CustomButtom';
