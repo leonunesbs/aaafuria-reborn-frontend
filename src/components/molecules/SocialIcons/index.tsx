@@ -1,11 +1,11 @@
 import React from 'react';
-import { 
-  Box, 
-  Divider, 
-  Heading, 
-  HStack, 
-  Text, 
-  useColorModeValue 
+import {
+  Box,
+  Divider,
+  Heading,
+  HStack,
+  Text,
+  useColorModeValue,
 } from '@chakra-ui/react';
 import { CustomChakraNextLink } from '@/components/atoms';
 import { FaTiktok } from 'react-icons/fa';
