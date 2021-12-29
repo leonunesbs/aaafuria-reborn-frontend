@@ -38,6 +38,7 @@ export const Header = () => {
         authorization: `JWT ${parseCookies()['aaafuriaToken']}`,
       },
     },
+    fetchPolicy: 'no-cache',
   });
 
   useEffect(() => {
