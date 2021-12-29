@@ -25,6 +25,7 @@ import {
   Center,
   Grid,
   GridItem,
+  useColorModeValue,
 } from '@chakra-ui/react';
 
 const GET_SOCIO = gql`
@@ -59,6 +60,8 @@ function Carteirinha({ token }: CarteirinhaProps) {
     },
   });
 
+  const cardBg = useColorModeValue('green.50', 'green.900');
+
   return (
     <Layout title="Carteirinha">
       <Box maxW="2xl" mx="auto">
@@ -67,7 +70,7 @@ function Carteirinha({ token }: CarteirinhaProps) {
           overflow="hidden"
           position="relative"
           border="1px solid green"
-          bgColor="green.50"
+          bgColor={cardBg}
           filter={
             data?.socioAutenticado?.isSocio ? 'inherit' : 'grayscale(100%)'
           }
