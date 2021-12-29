@@ -30,6 +30,7 @@ const GET_SOCIO = gql`
 
 export const Header = () => {
   const bg = useColorModeValue('white', 'gray.800');
+  const calangosDataColor = useColorModeValue('green.200', 'green.600');
   const { isAuthenticated } = useContext(AuthContext);
   const { data } = useQuery(GET_SOCIO, {
     context: {
@@ -47,7 +48,7 @@ export const Header = () => {
         />
       </CustomChakraNextLink>
       {isAuthenticated && (
-        <Box textAlign="center" textColor="green">
+        <Box textAlign="center" textColor={calangosDataColor}>
           <Text fontSize="sm">{data?.socioAutenticado.matricula}</Text>
           <HStack>
             <Image src="/calango-verde.png" boxSize="15px" alt="calangos" />
