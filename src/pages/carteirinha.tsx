@@ -31,6 +31,7 @@ const GET_SOCIO = gql`
   query {
     socioAutenticado {
       matricula
+      avatar
       nome
       email
       apelido
@@ -122,8 +123,8 @@ function Carteirinha({ token }: CarteirinhaProps) {
             <GridItem d="flex" alignItems="center" justifyContent="center">
               <Avatar
                 size="2xl"
-                name="Segun Adebayo"
-                src="https://bit.ly/sage-adebayo"
+                name={data?.socioAutenticado?.nome}
+                src={data?.socioAutenticado?.avatar}
                 m={4}
                 border={
                   data?.socioAutenticado?.isSocio
