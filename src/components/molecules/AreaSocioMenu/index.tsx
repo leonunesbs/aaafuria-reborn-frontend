@@ -11,8 +11,8 @@ import { parseCookies } from 'nookies';
 interface AreaSocioMenuProps extends StackProps {}
 
 const QUERY_PORTAL = gql`
-  query portal {
-    createPortalUrl {
+  query portalUrl {
+    queryStripePortalUrl {
       stripePortalUrl
     }
   }
@@ -52,7 +52,7 @@ export const AreaSocioMenu = ({ ...rest }: AreaSocioMenuProps) => {
         chakraLinkProps={{
           target: '_blank',
         }}
-        href={`${data?.createPortalUrl.stripePortalUrl || ''}`}
+        href={`${data?.queryStripePortalUrl?.stripePortalUrl}`}
       >
         <CustomButtom
           leftIcon={<MdManageAccounts size="20px" />}
