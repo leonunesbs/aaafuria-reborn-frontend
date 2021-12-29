@@ -14,7 +14,7 @@ import {
   useColorModeValue,
 } from '@chakra-ui/react';
 import { parseCookies } from 'nookies';
-import { useContext } from 'react';
+import { useContext, useEffect } from 'react';
 import { AiFillHome } from 'react-icons/ai';
 
 const GET_SOCIO = gql`
@@ -32,13 +32,17 @@ export const Header = () => {
   const bg = useColorModeValue('white', 'gray.800');
   const calangosDataColor = useColorModeValue('green.600', 'green.200');
   const { isAuthenticated } = useContext(AuthContext);
-  const { data } = useQuery(GET_SOCIO, {
+  const { data, refetch } = useQuery(GET_SOCIO, {
     context: {
       headers: {
         authorization: `JWT ${parseCookies()['aaafuriaToken']}`,
       },
     },
   });
+
+  useEffect(() => {
+    refetch();
+  }, [refetch]);
   return (
     <Flex justify="space-between" bg={bg} py="2" px={{ base: '4', lg: '8' }}>
       <CustomChakraNextLink href="/">
@@ -49,11 +53,11 @@ export const Header = () => {
       </CustomChakraNextLink>
       {isAuthenticated && (
         <Box textAlign="center" textColor={calangosDataColor}>
-          <Text fontSize="sm">{data?.socioAutenticado.matricula}</Text>
+          <Text fontSize="sm">{data?.socioAutenticado?.matricula}</Text>
           <HStack>
             <Image src="/calango-verde.png" boxSize="15px" alt="calangos" />
             <Text fontSize="sm">
-              <strong>{data?.socioAutenticado.conta.calangos}</strong>
+              <strong>{data?.socioAutenticado?.conta.calangos}</strong>
             </Text>
           </HStack>
         </Box>
