@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, Divider, Heading, HStack, Text } from '@chakra-ui/react';
+import { Box, Divider, Heading, HStack, Text, useColorModeValue } from '@chakra-ui/react';
 import { CustomChakraNextLink } from '@/components/atoms';
 import { FaTiktok } from 'react-icons/fa';
 import { IconButton } from '@chakra-ui/button';
