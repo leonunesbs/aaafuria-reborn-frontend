@@ -3,11 +3,41 @@ import {
   CustomChakraNextLink,
   CustomIconButton,
 } from '@/components/atoms';
-import { Flex, useColorModeValue } from '@chakra-ui/react';
+import { AuthContext } from '@/contexts/AuthContext';
+import { gql, useQuery } from '@apollo/client';
+import {
+  Box,
+  Flex,
+  HStack,
+  Image,
+  Text,
+  useColorModeValue,
+} from '@chakra-ui/react';
+import { parseCookies } from 'nookies';
+import { useContext } from 'react';
 import { AiFillHome } from 'react-icons/ai';
+
+const GET_SOCIO = gql`
+  query {
+    socioAutenticado {
+      matricula
+      conta {
+        calangos
+      }
+    }
+  }
+`;
 
 export const Header = () => {
   const bg = useColorModeValue('white', 'gray.800');
+  const { isAuthenticated } = useContext(AuthContext);
+  const { data } = useQuery(GET_SOCIO, {
+    context: {
+      headers: {
+        authorization: `JWT ${parseCookies()['aaafuriaToken']}`,
+      },
+    },
+  });
   return (
     <Flex justify="space-between" bg={bg} py="2" px={{ base: '4', lg: '8' }}>
       <CustomChakraNextLink href="/">
@@ -16,6 +46,17 @@ export const Header = () => {
           icon={<AiFillHome size="20px" />}
         />
       </CustomChakraNextLink>
+      {isAuthenticated && (
+        <Box textAlign="center" textColor="green">
+          <Text fontSize="sm">{data?.socioAutenticado.matricula}</Text>
+          <HStack>
+            <Image src="/calango-verde.png" boxSize="15px" alt="calangos" />
+            <Text fontSize="sm">
+              <strong>{data?.socioAutenticado.conta.calangos}</strong>
+            </Text>
+          </HStack>
+        </Box>
+      )}
       <ColorModeToggle />
     </Flex>
   );
