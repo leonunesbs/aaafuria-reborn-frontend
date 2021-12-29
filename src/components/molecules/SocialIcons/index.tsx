@@ -10,13 +10,14 @@ import {
 } from 'react-icons/ai';
 
 export const SocialIcons = ({ ...rest }) => {
+  const greenColor = useColorModeValue('green.600', 'green.200');
   return (
     <Box {...rest}>
       <Divider h="15px" mb={4} />
       <Heading size="sm" fontWeight="light" textAlign="center">
         <i>
           Siga a{' '}
-          <Text as="span" color="green.800" fontWeight="bold">
+          <Text as="span" color={greenColor} fontWeight="bold">
             Fúria
           </Text>
           :

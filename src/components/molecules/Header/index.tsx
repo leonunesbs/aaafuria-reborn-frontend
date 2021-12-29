@@ -30,7 +30,7 @@ const GET_SOCIO = gql`
 
 export const Header = () => {
   const bg = useColorModeValue('white', 'gray.800');
-  const calangosDataColor = useColorModeValue('green.200', 'green.600');
+  const calangosDataColor = useColorModeValue('green.600', 'green.200');
   const { isAuthenticated } = useContext(AuthContext);
   const { data } = useQuery(GET_SOCIO, {
     context: {
