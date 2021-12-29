@@ -136,9 +136,9 @@ export const ProdutoCard = ({ node }: ProdutoCardProps) => {
         <Image
           w="full"
           objectFit="cover"
-          src=" https://picsum.photos/350"
+          src={node.imagem}
           mx="auto"
-          alt="produto"
+          alt={node.nome}
         />
         <Stack>
           <Stack p={4} h="130px">
