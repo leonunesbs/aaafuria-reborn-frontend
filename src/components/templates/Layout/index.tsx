@@ -26,7 +26,7 @@ export const Layout = ({
     <>
       <Head>
         <meta charSet="utf-8" />
-        <title>{title ? `@aaafuria | ${title}` : '@aaafuria'}</title>
+        <title>{title ? `${title} | @aaafuria` : '@aaafuria'}</title>
         <meta
           name="description"
           content={
