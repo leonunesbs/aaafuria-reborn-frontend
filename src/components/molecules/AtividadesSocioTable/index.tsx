@@ -89,12 +89,8 @@ const QUERY_PROGRAMACAO_BATERIA = gql`
 export const AtividadesSocioTable = ({
   ...rest
 }: AtividadesSocioTableProps) => {
-  const programacao_esporte = useQuery(QUERY_PROGRAMACAO_ESPORTE, {
-    fetchPolicy: 'no-cache',
-  });
-  const programacao_bateria = useQuery(QUERY_PROGRAMACAO_BATERIA, {
-    fetchPolicy: 'no-cache',
-  });
+  const programacao_esporte = useQuery(QUERY_PROGRAMACAO_ESPORTE);
+  const programacao_bateria = useQuery(QUERY_PROGRAMACAO_BATERIA);
 
   function compare_datetime(a: any, b: any) {
     if (a.node.dataHora < b.node.dataHora) {

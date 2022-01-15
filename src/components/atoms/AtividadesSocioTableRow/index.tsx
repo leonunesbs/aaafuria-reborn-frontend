@@ -11,7 +11,7 @@ import {
   Tr,
   useColorModeValue,
 } from '@chakra-ui/react';
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import { CustomButtom, CustomIconButton } from '@/components/atoms';
 
 interface AtividadesSocioTableRowProps extends TableRowProps {
@@ -49,46 +49,46 @@ export const AtividadesSocioTableRow = ({
 
   const [confirmarCompetidor, { loading: confirmarLoading }] = useMutation(
     MUTATION_CONFIRMAR_COMPETIDOR,
-    {
-      fetchPolicy: 'no-cache',
-    },
   );
   const [removerCompetidor, { loading: removerLoading }] = useMutation(
     MUTATION_REMOVER_COMPETIDOR,
-    {
-      fetchPolicy: 'no-cache',
-    },
   );
 
   const { ['aaafuriaToken']: token } = parseCookies();
 
-  const handleConfirmarCompetidor = (idProgramacao: string) => {
-    confirmarCompetidor({
-      variables: {
-        id: idProgramacao,
-      },
-      context: {
-        headers: {
-          authorization: `JWT ${token}`,
+  const handleConfirmarCompetidor = useCallback(
+    (idProgramacao: string) => {
+      confirmarCompetidor({
+        variables: {
+          id: idProgramacao,
         },
-      },
-    });
-    router.reload();
-  };
+        context: {
+          headers: {
+            authorization: `JWT ${token}`,
+          },
+        },
+      });
+      router.reload();
+    },
+    [confirmarCompetidor, token],
+  );
 
-  const handleRemoverCompetidor = (idProgramacao: string) => {
-    removerCompetidor({
-      variables: {
-        id: idProgramacao,
-      },
-      context: {
-        headers: {
-          authorization: `JWT ${token}`,
+  const handleRemoverCompetidor = useCallback(
+    (idProgramacao: string) => {
+      removerCompetidor({
+        variables: {
+          id: idProgramacao,
         },
-      },
-    });
-    router.reload();
-  };
+        context: {
+          headers: {
+            authorization: `JWT ${token}`,
+          },
+        },
+      });
+      router.reload();
+    },
+    [removerCompetidor, token],
+  );
 
   const value =
     node.competidoresConfirmados.edges.length > 0
