@@ -10,6 +10,7 @@ import {
   Text,
   Tr,
   useColorModeValue,
+  useToast,
 } from '@chakra-ui/react';
 import { useCallback, useContext, useState } from 'react';
 import { CustomButtom, CustomIconButton } from '@/components/atoms';
@@ -40,6 +41,7 @@ export const AtividadesSocioTableRow = ({
 }: AtividadesSocioTableRowProps) => {
   const bgRow = useColorModeValue('white', 'gray.800');
   const confirmedBgRow = useColorModeValue('green.50', 'gray.900');
+  const toast = useToast();
   const { isAuthenticated } = useContext(AuthContext);
 
   const { ['aaafuriaMatricula']: matricula } = parseCookies();
@@ -59,8 +61,8 @@ export const AtividadesSocioTableRow = ({
   const { ['aaafuriaToken']: token } = parseCookies();
 
   const handleConfirmarCompetidor = useCallback(
-    (idProgramacao: string) => {
-      confirmarCompetidor({
+    async (idProgramacao: string) => {
+      await confirmarCompetidor({
         variables: {
           id: idProgramacao,
         },
@@ -69,15 +71,23 @@ export const AtividadesSocioTableRow = ({
             authorization: `JWT ${token}`,
           },
         },
+      }).then(() => {
+        toast({
+          description: 'Participação confirmada.',
+          status: 'success',
+          duration: 2500,
+          isClosable: true,
+          position: 'top-left',
+        });
+        router.reload();
       });
-      router.reload();
     },
-    [confirmarCompetidor, token],
+    [confirmarCompetidor, toast, token],
   );
 
   const handleRemoverCompetidor = useCallback(
-    (idProgramacao: string) => {
-      removerCompetidor({
+    async (idProgramacao: string) => {
+      await removerCompetidor({
         variables: {
           id: idProgramacao,
         },
@@ -86,8 +96,9 @@ export const AtividadesSocioTableRow = ({
             authorization: `JWT ${token}`,
           },
         },
+      }).then(() => {
+        router.reload();
       });
-      router.reload();
     },
     [removerCompetidor, token],
   );
