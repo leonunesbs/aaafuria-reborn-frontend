@@ -66,7 +66,7 @@ function Atividades({}: AtividadesProps) {
           <CustomButtom
             colorScheme="gray"
             leftIcon={<FaArrowLeft size="20px" />}
-            onClick={() => router.push('/areasocio')}
+            onClick={() => router.push('/')}
           >
             Voltar
           </CustomButtom>

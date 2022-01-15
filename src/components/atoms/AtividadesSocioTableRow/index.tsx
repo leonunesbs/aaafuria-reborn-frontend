@@ -3,7 +3,14 @@ import { gql, useMutation } from '@apollo/client';
 import { MdCalendarToday, MdCheck, MdOutlineCancel } from 'react-icons/md';
 import { parseCookies } from 'nookies';
 import { ProgramacaoData } from '../../molecules/AtividadesSocioTable';
-import { Progress, TableRowProps, Td, Text, Tr } from '@chakra-ui/react';
+import {
+  Progress,
+  TableRowProps,
+  Td,
+  Text,
+  Tr,
+  useColorModeValue,
+} from '@chakra-ui/react';
 import { useState } from 'react';
 import { CustomButtom, CustomIconButton } from '@/components/atoms';
 
@@ -30,6 +37,9 @@ export const AtividadesSocioTableRow = ({
   node,
   ...rest
 }: AtividadesSocioTableRowProps) => {
+  const bgRow = useColorModeValue('white', 'gray.800');
+  const confirmedBgRow = useColorModeValue('green.50', 'gray.900');
+
   const { ['aaafuriaMatricula']: matricula } = parseCookies();
   const [isConfirmed] = useState(
     node.competidoresConfirmados.edges.find(
@@ -81,7 +91,7 @@ export const AtividadesSocioTableRow = ({
       : 0;
 
   return (
-    <Tr key={node.id} {...rest} bgColor={isConfirmed ? 'green.50' : 'white'}>
+    <Tr key={node.id} {...rest} bgColor={isConfirmed ? confirmedBgRow : bgRow}>
       <Td>
         <>
           <>

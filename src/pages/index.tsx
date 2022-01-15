@@ -19,6 +19,7 @@ import {
   chakra,
   Divider,
   Skeleton,
+  Spinner,
   Stack,
 } from '@chakra-ui/react';
 import NextImage from 'next/image';
@@ -31,6 +32,16 @@ export default function Home({}: HomeProps) {
   const { isAuthenticated } = useContext(AuthContext);
   const [loading, setLoading] = useState(false);
   const ChakraNextImage = chakra(NextImage);
+
+  if (loading) {
+    return (
+      <Layout title="Início" isHeaded={false} isFooted={false} h="100vh">
+        <Center h="100vh" flexDir="row">
+          <Spinner size="xl" color="green" />
+        </Center>
+      </Layout>
+    );
+  }
 
   return (
     <Layout title="Início">
@@ -55,7 +66,6 @@ export default function Home({}: HomeProps) {
           <Card>
             <Stack>
               <SejaSocioButton setLoading={setLoading} />
-
               <HomeMenu setLoading={setLoading} />
               <Divider height="5px" />
 

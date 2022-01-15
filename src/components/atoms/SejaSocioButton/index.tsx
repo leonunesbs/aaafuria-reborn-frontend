@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { AuthContext } from '@/contexts/AuthContext';
 import { ButtonProps } from '@chakra-ui/button';
 import { MdGroups } from 'react-icons/md';
@@ -13,10 +13,11 @@ export const SejaSocioButton = ({
   ...rest
 }: SejaSocioButtonProps) => {
   const { checkCredentials, isSocio } = useContext(AuthContext);
+  const [buttonLoading, setButtonLoading] = useState(false);
 
   useEffect(() => {
     checkCredentials();
-  }, [checkCredentials]);
+  }, [checkCredentials, isSocio, setLoading]);
 
   if (isSocio) {
     return <></>;
@@ -25,10 +26,13 @@ export const SejaSocioButton = ({
   return (
     <CustomChakraNextLink href="/sejasocio">
       <CustomButtom
+        name="sejasocio"
         leftIcon={<MdGroups size="20px" />}
         variant="outline"
+        isLoading={buttonLoading}
         onClick={() => {
           setLoading(true);
+          setButtonLoading(true);
         }}
         {...rest}
       >

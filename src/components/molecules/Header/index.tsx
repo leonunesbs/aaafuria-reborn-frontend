@@ -10,6 +10,7 @@ import {
   Flex,
   HStack,
   Image,
+  Spinner,
   Text,
   useColorModeValue,
 } from '@chakra-ui/react';
@@ -52,16 +53,20 @@ export const Header = () => {
           icon={<AiFillHome size="20px" />}
         />
       </CustomChakraNextLink>
-      {isAuthenticated && (
-        <Box textAlign="center" textColor={calangosDataColor}>
-          <Text fontSize="sm">{data?.socioAutenticado?.matricula}</Text>
-          <HStack>
-            <Image src="/calango-verde.png" boxSize="15px" alt="calangos" />
-            <Text fontSize="sm">
-              <strong>{data?.socioAutenticado?.conta.calangos}</strong>
-            </Text>
-          </HStack>
-        </Box>
+      {!data ? (
+        <Spinner color="green" size="sm" />
+      ) : (
+        isAuthenticated && (
+          <Box textAlign="center" textColor={calangosDataColor}>
+            <Text fontSize="sm">{data?.socioAutenticado?.matricula}</Text>
+            <HStack>
+              <Image src="/calango-verde.png" boxSize="15px" alt="calangos" />
+              <Text fontSize="sm">
+                <strong>{data?.socioAutenticado?.conta.calangos}</strong>
+              </Text>
+            </HStack>
+          </Box>
+        )
       )}
       <ColorModeToggle />
     </Flex>
