@@ -11,8 +11,9 @@ import {
   Tr,
   useColorModeValue,
 } from '@chakra-ui/react';
-import { useCallback, useState } from 'react';
+import { useCallback, useContext, useState } from 'react';
 import { CustomButtom, CustomIconButton } from '@/components/atoms';
+import { AuthContext } from '@/contexts/AuthContext';
 
 interface AtividadesSocioTableRowProps extends TableRowProps {
   node: ProgramacaoData;
@@ -39,6 +40,7 @@ export const AtividadesSocioTableRow = ({
 }: AtividadesSocioTableRowProps) => {
   const bgRow = useColorModeValue('white', 'gray.800');
   const confirmedBgRow = useColorModeValue('green.50', 'gray.900');
+  const { isAuthenticated } = useContext(AuthContext);
 
   const { ['aaafuriaMatricula']: matricula } = parseCookies();
   const [isConfirmed] = useState(
@@ -49,15 +51,9 @@ export const AtividadesSocioTableRow = ({
 
   const [confirmarCompetidor, { loading: confirmarLoading }] = useMutation(
     MUTATION_CONFIRMAR_COMPETIDOR,
-    {
-      fetchPolicy: 'no-cache',
-    },
   );
   const [removerCompetidor, { loading: removerLoading }] = useMutation(
     MUTATION_REMOVER_COMPETIDOR,
-    {
-      fetchPolicy: 'no-cache',
-    },
   );
 
   const { ['aaafuriaToken']: token } = parseCookies();
@@ -124,6 +120,7 @@ export const AtividadesSocioTableRow = ({
               colorScheme="red"
               onClick={() => handleRemoverCompetidor(node.id)}
               isLoading={removerLoading}
+              isDisabled={!isAuthenticated}
             >
               Não vou
             </CustomButtom>
@@ -132,6 +129,7 @@ export const AtividadesSocioTableRow = ({
               rightIcon={<MdCheck size="25px" />}
               onClick={() => handleConfirmarCompetidor(node.id)}
               isLoading={confirmarLoading}
+              isDisabled={!isAuthenticated}
             >
               Eu vou
             </CustomButtom>

@@ -1,12 +1,10 @@
-import router from 'next/router';
+import { useRouter } from 'next/router';
 import { AiOutlineCalendar } from 'react-icons/ai';
 import { AtividadesSocioTable, Card } from '@/components/molecules';
 import { AuthContext } from '@/contexts/AuthContext';
 import { Box, Stack } from '@chakra-ui/react';
 import { FaArrowLeft, FaPlus } from 'react-icons/fa';
-import { GetServerSideProps } from 'next';
 import { Layout } from '@/components/templates';
-import { parseCookies } from 'nookies';
 import { useContext, useEffect } from 'react';
 import {
   CustomButtom,
@@ -18,10 +16,15 @@ import {
 interface AtividadesProps {}
 
 function Atividades({}: AtividadesProps) {
-  const { isStaff, checkCredentials } = useContext(AuthContext);
+  const { isStaff, checkCredentials, isAuthenticated } =
+    useContext(AuthContext);
+  const router = useRouter();
   useEffect(() => {
     checkCredentials();
-  }, [checkCredentials]);
+    if (!isAuthenticated) {
+      router.push(`/entrar?after=${router.asPath}`);
+    }
+  }, [checkCredentials, isAuthenticated, router]);
 
   return (
     <Layout title="Atividades" desc="Programação de atividades">
@@ -75,22 +78,5 @@ function Atividades({}: AtividadesProps) {
     </Layout>
   );
 }
-
-export const getServerSideProps: GetServerSideProps = async (ctx) => {
-  const { ['aaafuriaToken']: token } = parseCookies(ctx);
-
-  if (!token) {
-    return {
-      redirect: {
-        destination: `/entrar?after=${ctx.resolvedUrl}`,
-        permanent: false,
-      },
-    };
-  }
-
-  return {
-    props: {},
-  };
-};
 
 export default Atividades;
