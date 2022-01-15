@@ -49,9 +49,15 @@ export const AtividadesSocioTableRow = ({
 
   const [confirmarCompetidor, { loading: confirmarLoading }] = useMutation(
     MUTATION_CONFIRMAR_COMPETIDOR,
+    {
+      fetchPolicy: 'no-cache',
+    },
   );
   const [removerCompetidor, { loading: removerLoading }] = useMutation(
     MUTATION_REMOVER_COMPETIDOR,
+    {
+      fetchPolicy: 'no-cache',
+    },
   );
 
   const { ['aaafuriaToken']: token } = parseCookies();
