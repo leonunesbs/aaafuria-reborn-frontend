@@ -321,7 +321,7 @@ function Eventos() {
         </Text>
       )}
       <Stack mt={4} align="center">
-        <CustomChakraNextLink href="/eventos/meus-eventos">
+        <CustomChakraNextLink href="/eventos/meus-ingressos">
           <CustomButtom
             mt={4}
             colorScheme="gray"
