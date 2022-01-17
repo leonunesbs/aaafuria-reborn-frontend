@@ -110,6 +110,11 @@ export const AtividadesSocioTable = ({
     );
   }
 
+  const handleRefetch = () => {
+    programacao_esporte.refetch();
+    programacao_bateria.refetch();
+  };
+
   return (
     <Table colorScheme="gray" {...rest}>
       <Thead>
@@ -125,7 +130,13 @@ export const AtividadesSocioTable = ({
       <Tbody>
         {programacao.map(({ node }: { node: ProgramacaoData }) => {
           if (!node.finalizado) {
-            return <AtividadesSocioTableRow key={node.id} node={node} />;
+            return (
+              <AtividadesSocioTableRow
+                key={node.id}
+                node={node}
+                refetch={handleRefetch}
+              />
+            );
           }
         })}
         {programacao.length === 0 && (

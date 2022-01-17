@@ -24,6 +24,7 @@ import {
 import { useRouter } from 'next/router';
 import { parseCookies } from 'nookies';
 import { useCallback, useContext, useEffect, useState } from 'react';
+import { FaTicketAlt } from 'react-icons/fa';
 import { MdHome, MdLogin, MdPayment, MdSend } from 'react-icons/md';
 
 const LOTE_QUERY = gql`
@@ -121,9 +122,6 @@ function Eventos() {
             isClosable: true,
             position: 'top-left',
           });
-          setTimeout(() => {
-            router.reload();
-          }, 2500);
         } else {
           toast({
             title: 'Atenção',
@@ -137,7 +135,7 @@ function Eventos() {
       });
       setLoading(false);
     },
-    [novoIngresso, router, toast],
+    [novoIngresso, toast],
   );
 
   useEffect(() => {
@@ -323,12 +321,17 @@ function Eventos() {
         </Text>
       )}
       <Stack mt={4} align="center">
-        <CustomChakraNextLink href="/">
+        <CustomChakraNextLink href="/eventos/meus-eventos">
           <CustomButtom
             mt={4}
-            colorScheme="red"
-            leftIcon={<MdHome size="25px" />}
+            colorScheme="gray"
+            leftIcon={<FaTicketAlt size="25px" />}
           >
+            Meus eventos
+          </CustomButtom>
+        </CustomChakraNextLink>
+        <CustomChakraNextLink href="/">
+          <CustomButtom colorScheme="red" leftIcon={<MdHome size="25px" />}>
             Voltar ao início
           </CustomButtom>
         </CustomChakraNextLink>

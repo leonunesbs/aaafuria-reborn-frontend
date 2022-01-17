@@ -17,16 +17,20 @@ import {
   useDisclosure,
   useToast,
 } from '@chakra-ui/react';
+import { GetServerSideProps } from 'next';
 import { useRouter } from 'next/router';
+import { parseCookies } from 'nookies';
 import { useCallback, useContext, useEffect, useRef } from 'react';
 import { MdCheck } from 'react-icons/md';
 
 const INGRESSO_BY_ID = gql`
   query ingressoById($id: ID!) {
     ingressoById(id: $id) {
-      id
       lote {
         nome
+        evento {
+          nome
+        }
       }
       status
       dataCompra
@@ -57,6 +61,9 @@ interface IngressoProps {
   id: string;
   lote: {
     nome: string;
+    evento: {
+      nome: string;
+    };
   };
   status: string;
   dataCompra: string;
@@ -77,13 +84,13 @@ interface IngressoProps {
 const Ingresso = () => {
   const router = useRouter();
   const { id = '0' } = router.query;
-  const { token } = useContext(AuthContext);
+  const { token, checkCredentials, isStaff } = useContext(AuthContext);
   const toast = useToast();
 
   const { isOpen, onOpen, onClose } = useDisclosure();
   const cancelRef = useRef<any>();
 
-  const { data, loading } = useQuery(INGRESSO_BY_ID, {
+  const { data, loading, refetch } = useQuery(INGRESSO_BY_ID, {
     variables: { id },
     context: {
       headers: {
@@ -119,11 +126,11 @@ const Ingresso = () => {
             position: 'top-left',
             isClosable: true,
           });
-          router.reload();
+          refetch();
         }
       },
     );
-  }, [id, invalidarIngresso, onClose, router, toast]);
+  }, [id, invalidarIngresso, onClose, refetch, toast]);
 
   useEffect(() => {
     if (!loading && data.ingressoById === null) {
@@ -136,6 +143,22 @@ const Ingresso = () => {
       });
     }
   }, [data, loading, toast]);
+
+  useEffect(() => {
+    checkCredentials();
+
+    if (isStaff === false) {
+      toast({
+        title: 'Restrito.',
+        description: 'Você não tem permissão para acessar esta área.',
+        status: 'warning',
+        duration: 2500,
+        isClosable: true,
+        position: 'top-left',
+      });
+      router.push('/');
+    }
+  }, [checkCredentials, isStaff, router, toast]);
 
   return (
     <Layout title="Ingresso">
@@ -150,6 +173,12 @@ const Ingresso = () => {
           }
         >
           <Table mb={4}>
+            <Tr>
+              <Td>
+                <b>Evento: </b>
+              </Td>
+              <Td>{ingresso?.lote?.evento?.nome}</Td>
+            </Tr>
             <Tr>
               <Td>
                 <b>Lote: </b>
@@ -176,15 +205,21 @@ const Ingresso = () => {
             </Tr>
             <Tr>
               <Td>
-                <b>Turma: </b>
-              </Td>
-              <Td>{ingresso?.participante?.socio?.turma}</Td>
-            </Tr>
-            <Tr>
-              <Td>
                 <b>Nome: </b>
               </Td>
               <Td>{ingresso?.participante?.nome}</Td>
+            </Tr>
+            <Tr>
+              <Td>
+                <b>Matrícula: </b>
+              </Td>
+              <Td>{ingresso?.participante?.socio?.matricula}</Td>
+            </Tr>
+            <Tr>
+              <Td>
+                <b>Turma: </b>
+              </Td>
+              <Td>{ingresso?.participante?.socio?.turma}</Td>
             </Tr>
             <Tr>
               <Td>
@@ -259,6 +294,23 @@ const Ingresso = () => {
       </Box>
     </Layout>
   );
+};
+
+export const getServerSideProps: GetServerSideProps = async (ctx) => {
+  const { ['aaafuriaToken']: token } = parseCookies(ctx);
+
+  if (!token) {
+    return {
+      redirect: {
+        destination: `/entrar?after=${ctx.resolvedUrl}`,
+        permanent: false,
+      },
+    };
+  }
+
+  return {
+    props: {},
+  };
 };
 
 export default Ingresso;

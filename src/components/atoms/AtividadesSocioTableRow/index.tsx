@@ -1,4 +1,3 @@
-import router from 'next/router';
 import { gql, useMutation } from '@apollo/client';
 import { MdCalendarToday, MdCheck, MdOutlineCancel } from 'react-icons/md';
 import { parseCookies } from 'nookies';
@@ -12,12 +11,13 @@ import {
   useColorModeValue,
   useToast,
 } from '@chakra-ui/react';
-import { useCallback, useContext, useState } from 'react';
+import { useCallback, useContext, useEffect, useState } from 'react';
 import { CustomButtom, CustomIconButton } from '@/components/atoms';
 import { AuthContext } from '@/contexts/AuthContext';
 
 interface AtividadesSocioTableRowProps extends TableRowProps {
   node: ProgramacaoData;
+  refetch: () => void;
 }
 
 const MUTATION_REMOVER_COMPETIDOR = gql`
@@ -37,6 +37,7 @@ const MUTATION_CONFIRMAR_COMPETIDOR = gql`
 
 export const AtividadesSocioTableRow = ({
   node,
+  refetch,
   ...rest
 }: AtividadesSocioTableRowProps) => {
   const bgRow = useColorModeValue('white', 'gray.800');
@@ -45,23 +46,28 @@ export const AtividadesSocioTableRow = ({
   const { isAuthenticated } = useContext(AuthContext);
 
   const { ['aaafuriaMatricula']: matricula } = parseCookies();
-  const [isConfirmed] = useState(
+  const [isConfirmed, setIsConfirmed] = useState(
     node.competidoresConfirmados.edges.find(
       ({ node: { socio } }) => socio.matricula === matricula,
     ) !== undefined,
   );
+  const [loading, setLoading] = useState(false);
 
-  const [confirmarCompetidor, { loading: confirmarLoading }] = useMutation(
-    MUTATION_CONFIRMAR_COMPETIDOR,
+  const [value] = useState(
+    node.competidoresConfirmados.edges.length > 0
+      ? (node.competidoresConfirmados.edges.length / node.competidoresMinimo) *
+          100
+      : 0,
   );
-  const [removerCompetidor, { loading: removerLoading }] = useMutation(
-    MUTATION_REMOVER_COMPETIDOR,
-  );
+
+  const [confirmarCompetidor] = useMutation(MUTATION_CONFIRMAR_COMPETIDOR);
+  const [removerCompetidor] = useMutation(MUTATION_REMOVER_COMPETIDOR);
 
   const { ['aaafuriaToken']: token } = parseCookies();
 
   const handleConfirmarCompetidor = useCallback(
     async (idProgramacao: string) => {
+      setLoading(true);
       await confirmarCompetidor({
         variables: {
           id: idProgramacao,
@@ -79,14 +85,16 @@ export const AtividadesSocioTableRow = ({
           isClosable: true,
           position: 'top-left',
         });
-        router.reload();
+        refetch();
       });
+      setLoading(false);
     },
-    [confirmarCompetidor, toast, token],
+    [confirmarCompetidor, refetch, toast, token],
   );
 
   const handleRemoverCompetidor = useCallback(
     async (idProgramacao: string) => {
+      setLoading(true);
       await removerCompetidor({
         variables: {
           id: idProgramacao,
@@ -97,17 +105,20 @@ export const AtividadesSocioTableRow = ({
           },
         },
       }).then(() => {
-        router.reload();
+        refetch();
       });
+      setLoading(false);
     },
-    [removerCompetidor, token],
+    [refetch, removerCompetidor, token],
   );
 
-  const value =
-    node.competidoresConfirmados.edges.length > 0
-      ? (node.competidoresConfirmados.edges.length / node.competidoresMinimo) *
-        100
-      : 0;
+  useEffect(() => {
+    setIsConfirmed(
+      node.competidoresConfirmados.edges.find(
+        ({ node: { socio } }) => socio.matricula === matricula,
+      ) !== undefined,
+    );
+  }, [matricula, node.competidoresConfirmados.edges]);
 
   return (
     <Tr key={node.id} {...rest} bgColor={isConfirmed ? confirmedBgRow : bgRow}>
@@ -130,8 +141,8 @@ export const AtividadesSocioTableRow = ({
               leftIcon={<MdOutlineCancel size="25px" />}
               colorScheme="red"
               onClick={() => handleRemoverCompetidor(node.id)}
-              isLoading={removerLoading}
               isDisabled={!isAuthenticated}
+              isLoading={loading}
             >
               Não vou
             </CustomButtom>
@@ -139,8 +150,8 @@ export const AtividadesSocioTableRow = ({
             <CustomButtom
               rightIcon={<MdCheck size="25px" />}
               onClick={() => handleConfirmarCompetidor(node.id)}
-              isLoading={confirmarLoading}
               isDisabled={!isAuthenticated}
+              isLoading={loading}
             >
               Eu vou
             </CustomButtom>
