@@ -109,7 +109,13 @@ function Eventos() {
 
   if (!data) {
     return (
-      <Layout title="Início" isHeaded={false} isFooted={false} h="100vh">
+      <Layout
+        title="Eventos"
+        desc="Compre aqui seu ingresso para o próximo evento com padrão Fúria de qualidade."
+        isHeaded={false}
+        isFooted={false}
+        h="100vh"
+      >
         <Center h="100vh" flexDir="row">
           <Spinner size="xl" color="green" />
         </Center>
@@ -119,7 +125,7 @@ function Eventos() {
   return (
     <Layout
       title="Eventos"
-      desc="Veja aqui os próximos eventos com assinatura @aaafuria."
+      desc="Compre aqui seu ingresso para o próximo evento com padrão Fúria de qualidade."
     >
       <PageHeading>Eventos</PageHeading>
       <SimpleGrid
