@@ -28,6 +28,7 @@ const QUERY_SOCIO = gql`
 
 interface AuthContextProps {
   isAuthenticated: boolean;
+  token: string;
   signIn: (data: SignInData) => Promise<void>;
   checkCredentials: () => Promise<boolean>;
   isStaff: boolean | null;
@@ -155,6 +156,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
     <AuthContext.Provider
       value={{
         user,
+        token,
         isAuthenticated,
         signIn,
         signOut,

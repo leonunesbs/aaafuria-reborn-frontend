@@ -1,5 +1,5 @@
 import { Button, ButtonProps } from '@chakra-ui/react';
-import { ReactNode } from 'react';
+import { forwardRef, ReactNode } from 'react';
 import { FiExternalLink } from 'react-icons/fi';
 
 interface CustomButtomProps extends ButtonProps {
@@ -7,20 +7,21 @@ interface CustomButtomProps extends ButtonProps {
   hasExternalIcon?: boolean;
 }
 
-export const CustomButtom = ({
-  children,
-  hasExternalIcon,
-  ...rest
-}: CustomButtomProps) => {
-  return (
-    <Button
-      colorScheme="green"
-      variant="ghost"
-      w="full"
-      rightIcon={hasExternalIcon ? <FiExternalLink size="15px" /> : <></>}
-      {...rest}
-    >
-      {children}
-    </Button>
-  );
-};
+export const CustomButtom = forwardRef<HTMLButtonElement, CustomButtomProps>(
+  ({ children, hasExternalIcon, ...rest }, ref) => {
+    return (
+      <Button
+        ref={ref}
+        colorScheme="green"
+        variant="ghost"
+        w="full"
+        rightIcon={hasExternalIcon ? <FiExternalLink size="15px" /> : <></>}
+        {...rest}
+      >
+        {children}
+      </Button>
+    );
+  },
+);
+
+CustomButtom.displayName = 'CustomButtom';

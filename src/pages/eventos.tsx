@@ -115,8 +115,20 @@ function Eventos() {
       }).then(({ data }) => {
         if (data.novoIngresso?.ok) {
           toast({
-            description: 'Participação confirmada.',
+            description: 'Participação confirmada!',
             status: 'success',
+            duration: 2500,
+            isClosable: true,
+            position: 'top-left',
+          });
+          setTimeout(() => {
+            router.reload();
+          }, 2500);
+        } else {
+          toast({
+            title: 'Atenção',
+            description: 'Você já confirmou a sua participação.',
+            status: 'warning',
             duration: 2500,
             isClosable: true,
             position: 'top-left',
@@ -125,7 +137,7 @@ function Eventos() {
       });
       setLoading(false);
     },
-    [novoIngresso, toast],
+    [novoIngresso, router, toast],
   );
 
   useEffect(() => {
