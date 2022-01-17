@@ -15,6 +15,7 @@ export type ProgramacaoData = {
   };
   dataHora: string;
   local: string;
+  finalizado: boolean;
   competidoresMinimo: number;
   competidoresConfirmados: {
     edges: {
@@ -29,7 +30,7 @@ export type ProgramacaoData = {
 
 const QUERY_PROGRAMACAO_ESPORTE = gql`
   {
-    allProgramacao(modalidade_Categoria: "Esporte") {
+    allProgramacao(modalidade_Categoria: "Esporte", orderBy: "data_hora") {
       edges {
         node {
           id
@@ -51,6 +52,7 @@ const QUERY_PROGRAMACAO_ESPORTE = gql`
             }
           }
           local
+          finalizado
         }
       }
     }
@@ -58,7 +60,7 @@ const QUERY_PROGRAMACAO_ESPORTE = gql`
 `;
 const QUERY_PROGRAMACAO_BATERIA = gql`
   {
-    allProgramacao(modalidade_Categoria: "Bateria") {
+    allProgramacao(modalidade_Categoria: "Bateria", orderBy: "data_hora") {
       edges {
         node {
           id
@@ -80,6 +82,7 @@ const QUERY_PROGRAMACAO_BATERIA = gql`
             }
           }
           local
+          finalizado
         }
       }
     }
@@ -95,16 +98,6 @@ export const AtividadesSocioTable = ({
   const programacao_bateria = useQuery(QUERY_PROGRAMACAO_BATERIA, {
     fetchPolicy: 'no-cache',
   });
-
-  function compare_datetime(a: any, b: any) {
-    if (a.node.dataHora < b.node.dataHora) {
-      return -1;
-    }
-    if (a.node.dataHora > b.node.dataHora) {
-      return 1;
-    }
-    return 0;
-  }
 
   // Variable that unifies the data from both queries
   let programacao = [];
@@ -130,11 +123,11 @@ export const AtividadesSocioTable = ({
         </Tr>
       </Thead>
       <Tbody>
-        {programacao
-          .sort(compare_datetime)
-          .map(({ node }: { node: ProgramacaoData }) => {
+        {programacao.map(({ node }: { node: ProgramacaoData }) => {
+          if (!node.finalizado) {
             return <AtividadesSocioTableRow key={node.id} node={node} />;
-          })}
+          }
+        })}
         {programacao.length === 0 && (
           <Tr>
             <Td colSpan={6} textAlign="center">
