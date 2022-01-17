@@ -1,10 +1,10 @@
 import React from 'react';
-import { AiFillHome, AiFillIdcard } from 'react-icons/ai';
+import { AiFillIdcard } from 'react-icons/ai';
 import { Box, Divider, Stack, StackProps } from '@chakra-ui/react';
 import { CustomButtom, CustomChakraNextLink } from '@/components/atoms';
 import { FaDrum, FaVolleyballBall } from 'react-icons/fa';
 import { gql, useQuery } from '@apollo/client';
-import { MdManageAccounts } from 'react-icons/md';
+import { MdArrowLeft, MdManageAccounts } from 'react-icons/md';
 import { parseCookies } from 'nookies';
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
@@ -63,8 +63,8 @@ export const AreaSocioMenu = ({ ...rest }: AreaSocioMenuProps) => {
         </CustomButtom>
       </CustomChakraNextLink>
       <CustomChakraNextLink href="/">
-        <CustomButtom leftIcon={<AiFillHome size="20px" />} colorScheme="gray">
-          Voltar ao início
+        <CustomButtom leftIcon={<MdArrowLeft size="25px" />} colorScheme="red">
+          Voltar
         </CustomButtom>
       </CustomChakraNextLink>
     </Stack>

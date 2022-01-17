@@ -30,7 +30,7 @@ export const AreaDiretorMenu = ({ ...rest }: AreaDiretorMenuProps) => {
       <Divider height="15px" />
 
       <CustomChakraNextLink href="/">
-        <CustomButtom leftIcon={<AiFillHome size="20px" />} colorScheme="gray">
+        <CustomButtom leftIcon={<AiFillHome size="20px" />} colorScheme="red">
           Voltar
         </CustomButtom>
       </CustomChakraNextLink>

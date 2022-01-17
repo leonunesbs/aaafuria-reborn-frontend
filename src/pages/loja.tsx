@@ -6,7 +6,7 @@ import { gql, useQuery } from '@apollo/client';
 import { Box, Button, SimpleGrid, Stack, Text } from '@chakra-ui/react';
 import { parseCookies } from 'nookies';
 import React, { useContext, useEffect } from 'react';
-import { MdHome, MdShoppingCart } from 'react-icons/md';
+import { MdArrowLeft, MdShoppingCart } from 'react-icons/md';
 
 const PRODUTO_QUERY = gql`
   query getProdutos {
@@ -90,9 +90,9 @@ function Loja() {
               colorScheme="red"
               variant="ghost"
               w="full"
-              leftIcon={<MdHome size="25px" />}
+              leftIcon={<MdArrowLeft size="25px" />}
             >
-              Voltar ao início
+              Voltar
             </Button>
           </CustomChakraNextLink>
         </Stack>

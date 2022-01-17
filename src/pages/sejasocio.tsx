@@ -1,4 +1,8 @@
-import { PageHeading } from '@/components/atoms';
+import {
+  CustomButtom,
+  CustomChakraNextLink,
+  PageHeading,
+} from '@/components/atoms';
 import { Card, SocialIcons } from '@/components/molecules';
 import { Layout } from '@/components/templates';
 import { AuthContext } from '@/contexts/AuthContext';
@@ -27,7 +31,7 @@ import { useRouter } from 'next/router';
 import { parseCookies } from 'nookies';
 import React, { useCallback, useContext, useEffect } from 'react';
 import { BsCurrencyDollar } from 'react-icons/bs';
-import { MdLogin } from 'react-icons/md';
+import { MdArrowLeft, MdLogin } from 'react-icons/md';
 
 const NOVO_PAGAMENTO = gql`
   mutation novoPagamento($tipoPlano: String!) {
@@ -237,16 +241,14 @@ function SejaSocio() {
           })}
         </SimpleGrid>
         <Stack align="center">
-          <Button
-            mt={4}
-            colorScheme="red"
-            variant="ghost"
-            w="100%"
-            maxW="sm"
-            onClick={() => router.push('/')}
-          >
-            Voltar ao início
-          </Button>
+          <CustomChakraNextLink href="/">
+            <CustomButtom
+              leftIcon={<MdArrowLeft size="25px" />}
+              colorScheme="red"
+            >
+              Voltar
+            </CustomButtom>
+          </CustomChakraNextLink>
         </Stack>
         <SocialIcons mt={[4, 8]} />
       </Box>

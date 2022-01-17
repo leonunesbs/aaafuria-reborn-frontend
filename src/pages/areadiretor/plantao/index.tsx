@@ -204,7 +204,7 @@ function Plantao() {
             colorScheme="red"
             leftIcon={<MdArrowLeft size="25px" />}
           >
-            Voltar ao menu
+            Voltar
           </CustomButtom>
         </CustomChakraNextLink>
       </Stack>

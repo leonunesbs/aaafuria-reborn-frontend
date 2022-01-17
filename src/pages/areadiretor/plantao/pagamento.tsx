@@ -124,7 +124,7 @@ function Pagamento() {
             colorScheme="red"
             mt={4}
           >
-            Voltar ao plantão
+            Voltar
           </CustomButtom>
         </CustomChakraNextLink>
       </Box>

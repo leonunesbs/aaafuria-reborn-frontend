@@ -4,7 +4,7 @@ import { Card } from '@/components/molecules';
 import { GetServerSideProps } from 'next';
 import { gql, useQuery } from '@apollo/client';
 import { Layout } from '@/components/templates';
-import { MdHome, MdRefresh } from 'react-icons/md';
+import { MdArrowLeft, MdHome, MdRefresh } from 'react-icons/md';
 import { PageHeading } from '@/components/atoms';
 import { parseCookies } from 'nookies';
 import { useRouter } from 'next/router';
@@ -269,7 +269,7 @@ function Carteirinha({ token }: CarteirinhaProps) {
             Atualizar
           </Button>
           <Button
-            leftIcon={<MdHome size="25px" />}
+            leftIcon={<MdArrowLeft size="25px" />}
             colorScheme="red"
             variant="ghost"
             maxW="md"

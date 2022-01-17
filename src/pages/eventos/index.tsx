@@ -25,7 +25,7 @@ import { useRouter } from 'next/router';
 import { parseCookies } from 'nookies';
 import { useCallback, useContext, useEffect, useState } from 'react';
 import { FaTicketAlt } from 'react-icons/fa';
-import { MdHome, MdLogin, MdPayment, MdSend } from 'react-icons/md';
+import { MdArrowLeft, MdLogin, MdPayment, MdSend } from 'react-icons/md';
 
 const LOTE_QUERY = gql`
   query getLotes {
@@ -331,8 +331,11 @@ function Eventos() {
           </CustomButtom>
         </CustomChakraNextLink>
         <CustomChakraNextLink href="/">
-          <CustomButtom colorScheme="red" leftIcon={<MdHome size="25px" />}>
-            Voltar ao início
+          <CustomButtom
+            colorScheme="red"
+            leftIcon={<MdArrowLeft size="25px" />}
+          >
+            Voltar
           </CustomButtom>
         </CustomChakraNextLink>
       </Stack>

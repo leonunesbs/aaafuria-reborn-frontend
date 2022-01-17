@@ -208,8 +208,8 @@ function Carrinho() {
           <CustomButtom
             maxW="xs"
             size="lg"
-            colorScheme="yellow"
-            leftIcon={<MdArrowLeft size="20px" />}
+            colorScheme="red"
+            leftIcon={<MdArrowLeft size="25px" />}
             onClick={() => router.back()}
           >
             Voltar

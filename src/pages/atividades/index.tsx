@@ -3,7 +3,7 @@ import { AiOutlineCalendar } from 'react-icons/ai';
 import { AtividadesSocioTable, Card } from '@/components/molecules';
 import { AuthContext } from '@/contexts/AuthContext';
 import { Box, Stack } from '@chakra-ui/react';
-import { FaArrowLeft, FaPlus } from 'react-icons/fa';
+import { FaPlus } from 'react-icons/fa';
 import { Layout } from '@/components/templates';
 import { useContext, useEffect } from 'react';
 import {
@@ -11,6 +11,7 @@ import {
   CustomChakraNextLink,
   PageHeading,
 } from '@/components/atoms';
+import { MdArrowLeft } from 'react-icons/md';
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 interface AtividadesProps {}
@@ -66,13 +67,15 @@ function Atividades({}: AtividadesProps) {
               </CustomChakraNextLink>
             </>
           )}
-          <CustomButtom
-            colorScheme="gray"
-            leftIcon={<FaArrowLeft size="20px" />}
-            onClick={() => router.push('/')}
-          >
-            Voltar
-          </CustomButtom>
+
+          <CustomChakraNextLink href="/">
+            <CustomButtom
+              leftIcon={<MdArrowLeft size="25px" />}
+              colorScheme="red"
+            >
+              Voltar
+            </CustomButtom>
+          </CustomChakraNextLink>
         </Stack>
       </Box>
     </Layout>
