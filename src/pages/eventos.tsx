@@ -19,11 +19,12 @@ import {
   Stack,
   Text,
   useColorModeValue,
+  useToast,
 } from '@chakra-ui/react';
 import { useRouter } from 'next/router';
 import { parseCookies } from 'nookies';
 import { useCallback, useContext, useEffect, useState } from 'react';
-import { MdHome, MdLogin, MdPayment } from 'react-icons/md';
+import { MdHome, MdLogin, MdPayment, MdSend } from 'react-icons/md';
 
 const LOTE_QUERY = gql`
   query getLotes {
@@ -41,6 +42,7 @@ const LOTE_QUERY = gql`
           preco
           precoSocio
           precoConvidado
+          isGratuito
         }
       }
     }
@@ -49,6 +51,7 @@ const LOTE_QUERY = gql`
 const NOVO_INGRESSO_MUTATION = gql`
   mutation ($loteId: ID!) {
     novoIngresso(loteId: $loteId) {
+      ok
       ingresso {
         stripeCheckoutUrl
       }
@@ -71,11 +74,13 @@ export type LoteType = {
     preco: number;
     precoSocio: number;
     precoConvidado: number;
+    isGratuito: boolean;
   };
 };
 
 function Eventos() {
   const router = useRouter();
+  const toast = useToast();
   const { data } = useQuery(LOTE_QUERY);
   const { isSocio, isAuthenticated, checkCredentials } =
     useContext(AuthContext);
@@ -101,6 +106,26 @@ function Eventos() {
       setLoading(false);
     },
     [novoIngresso, router],
+  );
+  const handleParticipar = useCallback(
+    async (loteId: string) => {
+      setLoading(true);
+      await novoIngresso({
+        variables: { loteId },
+      }).then(({ data }) => {
+        if (data.novoIngresso?.ok) {
+          toast({
+            description: 'Participação confirmada.',
+            status: 'success',
+            duration: 2500,
+            isClosable: true,
+            position: 'top-left',
+          });
+        }
+      });
+      setLoading(false);
+    },
+    [novoIngresso, toast],
   );
 
   useEffect(() => {
@@ -144,7 +169,7 @@ function Eventos() {
                 objectFit="cover"
                 src={node.evento.imagem}
                 mx="auto"
-                alt="Evento 1"
+                alt={node.evento.nome}
               />
               <Box py="8" px={{ base: '4', md: '10' }}>
                 <PageHeading as="h2" fontWeight="bold">
@@ -170,18 +195,26 @@ function Eventos() {
                   flexGrow={1}
                   my={6}
                 >
-                  <Box textColor={isSocio ? green : 'inherit'}>
-                    <Text>SÓCIO</Text>
-                    <Text fontWeight={'bold'} fontSize={'lg'}>
-                      R$ {node.precoSocio}
-                    </Text>
-                  </Box>
-                  <Box textColor={!isSocio ? green : 'inherit'}>
-                    <Text>NÃO SÓCIO</Text>
-                    <Text fontWeight={'bold'} fontSize={'lg'}>
-                      R$ {node.preco}
-                    </Text>
-                  </Box>
+                  {node.isGratuito ? (
+                    <Box textColor={green}>
+                      <Text fontWeight="bold">Evento Gratuito</Text>
+                    </Box>
+                  ) : (
+                    <>
+                      <Box textColor={isSocio ? green : 'inherit'}>
+                        <Text>SÓCIO</Text>
+                        <Text fontWeight={'bold'} fontSize={'lg'}>
+                          R$ {node.precoSocio}
+                        </Text>
+                      </Box>
+                      <Box textColor={!isSocio ? green : 'inherit'}>
+                        <Text>NÃO SÓCIO</Text>
+                        <Text fontWeight={'bold'} fontSize={'lg'}>
+                          R$ {node.preco}
+                        </Text>
+                      </Box>
+                    </>
+                  )}
                   {!node.evento.fechado && (
                     <Box>
                       <Text>CONVIDADO</Text>
@@ -225,26 +258,49 @@ function Eventos() {
                   </form>
                 )}
               </Box>
-              <CustomButtom
-                leftIcon={
-                  isAuthenticated ? (
-                    <MdPayment size="25px" />
-                  ) : (
-                    <MdLogin size="25px" />
-                  )
-                }
-                borderTopRadius={0}
-                isLoading={loading}
-                onClick={
-                  isAuthenticated
-                    ? () => handleGoToPayment(node.id)
-                    : () => router.push(`entrar?after=${router.asPath}`)
-                }
-              >
-                {isAuthenticated
-                  ? 'Ir para o pagamento'
-                  : 'Faça login para pagar'}
-              </CustomButtom>
+              {node.isGratuito ? (
+                <CustomButtom
+                  leftIcon={
+                    isAuthenticated ? (
+                      <MdSend size="25px" />
+                    ) : (
+                      <MdLogin size="25px" />
+                    )
+                  }
+                  borderTopRadius={0}
+                  isLoading={loading}
+                  onClick={
+                    isAuthenticated
+                      ? () => handleParticipar(node.id)
+                      : () => router.push(`entrar?after=${router.asPath}`)
+                  }
+                >
+                  {isAuthenticated
+                    ? 'Participar'
+                    : 'Faça login para participar'}
+                </CustomButtom>
+              ) : (
+                <CustomButtom
+                  leftIcon={
+                    isAuthenticated ? (
+                      <MdPayment size="25px" />
+                    ) : (
+                      <MdLogin size="25px" />
+                    )
+                  }
+                  borderTopRadius={0}
+                  isLoading={loading}
+                  onClick={
+                    isAuthenticated
+                      ? () => handleGoToPayment(node.id)
+                      : () => router.push(`entrar?after=${router.asPath}`)
+                  }
+                >
+                  {isAuthenticated
+                    ? 'Ir para o pagamento'
+                    : 'Faça login para pagar'}
+                </CustomButtom>
+              )}
             </Card>
           );
         })}
