@@ -327,7 +327,7 @@ function Eventos() {
             colorScheme="gray"
             leftIcon={<FaTicketAlt size="25px" />}
           >
-            Meus eventos
+            Meus ingressos
           </CustomButtom>
         </CustomChakraNextLink>
         <CustomChakraNextLink href="/">
