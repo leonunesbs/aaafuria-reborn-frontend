@@ -65,7 +65,10 @@ function MeusEventos() {
   }, []);
 
   return (
-    <Layout title="Ingresso">
+    <Layout
+      title="Meus ingressos"
+      desc="Confira aqui seus ingressos adquiridos para os próximos eventos."
+    >
       <Box maxW="xl" mx="auto">
         <Card>
           {data?.userAuthenticatedIngressos?.length == 0 && (
