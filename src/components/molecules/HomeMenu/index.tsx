@@ -40,7 +40,6 @@ export const HomeMenu = ({ setLoading }: HomeMenuProps) => {
           onClick={() => {
             setLoading(true);
           }}
-          isDisabled
         >
           Eventos
         </CustomButtom>
