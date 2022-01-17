@@ -2,6 +2,7 @@ import {
   CustomButtom,
   CustomChakraNextLink,
   CustomIconButton,
+  PageHeading,
 } from '@/components/atoms';
 import { Card } from '@/components/molecules';
 import { Layout } from '@/components/templates';
@@ -70,6 +71,7 @@ function MeusEventos() {
       desc="Confira aqui seus ingressos adquiridos para os próximos eventos."
     >
       <Box maxW="xl" mx="auto">
+        <PageHeading>Meus ingressos</PageHeading>
         <Card>
           {data?.userAuthenticatedIngressos?.length == 0 && (
             <Flex align="center" justify="center" flexDirection="column" p={4}>
