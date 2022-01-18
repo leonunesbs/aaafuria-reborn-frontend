@@ -45,7 +45,10 @@ export const Layout = ({
               : 'aaafuria, plataforma, loja, atividades, eventos, atlética, sócio, uninovafapi'
           }
         />
-        <link rel="canonical" href={'https://aaafuria.site/'} />
+        <link
+          rel="canonical"
+          href={`https://aaafuria.com.br${router.asPath}`}
+        />
 
         {/* Open Graph / Facebook */}
         <meta property="og:type" content="website" />
