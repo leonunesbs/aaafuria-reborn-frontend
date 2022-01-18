@@ -139,7 +139,12 @@ export const CadastroDrawer = ({
         </DrawerHeader>
 
         <DrawerBody>
-          <Layout title="Cadastro" desc="Crie sua conta na plataforma!">
+          <Layout
+            title="Cadastro"
+            desc="Crie sua conta na plataforma!"
+            isHeaded={false}
+            isFooted={false}
+          >
             <Card>
               <form id="signUp" onSubmit={handleSubmit(signUp)}>
                 <Stack spacing={4}>
