@@ -17,15 +17,11 @@ import { MdArrowLeft } from 'react-icons/md';
 interface AtividadesProps {}
 
 function Atividades({}: AtividadesProps) {
-  const { isStaff, checkCredentials, isAuthenticated } =
-    useContext(AuthContext);
+  const { isStaff, checkCredentials } = useContext(AuthContext);
   const router = useRouter();
   useEffect(() => {
     checkCredentials();
-    if (!isAuthenticated) {
-      router.push(`/entrar?after=${router.asPath}`);
-    }
-  }, [checkCredentials, isAuthenticated, router]);
+  }, [checkCredentials, router]);
 
   return (
     <Layout title="Atividades" desc="Programação de atividades">
