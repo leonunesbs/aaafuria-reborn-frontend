@@ -278,6 +278,7 @@ function Eventos() {
                     )
                   }
                   borderTopRadius={0}
+                  variant="solid"
                   isLoading={loading}
                   onClick={
                     isAuthenticated
@@ -300,6 +301,7 @@ function Eventos() {
                   }
                   borderTopRadius={0}
                   isLoading={loading}
+                  variant="solid"
                   onClick={
                     isAuthenticated
                       ? () => handleGoToPayment(node.id)
