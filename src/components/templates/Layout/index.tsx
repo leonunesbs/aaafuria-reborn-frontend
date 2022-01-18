@@ -8,6 +8,7 @@ interface LayoutProps extends BoxProps {
   children: ReactNode;
   title?: string;
   desc?: string;
+  kw?: string;
   isHeaded?: boolean;
   isFooted?: boolean;
 }
@@ -16,6 +17,7 @@ export const Layout = ({
   children,
   title,
   desc,
+  kw,
   isFooted = true,
   isHeaded = true,
 }: LayoutProps) => {
@@ -33,6 +35,14 @@ export const Layout = ({
             desc
               ? `${desc}`
               : 'Plataforma de sócios e loja da Associação Atlética de Medicina Fúria Uniniovafapi. Seja sócio da Maior do Piaiuí e aproveite as vantagens.'
+          }
+        />
+        <meta
+          name="keywords"
+          content={
+            kw
+              ? `${kw}`
+              : 'aaafuria, plataforma, loja, atividades, eventos, atlética, sócio, uninovafapi'
           }
         />
         <link rel="canonical" href={'https://aaafuria.site/'} />
