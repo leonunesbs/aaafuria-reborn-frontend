@@ -1,7 +1,6 @@
+import { CustomButtom, CustomIconButton } from '@/components/atoms';
+import { AuthContext } from '@/contexts/AuthContext';
 import { gql, useMutation } from '@apollo/client';
-import { MdCalendarToday, MdCheck, MdOutlineCancel } from 'react-icons/md';
-import { parseCookies } from 'nookies';
-import { ProgramacaoData } from '../../molecules/AtividadesSocioTable';
 import {
   Progress,
   TableRowProps,
@@ -11,9 +10,16 @@ import {
   useColorModeValue,
   useToast,
 } from '@chakra-ui/react';
+import { useRouter } from 'next/router';
+import { parseCookies } from 'nookies';
 import { useCallback, useContext, useEffect, useState } from 'react';
-import { CustomButtom, CustomIconButton } from '@/components/atoms';
-import { AuthContext } from '@/contexts/AuthContext';
+import {
+  MdCalendarToday,
+  MdCheck,
+  MdLogin,
+  MdOutlineCancel,
+} from 'react-icons/md';
+import { ProgramacaoData } from '../../molecules/AtividadesSocioTable';
 
 interface AtividadesSocioTableRowProps extends TableRowProps {
   node: ProgramacaoData;
@@ -40,6 +46,7 @@ export const AtividadesSocioTableRow = ({
   refetch,
   ...rest
 }: AtividadesSocioTableRowProps) => {
+  const router = useRouter();
   const bgRow = useColorModeValue('white', 'gray.800');
   const confirmedBgRow = useColorModeValue('green.50', 'gray.900');
   const toast = useToast();
@@ -136,24 +143,34 @@ export const AtividadesSocioTableRow = ({
               mb={2}
             />
           </>
-          {isConfirmed ? (
-            <CustomButtom
-              leftIcon={<MdOutlineCancel size="25px" />}
-              colorScheme="red"
-              onClick={() => handleRemoverCompetidor(node.id)}
-              isDisabled={!isAuthenticated}
-              isLoading={loading}
-            >
-              Não vou
-            </CustomButtom>
+          {isAuthenticated ? (
+            isConfirmed ? (
+              <CustomButtom
+                leftIcon={<MdOutlineCancel size="25px" />}
+                colorScheme="red"
+                onClick={() => handleRemoverCompetidor(node.id)}
+                isDisabled={!isAuthenticated}
+                isLoading={loading}
+              >
+                Não vou
+              </CustomButtom>
+            ) : (
+              <CustomButtom
+                rightIcon={<MdCheck size="25px" />}
+                onClick={() => handleConfirmarCompetidor(node.id)}
+                isDisabled={!isAuthenticated}
+                isLoading={loading}
+              >
+                Eu vou
+              </CustomButtom>
+            )
           ) : (
             <CustomButtom
-              rightIcon={<MdCheck size="25px" />}
-              onClick={() => handleConfirmarCompetidor(node.id)}
-              isDisabled={!isAuthenticated}
+              rightIcon={<MdLogin size="25px" />}
+              onClick={() => router.push(`/entrar?after=${router.asPath}`)}
               isLoading={loading}
             >
-              Eu vou
+              Fazer login
             </CustomButtom>
           )}
         </>
