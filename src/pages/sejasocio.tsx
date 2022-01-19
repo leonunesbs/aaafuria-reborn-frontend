@@ -53,16 +53,16 @@ function SejaSocio() {
   const { isAuthenticated, checkCredentials, isSocio } =
     useContext(AuthContext);
   const planos = [
-    { slug: 'mensal', nome: 'Plano Mensal', valor: '24,90' },
+    { slug: 'Mensal', nome: 'Plano Mensal', valor: '24,90' },
     {
-      slug: 'semestral',
+      slug: 'Semestral',
       nome: 'Pacote Semestral',
       descricao: `Associação válida até (30/06/${new Date().getFullYear()}).`,
       valor: '99,50',
       best: true,
     },
     {
-      slug: 'anual',
+      slug: 'Anual',
       nome: 'Pacote Anual',
       descricao: `Associação válida até (31/12/${new Date().getFullYear()}).`,
       valor: '198,00',
@@ -166,10 +166,10 @@ function SejaSocio() {
                   <Text fontSize="2xl" fontWeight="extrabold" color="green">
                     R${plano.valor}
                     <Text fontSize="lg" fontWeight="light" as="i" color={color}>
-                      {plano.slug === 'mensal' && '/mês'}
-                      {plano.slug === 'semestral' &&
+                      {plano.slug === 'Mensal' && '/mês'}
+                      {plano.slug === 'Semestral' &&
                         `/${new Date().getFullYear()}.1`}
-                      {plano.slug === 'anual' &&
+                      {plano.slug === 'Anual' &&
                         `/${new Date().getFullYear()}.1 + ${new Date().getFullYear()}.2`}
                     </Text>
                   </Text>
@@ -213,10 +213,10 @@ function SejaSocio() {
                                 as="i"
                                 color="black"
                               >
-                                {plano.slug === 'mensal' && '/mês'}
-                                {plano.slug === 'semestral' &&
+                                {plano.slug === 'Mensal' && '/mês'}
+                                {plano.slug === 'Semestral' &&
                                   `/${new Date().getFullYear()}.1`}
-                                {plano.slug === 'anual' &&
+                                {plano.slug === 'Anual' &&
                                   `/${new Date().getFullYear()}.1 + ${new Date().getFullYear()}.2`}
                               </Text>
                             </Text>
@@ -235,7 +235,7 @@ function SejaSocio() {
                                 colorScheme="green"
                                 leftIcon={<BsCurrencyDollar />}
                                 isDisabled={!isAuthenticated}
-                                onClick={() => handlePagar(plano.nome)}
+                                onClick={() => handlePagar(plano.slug)}
                                 isLoading={loading}
                               >
                                 Pagar
