@@ -114,7 +114,7 @@ function Plantao() {
 
   return (
     <Layout title="Área do Diretor">
-      <Box maxW="xl" mx="auto">
+      <Box maxW="7xl" mx="auto">
         <PageHeading>Plantão de Vendas</PageHeading>
         <form onSubmit={matriculaForm.handleSubmit(submitMatricula)}>
           <Card>
