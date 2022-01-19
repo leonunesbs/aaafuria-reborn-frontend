@@ -58,7 +58,9 @@ function SejaSocio() {
     {
       slug: 'Semestral',
       nome: 'Pacote Semestral',
-      descricao: `Associação válida até (30/06/${new Date().getFullYear()}).`,
+      descricao: `Associação válida até (${
+        new Date().getMonth() > 6 ? '31/12' : '30/06'
+      }/${new Date().getFullYear()}).`,
       valor: '99,50',
       best: true,
     },
@@ -172,7 +174,9 @@ function SejaSocio() {
                     <Text fontSize="lg" fontWeight="light" as="i" color={color}>
                       {plano.slug === 'Mensal' && '/mês'}
                       {plano.slug === 'Semestral' &&
-                        `/${new Date().getFullYear()}.1`}
+                        `/${new Date().getFullYear()}.${
+                          new Date().getMonth() > 6 ? '2' : '1'
+                        }`}
                       {plano.slug === 'Anual' &&
                         `/${new Date().getFullYear()}.1 + ${new Date().getFullYear()}.2`}
                     </Text>
@@ -219,7 +223,9 @@ function SejaSocio() {
                               >
                                 {plano.slug === 'Mensal' && '/mês'}
                                 {plano.slug === 'Semestral' &&
-                                  `/${new Date().getFullYear()}.1`}
+                                  `/${new Date().getFullYear()}.${
+                                    new Date().getMonth() > 6 ? '2' : '1'
+                                  }`}
                                 {plano.slug === 'Anual' &&
                                   `/${new Date().getFullYear()}.1 + ${new Date().getFullYear()}.2`}
                               </Text>
