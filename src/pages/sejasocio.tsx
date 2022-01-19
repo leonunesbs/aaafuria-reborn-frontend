@@ -109,7 +109,10 @@ function SejaSocio() {
   );
 
   return (
-    <Layout title="Seja sócio">
+    <Layout
+      title="Seja sócio"
+      desc="Junte-se à nós escolhendo o plano de associação que melhor se encaixa com você! Aproveite agora o desconto na primeira associação e Seja Sócio!"
+    >
       <Box maxW="5xl" mx="auto">
         <PageHeading>
           Junte-se a nós, seja um{' '}
