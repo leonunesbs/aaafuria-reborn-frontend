@@ -211,7 +211,7 @@ function SejaSocio() {
                                 fontSize="lg"
                                 fontWeight="light"
                                 as="i"
-                                color="black"
+                                color={color}
                               >
                                 {plano.slug === 'Mensal' && '/mês'}
                                 {plano.slug === 'Semestral' &&
