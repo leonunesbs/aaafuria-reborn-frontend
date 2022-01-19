@@ -53,9 +53,20 @@ function SejaSocio() {
   const { isAuthenticated, checkCredentials, isSocio } =
     useContext(AuthContext);
   const planos = [
-    { nome: 'Mensal', valor: '24,90' },
-    { nome: 'Semestral', valor: '99,50', best: true },
-    { nome: 'Anual', valor: '198,00' },
+    { slug: 'mensal', nome: 'Plano Mensal', valor: '24,90' },
+    {
+      slug: 'semestral',
+      nome: 'Pacote Semestral',
+      descricao: `Associação válida até (30/06/${new Date().getFullYear()}).`,
+      valor: '99,50',
+      best: true,
+    },
+    {
+      slug: 'anual',
+      nome: 'Pacote Anual',
+      descricao: `Associação válida até (31/12/${new Date().getFullYear()}).`,
+      valor: '198,00',
+    },
   ];
 
   useEffect(() => {
@@ -149,21 +160,26 @@ function SejaSocio() {
                 )}
                 <Stack spacing={4} align="center">
                   <Heading as="h3" size="md">
-                    Plano {plano.nome}
+                    {plano.nome}
                   </Heading>
 
                   <Text fontSize="2xl" fontWeight="extrabold" color="green">
                     R${plano.valor}
                     <Text fontSize="lg" fontWeight="light" as="i" color={color}>
-                      {plano.nome === 'Mensal' && '/mês'}
-                      {plano.nome === 'Semestral' && '/semestre'}
-                      {plano.nome === 'Anual' && '/ano'}
+                      {plano.slug === 'mensal' && '/mês'}
+                      {plano.slug === 'semestral' &&
+                        `/${new Date().getFullYear()}.1`}
+                      {plano.slug === 'anual' &&
+                        `/${new Date().getFullYear()}.1 + ${new Date().getFullYear()}.2`}
                     </Text>
                   </Text>
 
                   <Text textAlign="center" as="em">
                     Assine agora e aproveite 10% de desconto nos primeiros 12
                     meses da <strong>primeira associação</strong>!
+                  </Text>
+                  <Text textAlign="center" fontSize="sm">
+                    {plano.descricao}
                   </Text>
 
                   <Popover placement="top">
@@ -197,9 +213,11 @@ function SejaSocio() {
                                 as="i"
                                 color="black"
                               >
-                                {plano.nome === 'Mensal' && '/mês'}
-                                {plano.nome === 'Semestral' && '/semestre'}
-                                {plano.nome === 'Anual' && '/ano'}
+                                {plano.slug === 'mensal' && '/mês'}
+                                {plano.slug === 'semestral' &&
+                                  `/${new Date().getFullYear()}.1`}
+                                {plano.slug === 'anual' &&
+                                  `/${new Date().getFullYear()}.1 + ${new Date().getFullYear()}.2`}
                               </Text>
                             </Text>
                             {!isAuthenticated ? (
