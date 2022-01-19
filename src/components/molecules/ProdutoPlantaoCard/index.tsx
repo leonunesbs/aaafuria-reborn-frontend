@@ -40,6 +40,7 @@ const GET_VARIATIONS = gql`
     variacaoByProductId(id: $productId) {
       id
       nome
+      estoque
     }
   }
 `;
@@ -113,7 +114,7 @@ export const ProdutoPlantaoCard = ({
           alt={node.nome}
         />
         <Stack>
-          <Stack p={4} h="130px">
+          <Stack py="8" px={{ base: '4', md: '10' }}>
             <Stack>
               <Heading as="h3" size="md">
                 {node.nome}
@@ -154,11 +155,14 @@ export const ProdutoPlantaoCard = ({
                     placeholder="Selecione o tamanho"
                     {...register('variacaoId')}
                   >
-                    {data?.variacaoByProductId.map((variacao: any) => (
-                      <option key={variacao.id} value={variacao.id}>
-                        {variacao.nome}
-                      </option>
-                    ))}
+                    {data?.variacaoByProductId.map(
+                      (variacao: any) =>
+                        variacao.estoque > 0 && (
+                          <option key={variacao.id} value={variacao.id}>
+                            {variacao.nome}
+                          </option>
+                        ),
+                    )}
                   </Select>
                 </FormControl>
               )}

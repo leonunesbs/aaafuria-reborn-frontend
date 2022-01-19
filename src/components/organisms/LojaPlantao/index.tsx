@@ -14,6 +14,7 @@ const PRODUTO_QUERY = gql`
           precoSocio
           imagem
           hasVariations
+          estoque
         }
       }
     }
@@ -29,6 +30,7 @@ export type ProdutoType = {
     precoSocio: number;
     imagem: string;
     hasVariations: boolean;
+    estoque: number;
   };
 };
 
@@ -55,11 +57,13 @@ export const LojaPlantao = ({ matriculaSocio }: LojaPlantaoProps) => {
     >
       {data?.allProduto?.edges?.map(({ node }: ProdutoType) => {
         return (
-          <ProdutoPlantaoCard
-            key={node.id}
-            node={node}
-            matriculaSocio={matriculaSocio}
-          />
+          node.estoque > 0 && (
+            <ProdutoPlantaoCard
+              key={node.id}
+              node={node}
+              matriculaSocio={matriculaSocio}
+            />
+          )
         );
       })}
     </SimpleGrid>

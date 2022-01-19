@@ -48,17 +48,18 @@ export const EspecieTabPanelContent = ({
     },
   });
 
-  const handleConfirmar = useCallback(() => {
-    checkoutPlantao();
-    onClose();
-    toast({
-      title: 'Pagamento confirmado',
-      status: 'success',
-      duration: 5000,
-      isClosable: true,
-      position: 'top-left',
+  const handleConfirmar = useCallback(async () => {
+    await checkoutPlantao().then(() => {
+      toast({
+        title: 'Pagamento confirmado',
+        status: 'success',
+        duration: 5000,
+        isClosable: true,
+        position: 'top-left',
+      });
+      router.push('/areadiretor/plantao/');
     });
-    router.push('/areadiretor/plantao/');
+    onClose();
   }, [checkoutPlantao, onClose, toast]);
 
   return (
