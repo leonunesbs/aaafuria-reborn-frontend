@@ -175,8 +175,8 @@ function SejaSocio() {
                   </Text>
 
                   <Text textAlign="center" as="em">
-                    Assine agora e aproveite 10% de desconto nos primeiros 12
-                    meses da <strong>primeira associação</strong>!
+                    Assine agora e aproveite 10% de desconto na{' '}
+                    <strong>primeira associação</strong>!
                   </Text>
                   <Text textAlign="center" fontSize="sm">
                     {plano.descricao}
