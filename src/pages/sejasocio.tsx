@@ -49,6 +49,7 @@ function SejaSocio() {
   const { ['aaafuriaToken']: token } = parseCookies();
   const [mutateFunction, { loading, data }] = useMutation(NOVO_PAGAMENTO);
   const color = useColorModeValue('black', 'white');
+  const green = useColorModeValue('green.600', 'green.200');
 
   const { isAuthenticated, checkCredentials, isSocio } =
     useContext(AuthContext);
@@ -116,7 +117,7 @@ function SejaSocio() {
       <Box maxW="5xl" mx="auto">
         <PageHeading>
           Junte-se a nós, seja um{' '}
-          <Text as="span" color="green">
+          <Text as="span" color={green}>
             sócio Fúria
           </Text>
           !
@@ -166,7 +167,7 @@ function SejaSocio() {
                     {plano.nome}
                   </Heading>
 
-                  <Text fontSize="2xl" fontWeight="extrabold" color="green">
+                  <Text fontSize="2xl" fontWeight="extrabold" color={green}>
                     R${plano.valor}
                     <Text fontSize="lg" fontWeight="light" as="i" color={color}>
                       {plano.slug === 'Mensal' && '/mês'}
