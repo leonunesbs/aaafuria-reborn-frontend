@@ -2,7 +2,13 @@ import { CustomButtom, CustomIconButton } from '@/components/atoms';
 import { AuthContext } from '@/contexts/AuthContext';
 import { gql, useMutation } from '@apollo/client';
 import {
+  Badge,
+  Box,
+  Center,
   Progress,
+  Spinner,
+  Stack,
+  Switch,
   TableRowProps,
   Td,
   Text,
@@ -12,13 +18,14 @@ import {
 } from '@chakra-ui/react';
 import { useRouter } from 'next/router';
 import { parseCookies } from 'nookies';
-import { useCallback, useContext, useEffect, useState } from 'react';
 import {
-  MdCalendarToday,
-  MdCheck,
-  MdLogin,
-  MdOutlineCancel,
-} from 'react-icons/md';
+  ChangeEvent,
+  useCallback,
+  useContext,
+  useEffect,
+  useState,
+} from 'react';
+import { MdCalendarToday, MdLogin } from 'react-icons/md';
 import { ProgramacaoData } from '../../molecules/AtividadesSocioTable';
 
 interface AtividadesSocioTableRowProps extends TableRowProps {
@@ -119,6 +126,17 @@ export const AtividadesSocioTableRow = ({
     [refetch, removerCompetidor, token],
   );
 
+  const handleSwitchParticipacao = useCallback(
+    (event: ChangeEvent<HTMLInputElement>) => {
+      if (event.target.checked) {
+        handleConfirmarCompetidor(node.id);
+      } else {
+        handleRemoverCompetidor(node.id);
+      }
+    },
+    [handleConfirmarCompetidor, handleRemoverCompetidor, node.id],
+  );
+
   useEffect(() => {
     setIsConfirmed(
       node.competidoresConfirmados.edges.find(
@@ -130,8 +148,8 @@ export const AtividadesSocioTableRow = ({
   return (
     <Tr key={node.id} {...rest} bgColor={isConfirmed ? confirmedBgRow : bgRow}>
       <Td>
-        <>
-          <>
+        <Box>
+          <Box>
             <Text textAlign="center" size="sm">
               <i>{node.estado}</i>
             </Text>
@@ -142,38 +160,37 @@ export const AtividadesSocioTableRow = ({
               colorScheme="green"
               mb={2}
             />
-          </>
-          {isAuthenticated ? (
-            isConfirmed ? (
-              <CustomButtom
-                leftIcon={<MdOutlineCancel size="25px" />}
-                colorScheme="red"
-                onClick={() => handleRemoverCompetidor(node.id)}
-                isDisabled={!isAuthenticated}
-                isLoading={loading}
-              >
-                Não vou
-              </CustomButtom>
+          </Box>
+          <Center>
+            {isAuthenticated ? (
+              <Stack align="center">
+                {isConfirmed && (
+                  <Badge colorScheme="green" fontSize="xs">
+                    EU VOU!
+                  </Badge>
+                )}
+                {loading ? (
+                  <Spinner color="green" />
+                ) : (
+                  <Switch
+                    onChange={handleSwitchParticipacao}
+                    colorScheme="green"
+                    isChecked={isConfirmed}
+                    size="lg"
+                  />
+                )}
+              </Stack>
             ) : (
               <CustomButtom
-                rightIcon={<MdCheck size="25px" />}
-                onClick={() => handleConfirmarCompetidor(node.id)}
-                isDisabled={!isAuthenticated}
+                rightIcon={<MdLogin size="25px" />}
+                onClick={() => router.push(`/entrar?after=${router.asPath}`)}
                 isLoading={loading}
               >
-                Eu vou
+                Fazer login
               </CustomButtom>
-            )
-          ) : (
-            <CustomButtom
-              rightIcon={<MdLogin size="25px" />}
-              onClick={() => router.push(`/entrar?after=${router.asPath}`)}
-              isLoading={loading}
-            >
-              Fazer login
-            </CustomButtom>
-          )}
-        </>
+            )}
+          </Center>
+        </Box>
       </Td>
       <Td>{node.modalidade.nome}</Td>
       <Td>{node.modalidade.categoria}</Td>
