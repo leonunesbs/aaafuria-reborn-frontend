@@ -150,7 +150,7 @@ export const AtividadesSocioTableRow = ({
       <Td>
         <Box>
           <Box>
-            <Text textAlign="center" size="sm">
+            <Text textAlign="center">
               <i>{node.estado}</i>
             </Text>
             <Progress
