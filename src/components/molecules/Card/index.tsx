@@ -9,9 +9,9 @@ interface CardProps extends BoxProps {
 
 export const Card = ({ children, variant, ...rest }: CardProps) => {
   const bg = useColorModeValue('white', 'gray.800');
-  const greenBg = useColorModeValue('green.50', 'green.700');
+  const greenBg = useColorModeValue('green.100', 'green.900');
   const redBg = useColorModeValue('red.50', 'red.700');
-  const green = useColorModeValue('green.600', 'green.200');
+  const green = useColorModeValue('green.500', 'green.500');
   const red = useColorModeValue('red.600', 'red.200');
   if (variant === 'error') {
     return (

@@ -127,7 +127,7 @@ function Carrinho() {
   return (
     <Layout title="Carrinho">
       <Box maxW="6xl" mx="auto">
-        <PageHeading>Carrinho</PageHeading>
+        <PageHeading>Meu carrinho</PageHeading>
         <Card overflowX="auto">
           <Table size="sm">
             <Thead>

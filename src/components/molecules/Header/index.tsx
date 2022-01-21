@@ -1,12 +1,12 @@
 import {
   ColorModeToggle,
+  CustomButtom,
   CustomChakraNextLink,
   CustomIconButton,
 } from '@/components/atoms';
 import { AuthContext } from '@/contexts/AuthContext';
 import { gql, useQuery } from '@apollo/client';
 import {
-  Box,
   Flex,
   HStack,
   Image,
@@ -31,7 +31,7 @@ const GET_SOCIO = gql`
 
 export const Header = () => {
   const bg = useColorModeValue('white', 'gray.800');
-  const calangosDataColor = useColorModeValue('green.600', 'green.200');
+  const green = useColorModeValue('green.600', 'green.200');
   const { isAuthenticated } = useContext(AuthContext);
   const { data, refetch } = useQuery(GET_SOCIO, {
     context: {
@@ -57,15 +57,16 @@ export const Header = () => {
         <Spinner color="green" size="sm" />
       ) : (
         isAuthenticated && (
-          <Box textAlign="center" textColor={calangosDataColor}>
-            <Text fontSize="sm">{data?.socioAutenticado?.matricula}</Text>
-            <HStack>
-              <Image src="/calango-verde.png" boxSize="15px" alt="calangos" />
-              <Text fontSize="sm">
-                <strong>{data?.socioAutenticado?.conta.calangos}</strong>
-              </Text>
-            </HStack>
-          </Box>
+          <CustomChakraNextLink href="/carteira">
+            <CustomButtom flexDir="column" textColor={green} w="initial">
+              <HStack>
+                <Image src="/calango-verde.png" boxSize="15px" alt="calangos" />
+                <Text fontSize="sm">
+                  {data?.socioAutenticado?.conta.calangos}
+                </Text>
+              </HStack>
+            </CustomButtom>
+          </CustomChakraNextLink>
         )
       )}
       <ColorModeToggle />
