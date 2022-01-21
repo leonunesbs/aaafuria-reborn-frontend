@@ -10,7 +10,6 @@ import {
   Drawer,
   DrawerBody,
   DrawerContent,
-  DrawerHeader,
   DrawerOverlay,
   FormControl,
   FormHelperText,
@@ -134,17 +133,14 @@ export const CadastroDrawer = ({
     >
       <DrawerOverlay />
       <DrawerContent>
-        <DrawerHeader borderBottomWidth="1px">
-          <PageHeading>Crie sua conta</PageHeading>
-        </DrawerHeader>
-
-        <DrawerBody>
+        <DrawerBody p={0} mb={14}>
           <Layout
             title="Cadastro"
             desc="Crie sua conta na plataforma!"
             isHeaded={false}
             isFooted={false}
           >
+            <PageHeading>Crie sua conta</PageHeading>
             <Card>
               <form id="signUp" onSubmit={handleSubmit(signUp)}>
                 <Stack spacing={4}>

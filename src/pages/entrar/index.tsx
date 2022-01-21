@@ -1,19 +1,12 @@
-import React, { useCallback, useContext, useEffect } from 'react';
-import { AiFillHome } from 'react-icons/ai';
-import { AuthContext } from '@/contexts/AuthContext';
-import { CadastroDrawer, Card } from '@/components/molecules';
-import { GetServerSideProps } from 'next';
-import { gql, useQuery } from '@apollo/client';
-import { Layout } from '@/components/templates';
-import { MdLogin } from 'react-icons/md';
-import { parseCookies } from 'nookies';
-import { SubmitHandler, useForm } from 'react-hook-form';
-import { useRouter } from 'next/router';
 import {
-  PageHeading,
-  CustomChakraNextLink,
   CustomButtom,
+  CustomChakraNextLink,
+  PageHeading,
 } from '@/components/atoms';
+import { CadastroDrawer, Card } from '@/components/molecules';
+import { Layout } from '@/components/templates';
+import { AuthContext } from '@/contexts/AuthContext';
+import { gql, useQuery } from '@apollo/client';
 import {
   Box,
   Center,
@@ -21,7 +14,6 @@ import {
   FormControl,
   FormLabel,
   HStack,
-  Image,
   Input,
   PinInput,
   PinInputField,
@@ -30,6 +22,14 @@ import {
   useDisclosure,
   useToast,
 } from '@chakra-ui/react';
+import { GetServerSideProps } from 'next';
+import NextImage from 'next/image';
+import { useRouter } from 'next/router';
+import { parseCookies } from 'nookies';
+import React, { useCallback, useContext, useEffect } from 'react';
+import { SubmitHandler, useForm } from 'react-hook-form';
+import { AiFillHome } from 'react-icons/ai';
+import { MdLogin } from 'react-icons/md';
 
 const QUERY = gql`
   query BuscarSocio($username: String!) {
@@ -64,7 +64,7 @@ export default function Entrar() {
 
   const toast = useToast();
 
-  const ChakraNextImage = chakra(Image);
+  const ChakraNextImage = chakra(NextImage);
 
   const formValues = getValues();
 
@@ -149,6 +149,7 @@ export default function Entrar() {
               layout="fill"
               objectFit="cover"
               src={`${process.env.PUBLIC_AWS_URI}/calango-verde.png`}
+              blurDataURL={`${process.env.PUBLIC_AWS_URI}/calango-verde.png`}
               quality={1}
               alt="logo"
               mx="auto"
