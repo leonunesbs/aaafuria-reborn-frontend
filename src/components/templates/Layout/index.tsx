@@ -45,16 +45,13 @@ export const Layout = ({
               : 'aaafuria, plataforma, loja, atividades, eventos, atlética, sócio, uninovafapi'
           }
         />
-        <link
-          rel="canonical"
-          href={`https://aaafuria.com.br${router.asPath}`}
-        />
+        <link rel="canonical" href={`https://aaafuria.site${router.asPath}`} />
 
         {/* Open Graph / Facebook */}
         <meta property="og:type" content="website" />
         <meta
           property="og:url"
-          content={`https://aaafuria.com.br${router.asPath}`}
+          content={`https://aaafuria.site${router.asPath}`}
         />
         <meta
           property="og:title"
@@ -76,7 +73,7 @@ export const Layout = ({
         <meta property="twitter:card" content="summary_large_image" />
         <meta
           property="twitter:url"
-          content={`https://aaafuria.com.br${router.asPath}`}
+          content={`https://aaafuria.site${router.asPath}`}
         />
         <meta
           property="twitter:title"
