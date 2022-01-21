@@ -65,7 +65,10 @@ export const Layout = ({
               : 'Plataforma de sócios e loja da Associação Atlética de Medicina Fúria Uniniovafapi. Seja sócio da Maior do Piaiuí e aproveite as vantagens.'
           }
         />
-        <meta property="og:image" content="/calango-verde.png" />
+        <meta
+          property="og:image"
+          content={`${process.env.PUBLIC_AWS_URI}/calango-verde.png`}
+        />
         <meta property="og:image:alt" content="calango" />
         <meta property="og:locale" content="pt_BR" />
 
@@ -87,7 +90,10 @@ export const Layout = ({
               : 'Plataforma de sócios e loja da Associação Atlética de Medicina Fúria Uniniovafapi. Seja sócio da Maior do Piaiuí e aproveite as vantagens.'
           }
         />
-        <meta property="twitter:image" content="/calango-verde.png" />
+        <meta
+          property="twitter:image"
+          content={`${process.env.PUBLIC_AWS_URI}/calango-verde.png`}
+        />
         <meta name="twitter:image:alt" content="calango" />
       </Head>
       {isHeaded && <Header />}

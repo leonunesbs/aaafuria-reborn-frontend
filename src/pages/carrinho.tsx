@@ -266,7 +266,7 @@ function Carrinho() {
                       <Image
                         boxSize="25px"
                         objectFit="cover"
-                        src="/calango-verde.png"
+                        src={`${process.env.PUBLIC_AWS_URI}/calango-verde.png`}
                         alt="calangos"
                         mx="auto"
                       />

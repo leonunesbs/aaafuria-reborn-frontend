@@ -112,7 +112,7 @@ function Carteirinha({ token }: CarteirinhaProps) {
             <Image
               boxSize="240px"
               objectFit="cover"
-              src="/calango-verde.png"
+              src={`${process.env.PUBLIC_AWS_URI}/calango-verde.png`}
               alt="logo"
               mx="auto"
               mb={{ base: '8', md: '12' }}

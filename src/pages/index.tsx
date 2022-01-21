@@ -54,10 +54,10 @@ export default function Home({}: HomeProps) {
           <Box width="270px" height="180px" position="relative">
             <ChakraNextImage
               placeholder="blur"
-              blurDataURL="/logo-aaafuria-h.webp"
+              blurDataURL={`${process.env.PUBLIC_AWS_URI}/logo-aaafuria-h.webp`}
               layout="fill"
               objectFit="cover"
-              src="/logo-aaafuria-h.webp"
+              src={`${process.env.PUBLIC_AWS_URI}/logo-aaafuria-h.webp`}
               quality={1}
               alt="logo"
               mx="auto"

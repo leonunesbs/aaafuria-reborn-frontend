@@ -148,7 +148,7 @@ export default function Entrar() {
               placeholder="blur"
               layout="fill"
               objectFit="cover"
-              src="/calango-verde.png"
+              src={`${process.env.PUBLIC_AWS_URI}/calango-verde.png`}
               quality={1}
               alt="logo"
               mx="auto"

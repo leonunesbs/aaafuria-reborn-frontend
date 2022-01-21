@@ -88,7 +88,7 @@ export const PixTabPanelContent = ({
             mensagem: `ID: ${parentData.data?.carrinho.id} - Matrícula: ${parentData.data?.carrinho.user.socio.matricula}`,
           }}
           imageSettings={{
-            src: '/calango-verde-3.png',
+            src: `${process.env.PUBLIC_AWS_URI}/calango-verde-3.png`,
             height: 100,
             width: 100,
             alt: 'Pix',

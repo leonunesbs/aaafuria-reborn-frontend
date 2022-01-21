@@ -164,7 +164,7 @@ function Carteira() {
               <StatNumber>
                 <HStack>
                   <Image
-                    src="/calango-verde.png"
+                    src={`${process.env.PUBLIC_AWS_URI}/calango-verde.png`}
                     boxSize="25px"
                     alt="calangos"
                   />
@@ -192,7 +192,7 @@ function Carteira() {
               <StatNumber>
                 <HStack justify="center">
                   <Image
-                    src="/calango-verde.png"
+                    src={`${process.env.PUBLIC_AWS_URI}/calango-verde.png`}
                     boxSize="25px"
                     alt="calangos"
                   />
@@ -223,7 +223,7 @@ function Carteira() {
                     <Th>
                       <HStack>
                         <Image
-                          src="/calango-verde.png"
+                          src={`${process.env.PUBLIC_AWS_URI}/calango-verde.png`}
                           boxSize="15px"
                           alt="calangos"
                         />

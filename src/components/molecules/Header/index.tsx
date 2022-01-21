@@ -63,7 +63,11 @@ export const Header = () => {
           <CustomChakraNextLink href="/areasocio/carteira">
             <CustomButtom flexDir="column" textColor={green} w="initial">
               <HStack>
-                <Image src="/calango-verde.png" boxSize="15px" alt="calangos" />
+                <Image
+                  src={`${process.env.PUBLIC_AWS_URI}/calango-verde.png`}
+                  boxSize="15px"
+                  alt="calangos"
+                />
                 <Text fontSize="sm">
                   {data?.socioAutenticado?.conta.calangos}
                 </Text>
