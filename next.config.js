@@ -9,7 +9,7 @@ module.exports = withPWA({
   },
   reactStrictMode: true,
   images: {
-    domains: ['picsum.photos'],
+    domains: ['aaafuria-reborn.s3.sa-east-1.amazonaws.com'],
   },
   env: {
     BACKEND_DOMAIN: 'https://backend.aaafuria.site',
