@@ -29,6 +29,7 @@ const QUERY_SOCIO = gql`
 interface AuthContextProps {
   isAuthenticated: boolean;
   token: string;
+  matricula: string;
   signIn: (data: SignInData) => Promise<void>;
   checkCredentials: () => Promise<boolean>;
   isStaff: boolean | null;
@@ -61,12 +62,12 @@ export function AuthProvider({ children }: AuthProviderProps) {
   const router = useRouter();
 
   const { ['aaafuriaToken']: token } = parseCookies();
+  const matricula = parseCookies()['aaafuriaMatricula'];
 
   const isAuthenticated = !!token;
 
   const checkCredentials = async () => {
     if (isAuthenticated) {
-      const matricula = parseCookies()['aaafuriaMatricula'];
       if (!matricula) {
         return false;
       }
@@ -157,6 +158,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
       value={{
         user,
         token,
+        matricula,
         isAuthenticated,
         signIn,
         signOut,

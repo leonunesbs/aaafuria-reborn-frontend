@@ -13,6 +13,7 @@ import {
 import { Layout } from '@/components/templates';
 import { AuthContext } from '@/contexts/AuthContext';
 import {
+  Badge,
   Box,
   BoxProps,
   Center,
@@ -29,7 +30,8 @@ import { MdLogin } from 'react-icons/md';
 type HomeProps = BoxProps;
 
 export default function Home({}: HomeProps) {
-  const { isAuthenticated, checkCredentials } = useContext(AuthContext);
+  const { isAuthenticated, checkCredentials, matricula } =
+    useContext(AuthContext);
   const [loading, setLoading] = useState(false);
   const ChakraNextImage = chakra(NextImage);
 
@@ -65,7 +67,13 @@ export default function Home({}: HomeProps) {
             />
           </Box>
         </Center>
+
         <PageHeading>Selecione uma opção</PageHeading>
+        <Center>
+          <Badge colorScheme="green" fontSize="md">
+            {matricula}
+          </Badge>
+        </Center>
         <Skeleton isLoaded={!loading}>
           <Card>
             <Stack>
