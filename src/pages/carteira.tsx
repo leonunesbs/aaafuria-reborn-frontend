@@ -21,6 +21,7 @@ import {
   Thead,
   Tr,
 } from '@chakra-ui/react';
+import { GetServerSideProps } from 'next';
 import { parseCookies } from 'nookies';
 import { useEffect, useState } from 'react';
 import { FaEquals } from 'react-icons/fa';
@@ -238,5 +239,22 @@ function Carteira() {
     </Layout>
   );
 }
+
+export const getServerSideProps: GetServerSideProps = async (ctx) => {
+  const { ['aaafuriaToken']: token } = parseCookies(ctx);
+
+  if (!token) {
+    return {
+      redirect: {
+        destination: `/entrar?after=${ctx.resolvedUrl}`,
+        permanent: false,
+      },
+    };
+  }
+
+  return {
+    props: {},
+  };
+};
 
 export default Carteira;

@@ -4,7 +4,7 @@ import { Card } from '@/components/molecules';
 import { GetServerSideProps } from 'next';
 import { gql, useQuery } from '@apollo/client';
 import { Layout } from '@/components/templates';
-import { MdArrowLeft, MdHome, MdRefresh } from 'react-icons/md';
+import { MdArrowLeft, MdRefresh } from 'react-icons/md';
 import { PageHeading } from '@/components/atoms';
 import { parseCookies } from 'nookies';
 import { useRouter } from 'next/router';
