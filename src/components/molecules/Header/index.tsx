@@ -32,7 +32,8 @@ const GET_SOCIO = gql`
 export const Header = () => {
   const bg = useColorModeValue('white', 'gray.800');
   const green = useColorModeValue('green.600', 'green.200');
-  const { isAuthenticated } = useContext(AuthContext);
+  const { isAuthenticated, isSocio, checkCredentials } =
+    useContext(AuthContext);
   const { data, refetch } = useQuery(GET_SOCIO, {
     context: {
       headers: {
@@ -44,7 +45,8 @@ export const Header = () => {
 
   useEffect(() => {
     refetch();
-  }, [refetch]);
+    checkCredentials();
+  }, [checkCredentials, refetch]);
   return (
     <Flex justify="space-between" bg={bg} py="2" px={{ base: '4', lg: '8' }}>
       <CustomChakraNextLink href="/">
@@ -56,8 +58,9 @@ export const Header = () => {
       {!data ? (
         <Spinner color="green" size="sm" />
       ) : (
-        isAuthenticated && (
-          <CustomChakraNextLink href="/carteira">
+        isAuthenticated &&
+        isSocio && (
+          <CustomChakraNextLink href="/areasocio/carteira">
             <CustomButtom flexDir="column" textColor={green} w="initial">
               <HStack>
                 <Image src="/calango-verde.png" boxSize="15px" alt="calangos" />

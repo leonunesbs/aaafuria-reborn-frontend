@@ -28,7 +28,8 @@ function AreaDiretor() {
       });
       router.push('/');
     }
-  }, [checkCredentials, isStaff, router, toast]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [checkCredentials, isStaff, toast]);
 
   return (
     <Layout title="Área do Diretor">

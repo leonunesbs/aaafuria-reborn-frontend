@@ -2,7 +2,7 @@ import { PageHeading } from '@/components/atoms';
 import { Card, AreaSocioMenu } from '@/components/molecules';
 import { Layout } from '@/components/templates';
 import { AuthContext } from '@/contexts/AuthContext';
-import { Box, useToast, Text } from '@chakra-ui/react';
+import { Box, useToast } from '@chakra-ui/react';
 import { GetServerSideProps } from 'next';
 import { useRouter } from 'next/router';
 import { parseCookies } from 'nookies';
@@ -10,33 +10,30 @@ import React, { useContext, useEffect } from 'react';
 
 function AreaSocio() {
   const router = useRouter();
-  const { checkCredentials, isSocio } = useContext(AuthContext);
+  const { isSocio, checkCredentials } = useContext(AuthContext);
   const toast = useToast();
 
   useEffect(() => {
     checkCredentials();
-  }, [checkCredentials]);
 
-  useEffect(() => {
-    if (!isSocio) {
+    if (isSocio === false) {
       toast({
-        description: 'Você não tem permissão para acessar esta área.',
-        status: 'warning',
+        title: 'Que pena! Você não é sócio...',
+        description: 'Mas nossa associação está aberta, Seja Sócio!',
+        status: 'info',
         duration: 2500,
         isClosable: true,
         position: 'top-left',
       });
       router.push('/sejasocio');
     }
-  }, [isSocio, router, toast]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isSocio, toast]);
 
   return (
     <Layout title="Área do Socio">
       <Box maxW="xl" mx="auto">
         <PageHeading>Área do sócio</PageHeading>
-        <Text textAlign="center" mb={4}>
-          <em>Esta aréa será exclusiva para Sócios em breve.</em>
-        </Text>
         <Card>
           <AreaSocioMenu />
         </Card>

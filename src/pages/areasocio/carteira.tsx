@@ -1,6 +1,11 @@
-import { PageHeading } from '@/components/atoms';
+import {
+  CustomButtom,
+  CustomChakraNextLink,
+  PageHeading,
+} from '@/components/atoms';
 import { Card } from '@/components/molecules';
 import { Layout } from '@/components/templates';
+import { AuthContext } from '@/contexts/AuthContext';
 import { gql, useQuery } from '@apollo/client';
 import {
   Box,
@@ -20,11 +25,14 @@ import {
   Th,
   Thead,
   Tr,
+  useToast,
 } from '@chakra-ui/react';
 import { GetServerSideProps } from 'next';
+import { useRouter } from 'next/router';
 import { parseCookies } from 'nookies';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { FaEquals } from 'react-icons/fa';
+import { MdArrowLeft } from 'react-icons/md';
 
 const GET_BANK_DATA = gql`
   query getMovimentacoes {
@@ -79,6 +87,9 @@ interface BankData {
 
 function Carteira() {
   const [totalReais, setTotalReais] = useState(0.0);
+  const router = useRouter();
+  const toast = useToast();
+  const { isSocio, checkCredentials } = useContext(AuthContext);
   const { data, refetch } = useQuery<BankData>(GET_BANK_DATA, {
     context: {
       headers: {
@@ -95,9 +106,23 @@ function Carteira() {
 
   useEffect(() => {
     refetch();
-  }, [refetch]);
+    checkCredentials();
+  }, [checkCredentials, refetch]);
 
-  // Set totalReais to the sum of all the values in the movimentacoes array
+  useEffect(() => {
+    if (isSocio === false) {
+      toast({
+        title: 'Que pena! Você não é sócio...',
+        description: 'Mas nossa associação está aberta, Seja Sócio!',
+        status: 'info',
+        duration: 2500,
+        isClosable: true,
+        position: 'top-left',
+      });
+      router.push('/sejasocio');
+    }
+  }, [isSocio, router, toast]);
+
   useEffect(() => {
     if (movimentacoes) {
       const total = movimentacoes.reduce(
@@ -235,6 +260,16 @@ function Carteira() {
             </Table>
           </Box>
         </Card>
+        <Stack mt={4} align="center">
+          <CustomChakraNextLink href="/areasocio">
+            <CustomButtom
+              colorScheme="red"
+              leftIcon={<MdArrowLeft size="25px" />}
+            >
+              Voltar
+            </CustomButtom>
+          </CustomChakraNextLink>
+        </Stack>
       </Stack>
     </Layout>
   );

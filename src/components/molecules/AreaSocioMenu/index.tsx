@@ -1,11 +1,11 @@
+import { CustomButtom, CustomChakraNextLink } from '@/components/atoms';
+import { gql, useQuery } from '@apollo/client';
+import { Box, Divider, Stack, StackProps } from '@chakra-ui/react';
+import { parseCookies } from 'nookies';
 import React from 'react';
 import { AiFillIdcard } from 'react-icons/ai';
-import { Box, Divider, Stack, StackProps } from '@chakra-ui/react';
-import { CustomButtom, CustomChakraNextLink } from '@/components/atoms';
-import { FaDrum, FaVolleyballBall } from 'react-icons/fa';
-import { gql, useQuery } from '@apollo/client';
+import { FaDrum, FaVolleyballBall, FaWallet } from 'react-icons/fa';
 import { MdArrowLeft, MdManageAccounts } from 'react-icons/md';
-import { parseCookies } from 'nookies';
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 interface AreaSocioMenuProps extends StackProps {}
@@ -31,7 +31,7 @@ export const AreaSocioMenu = ({ ...rest }: AreaSocioMenuProps) => {
     <Stack {...rest}>
       <CustomChakraNextLink href="/carteirinha">
         <CustomButtom leftIcon={<AiFillIdcard size="20px" />}>
-          Carteirinha
+          Carteirinha de sócio
         </CustomButtom>
       </CustomChakraNextLink>
       <CustomChakraNextLink href="/areasocio/atividades">
@@ -47,7 +47,13 @@ export const AreaSocioMenu = ({ ...rest }: AreaSocioMenuProps) => {
           Atividades
         </CustomButtom>
       </CustomChakraNextLink>
+
       <Divider height="15px" />
+      <CustomChakraNextLink href="/areasocio/carteira">
+        <CustomButtom leftIcon={<FaWallet size="20px" />}>
+          Carteira
+        </CustomButtom>
+      </CustomChakraNextLink>
       <CustomChakraNextLink
         chakraLinkProps={{
           target: '_blank',

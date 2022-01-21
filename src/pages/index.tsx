@@ -23,15 +23,19 @@ import {
   Stack,
 } from '@chakra-ui/react';
 import NextImage from 'next/image';
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { MdLogin } from 'react-icons/md';
 
 type HomeProps = BoxProps;
 
 export default function Home({}: HomeProps) {
-  const { isAuthenticated } = useContext(AuthContext);
+  const { isAuthenticated, checkCredentials } = useContext(AuthContext);
   const [loading, setLoading] = useState(false);
   const ChakraNextImage = chakra(NextImage);
+
+  useEffect(() => {
+    checkCredentials();
+  }, [checkCredentials]);
 
   if (loading) {
     return (
