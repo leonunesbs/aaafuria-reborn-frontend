@@ -28,7 +28,10 @@ class Document extends NextDocument {
             sizes="16x16"
             href={`${process.env.PUBLIC_AWS_URI}/favicon/favicon-16x16.png`}
           />
-          <link rel="manifest" href="/favicon/site.webmanifest" />
+          <link
+            rel="manifest"
+            href={`${process.env.PUBLIC_AWS_URI}/favicon/site.webmanifest`}
+          />
           <link
             rel="mask-icon"
             href="/favicon/safari-pinned-tab.svg"
