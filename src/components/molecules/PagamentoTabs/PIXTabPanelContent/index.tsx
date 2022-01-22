@@ -1,10 +1,6 @@
-import router from 'next/router';
-import { CarrinhoData } from '@/pages/areadiretor/plantao/pagamento';
 import { CustomButtom } from '@/components/atoms';
+import { CarrinhoData } from '@/pages/areadiretor/plantao/pagamento';
 import { gql, useMutation } from '@apollo/client';
-import { parseCookies } from 'nookies';
-import { PixQRCode } from 'pix-react';
-import { useCallback } from 'react';
 import {
   Modal,
   ModalBody,
@@ -17,6 +13,11 @@ import {
   useDisclosure,
   useToast,
 } from '@chakra-ui/react';
+import * as gtag from 'lib/gtag';
+import router from 'next/router';
+import { parseCookies } from 'nookies';
+import { PixQRCode } from 'pix-react';
+import { useCallback } from 'react';
 
 interface PixTabPanelProps {
   parentData: {
@@ -60,8 +61,14 @@ export const PixTabPanelContent = ({
       isClosable: true,
       position: 'top-left',
     });
+    gtag.event({
+      action: 'purchase',
+      category: 'ecommerce',
+      label: parentData.data?.carrinho.user.socio.matricula ?? '',
+      value: parentData.data?.carrinho.total ?? 0,
+    });
     router.push('/areadiretor/plantao/');
-  }, [checkoutPlantao, onClose, toast]);
+  }, [checkoutPlantao, onClose, parentData.data, toast]);
 
   const chavePix = '02544977302';
   return (

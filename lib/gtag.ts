@@ -12,13 +12,20 @@ type GTagEvent = {
   category: string;
   label: string;
   value: number;
+  items?: {
+    id: string;
+    name: string;
+    quantity: number;
+    price: number;
+  }[];
 };
 
 // https://developers.google.com/analytics/devguides/collection/gtagjs/events
-export const event = ({ action, category, label, value }: GTagEvent) => {
+export const event = ({ action, category, label, value, items }: GTagEvent) => {
   window.gtag('event', action, {
     event_category: category,
     event_label: label,
     value: value,
+    items: items,
   });
 };

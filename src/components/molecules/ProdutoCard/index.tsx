@@ -99,6 +99,14 @@ export const ProdutoCard = ({ node }: ProdutoCardProps) => {
           category: 'ecommerce',
           label: node.nome,
           value: 1,
+          items: [
+            {
+              id: node.id,
+              price: node.preco,
+              name: node.nome,
+              quantity: 1,
+            },
+          ],
         });
       });
     },
