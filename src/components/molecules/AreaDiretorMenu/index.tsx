@@ -4,7 +4,7 @@ import { CustomButtom, CustomChakraNextLink } from '@/components/atoms';
 import { Divider, Stack, StackProps } from '@chakra-ui/react';
 import { MdStore } from 'react-icons/md';
 
-type AreaDiretorMenuProps = StackProps;
+export type AreaDiretorMenuProps = StackProps;
 
 export const AreaDiretorMenu = ({ ...rest }: AreaDiretorMenuProps) => {
   return (

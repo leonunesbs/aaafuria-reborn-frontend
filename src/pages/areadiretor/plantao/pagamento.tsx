@@ -13,9 +13,9 @@ import {
 } from '@/components/atoms';
 import {
   Card,
-  EspecieTabPanelContent,
-  PixTabPanelContent,
-  CartaoCreditoTabPanelContent,
+  EspecieTabPanel,
+  PixTabPanel,
+  CartaoCreditoTabPanel,
 } from '@/components/molecules';
 import {
   Box,
@@ -99,21 +99,21 @@ function Pagamento() {
 
             <TabPanels>
               <TabPanel>
-                <EspecieTabPanelContent
+                <EspecieTabPanel
                   parentData={{
                     data,
                   }}
                 />
               </TabPanel>
               <TabPanel>
-                <PixTabPanelContent
+                <PixTabPanel
                   parentData={{
                     data,
                   }}
                 />
               </TabPanel>
               <TabPanel>
-                <CartaoCreditoTabPanelContent checkoutId={data?.carrinho.id} />
+                <CartaoCreditoTabPanel checkoutId={data?.carrinho.id} />
               </TabPanel>
             </TabPanels>
           </Tabs>

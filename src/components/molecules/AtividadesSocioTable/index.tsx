@@ -3,7 +3,7 @@ import { gql, useQuery } from '@apollo/client';
 import { Table, TableProps, Tbody, Td, Th, Thead, Tr } from '@chakra-ui/react';
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
-interface AtividadesSocioTableProps extends TableProps {}
+export interface AtividadesSocioTableProps extends TableProps {}
 
 export type ProgramacaoData = {
   id: string;

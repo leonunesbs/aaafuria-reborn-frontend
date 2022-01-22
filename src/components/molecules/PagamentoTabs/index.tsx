@@ -1,3 +1,3 @@
-export { CartaoCreditoTabPanelContent } from './CartaoCreditoTabPanelContent';
-export { EspecieTabPanelContent } from './EspecieTabPanel';
-export { PixTabPanelContent } from './PIXTabPanelContent';
+export { CartaoCreditoTabPanel } from './CartaoCreditoTabPanel';
+export { EspecieTabPanel } from './EspecieTabPanel';
+export { PixTabPanel } from './PIXTabPanel';

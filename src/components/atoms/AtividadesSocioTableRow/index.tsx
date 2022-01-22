@@ -28,7 +28,7 @@ import {
 import { MdCalendarToday, MdLogin } from 'react-icons/md';
 import { ProgramacaoData } from '../../molecules/AtividadesSocioTable';
 
-interface AtividadesSocioTableRowProps extends TableRowProps {
+export interface AtividadesSocioTableRowProps extends TableRowProps {
   node: ProgramacaoData;
   refetch: () => void;
 }

@@ -4,7 +4,7 @@ import { Box, BoxProps, useColorModeValue } from '@chakra-ui/react';
 import { Footer, Header } from '@/components/molecules';
 import { useRouter } from 'next/router';
 
-interface LayoutProps extends BoxProps {
+export interface LayoutProps extends BoxProps {
   children: ReactNode;
   title?: string;
   desc?: string;

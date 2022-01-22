@@ -19,7 +19,7 @@ import { parseCookies } from 'nookies';
 import { PixQRCode } from 'pix-react';
 import { useCallback } from 'react';
 
-interface PixTabPanelProps {
+export interface PixTabPanelProps {
   parentData: {
     data: CarrinhoData | undefined;
   };
@@ -33,9 +33,7 @@ const CHECKOUT_PLANTAO = gql`
   }
 `;
 
-export const PixTabPanelContent = ({
-  parentData: parentData,
-}: PixTabPanelProps) => {
+export const PixTabPanel = ({ parentData: parentData }: PixTabPanelProps) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const toast = useToast();
 

@@ -17,7 +17,7 @@ import React, { useCallback, useContext, useEffect } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { MdShoppingCart } from 'react-icons/md';
 
-type ProdutoCardProps = ProdutoType;
+export type ProdutoCardProps = ProdutoType;
 
 const ADD_TO_CART = gql`
   mutation addToCart(

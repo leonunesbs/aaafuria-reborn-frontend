@@ -34,7 +34,7 @@ export type ProdutoType = {
   };
 };
 
-interface LojaPlantaoProps {
+export interface LojaPlantaoProps {
   matriculaSocio: string;
 }
 

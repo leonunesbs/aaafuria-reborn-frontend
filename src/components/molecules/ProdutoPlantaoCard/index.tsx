@@ -45,7 +45,7 @@ const GET_VARIATIONS = gql`
   }
 `;
 
-interface ProdutoPlantaoCardProps extends ProdutoType {
+export interface ProdutoPlantaoCardProps extends ProdutoType {
   matriculaSocio: string;
 }
 

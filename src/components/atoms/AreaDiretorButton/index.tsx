@@ -4,7 +4,7 @@ import { Button } from '@chakra-ui/react';
 import { MdManageAccounts } from 'react-icons/md';
 import { useContext, useEffect } from 'react';
 
-interface AreaDiretorButtonProps {
+export interface AreaDiretorButtonProps {
   setLoading: React.Dispatch<React.SetStateAction<boolean>>;
 }
 

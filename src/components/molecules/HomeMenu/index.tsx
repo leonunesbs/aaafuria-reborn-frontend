@@ -4,7 +4,7 @@ import { GiPartyPopper } from 'react-icons/gi';
 import { MdStore } from 'react-icons/md';
 import { Box, Stack } from '@chakra-ui/react';
 import { FaDrum, FaVolleyballBall } from 'react-icons/fa';
-interface HomeMenuProps {
+export interface HomeMenuProps {
   setLoading: React.Dispatch<React.SetStateAction<boolean>>;
 }
 

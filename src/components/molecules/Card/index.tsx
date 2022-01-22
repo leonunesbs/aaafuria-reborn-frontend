@@ -2,7 +2,7 @@ import React from 'react';
 import { Box, BoxProps } from '@chakra-ui/react';
 import { useColorModeValue } from '@chakra-ui/color-mode';
 
-interface CardProps extends BoxProps {
+export interface CardProps extends BoxProps {
   children: React.ReactNode;
   variant?: string;
 }

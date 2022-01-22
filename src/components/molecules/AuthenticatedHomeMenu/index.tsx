@@ -8,7 +8,7 @@ import {
   CustomChakraNextLink,
 } from '@/components/atoms';
 
-interface AuthenticatedHomeMenuProps {
+export interface AuthenticatedHomeMenuProps {
   setLoading: React.Dispatch<React.SetStateAction<boolean>>;
 }
 

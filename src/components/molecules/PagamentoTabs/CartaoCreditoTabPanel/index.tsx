@@ -17,7 +17,7 @@ import { MdCopyAll } from 'react-icons/md';
 import QRCode from 'react-qr-code';
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
-interface CartaoCreditoTabPanelProps {
+export interface CartaoCreditoTabPanelProps {
   checkoutId: string | undefined;
 }
 
@@ -32,7 +32,7 @@ const STRIPE_CHECKOUT_PLANTAO = gql`
   }
 `;
 
-export const CartaoCreditoTabPanelContent = ({
+export const CartaoCreditoTabPanel = ({
   checkoutId = '',
 }: CartaoCreditoTabPanelProps) => {
   const ChakraQRCode = chakra(QRCode);

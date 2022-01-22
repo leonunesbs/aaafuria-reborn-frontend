@@ -8,7 +8,7 @@ import { FaDrum, FaVolleyballBall, FaWallet } from 'react-icons/fa';
 import { MdArrowLeft, MdManageAccounts } from 'react-icons/md';
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
-interface AreaSocioMenuProps extends StackProps {}
+export interface AreaSocioMenuProps extends StackProps {}
 
 const QUERY_PORTAL = gql`
   query portalUrl {

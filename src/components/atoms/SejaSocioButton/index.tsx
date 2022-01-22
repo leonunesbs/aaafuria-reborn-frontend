@@ -4,7 +4,7 @@ import { ButtonProps } from '@chakra-ui/button';
 import { MdGroups } from 'react-icons/md';
 import { CustomButtom, CustomChakraNextLink } from '@/components/atoms';
 
-interface SejaSocioButtonProps extends ButtonProps {
+export interface SejaSocioButtonProps extends ButtonProps {
   setLoading: React.Dispatch<React.SetStateAction<boolean>>;
 }
 

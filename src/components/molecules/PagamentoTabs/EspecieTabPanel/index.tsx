@@ -25,15 +25,13 @@ const CHECKOUT_PLANTAO = gql`
   }
 `;
 
-interface EspecieTabPanelProps {
+export interface EspecieTabPanelProps {
   parentData: {
     data: CarrinhoData | undefined;
   };
 }
 
-export const EspecieTabPanelContent = ({
-  parentData,
-}: EspecieTabPanelProps) => {
+export const EspecieTabPanel = ({ parentData }: EspecieTabPanelProps) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const toast = useToast();
 

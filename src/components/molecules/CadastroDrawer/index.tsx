@@ -23,7 +23,7 @@ import {
   useToast,
 } from '@chakra-ui/react';
 
-interface CadastroDrawerProps {
+export interface CadastroDrawerProps {
   isOpen: boolean;
   onClose: () => void;
 }
