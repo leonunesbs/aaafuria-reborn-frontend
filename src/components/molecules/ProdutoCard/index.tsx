@@ -95,7 +95,7 @@ export const ProdutoCard = ({ node }: ProdutoCardProps) => {
           position: 'top-left',
         });
         gtag.event({
-          action: 'login',
+          action: 'add_to_cart',
           category: 'ecommerce',
           label: node.nome,
           value: 1,
