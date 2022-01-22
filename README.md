@@ -1,6 +1,6 @@
 <div align="center"><h1>Frontend Plataforma de Sócios @aaafuria</h1></div>
 
-Plataforma para gestão dee sócios, loja, eventos e atividades da [@aaafuria](https://instagram.com/aaafuria).
+Plataforma para gestão de sócios, loja, eventos e atividades da [@aaafuria](https://instagram.com/aaafuria).
 
 ## Tecnologias utilizadas
 
