@@ -1,20 +1,21 @@
-import React, { useCallback, useContext, useEffect } from 'react';
-import { AuthContext } from '@/contexts/AuthContext';
 import { Card } from '@/components/molecules';
-import { Flex, Heading, HStack, Stack } from '@chakra-ui/layout';
-import { gql, useMutation, useQuery } from '@apollo/client';
-import { MdShoppingCart } from 'react-icons/md';
-import { parseCookies } from 'nookies';
+import { AuthContext } from '@/contexts/AuthContext';
 import { ProdutoType } from '@/pages/loja';
-import { SubmitHandler, useForm } from 'react-hook-form';
+import { gql, useMutation, useQuery } from '@apollo/client';
+import { Flex, Heading, HStack, Stack } from '@chakra-ui/layout';
 import {
-  FormControl,
   Button,
-  Text,
+  FormControl,
   Image,
-  useToast,
   Select,
+  Text,
+  useToast,
 } from '@chakra-ui/react';
+import * as gtag from 'lib/gtag';
+import { parseCookies } from 'nookies';
+import React, { useCallback, useContext, useEffect } from 'react';
+import { SubmitHandler, useForm } from 'react-hook-form';
+import { MdShoppingCart } from 'react-icons/md';
 
 type ProdutoCardProps = ProdutoType;
 
@@ -92,6 +93,12 @@ export const ProdutoCard = ({ node }: ProdutoCardProps) => {
           status: 'success',
           isClosable: true,
           position: 'top-left',
+        });
+        gtag.event({
+          action: 'login',
+          category: 'ecommerce',
+          label: node.nome,
+          value: 1,
         });
       });
     },

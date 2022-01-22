@@ -12,6 +12,7 @@ import {
   useDisclosure,
   useToast,
 } from '@chakra-ui/react';
+import * as gtag from 'lib/gtag';
 import router from 'next/router';
 import { parseCookies } from 'nookies';
 import { useCallback } from 'react';
@@ -57,10 +58,16 @@ export const EspecieTabPanelContent = ({
         isClosable: true,
         position: 'top-left',
       });
-      router.push('/areadiretor/plantao/');
+      gtag.event({
+        action: 'purchase',
+        category: 'ecommerce',
+        label: parentData.data?.carrinho.user.socio.matricula ?? '',
+        value: parentData.data?.carrinho.total ?? 0,
+      });
+      router.push('/areadiretor/plantao');
     });
     onClose();
-  }, [checkoutPlantao, onClose, toast]);
+  }, [checkoutPlantao, onClose, parentData.data, toast]);
 
   return (
     <>

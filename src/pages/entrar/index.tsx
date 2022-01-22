@@ -22,6 +22,7 @@ import {
   useDisclosure,
   useToast,
 } from '@chakra-ui/react';
+import * as gtag from 'lib/gtag';
 import { GetServerSideProps } from 'next';
 import NextImage from 'next/image';
 import { useRouter } from 'next/router';
@@ -109,6 +110,12 @@ export default function Entrar() {
           isClosable: true,
           position: 'top-left',
         });
+        gtag.event({
+          action: 'login',
+          category: 'engagement',
+          label: matricula,
+          value: 1,
+        });
       }
 
       if (mtr.length === 8) {
@@ -136,7 +143,7 @@ export default function Entrar() {
 
       setLoading(false);
     },
-    [entrar, onOpen, query, router.query, signIn, signOut, toast],
+    [entrar, matricula, onOpen, query, router.query, signIn, signOut, toast],
   );
 
   return (
