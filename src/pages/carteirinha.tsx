@@ -1,32 +1,32 @@
-import InputMask from 'react-input-mask';
-import React from 'react';
-import { Card } from '@/components/molecules';
-import { GetServerSideProps } from 'next';
-import { gql, useQuery } from '@apollo/client';
-import { Layout } from '@/components/templates';
-import { MdArrowLeft, MdRefresh } from 'react-icons/md';
 import { PageHeading } from '@/components/atoms';
-import { parseCookies } from 'nookies';
-import { useRouter } from 'next/router';
+import { Card } from '@/components/molecules';
+import { Layout } from '@/components/templates';
+import { gql, useQuery } from '@apollo/client';
 import {
   Avatar,
   Box,
   BoxProps,
   Button,
+  Center,
   Divider,
   Flex,
-  Image,
-  FormLabel,
-  Input,
-  Stack,
-  Text,
   FormControl,
-  SimpleGrid,
-  Center,
+  FormLabel,
   Grid,
   GridItem,
+  Image,
+  Input,
+  SimpleGrid,
+  Stack,
+  Text,
   useColorModeValue,
 } from '@chakra-ui/react';
+import { GetServerSideProps } from 'next';
+import { useRouter } from 'next/router';
+import { parseCookies } from 'nookies';
+import React from 'react';
+import { MdArrowLeft, MdRefresh } from 'react-icons/md';
+import InputMask from 'react-input-mask';
 
 const GET_SOCIO = gql`
   query {

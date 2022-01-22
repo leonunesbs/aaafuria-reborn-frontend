@@ -17,7 +17,7 @@ import {
 } from 'react-icons/ai';
 
 export const SocialIcons = ({ ...rest }) => {
-  const greenColor = useColorModeValue('green.600', 'green.200');
+  const greenColor = useColorModeValue('green.700', 'green.200');
   return (
     <Box {...rest}>
       <Divider h="15px" mb={4} />

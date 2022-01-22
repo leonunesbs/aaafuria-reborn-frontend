@@ -34,15 +34,18 @@ class Document extends NextDocument {
           />
           <link
             rel="mask-icon"
-            href="/favicon/safari-pinned-tab.svg"
+            href={`${process.env.PUBLIC_AWS_URI}/favicon/safari-pinned-tab.svg`}
             color="#2f855a"
           />
-          <link rel="shortcut icon" href="/favicon/favicon.ico" />
+          <link
+            rel="shortcut icon"
+            href={`${process.env.PUBLIC_AWS_URI}/favicon/favicon.ico`}
+          />
           <meta name="application-name" content="@aaafuria" />
           <meta name="msapplication-TileColor" content="#ffffff" />
           <meta
             name="msapplication-config"
-            content="/favicon/browserconfig.xml"
+            content={`${process.env.PUBLIC_AWS_URI}/favicon/browserconfig.xml`}
           />
           <meta name="theme-color" content="#2F855A"></meta>
         </Head>
