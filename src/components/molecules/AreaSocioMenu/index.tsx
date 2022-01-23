@@ -34,7 +34,7 @@ export const AreaSocioMenu = ({ ...rest }: AreaSocioMenuProps) => {
           Carteirinha de sócio
         </CustomButtom>
       </CustomChakraNextLink>
-      <CustomChakraNextLink href="/areasocio/atividades">
+      <CustomChakraNextLink href="/atividades">
         <CustomButtom
           leftIcon={
             <>
