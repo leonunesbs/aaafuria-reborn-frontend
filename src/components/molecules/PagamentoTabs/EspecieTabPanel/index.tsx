@@ -61,6 +61,12 @@ export const EspecieTabPanel = ({ parentData }: EspecieTabPanelProps) => {
         category: 'ecommerce',
         label: parentData.data?.carrinho.user.socio.matricula ?? '',
         value: parentData.data?.carrinho.total ?? 0,
+        items: parentData.data?.carrinho.produtos.edges.map(({ node }) => ({
+          id: node.id,
+          name: node.produto.nome,
+          price: node.getPrice,
+          quantity: node.quantidade,
+        })),
       });
       router.push('/areadiretor/plantao');
     });

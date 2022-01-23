@@ -63,7 +63,13 @@ export const PixTabPanel = ({ parentData: parentData }: PixTabPanelProps) => {
       action: 'purchase',
       category: 'ecommerce',
       label: parentData.data?.carrinho.user.socio.matricula ?? '',
-      value: parentData.data?.carrinho.total ?? 0,
+      value: 1,
+      items: parentData.data?.carrinho.produtos.edges.map(({ node }) => ({
+        id: node.id,
+        name: node.produto.nome,
+        price: node.getPrice,
+        quantity: node.quantidade,
+      })),
     });
     router.push('/areadiretor/plantao/');
   }, [checkoutPlantao, onClose, parentData.data, toast]);

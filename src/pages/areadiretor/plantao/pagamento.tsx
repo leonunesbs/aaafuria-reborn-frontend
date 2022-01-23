@@ -38,6 +38,18 @@ const GET_CARRINHO = gql`
         }
       }
       total
+      produtos {
+        edges {
+          node {
+            id
+            produto {
+              nome
+            }
+            quantidade
+            getPrice
+          }
+        }
+      }
     }
   }
 `;
@@ -52,6 +64,18 @@ export type CarrinhoData = {
       };
     };
     total: any;
+    produtos: {
+      edges: {
+        node: {
+          id: string;
+          produto: {
+            nome: string;
+          };
+          quantidade: number;
+          getPrice: number;
+        };
+      }[];
+    };
   };
 };
 
