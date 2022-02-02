@@ -216,7 +216,7 @@ export default function Entrar() {
                     </HStack>
                   </FormControl>
                   <CustomChakraNextLink
-                    href="https://diretoria.aaafuria.site/accounts/password_reset/"
+                    href="https://aaafuria-reborn.herokuapp.com/accounts/password_reset/"
                     chakraLinkProps={{
                       color: 'green',
                       textAlign: 'right',
