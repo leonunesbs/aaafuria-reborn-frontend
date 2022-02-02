@@ -18,9 +18,9 @@ const defaultOptions: DefaultOptions = {
 
 const httpLink = createHttpLink({
   uri:
-    process.env.NODE_ENV == 'development'
+    process.env.NODE_ENV != 'development'
       ? 'http://192.168.1.110:8000/graphql'
-      : 'https://backend.aaafuria.site/graphql',
+      : 'https://aaafuria-reborn.herokuapp.com/graphql',
   credentials: 'same-origin',
 });
 
