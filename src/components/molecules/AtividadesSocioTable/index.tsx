@@ -2,8 +2,9 @@ import { AtividadesSocioTableRow } from '@/components/atoms';
 import { gql, useQuery } from '@apollo/client';
 import { Table, TableProps, Tbody, Td, Th, Thead, Tr } from '@chakra-ui/react';
 
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
-export interface AtividadesSocioTableProps extends TableProps {}
+export interface AtividadesSocioTableProps extends TableProps {
+  categoria: string;
+}
 
 export type ProgramacaoData = {
   id: string;
@@ -17,6 +18,7 @@ export type ProgramacaoData = {
   local: string;
   finalizado: boolean;
   competidoresMinimo: number;
+  grupoWhatsappUrl: string;
   competidoresConfirmados: {
     edges: {
       node: {
@@ -28,9 +30,9 @@ export type ProgramacaoData = {
   };
 };
 
-const QUERY_PROGRAMACAO_ESPORTE = gql`
-  {
-    allProgramacao(modalidade_Categoria: "Esporte", orderBy: "data_hora") {
+const QUERY_PROGRAMACAO = gql`
+  query getProgramacao($categoria: String!) {
+    allProgramacao(modalidade_Categoria: $categoria, orderBy: "data_hora") {
       edges {
         node {
           id
@@ -42,36 +44,7 @@ const QUERY_PROGRAMACAO_ESPORTE = gql`
           }
           dataHora
           competidoresMinimo
-          competidoresConfirmados {
-            edges {
-              node {
-                socio {
-                  matricula
-                }
-              }
-            }
-          }
-          local
-          finalizado
-        }
-      }
-    }
-  }
-`;
-const QUERY_PROGRAMACAO_BATERIA = gql`
-  {
-    allProgramacao(modalidade_Categoria: "Bateria", orderBy: "data_hora") {
-      edges {
-        node {
-          id
-          estado
-          descricao
-          modalidade {
-            nome
-            categoria
-          }
-          dataHora
-          competidoresMinimo
+          grupoWhatsappUrl
           competidoresConfirmados {
             edges {
               node {
@@ -90,35 +63,25 @@ const QUERY_PROGRAMACAO_BATERIA = gql`
 `;
 
 export const AtividadesSocioTable = ({
+  categoria,
   ...rest
 }: AtividadesSocioTableProps) => {
-  const programacao_esporte = useQuery(QUERY_PROGRAMACAO_ESPORTE, {
+  const { data, refetch } = useQuery(QUERY_PROGRAMACAO, {
     fetchPolicy: 'no-cache',
+    variables: {
+      categoria: categoria,
+    },
   });
-  const programacao_bateria = useQuery(QUERY_PROGRAMACAO_BATERIA, {
-    fetchPolicy: 'no-cache',
-  });
-
-  // Variable that unifies the data from both queries
-  let programacao = [];
-  if (programacao_esporte.data) {
-    programacao = programacao_esporte.data.allProgramacao.edges;
-  }
-  if (programacao_bateria.data) {
-    programacao = programacao.concat(
-      programacao_bateria.data.allProgramacao.edges,
-    );
-  }
 
   const handleRefetch = () => {
-    programacao_esporte.refetch();
-    programacao_bateria.refetch();
+    refetch();
   };
 
   return (
     <Table colorScheme="gray" {...rest}>
       <Thead>
         <Tr>
+          <Th></Th>
           <Th></Th>
           <Th>Modalidade</Th>
           <Th>Categoria</Th>
@@ -128,18 +91,20 @@ export const AtividadesSocioTable = ({
         </Tr>
       </Thead>
       <Tbody>
-        {programacao.map(({ node }: { node: ProgramacaoData }) => {
-          if (!node.finalizado) {
-            return (
-              <AtividadesSocioTableRow
-                key={node.id}
-                node={node}
-                refetch={handleRefetch}
-              />
-            );
-          }
-        })}
-        {programacao.length === 0 && (
+        {data?.allProgramacao.edges.map(
+          ({ node }: { node: ProgramacaoData }) => {
+            if (!node.finalizado) {
+              return (
+                <AtividadesSocioTableRow
+                  key={node.id}
+                  node={node}
+                  refetch={handleRefetch}
+                />
+              );
+            }
+          },
+        )}
+        {data?.allProgramacao.edges.length === 0 && (
           <Tr>
             <Td colSpan={6} textAlign="center">
               <em>Nenhuma atividade programada.</em>

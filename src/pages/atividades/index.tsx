@@ -2,13 +2,14 @@ import { useRouter } from 'next/router';
 import { AiOutlineCalendar } from 'react-icons/ai';
 import { AtividadesSocioTable, Card } from '@/components/molecules';
 import { AuthContext } from '@/contexts/AuthContext';
-import { Box, Stack } from '@chakra-ui/react';
-import { FaPlus } from 'react-icons/fa';
+import { Box, HStack, Stack } from '@chakra-ui/react';
+import { FaDrum, FaPlus, FaVolleyballBall } from 'react-icons/fa';
 import { Layout } from '@/components/templates';
-import { useContext, useEffect } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import {
   CustomButtom,
   CustomChakraNextLink,
+  CustomIconButton,
   PageHeading,
 } from '@/components/atoms';
 import { MdArrowLeft } from 'react-icons/md';
@@ -18,6 +19,7 @@ interface AtividadesProps {}
 
 function Atividades({}: AtividadesProps) {
   const { isStaff, checkCredentials } = useContext(AuthContext);
+  const [categoria, setCategoria] = useState('Esporte');
   const router = useRouter();
   useEffect(() => {
     checkCredentials();
@@ -28,7 +30,21 @@ function Atividades({}: AtividadesProps) {
       <Box maxW="6xl" mx="auto">
         <PageHeading>Programação de Atividades</PageHeading>
         <Card overflowX="auto">
-          <AtividadesSocioTable />
+          <HStack justify="center">
+            <CustomIconButton
+              aria-label="Esportes"
+              icon={<FaVolleyballBall size="25px" />}
+              onClick={() => setCategoria('Esporte')}
+              isActive={categoria === 'Esporte'}
+            />
+            <CustomIconButton
+              aria-label="Bateria"
+              icon={<FaDrum size="25px" />}
+              onClick={() => setCategoria('Bateria')}
+              isActive={categoria === 'Bateria'}
+            />
+          </HStack>
+          <AtividadesSocioTable categoria={categoria} />
         </Card>
         <Stack mt={6}>
           {isStaff && (

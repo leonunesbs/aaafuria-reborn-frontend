@@ -1,4 +1,8 @@
-import { CustomButtom, CustomIconButton } from '@/components/atoms';
+import {
+  CustomButtom,
+  CustomChakraNextLink,
+  CustomIconButton,
+} from '@/components/atoms';
 import { AuthContext } from '@/contexts/AuthContext';
 import { gql, useMutation } from '@apollo/client';
 import {
@@ -25,6 +29,7 @@ import {
   useEffect,
   useState,
 } from 'react';
+import { FaWhatsapp } from 'react-icons/fa';
 import { MdCalendarToday, MdLogin } from 'react-icons/md';
 import { ProgramacaoData } from '../../molecules/AtividadesSocioTable';
 
@@ -191,6 +196,16 @@ export const AtividadesSocioTableRow = ({
             )}
           </Center>
         </Box>
+      </Td>
+      <Td>
+        {isAuthenticated && node.grupoWhatsappUrl && (
+          <CustomChakraNextLink href={node.grupoWhatsappUrl}>
+            <CustomIconButton
+              aria-label={node.modalidade.nome}
+              icon={<FaWhatsapp size="25px" />}
+            />
+          </CustomChakraNextLink>
+        )}
       </Td>
       <Td>{node.modalidade.nome}</Td>
       <Td>{node.modalidade.categoria}</Td>
