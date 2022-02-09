@@ -35,7 +35,7 @@ import { ProgramacaoData } from '../../molecules/AtividadesSocioTable';
 
 export interface AtividadesSocioTableRowProps extends TableRowProps {
   node: ProgramacaoData;
-  refetch: () => void;
+  handleRefetch: () => void;
 }
 
 const MUTATION_REMOVER_COMPETIDOR = gql`
@@ -55,7 +55,7 @@ const MUTATION_CONFIRMAR_COMPETIDOR = gql`
 
 export const AtividadesSocioTableRow = ({
   node,
-  refetch,
+  handleRefetch,
   ...rest
 }: AtividadesSocioTableRowProps) => {
   const router = useRouter();
@@ -86,7 +86,8 @@ export const AtividadesSocioTableRow = ({
 
   const handleConfirmarCompetidor = useCallback(
     async (idProgramacao: string) => {
-      setLoading(true);
+      setIsConfirmed(true);
+      setTimeout(() => setLoading(true), 100);
       await confirmarCompetidor({
         variables: {
           id: idProgramacao,
@@ -96,24 +97,35 @@ export const AtividadesSocioTableRow = ({
             authorization: `JWT ${token}`,
           },
         },
-      }).then(() => {
-        toast({
-          description: 'Participação confirmada.',
-          status: 'success',
-          duration: 2500,
-          isClosable: true,
-          position: 'top-left',
+      })
+        .then(() => {
+          toast({
+            description: 'Participação confirmada.',
+            status: 'success',
+            duration: 2500,
+            isClosable: true,
+            position: 'top-left',
+          });
+        })
+        .catch(() => {
+          toast({
+            description: 'Erro ao confirmar participação.',
+            status: 'error',
+            duration: 2500,
+            isClosable: true,
+            position: 'top-left',
+          });
         });
-        refetch();
-      });
+      handleRefetch();
       setLoading(false);
     },
-    [confirmarCompetidor, refetch, toast, token],
+    [confirmarCompetidor, handleRefetch, toast, token],
   );
 
   const handleRemoverCompetidor = useCallback(
     async (idProgramacao: string) => {
-      setLoading(true);
+      setIsConfirmed(false);
+      setTimeout(() => setLoading(true), 100);
       await removerCompetidor({
         variables: {
           id: idProgramacao,
@@ -123,12 +135,29 @@ export const AtividadesSocioTableRow = ({
             authorization: `JWT ${token}`,
           },
         },
-      }).then(() => {
-        refetch();
-      });
+      })
+        .then(() => {
+          toast({
+            description: 'Participação removida.',
+            status: 'info',
+            duration: 2500,
+            isClosable: true,
+            position: 'top-left',
+          });
+        })
+        .catch(() => {
+          toast({
+            description: 'Erro ao remover participação.',
+            status: 'error',
+            duration: 2500,
+            isClosable: true,
+            position: 'top-left',
+          });
+        });
+      handleRefetch();
       setLoading(false);
     },
-    [refetch, removerCompetidor, token],
+    [handleRefetch, removerCompetidor, toast, token],
   );
 
   const handleSwitchParticipacao = useCallback(
@@ -148,7 +177,7 @@ export const AtividadesSocioTableRow = ({
         ({ node: { socio } }) => socio.matricula === matricula,
       ) !== undefined,
     );
-  }, [matricula, node.competidoresConfirmados.edges]);
+  }, [matricula, node.competidoresConfirmados.edges, toast]);
 
   return (
     <Tr key={node.id} {...rest} bgColor={isConfirmed ? confirmedBgRow : bgRow}>

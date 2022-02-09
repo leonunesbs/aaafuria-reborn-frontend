@@ -1,6 +1,15 @@
 import { AtividadesSocioTableRow } from '@/components/atoms';
 import { gql, useQuery } from '@apollo/client';
-import { Table, TableProps, Tbody, Td, Th, Thead, Tr } from '@chakra-ui/react';
+import {
+  Spinner,
+  Table,
+  TableProps,
+  Tbody,
+  Td,
+  Th,
+  Thead,
+  Tr,
+} from '@chakra-ui/react';
 
 export interface AtividadesSocioTableProps extends TableProps {
   categoria: string;
@@ -67,7 +76,6 @@ export const AtividadesSocioTable = ({
   ...rest
 }: AtividadesSocioTableProps) => {
   const { data, refetch } = useQuery(QUERY_PROGRAMACAO, {
-    fetchPolicy: 'no-cache',
     variables: {
       categoria: categoria,
     },
@@ -98,15 +106,22 @@ export const AtividadesSocioTable = ({
                 <AtividadesSocioTableRow
                   key={node.id}
                   node={node}
-                  refetch={handleRefetch}
+                  handleRefetch={handleRefetch}
                 />
               );
             }
           },
         )}
+        {!data && (
+          <Tr>
+            <Td colSpan={7} textAlign="center">
+              <Spinner color="green" />
+            </Td>
+          </Tr>
+        )}
         {data?.allProgramacao.edges.length === 0 && (
           <Tr>
-            <Td colSpan={6} textAlign="center">
+            <Td colSpan={7} textAlign="center">
               <em>Nenhuma atividade programada.</em>
             </Td>
           </Tr>
