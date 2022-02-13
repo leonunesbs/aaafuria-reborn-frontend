@@ -11,12 +11,12 @@ import { gql, useQuery } from '@apollo/client';
 import {
   Box,
   Collapse,
-  Text,
   Flex,
   Stack,
   Table,
   Tbody,
   Td,
+  Text,
   Thead,
   Tr,
   useDisclosure,

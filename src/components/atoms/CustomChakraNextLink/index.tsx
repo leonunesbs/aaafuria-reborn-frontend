@@ -14,7 +14,7 @@ export const CustomChakraNextLink = ({
   ...rest
 }: CustomChakraNextLinkProps) => {
   return (
-    <NextLink href={href} passHref {...rest}>
+    <NextLink scroll={false} href={href} passHref {...rest}>
       <Link _hover={{ textDecoration: 'none' }} {...chakraLinkProps}>
         {children}
       </Link>

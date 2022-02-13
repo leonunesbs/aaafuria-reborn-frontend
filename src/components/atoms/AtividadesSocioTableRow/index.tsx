@@ -228,7 +228,10 @@ export const AtividadesSocioTableRow = ({
       </Td>
       <Td>
         {isAuthenticated && node.grupoWhatsappUrl && (
-          <CustomChakraNextLink href={node.grupoWhatsappUrl}>
+          <CustomChakraNextLink
+            href={node.grupoWhatsappUrl}
+            chakraLinkProps={{ target: '_blank' }}
+          >
             <CustomIconButton
               aria-label={node.modalidade.nome}
               icon={<FaWhatsapp size="25px" />}

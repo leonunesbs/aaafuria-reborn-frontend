@@ -12,7 +12,7 @@ import {
   useToast,
 } from '@chakra-ui/react';
 import { parseCookies } from 'nookies';
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { MdCopyAll } from 'react-icons/md';
 import QRCode from 'react-qr-code';
 

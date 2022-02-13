@@ -1,14 +1,14 @@
 import { IconButton, IconButtonProps } from '@chakra-ui/react';
 import { ReactNode } from 'react';
 
-export interface CustomIconButtomProps extends IconButtonProps {
+export interface CustomIconButtonProps extends IconButtonProps {
   children?: ReactNode;
 }
 
-export const CustomIconButton = ({
+export const CustomIconButtom = ({
   children,
   ...rest
-}: CustomIconButtomProps) => {
+}: CustomIconButtonProps) => {
   return (
     <IconButton colorScheme="green" variant="ghost" {...rest}>
       {children}

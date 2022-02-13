@@ -4,7 +4,7 @@ import { AreaDiretorButtonProps } from './AreaDiretorButton';
 import { AtividadesSocioTableRowProps } from './AtividadesSocioTableRow';
 import { CustomButtomProps } from './CustomButtom';
 import { CustomChakraNextLinkProps } from './CustomChakraNextLink';
-import { CustomIconButtomProps } from './CustomIconButton';
+import { CustomIconButtonProps } from './CustomIconButton';
 import { PageHeadingProps } from './PageHeading';
 import { SejaSocioButtonProps } from './SejaSocioButton';
 
@@ -26,8 +26,8 @@ export const AtividadesSocioTableRow = dynamic<AtividadesSocioTableRowProps>(
 export const CustomButtom = dynamic<
   CustomButtomProps & RefAttributes<HTMLButtonElement>
 >(() => import('./CustomButtom').then((mod) => mod.CustomButtom));
-export const CustomIconButton = dynamic<CustomIconButtomProps>(() =>
-  import('./CustomIconButton').then((mod) => mod.CustomIconButton),
+export const CustomIconButton = dynamic<CustomIconButtonProps>(() =>
+  import('./CustomIconButton').then((mod) => mod.CustomIconButtom),
 );
 
 export const CustomChakraNextLink = dynamic<CustomChakraNextLinkProps>(() =>

@@ -1,17 +1,17 @@
-import { useRouter } from 'next/router';
-import { AiOutlineCalendar } from 'react-icons/ai';
-import { AtividadesSocioTable, Card } from '@/components/molecules';
-import { AuthContext } from '@/contexts/AuthContext';
-import { Box, HStack, Stack } from '@chakra-ui/react';
-import { FaDrum, FaPlus, FaVolleyballBall } from 'react-icons/fa';
-import { Layout } from '@/components/templates';
-import { useContext, useEffect, useState } from 'react';
 import {
   CustomButtom,
   CustomChakraNextLink,
   CustomIconButton,
   PageHeading,
 } from '@/components/atoms';
+import { AtividadesSocioTable, Card } from '@/components/molecules';
+import { Layout } from '@/components/templates';
+import { AuthContext } from '@/contexts/AuthContext';
+import { Box, HStack, Stack } from '@chakra-ui/react';
+import { useRouter } from 'next/router';
+import { useContext, useEffect, useState } from 'react';
+import { AiOutlineCalendar } from 'react-icons/ai';
+import { FaDrum, FaPlus, FaVolleyballBall } from 'react-icons/fa';
 import { MdArrowLeft } from 'react-icons/md';
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
@@ -21,9 +21,22 @@ function Atividades({}: AtividadesProps) {
   const { isStaff, checkCredentials } = useContext(AuthContext);
   const [categoria, setCategoria] = useState('Esporte');
   const router = useRouter();
+
+  const handleCategoria = (categoria: string) => {
+    setCategoria(categoria);
+    router.push(`/atividades?categoria=${categoria}`);
+  };
+
   useEffect(() => {
     checkCredentials();
   }, [checkCredentials, router]);
+
+  useEffect(() => {
+    const query = router.query.categoria;
+    if (query && typeof query === 'string') {
+      setCategoria(query);
+    }
+  }, [router.query]);
 
   return (
     <Layout title="Atividades" desc="Programação de atividades">
@@ -34,13 +47,13 @@ function Atividades({}: AtividadesProps) {
             <CustomIconButton
               aria-label="Esportes"
               icon={<FaVolleyballBall size="25px" />}
-              onClick={() => setCategoria('Esporte')}
+              onClick={() => handleCategoria('Esporte')}
               isActive={categoria === 'Esporte'}
             />
             <CustomIconButton
               aria-label="Bateria"
               icon={<FaDrum size="25px" />}
-              onClick={() => setCategoria('Bateria')}
+              onClick={() => handleCategoria('Bateria')}
               isActive={categoria === 'Bateria'}
             />
           </HStack>
