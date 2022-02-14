@@ -66,6 +66,20 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
   const isAuthenticated = !!token;
 
+  const signOut = () => {
+    setUser(null);
+    destroyCookie(null, 'aaafuriaToken');
+    destroyCookie(null, 'aaafuriaMatricula');
+    destroyCookie(null, 'aaafuriaIsSocio');
+    destroyCookie(null, 'aaafuriaIsStaff');
+    try {
+      localStorage.removeItem('aaafuria@signUpMatricula');
+    } catch (err) {
+      console.log(err);
+    }
+    router.push('/entrar');
+  };
+
   const checkCredentials = async () => {
     if (isAuthenticated) {
       if (!matricula) {
@@ -77,6 +91,10 @@ export function AuthProvider({ children }: AuthProviderProps) {
           matricula: matricula,
         },
       });
+
+      if (response.data.socioByMatricula === null) {
+        return signOut();
+      }
       setCookie(
         null,
         'aaafuriaIsSocio',
@@ -104,7 +122,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
       setIsSocio(aaafuriaIsSocio === 'true');
       setIsStaff(aaafuriaIsStaff === 'true');
-      return response.data.socioByMatricula?.isSocio;
+      return response?.data.socioByMatricula?.isSocio;
     }
   };
 
@@ -137,20 +155,6 @@ export function AuthProvider({ children }: AuthProviderProps) {
         console.log(err);
         router.reload();
       });
-  };
-
-  const signOut = () => {
-    setUser(null);
-    destroyCookie(null, 'aaafuriaToken');
-    destroyCookie(null, 'aaafuriaMatricula');
-    destroyCookie(null, 'aaafuriaIsSocio');
-    destroyCookie(null, 'aaafuriaIsStaff');
-    try {
-      localStorage.removeItem('aaafuria@signUpMatricula');
-    } catch (err) {
-      console.log(err);
-    }
-    router.push('/entrar');
   };
 
   return (

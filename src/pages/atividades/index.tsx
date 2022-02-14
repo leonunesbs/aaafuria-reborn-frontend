@@ -12,7 +12,7 @@ import { useRouter } from 'next/router';
 import { useContext, useEffect, useState } from 'react';
 import { AiOutlineCalendar } from 'react-icons/ai';
 import { FaDrum, FaPlus, FaVolleyballBall } from 'react-icons/fa';
-import { MdArrowLeft } from 'react-icons/md';
+import { MdArrowLeft, MdManageAccounts } from 'react-icons/md';
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 interface AtividadesProps {}
@@ -56,6 +56,15 @@ function Atividades({}: AtividadesProps) {
               onClick={() => handleCategoria('Bateria')}
               isActive={categoria === 'Bateria'}
             />
+            {isStaff && (
+              <CustomIconButton
+                aria-label="Diretoria"
+                icon={<MdManageAccounts size="25px" />}
+                onClick={() => handleCategoria('Diretoria')}
+                isActive={categoria === 'Diretoria'}
+                colorScheme="yellow"
+              />
+            )}
           </HStack>
           <AtividadesSocioTable categoria={categoria} />
         </Card>
