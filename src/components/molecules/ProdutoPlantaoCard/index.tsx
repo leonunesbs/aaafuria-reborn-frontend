@@ -16,6 +16,8 @@ import {
   Image,
   Text,
 } from '@chakra-ui/react';
+import { CustomButtom } from '@/components/atoms';
+import { useRouter } from 'next/router';
 
 const ADD_TO_CART_PLANTAO = gql`
   mutation addToCartPlantao(
@@ -53,6 +55,7 @@ export const ProdutoPlantaoCard = ({
   node,
   matriculaSocio,
 }: ProdutoPlantaoCardProps) => {
+  const router = useRouter();
   const { register, handleSubmit } = useForm<any>();
   const [addToCartPlantao, { loading }] = useMutation(ADD_TO_CART_PLANTAO, {
     context: {
@@ -88,13 +91,27 @@ export const ProdutoPlantaoCard = ({
         setIsLoading(false);
         toast({
           title: `[${node.nome}] adicionado ao carrinho!`,
+          description: (
+            <CustomButtom
+              colorScheme={'green'}
+              variant="solid"
+              leftIcon={<MdShoppingCart size="25px" />}
+              shadow="base"
+              onClick={() =>
+                router.push(`/areadiretor/plantao/carrinho?m=${matriculaSocio}`)
+              }
+            >
+              Ir para o carrinho
+            </CustomButtom>
+          ),
           status: 'success',
-          isClosable: true,
           position: 'top-left',
+          duration: 5000,
+          isClosable: true,
         });
       });
     },
-    [node, addToCartPlantao, matriculaSocio, toast],
+    [node, addToCartPlantao, matriculaSocio, toast, router],
   );
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
