@@ -16,7 +16,7 @@ export const AreaDiretorMenu = ({ ...rest }: AreaDiretorMenuProps) => {
         chakraLinkProps={{
           target: '_blank',
         }}
-        href="https://aaafuria-reborn.herokuapp.com/admin"
+        href="https://diretoria.aaafuria.site/admin"
       >
         <CustomButtom
           leftIcon={<AiFillSetting size="20px" />}
