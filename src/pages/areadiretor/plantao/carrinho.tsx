@@ -79,10 +79,12 @@ const REMOVE_FROM_PLANTAO_CART = gql`
   mutation removeFromPlantaoCart(
     $produtoPedidoId: String!
     $matriculaSocio: String!
+    $remove: Boolean
   ) {
     removerDoCarrinhoPlantao(
       produtoPedidoId: $produtoPedidoId
       matriculaSocio: $matriculaSocio
+      remove: $remove
     ) {
       ok
     }
