@@ -26,6 +26,11 @@ const GET_PLANTAO_CARRINHO = gql`
     plantaoCarrinho(matriculaSocio: $matriculaSocio) {
       id
       total
+      user {
+        socio {
+          isSocio
+        }
+      }
       produtos {
         edges {
           node {
@@ -132,10 +137,22 @@ function Carrinho() {
             <Tbody>
               {carrinho.produtos?.edges?.map(
                 ({
-                  node: { id, produto, variacao, quantidade, preco },
+                  node: {
+                    id,
+                    produto,
+                    variacao,
+                    quantidade,
+                    preco,
+                    precoSocio,
+                  },
                 }: {
                   node: {
                     id: string;
+                    user: {
+                      socio: {
+                        isSocio: boolean;
+                      };
+                    };
                     produto: { nome: string; id: string };
                     variacao: { nome: string };
                     quantidade: number;
@@ -147,25 +164,15 @@ function Carrinho() {
                     <Td>{produto.nome}</Td>
                     <Td>{variacao?.nome}</Td>
                     <Td>{quantidade}</Td>
-                    {/* {isSocio === 'true' ? (
-                  <>
-                  <Td isNumeric>{precoSocio.replace('.', ',')}</Td>
-                  <Td isNumeric>
-                  {(precoSocio * quantidade).toFixed(2).replace('.', ',')}
-                  </Td>
-                  </>
-                  ) : (
-                    <>
-                    <Td isNumeric>{preco.replace('.', ',')}</Td>
                     <Td isNumeric>
-                    {(preco * quantidade).toFixed(2).replace('.', ',')}
+                      {carrinho.user.socio.isSocio
+                        ? precoSocio.replace('.', ',')
+                        : preco.replace('.', ',')}
                     </Td>
-                    </>
-                  )} */}
-
-                    <Td isNumeric>{preco.replace('.', ',')}</Td>
                     <Td isNumeric>
-                      {(preco * quantidade).toFixed(2).replace('.', ',')}
+                      {carrinho.user.socio.isSocio
+                        ? (precoSocio * quantidade).toFixed(2).replace('.', ',')
+                        : (preco * quantidade).toFixed(2).replace('.', ',')}
                     </Td>
                     <Td>
                       <IconButton

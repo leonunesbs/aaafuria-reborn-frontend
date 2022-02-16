@@ -92,7 +92,7 @@ export const PixTabPanel = ({ parentData: parentData }: PixTabPanelProps) => {
           fgColor="gray"
           pixParams={{
             chave: chavePix,
-            recebedor: '@aaafuria',
+            recebedor: 'Iago Antunes Macedo de Souza',
             cidade: 'Teresina',
             identificador: `${parentData.data?.carrinho.id}`,
             valor: parseFloat(parentData.data?.carrinho.total),
