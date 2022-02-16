@@ -68,7 +68,7 @@ function Loja() {
           })}
         </SimpleGrid>
         {data?.allProduto?.edges?.length === 0 && (
-          <Text textAlign={'center'} colspa>
+          <Text textAlign={'center'}>
             <em>Nenhum produto disponível para compra online no momento.</em>
           </Text>
         )}
