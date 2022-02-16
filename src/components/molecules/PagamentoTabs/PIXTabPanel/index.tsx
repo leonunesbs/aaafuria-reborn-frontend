@@ -93,7 +93,7 @@ export const PixTabPanel = ({ parentData: parentData }: PixTabPanelProps) => {
             chave: '02544977302',
             recebedor: 'Iago Antunes M de Souza',
             cidade: 'Teresina',
-            identificador: 'PIX',
+            identificador: 'PLANTAOFURIA',
             valor: parseFloat(parentData.data?.carrinho.total),
             mensagem: `${parentData.data?.carrinho.id}`,
           }}
