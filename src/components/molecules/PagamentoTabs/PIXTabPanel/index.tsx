@@ -74,7 +74,6 @@ export const PixTabPanel = ({ parentData: parentData }: PixTabPanelProps) => {
     router.push('/areadiretor/plantao/');
   }, [checkoutPlantao, onClose, parentData.data, toast]);
 
-  const chavePix = '02544977302';
   return (
     <>
       <SimpleGrid
@@ -91,12 +90,12 @@ export const PixTabPanel = ({ parentData: parentData }: PixTabPanelProps) => {
           includeMargin
           fgColor="gray"
           pixParams={{
-            chave: chavePix,
-            recebedor: 'Iago Antunes Macedo de Souza',
+            chave: '02544977302',
+            recebedor: 'Iago Antunes M de Souza',
             cidade: 'Teresina',
-            identificador: `${parentData.data?.carrinho.id}`,
+            identificador: 'PIX',
             valor: parseFloat(parentData.data?.carrinho.total),
-            mensagem: `ID: ${parentData.data?.carrinho.id} - Matrícula: ${parentData.data?.carrinho.user.socio.matricula}`,
+            mensagem: `${parentData.data?.carrinho.id}`,
           }}
           imageSettings={{
             src: `${process.env.PUBLIC_AWS_URI}/calango-verde-3.png`,
