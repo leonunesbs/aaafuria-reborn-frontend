@@ -318,7 +318,7 @@ function Eventos() {
         })}
       </SimpleGrid>
       {data?.allLote?.edges?.length === 0 && (
-        <Text textAlign={'center'} colspa>
+        <Text textAlign={'center'}>
           <em>Nenhum evento disponível para compra online no momento.</em>
         </Text>
       )}
