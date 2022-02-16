@@ -1,25 +1,29 @@
-import { AuthContext } from '@/contexts/AuthContext';
-import { GetServerSideProps } from 'next';
-import { gql, useMutation, useQuery } from '@apollo/client';
-import { MdArrowLeft, MdDelete, MdPayment } from 'react-icons/md';
-import { parseCookies } from 'nookies';
-import { useContext, useEffect, useState } from 'react';
-import { useRouter } from 'next/router';
-import {
-  Table,
-  Thead,
-  Tr,
-  Th,
-  Tbody,
-  Td,
-  IconButton,
-  Tfoot,
-  Box,
-  HStack,
-} from '@chakra-ui/react';
-import { PageHeading, CustomButtom } from '@/components/atoms';
+import { CustomButtom, PageHeading } from '@/components/atoms';
+import { CustomIconButtom } from '@/components/atoms/CustomIconButton';
 import { Card } from '@/components/molecules';
 import { Layout } from '@/components/templates';
+import { AuthContext } from '@/contexts/AuthContext';
+import { gql, useMutation, useQuery } from '@apollo/client';
+import {
+  Box,
+  HStack,
+  IconButton,
+  Spinner,
+  Table,
+  Tbody,
+  Td,
+  Text,
+  Tfoot,
+  Th,
+  Thead,
+  Tr,
+} from '@chakra-ui/react';
+import { GetServerSideProps } from 'next';
+import { useRouter } from 'next/router';
+import { parseCookies } from 'nookies';
+import { useContext, useEffect, useState } from 'react';
+import { FaMinus, FaPlus } from 'react-icons/fa';
+import { MdArrowLeft, MdDelete, MdPayment } from 'react-icons/md';
 
 const GET_PLANTAO_CARRINHO = gql`
   query getPlantaoCarrinho($matriculaSocio: String!) {
@@ -36,9 +40,11 @@ const GET_PLANTAO_CARRINHO = gql`
           node {
             id
             produto {
+              id
               nome
             }
             variacao {
+              id
               nome
             }
             quantidade
@@ -47,6 +53,24 @@ const GET_PLANTAO_CARRINHO = gql`
           }
         }
       }
+    }
+  }
+`;
+
+const ADD_TO_CART_PLANTAO = gql`
+  mutation addToCartPlantao(
+    $productId: String!
+    $quantidade: Int!
+    $matriculaSocio: String!
+    $variacaoId: String
+  ) {
+    adicionarAoCarrinhoPlantao(
+      productId: $productId
+      quantidade: $quantidade
+      matriculaSocio: $matriculaSocio
+      variacaoId: $variacaoId
+    ) {
+      ok
     }
   }
 `;
@@ -69,10 +93,11 @@ function Carrinho() {
   const router = useRouter();
   const { isStaff } = useContext(AuthContext);
 
-  const { m: matriculaSocio } = router.query;
-  const [carrinho, setCarrinho] = useState<any | null>(null);
+  const [loading, setLoading] = useState(false);
 
-  const { data } = useQuery(GET_PLANTAO_CARRINHO, {
+  const { m: matriculaSocio } = router.query;
+
+  const { data, refetch } = useQuery(GET_PLANTAO_CARRINHO, {
     context: {
       headers: {
         authorization: `JWT ${parseCookies()['aaafuriaToken']}`,
@@ -84,7 +109,18 @@ function Carrinho() {
     fetchPolicy: 'no-cache',
   });
 
-  const [removeFromPlantaoCart] = useMutation(REMOVE_FROM_PLANTAO_CART, {
+  const [removeFromPlantaoCart, removeParams] = useMutation(
+    REMOVE_FROM_PLANTAO_CART,
+    {
+      context: {
+        headers: {
+          Authorization: `JWT ${parseCookies()['aaafuriaToken']}`,
+        },
+      },
+    },
+  );
+
+  const [addToCartPlantao, addParams] = useMutation(ADD_TO_CART_PLANTAO, {
     context: {
       headers: {
         Authorization: `JWT ${parseCookies()['aaafuriaToken']}`,
@@ -98,25 +134,20 @@ function Carrinho() {
     //     matriculaSocio,
     //   },
     // });
-    router.push(`/areadiretor/plantao/pagamento?id=${carrinho.id}`);
+    router.push(
+      `/areadiretor/plantao/pagamento?id=${data?.plantaoCarrinho.id}`,
+    );
   };
-
-  useEffect(() => {
-    if (data?.plantaoCarrinho) {
-      setCarrinho(data.plantaoCarrinho);
-    }
-  }, [data]);
 
   useEffect(() => {
     isStaff === false && router.replace('/');
   }, [isStaff, router]);
 
-  if (!carrinho) {
-    return null;
-  }
-  if (!matriculaSocio || !carrinho.produtos) {
-    return router.push('/areadiretor/plantao');
-  }
+  useEffect(() => {
+    addParams.loading || removeParams.loading
+      ? setLoading(true)
+      : setTimeout(() => setLoading(false), 1000);
+  }, [addParams.loading, removeParams.loading]);
 
   return (
     <Layout title="Carrinho Plantão">
@@ -135,7 +166,7 @@ function Carrinho() {
               </Tr>
             </Thead>
             <Tbody>
-              {carrinho.produtos?.edges?.map(
+              {data?.plantaoCarrinho.produtos?.edges?.map(
                 ({
                   node: {
                     id,
@@ -154,7 +185,7 @@ function Carrinho() {
                       };
                     };
                     produto: { nome: string; id: string };
-                    variacao: { nome: string };
+                    variacao: { nome: string; id: string } | null;
                     quantidade: number;
                     preco: any;
                     precoSocio: any;
@@ -163,14 +194,52 @@ function Carrinho() {
                   <Tr key={`${produto.id}-${quantidade}`}>
                     <Td>{produto.nome}</Td>
                     <Td>{variacao?.nome}</Td>
-                    <Td>{quantidade}</Td>
+                    <Td>
+                      <HStack>
+                        <CustomIconButtom
+                          aria-label="remove_from_cart"
+                          icon={<FaMinus size="15px" />}
+                          onClick={() => {
+                            removeFromPlantaoCart({
+                              variables: {
+                                produtoPedidoId: id,
+                                matriculaSocio,
+                              },
+                            }).then(() => refetch());
+                          }}
+                        />
+                        <Text>
+                          {loading ? (
+                            <Spinner color="green" size="sm" />
+                          ) : (
+                            quantidade
+                          )}
+                        </Text>
+                        <CustomIconButtom
+                          aria-label="add_to_cart"
+                          icon={<FaPlus size="15px" />}
+                          onClick={() => {
+                            addToCartPlantao({
+                              variables: {
+                                matriculaSocio,
+                                productId: produto.id,
+                                quantidade: 1,
+                                variacaoId: variacao?.id,
+                              },
+                            }).then(() => {
+                              refetch();
+                            });
+                          }}
+                        />
+                      </HStack>
+                    </Td>
                     <Td isNumeric>
-                      {carrinho.user.socio.isSocio
+                      {data?.plantaoCarrinho.user.socio.isSocio
                         ? precoSocio.replace('.', ',')
                         : preco.replace('.', ',')}
                     </Td>
                     <Td isNumeric>
-                      {carrinho.user.socio.isSocio
+                      {data?.plantaoCarrinho.user.socio.isSocio
                         ? (precoSocio * quantidade).toFixed(2).replace('.', ',')
                         : (preco * quantidade).toFixed(2).replace('.', ',')}
                     </Td>
@@ -183,8 +252,12 @@ function Carrinho() {
                         icon={<MdDelete size="25px" />}
                         onClick={() =>
                           removeFromPlantaoCart({
-                            variables: { produtoPedidoId: id, matriculaSocio },
-                          }).then(() => router.reload())
+                            variables: {
+                              produtoPedidoId: id,
+                              matriculaSocio,
+                              remove: true,
+                            },
+                          }).then(() => refetch())
                         }
                       />
                     </Td>
@@ -197,7 +270,9 @@ function Carrinho() {
                 <Th />
                 <Th />
                 <Th isNumeric>TOTAL</Th>
-                <Th isNumeric>{carrinho.total.replace('.', ',')}</Th>
+                <Th isNumeric>
+                  {data?.plantaoCarrinho.total.replace('.', ',')}
+                </Th>
               </Tr>
             </Tfoot>
           </Table>

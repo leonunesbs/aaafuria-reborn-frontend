@@ -75,7 +75,7 @@ export const ProdutoPlantaoCard = ({
   const toast = useToast();
 
   const onSubmit: SubmitHandler<any> = useCallback(
-    (formData) => {
+    (formData: { variacaoId: any }) => {
       const productId = node.id;
       const quantidade = 1;
       const variacaoId = formData.variacaoId;

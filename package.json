@@ -31,6 +31,7 @@
     "@chakra-ui/react": "1.8.3",
     "@emotion/react": "11.7.1",
     "@emotion/styled": "11.6.0",
+    "@typescript-eslint/experimental-utils": "5.12.0",
     "framer-motion": "6.2.6",
     "graphql": "16.3.0",
     "next": "12.0.10",
