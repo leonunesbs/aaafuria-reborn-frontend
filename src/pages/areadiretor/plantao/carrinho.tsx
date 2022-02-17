@@ -1,5 +1,5 @@
 import { CustomButtom, PageHeading } from '@/components/atoms';
-import { CustomIconButtom } from '@/components/atoms/CustomIconButton';
+import { CustomIconButton } from '@/components/atoms/CustomIconButton';
 import { Card } from '@/components/molecules';
 import { Layout } from '@/components/templates';
 import { AuthContext } from '@/contexts/AuthContext';
@@ -146,9 +146,7 @@ function Carrinho() {
   }, [isStaff, router]);
 
   useEffect(() => {
-    addParams.loading || removeParams.loading
-      ? setLoading(true)
-      : setTimeout(() => setLoading(false), 1000);
+    addParams.loading || (removeParams.loading && setLoading(true));
   }, [addParams.loading, removeParams.loading]);
 
   return (
@@ -198,29 +196,33 @@ function Carrinho() {
                     <Td>{variacao?.nome}</Td>
                     <Td>
                       <HStack>
-                        <CustomIconButtom
+                        <CustomIconButton
+                          isDisabled={loading}
                           aria-label="remove_from_cart"
                           icon={<FaMinus size="15px" />}
                           onClick={() => {
+                            setLoading(true);
                             removeFromPlantaoCart({
                               variables: {
                                 produtoPedidoId: id,
                                 matriculaSocio,
                               },
-                            }).then(() => refetch());
+                            }).then(() =>
+                              refetch().then(() => setLoading(false)),
+                            );
                           }}
                         />
-                        <Text>
-                          {loading ? (
-                            <Spinner color="green" size="sm" />
-                          ) : (
-                            quantidade
-                          )}
-                        </Text>
-                        <CustomIconButtom
+                        {loading ? (
+                          <Spinner color="green" size="sm" />
+                        ) : (
+                          <Text>{quantidade}</Text>
+                        )}
+                        <CustomIconButton
+                          isDisabled={loading}
                           aria-label="add_to_cart"
                           icon={<FaPlus size="15px" />}
                           onClick={() => {
+                            setLoading(true);
                             addToCartPlantao({
                               variables: {
                                 matriculaSocio,
@@ -229,7 +231,7 @@ function Carrinho() {
                                 variacaoId: variacao?.id,
                               },
                             }).then(() => {
-                              refetch();
+                              refetch().then(() => setLoading(false));
                             });
                           }}
                         />
@@ -252,15 +254,18 @@ function Carrinho() {
                         variant="ghost"
                         size="sm"
                         icon={<MdDelete size="25px" />}
-                        onClick={() =>
+                        onClick={() => {
+                          setLoading(true);
                           removeFromPlantaoCart({
                             variables: {
                               produtoPedidoId: id,
                               matriculaSocio,
                               remove: true,
                             },
-                          }).then(() => refetch())
-                        }
+                          }).then(() =>
+                            refetch().then(() => setLoading(false)),
+                          );
+                        }}
                       />
                     </Td>
                   </Tr>

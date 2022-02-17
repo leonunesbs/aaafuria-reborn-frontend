@@ -1,31 +1,35 @@
-import React, { useCallback, useContext, useEffect, useState } from 'react';
-import { AuthContext } from '@/contexts/AuthContext';
-import { Card } from '@/components/molecules';
-import { GetServerSideProps } from 'next';
-import { gql, useQuery } from '@apollo/client';
-import { Layout } from '@/components/templates';
-import { LojaPlantao } from '@/components/organisms';
-import { parseCookies } from 'nookies';
-import { SubmitHandler, useForm } from 'react-hook-form';
-import { useRouter } from 'next/router';
 import {
-  PageHeading,
   CustomButtom,
   CustomChakraNextLink,
+  FloatingCarrinhoPlantaoButton,
+  PageHeading,
 } from '@/components/atoms';
+import { Card } from '@/components/molecules';
+import { LojaPlantao } from '@/components/organisms';
+import { Layout } from '@/components/templates';
+import { AuthContext } from '@/contexts/AuthContext';
+import { gql, useQuery } from '@apollo/client';
 import {
   Box,
+  Collapse,
+  Divider,
   FormControl,
   FormLabel,
   HStack,
   Input,
   PinInput,
   PinInputField,
+  Skeleton,
   Stack,
   Text,
+  useDisclosure,
   useToast,
 } from '@chakra-ui/react';
-
+import { GetServerSideProps } from 'next';
+import { useRouter } from 'next/router';
+import { parseCookies } from 'nookies';
+import React, { useCallback, useContext, useEffect, useState } from 'react';
+import { SubmitHandler, useForm } from 'react-hook-form';
 import {
   MdArrowLeft,
   MdCheck,
@@ -52,6 +56,7 @@ type Inputs = {
 };
 
 function Plantao() {
+  const { isOpen, onOpen, onClose } = useDisclosure();
   const { isStaff } = useContext(AuthContext);
   const matriculaForm = useForm<Inputs>();
   const router = useRouter();
@@ -68,11 +73,12 @@ function Plantao() {
   const [matriculaInput, setMatriculaInput] = useState('');
 
   const handleRestart = useCallback(() => {
+    onClose();
     setMatriculaInput('');
     setSocioData(null);
     router.replace('/areadiretor/plantao');
     matriculaForm.reset();
-  }, [router, matriculaForm]);
+  }, [onClose, router, matriculaForm]);
 
   const getSocioData = useCallback(
     ({ matricula }: { matricula: string }) =>
@@ -94,10 +100,11 @@ function Plantao() {
 
   const submitMatricula: SubmitHandler<Inputs> = useCallback(
     ({ matricula }) => {
+      onOpen();
       getSocioData({ matricula });
       router.replace(`/areadiretor/plantao?m=${matricula}`);
     },
-    [getSocioData, router],
+    [getSocioData, onOpen, router],
   );
 
   useEffect(() => {
@@ -113,11 +120,20 @@ function Plantao() {
   }, [isStaff, router]);
 
   return (
-    <Layout title="Área do Diretor">
+    <Layout title="Plantão de vendas" position={'relative'}>
+      {socioData && (
+        <FloatingCarrinhoPlantaoButton
+          onClick={() =>
+            router.push(
+              `/areadiretor/plantao/carrinho?m=${socioData.matricula}`,
+            )
+          }
+        />
+      )}
       <Box maxW="7xl" mx="auto">
-        <PageHeading>Plantão de Vendas</PageHeading>
+        <PageHeading>Plantão de vendas</PageHeading>
         <form onSubmit={matriculaForm.handleSubmit(submitMatricula)}>
-          <Card>
+          <Card maxW="lg" mx="auto">
             <Stack spacing={4}>
               <FormControl>
                 <FormLabel>Matrícula: </FormLabel>
@@ -149,22 +165,7 @@ function Plantao() {
                   </PinInput>
                 </HStack>
               </FormControl>
-              {socioData && (
-                <Card textAlign="center">
-                  <Text>{socioData.matricula}</Text>
-                  <Text>{socioData.turma}</Text>
-                  <Text>{socioData.nome}</Text>
-                  <Text>
-                    {socioData.isSocio ? (
-                      <Text textColor="green" fontWeight="bold">
-                        Sócio ativo
-                      </Text>
-                    ) : (
-                      'Sócio inativo'
-                    )}
-                  </Text>
-                </Card>
-              )}
+
               <Stack>
                 <CustomButtom
                   type="submit"
@@ -184,8 +185,43 @@ function Plantao() {
             </Stack>
           </Card>
         </form>
+        <Collapse in={isOpen} animateOpacity>
+          <Card maxW="lg" mx="auto" mt={4}>
+            <Text as="strong">Informações do cliente</Text>
+            <Divider />
+            <Stack mt={4}>
+              <Skeleton isLoaded={socioData !== null}>
+                <Text>{socioData?.matricula || '00000000'}</Text>
+              </Skeleton>
+              <Skeleton isLoaded={socioData !== null}>
+                <Text>{socioData?.turma || 'MED 00'}</Text>
+              </Skeleton>
+              <Skeleton isLoaded={socioData !== null}>
+                <Text>{socioData?.nome || 'NOME'}</Text>
+              </Skeleton>
+              <Skeleton isLoaded={socioData !== null}>
+                <Box>
+                  {socioData?.isSocio ? (
+                    <CustomButtom maxW="250px" variant={'solid'}>
+                      Sócio ativo
+                    </CustomButtom>
+                  ) : (
+                    <CustomButtom
+                      maxW="200px"
+                      variant={'solid'}
+                      colorScheme="red"
+                    >
+                      Sócio inativo
+                    </CustomButtom>
+                  )}
+                </Box>
+              </Skeleton>
+            </Stack>
+          </Card>
+        </Collapse>
         <LojaPlantao matriculaSocio={socioData?.matricula} />
       </Box>
+
       <Stack mt={10} align="center">
         {socioData && (
           <CustomChakraNextLink

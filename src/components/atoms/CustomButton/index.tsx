@@ -7,7 +7,7 @@ export interface CustomButtomProps extends ButtonProps {
   hasExternalIcon?: boolean;
 }
 
-export const CustomButtom = forwardRef<HTMLButtonElement, CustomButtomProps>(
+export const CustomButton = forwardRef<HTMLButtonElement, CustomButtomProps>(
   ({ children, hasExternalIcon, ...rest }, ref) => {
     return (
       <Button
@@ -24,4 +24,4 @@ export const CustomButtom = forwardRef<HTMLButtonElement, CustomButtomProps>(
   },
 );
 
-CustomButtom.displayName = 'CustomButtom';
+CustomButton.displayName = 'CustomButton';

@@ -2,9 +2,10 @@ import dynamic from 'next/dynamic';
 import { RefAttributes } from 'react';
 import { AreaDiretorButtonProps } from './AreaDiretorButton';
 import { AtividadesSocioTableRowProps } from './AtividadesSocioTableRow';
-import { CustomButtomProps } from './CustomButtom';
+import { CustomButtomProps } from './CustomButton';
 import { CustomChakraNextLinkProps } from './CustomChakraNextLink';
 import { CustomIconButtonProps } from './CustomIconButton';
+import { FloatingCarrinhoPlantaoButtonProps } from './FloatingCarrinhoPlantaoButton';
 import { PageHeadingProps } from './PageHeading';
 import { SejaSocioButtonProps } from './SejaSocioButton';
 
@@ -25,14 +26,21 @@ export const AtividadesSocioTableRow = dynamic<AtividadesSocioTableRowProps>(
 );
 export const CustomButtom = dynamic<
   CustomButtomProps & RefAttributes<HTMLButtonElement>
->(() => import('./CustomButtom').then((mod) => mod.CustomButtom));
-export const CustomIconButton = dynamic<CustomIconButtonProps>(() =>
-  import('./CustomIconButton').then((mod) => mod.CustomIconButtom),
-);
+>(() => import('./CustomButton').then((mod) => mod.CustomButton));
+
+export const CustomIconButton = dynamic<
+  CustomIconButtonProps & RefAttributes<HTMLButtonElement>
+>(() => import('./CustomIconButton').then((mod) => mod.CustomIconButton));
 
 export const CustomChakraNextLink = dynamic<CustomChakraNextLinkProps>(() =>
   import('./CustomChakraNextLink').then((mod) => mod.CustomChakraNextLink),
 );
+export const FloatingCarrinhoPlantaoButton =
+  dynamic<FloatingCarrinhoPlantaoButtonProps>(() =>
+    import('./FloatingCarrinhoPlantaoButton').then(
+      (mod) => mod.FloatingCarrinhoPlantaoButton,
+    ),
+  );
 
 export const PageHeading = dynamic<PageHeadingProps>(() =>
   import('./PageHeading').then((mod) => mod.PageHeading),
