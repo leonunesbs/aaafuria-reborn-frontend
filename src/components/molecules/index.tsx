@@ -1,16 +1,18 @@
 import dynamic from 'next/dynamic';
+import { AreaDiretorMenuProps } from './AreaDiretorMenu';
+import { AreaSocioMenuProps } from './AreaSocioMenu';
 import { AtividadesSocioTableProps } from './AtividadesSocioTable';
 import { AuthenticatedHomeMenuProps } from './AuthenticatedHomeMenu';
 import { CadastroDrawerProps } from './CadastroDrawer';
-import { AreaDiretorMenuProps } from './AreaDiretorMenu';
-import { AreaSocioMenuProps } from './AreaSocioMenu';
 import { CardProps } from './Card';
+import { ClientInfoCardProps } from './ClientInfoCard';
 import { HomeMenuProps } from './HomeMenu';
+import { InputMatriculaPlantaoProps } from './InputMatriculaPlantao';
 import { CartaoCreditoTabPanelProps } from './PagamentoTabs/CartaoCreditoTabPanel';
 import { EspecieTabPanelProps } from './PagamentoTabs/EspecieTabPanel';
 import { PixTabPanelProps } from './PagamentoTabs/PIXTabPanel';
-import { ProdutoPlantaoCardProps } from './ProdutoPlantaoCard';
 import { ProdutoCardProps } from './ProdutoCard';
+import { ProdutoPlantaoCardProps } from './ProdutoPlantaoCard';
 
 export const AreaDiretorMenu = dynamic<AreaDiretorMenuProps>(() =>
   import('./AreaDiretorMenu').then((mod) => mod.AreaDiretorMenu),
@@ -30,6 +32,9 @@ export const CadastroDrawer = dynamic<CadastroDrawerProps>(() =>
 export const Card = dynamic<CardProps>(() =>
   import('./Card').then((mod) => mod.Card),
 );
+export const ClientInfoCard = dynamic<ClientInfoCardProps>(() =>
+  import('./ClientInfoCard').then((mod) => mod.ClientInfoCard),
+);
 export const Header = dynamic<any>(() =>
   import('./Header').then((mod) => mod.Header),
 );
@@ -39,6 +44,10 @@ export const Footer = dynamic<any>(() =>
 export const HomeMenu = dynamic<HomeMenuProps>(() =>
   import('./HomeMenu').then((mod) => mod.HomeMenu),
 );
+export const InputMatriculaPlantao = dynamic<InputMatriculaPlantaoProps>(() =>
+  import('./InputMatriculaPlantao').then((mod) => mod.InputMatriculaPlantao),
+);
+
 export const CartaoCreditoTabPanel = dynamic<CartaoCreditoTabPanelProps>(() =>
   import('./PagamentoTabs/CartaoCreditoTabPanel').then(
     (mod) => mod.CartaoCreditoTabPanel,

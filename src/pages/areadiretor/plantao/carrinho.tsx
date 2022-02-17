@@ -1,4 +1,8 @@
-import { CustomButtom, PageHeading } from '@/components/atoms';
+import {
+  CustomButtom,
+  CustomChakraNextLink,
+  PageHeading,
+} from '@/components/atoms';
 import { CustomIconButton } from '@/components/atoms/CustomIconButton';
 import { Card } from '@/components/molecules';
 import { Layout } from '@/components/templates';
@@ -294,15 +298,18 @@ function Carrinho() {
           >
             Pagamento
           </CustomButtom>
-          <CustomButtom
-            maxW="xs"
-            size="lg"
-            colorScheme="red"
-            leftIcon={<MdArrowLeft size="25px" />}
-            onClick={() => router.back()}
+          <CustomChakraNextLink
+            href={`/areadiretor/plantao?m=${matriculaSocio}`}
           >
-            Voltar
-          </CustomButtom>
+            <CustomButtom
+              maxW="xs"
+              size="lg"
+              colorScheme="red"
+              leftIcon={<MdArrowLeft size="25px" />}
+            >
+              Voltar
+            </CustomButtom>
+          </CustomChakraNextLink>
         </HStack>
       </Box>
     </Layout>
