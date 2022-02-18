@@ -72,11 +72,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
     destroyCookie(null, 'aaafuriaMatricula');
     destroyCookie(null, 'aaafuriaIsSocio');
     destroyCookie(null, 'aaafuriaIsStaff');
-    try {
-      localStorage.removeItem('aaafuria@signUpMatricula');
-    } catch (err) {
-      console.log(err);
-    }
+
     router.push('/entrar');
   };
 
