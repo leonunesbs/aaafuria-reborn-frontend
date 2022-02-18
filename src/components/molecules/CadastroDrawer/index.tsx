@@ -271,50 +271,77 @@ export const CadastroDrawer = ({
 
                   <FormControl>
                     <FormLabel>PIN: </FormLabel>
-                    <HStack>
-                      <Input type="hidden" {...register('pin')} required />
-                      <PinInput
-                        size="lg"
-                        focusBorderColor="green.500"
-                        mask
-                        onChange={(value) => setValue('pin', value)}
-                        onComplete={(value) => setValue('pin', value)}
-                      >
-                        <PinInputField />
-                        <PinInputField />
-                        <PinInputField />
-                        <PinInputField />
-                        <PinInputField />
-                        <PinInputField />
-                      </PinInput>
-                    </HStack>
+                    <Controller
+                      name="pin"
+                      control={control}
+                      rules={{
+                        required: 'PIN obrigatório',
+                        minLength: {
+                          value: 6,
+                          message: 'PIN deve conter 6 números',
+                        },
+                        maxLength: {
+                          value: 6,
+                          message: 'PIN deve conter 6 números',
+                        },
+                      }}
+                      render={({ field }) => (
+                        <HStack>
+                          <PinInput
+                            size="lg"
+                            focusBorderColor="green.500"
+                            mask
+                            {...field}
+                          >
+                            <PinInputField />
+                            <PinInputField />
+                            <PinInputField />
+                            <PinInputField />
+                            <PinInputField />
+                            <PinInputField />
+                          </PinInput>
+                        </HStack>
+                      )}
+                    />
+
                     <FormHelperText>
                       Escolha um PIN de 6 números.
                     </FormHelperText>
                   </FormControl>
                   <FormControl>
                     <FormLabel>Confirmar PIN: </FormLabel>
-                    <HStack>
-                      <Input
-                        type="hidden"
-                        {...register('pin_confirmar')}
-                        required
-                      />
-                      <PinInput
-                        size="lg"
-                        focusBorderColor="green.500"
-                        mask
-                        onChange={(value) => setValue('pin_confirmar', value)}
-                        onComplete={(value) => setValue('pin_confirmar', value)}
-                      >
-                        <PinInputField />
-                        <PinInputField />
-                        <PinInputField />
-                        <PinInputField />
-                        <PinInputField />
-                        <PinInputField />
-                      </PinInput>
-                    </HStack>
+                    <Controller
+                      name="pin_confirmar"
+                      control={control}
+                      rules={{
+                        required: 'PIN obrigatório',
+                        minLength: {
+                          value: 6,
+                          message: 'PIN deve conter 6 números',
+                        },
+                        maxLength: {
+                          value: 6,
+                          message: 'PIN deve conter 6 números',
+                        },
+                      }}
+                      render={({ field }) => (
+                        <HStack>
+                          <PinInput
+                            size="lg"
+                            focusBorderColor="green.500"
+                            mask
+                            {...field}
+                          >
+                            <PinInputField />
+                            <PinInputField />
+                            <PinInputField />
+                            <PinInputField />
+                            <PinInputField />
+                            <PinInputField />
+                          </PinInput>
+                        </HStack>
+                      )}
+                    />
                   </FormControl>
                   <Text textAlign="center" fontSize="sm" color="red.500">
                     {error && error.message}
