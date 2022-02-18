@@ -5,7 +5,7 @@ import { Card } from '@/components/molecules';
 import { CustomButtom, PageHeading } from '@/components/atoms';
 import { gql, useMutation } from '@apollo/client';
 import { Layout } from '@/components/templates';
-import { useForm } from 'react-hook-form';
+import { Controller, useForm } from 'react-hook-form';
 import {
   Drawer,
   DrawerBody,
@@ -22,6 +22,7 @@ import {
   Text,
   useToast,
 } from '@chakra-ui/react';
+import { useRouter } from 'next/router';
 
 export interface CadastroDrawerProps {
   isOpen: boolean;
@@ -79,7 +80,13 @@ export const CadastroDrawer = ({
   onClose,
   ...rest
 }: CadastroDrawerProps) => {
-  const { register, handleSubmit, setValue } = useForm<Inputs>();
+  const router = useRouter();
+  const { cadastro }: { cadastro?: string } = router.query;
+  const { control, register, handleSubmit, setValue } = useForm<Inputs>({
+    defaultValues: {
+      matricula: cadastro,
+    },
+  });
   const [matricula, setMatricula] = React.useState('');
   const toast = useToast();
 
@@ -89,8 +96,8 @@ export const CadastroDrawer = ({
 
   useEffect(() => {
     setValue('matricula', matricula);
-    setMatricula(localStorage.getItem('aaafuria@signUpMatricula') || '');
-  }, [isOpen, matricula, setValue]);
+    setMatricula(cadastro || '');
+  }, [cadastro, isOpen, matricula, setValue]);
 
   const signUp = async (data: Inputs) => {
     if (data.pin !== data.pin_confirmar) {
@@ -123,11 +130,16 @@ export const CadastroDrawer = ({
       }
     });
   };
+
+  const handleClose = () => {
+    onClose();
+    router.replace('/entrar');
+  };
   return (
     <Drawer
       size="sm"
       placement="top"
-      onClose={onClose}
+      onClose={handleClose}
       isOpen={isOpen}
       {...rest}
     >
@@ -146,29 +158,41 @@ export const CadastroDrawer = ({
                 <Stack spacing={4}>
                   <FormControl>
                     <FormLabel>Matrícula: </FormLabel>
-                    <HStack>
-                      <Input
-                        type="hidden"
-                        {...register('matricula')}
-                        required
-                      />
-                      <PinInput
-                        size="lg"
-                        focusBorderColor="green.500"
-                        value={matricula}
-                        placeholder=""
-                        isDisabled
-                      >
-                        <PinInputField borderColor="green.500" />
-                        <PinInputField borderColor="green.500" />
-                        <PinInputField borderColor="green.500" />
-                        <PinInputField borderColor="green.500" />
-                        <PinInputField borderColor="green.500" />
-                        <PinInputField borderColor="green.500" />
-                        <PinInputField borderColor="green.500" />
-                        <PinInputField borderColor="green.500" />
-                      </PinInput>
-                    </HStack>
+                    <Controller
+                      name="matricula"
+                      control={control}
+                      rules={{
+                        required: 'Matrícula obrigatória',
+                        minLength: {
+                          value: 8,
+                          message: 'Matrícula deve conter 8 números',
+                        },
+                        maxLength: {
+                          value: 8,
+                          message: 'Matrícula deve conter 8 números',
+                        },
+                      }}
+                      render={({ field }) => (
+                        <HStack>
+                          <PinInput
+                            size="lg"
+                            focusBorderColor="green.500"
+                            placeholder=""
+                            isDisabled
+                            {...field}
+                          >
+                            <PinInputField />
+                            <PinInputField />
+                            <PinInputField />
+                            <PinInputField />
+                            <PinInputField />
+                            <PinInputField />
+                            <PinInputField />
+                            <PinInputField />
+                          </PinInput>
+                        </HStack>
+                      )}
+                    />
                   </FormControl>
                   <FormControl>
                     <FormLabel>Email: </FormLabel>
@@ -298,7 +322,7 @@ export const CadastroDrawer = ({
                 </Stack>
                 <Stack mt={8}>
                   <CustomButtom type="submit">Cadastrar</CustomButtom>
-                  <CustomButtom colorScheme="gray" onClick={onClose}>
+                  <CustomButtom colorScheme="gray" onClick={handleClose}>
                     Fechar
                   </CustomButtom>
                 </Stack>

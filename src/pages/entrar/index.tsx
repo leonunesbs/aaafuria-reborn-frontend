@@ -11,10 +11,10 @@ import {
   Box,
   Center,
   chakra,
+  Collapse,
   FormControl,
   FormLabel,
   HStack,
-  Input,
   PinInput,
   PinInputField,
   Stack,
@@ -27,20 +27,15 @@ import { GetServerSideProps } from 'next';
 import NextImage from 'next/image';
 import { useRouter } from 'next/router';
 import { parseCookies } from 'nookies';
-import React, { useCallback, useContext, useEffect } from 'react';
-import { SubmitHandler, useForm } from 'react-hook-form';
+import React, { useCallback, useContext, useEffect, useState } from 'react';
+import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { AiFillHome } from 'react-icons/ai';
 import { MdLogin } from 'react-icons/md';
 
-const QUERY = gql`
-  query BuscarSocio($username: String!) {
-    allSocio(user_Username: $username) {
-      edges {
-        node {
-          nome
-          apelido
-        }
-      }
+const GET_SOCIO = gql`
+  query getSocio($matricula: String) {
+    socioByMatricula(matricula: $matricula) {
+      apelido
     }
   }
 `;
@@ -50,80 +45,41 @@ type Inputs = {
   pin: string;
 };
 
+type GetSocioData = {
+  socioByMatricula: {
+    apelido: string;
+  };
+};
+
 export default function Entrar() {
   const router = useRouter();
-
-  const { isOpen, onOpen, onClose } = useDisclosure();
-
-  const { signIn, signOut } = useContext(AuthContext);
-  const { register, handleSubmit, setValue, getValues } = useForm<Inputs>();
-  const [entrar, setEntrar] = React.useState(false);
-  const [loading, setLoading] = React.useState(false);
-
-  const [matricula, setMatricula] = React.useState('');
-  const [errorMesage, setErrorMesage] = React.useState('');
-
   const toast = useToast();
+  const { after }: { after?: string } = router.query;
+
+  const [login, setLogin] = useState(false);
+
+  const { data, refetch } = useQuery<GetSocioData>(GET_SOCIO, {
+    fetchPolicy: 'no-cache',
+  });
+  const cadastroDisclosure = useDisclosure();
+  const { signIn } = useContext(AuthContext);
+  const {
+    getValues,
+    handleSubmit,
+    setError,
+    clearErrors,
+    control,
+    formState: { errors, isSubmitting },
+  } = useForm<Inputs>();
 
   const ChakraNextImage = chakra(NextImage);
 
-  const formValues = getValues();
-
-  const query = useQuery(QUERY, {
-    variables: { username: formValues.matricula || '' },
-    fetchPolicy: 'no-cache',
-  });
-
-  const handleReset = useCallback(() => {
-    localStorage.removeItem('aaafuria@signUpMatricula');
-    setEntrar(false);
-    setMatricula('');
-    setErrorMesage('');
-  }, []);
-
-  useEffect(() => {
-    if (matricula.length < 8) {
-      setEntrar(false);
-      setErrorMesage('');
-    }
-  }, [matricula]);
-
-  useEffect(() => {
-    handleReset();
-  }, [handleReset]);
-
-  const onSubmit: SubmitHandler<Inputs> = useCallback(
-    ({ matricula: mtr, pin }) => {
-      setLoading(true);
-
-      const { after }: { after?: string } = router.query;
-
-      if (entrar) {
-        signIn({ matricula: mtr, pin, redirectUrl: after }).catch((err) => {
-          setErrorMesage(err.message);
-          signOut();
-        });
-        toast({
-          description: `Olá ${query.data?.allSocio.edges[0].node.apelido}, bem vind@ de volta!`,
-          status: 'success',
-          duration: 2500,
-          isClosable: true,
-          position: 'top-left',
-        });
-        gtag.event({
-          action: 'login',
-          category: 'engagement',
-          label: matricula,
-          value: 1,
-        });
-      }
-
-      if (mtr.length === 8) {
-        query.refetch({ username: mtr });
-
-        if (query?.data?.allSocio?.edges?.length === 0) {
-          setEntrar(false);
-          localStorage.setItem('aaafuria@signUpMatricula', mtr);
+  const checkMatricula = useCallback(
+    (matricula: string) => {
+      refetch({ matricula }).then(({ data }) => {
+        if (data.socioByMatricula) {
+          setLogin(true);
+        } else if (matricula) {
           toast({
             description: 'Matrícula não encontrada. Cadastre-se!',
             status: 'info',
@@ -131,20 +87,61 @@ export default function Entrar() {
             isClosable: true,
             position: 'top-left',
           });
-          onOpen();
-        } else {
-          setEntrar(true);
+          router.push(`/entrar?cadastro=${matricula}`);
+          cadastroDisclosure.onOpen();
         }
-      } else {
-        setEntrar(false);
-        signOut();
-        setErrorMesage('Matrícula inválida');
-      }
-
-      setLoading(false);
+      });
     },
-    [entrar, matricula, onOpen, query, router.query, signIn, signOut, toast],
+    [cadastroDisclosure, refetch, router, toast],
   );
+
+  const onSubmit: SubmitHandler<Inputs> = useCallback(
+    async ({ matricula, pin }) => {
+      if (!login) {
+        checkMatricula(matricula);
+      } else {
+        await signIn({
+          matricula,
+          pin,
+          redirectUrl: after,
+        })
+          .then(() => {
+            toast({
+              description: `Olá ${data?.socioByMatricula.apelido}, bem vind@ de volta!`,
+              status: 'success',
+              duration: 2500,
+              isClosable: true,
+              position: 'top-left',
+            });
+            gtag.event({
+              action: 'login',
+              category: 'engagement',
+              label: matricula,
+              value: 1,
+            });
+          })
+          .catch(({ message }) => {
+            setError('matricula', { message });
+          });
+      }
+    },
+    [
+      after,
+      checkMatricula,
+      data?.socioByMatricula?.apelido,
+      login,
+      setError,
+      signIn,
+      toast,
+    ],
+  );
+
+  useEffect(() => {
+    if (getValues().matricula?.length < 8) {
+      setLogin(false);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [getValues().matricula]);
 
   return (
     <Layout title="Entrar" desc="Acesse a plataforma de Sócios da @aaafuria!">
@@ -169,43 +166,36 @@ export default function Entrar() {
           <form onSubmit={handleSubmit(onSubmit)} name="entrarForm">
             <Stack spacing={4}>
               <FormControl>
-                <FormLabel>Matrícula: </FormLabel>
-                <HStack>
-                  <Input type="hidden" {...register('matricula')} />
-                  <PinInput
-                    size="lg"
-                    focusBorderColor="green.500"
-                    value={matricula}
-                    onChange={(value) => {
-                      setValue('matricula', value);
-                      setMatricula(value);
-                    }}
-                    placeholder=""
-                    autoFocus
-                  >
-                    <PinInputField />
-                    <PinInputField />
-                    <PinInputField />
-                    <PinInputField />
-                    <PinInputField />
-                    <PinInputField />
-                    <PinInputField />
-                    <PinInputField />
-                  </PinInput>
-                </HStack>
-              </FormControl>
-              {entrar && (
-                <>
-                  <FormControl>
-                    <FormLabel>PIN: </FormLabel>
+                <FormLabel htmlFor="matricula">Matrícula: </FormLabel>
+                <Controller
+                  name="matricula"
+                  control={control}
+                  rules={{
+                    required: 'Matrícula obrigatória',
+                    minLength: {
+                      value: 8,
+                      message: 'Matrícula deve conter 8 números',
+                    },
+                    maxLength: {
+                      value: 8,
+                      message: 'Matrícula deve conter 8 números',
+                    },
+                    onChange: () => {
+                      clearErrors();
+                    },
+                  }}
+                  render={({ field }) => (
                     <HStack>
-                      <Input type="hidden" {...register('pin')} />
                       <PinInput
                         size="lg"
-                        mask
                         focusBorderColor="green.500"
-                        onChange={(value) => setValue('pin', value)}
+                        placeholder=""
+                        autoFocus
+                        onComplete={checkMatricula}
+                        {...field}
                       >
+                        <PinInputField />
+                        <PinInputField />
                         <PinInputField />
                         <PinInputField />
                         <PinInputField />
@@ -214,22 +204,68 @@ export default function Entrar() {
                         <PinInputField />
                       </PinInput>
                     </HStack>
-                  </FormControl>
-                  <CustomChakraNextLink
-                    href="https://diretoria.aaafuria.site/accounts/password_reset/"
-                    chakraLinkProps={{
-                      color: 'green',
-                      textAlign: 'right',
-                      mt: 4,
+                  )}
+                />
+              </FormControl>
+              <Collapse in={login} animateOpacity unmountOnExit>
+                <FormControl>
+                  <FormLabel htmlFor="pin">PIN: </FormLabel>
+                  <Controller
+                    name="pin"
+                    control={control}
+                    rules={{
+                      required: 'PIN obrigatório',
+                      minLength: {
+                        value: 6,
+                        message: 'PIN deve conter 6 números',
+                      },
+                      maxLength: {
+                        value: 6,
+                        message: 'PIN deve conter 6 números',
+                      },
+                      onChange: () => {
+                        clearErrors();
+                      },
                     }}
-                  >
-                    Esqueceu o seu PIN?
-                  </CustomChakraNextLink>
-                </>
-              )}
-              {errorMesage && (
+                    render={({ field }) => (
+                      <HStack>
+                        <PinInput
+                          size="lg"
+                          mask
+                          focusBorderColor="green.500"
+                          onComplete={() => handleSubmit(onSubmit)()}
+                          {...field}
+                        >
+                          <PinInputField />
+                          <PinInputField />
+                          <PinInputField />
+                          <PinInputField />
+                          <PinInputField />
+                          <PinInputField />
+                        </PinInput>
+                      </HStack>
+                    )}
+                  />
+                </FormControl>
+              </Collapse>
+              <CustomChakraNextLink
+                href="https://diretoria.aaafuria.site/accounts/password_reset/"
+                chakraLinkProps={{
+                  color: 'green',
+                  textAlign: 'right',
+                  mt: 4,
+                }}
+              >
+                Esqueceu o seu PIN?
+              </CustomChakraNextLink>
+              {errors.matricula && (
                 <Text textAlign="center" textColor="gray.500">
-                  <i>{errorMesage}</i>
+                  <i>{errors.matricula?.message}</i>
+                </Text>
+              )}
+              {errors.pin && (
+                <Text textAlign="center" textColor="gray.500">
+                  <i>{errors.pin?.message}</i>
                 </Text>
               )}
 
@@ -237,8 +273,8 @@ export default function Entrar() {
                 <CustomButtom
                   leftIcon={<MdLogin size="20px" />}
                   mt={4}
-                  isLoading={loading}
                   type="submit"
+                  isLoading={isSubmitting}
                 >
                   Entrar
                 </CustomButtom>
@@ -260,10 +296,9 @@ export default function Entrar() {
         </Center>
       </Box>
       <CadastroDrawer
-        isOpen={isOpen}
+        isOpen={cadastroDisclosure.isOpen}
         onClose={() => {
-          onClose();
-          handleReset();
+          cadastroDisclosure.onClose();
         }}
       />
     </Layout>

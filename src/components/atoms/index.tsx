@@ -35,6 +35,7 @@ export const CustomIconButton = dynamic<
 export const CustomChakraNextLink = dynamic<CustomChakraNextLinkProps>(() =>
   import('./CustomChakraNextLink').then((mod) => mod.CustomChakraNextLink),
 );
+
 export const FloatingCarrinhoPlantaoButton =
   dynamic<FloatingCarrinhoPlantaoButtonProps>(() =>
     import('./FloatingCarrinhoPlantaoButton').then(

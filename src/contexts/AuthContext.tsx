@@ -127,7 +127,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
   };
 
   const signIn = async ({ matricula, pin, redirectUrl }: SignInData) => {
-    return await client
+    const response = await client
       .mutate({
         mutation: SIGN_IN,
         variables: {
@@ -135,7 +135,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
           pin: pin,
         },
       })
-      .then(({ data }) => {
+      .then(({ data, errors }) => {
         setCookie(null, 'aaafuriaToken', data.tokenAuth.token, {
           maxAge: 60 * 60 * 24 * 7,
           path: '/',
@@ -149,12 +149,15 @@ export function AuthProvider({ children }: AuthProviderProps) {
         checkCredentials();
 
         router.push(redirectUrl || '/');
+
+        if (errors) {
+          throw errors;
+        }
+
         return data;
-      })
-      .catch((err) => {
-        console.log(err);
-        router.reload();
       });
+
+    return response;
   };
 
   return (
