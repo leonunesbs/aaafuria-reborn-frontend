@@ -1,7 +1,3 @@
-import { PageHeading } from '@/components/atoms';
-import { Card } from '@/components/molecules';
-import { Layout } from '@/components/templates';
-import { gql, useQuery } from '@apollo/client';
 import {
   Avatar,
   Box,
@@ -21,12 +17,17 @@ import {
   Text,
   useColorModeValue,
 } from '@chakra-ui/react';
-import { GetServerSideProps } from 'next';
-import { useRouter } from 'next/router';
-import { parseCookies } from 'nookies';
-import React from 'react';
+import { CarteirinhaInput, PageHeading } from '@/components/atoms';
 import { MdArrowLeft, MdRefresh } from 'react-icons/md';
+import { gql, useQuery } from '@apollo/client';
+
+import { Card } from '@/components/molecules';
+import { GetServerSideProps } from 'next';
 import InputMask from 'react-input-mask';
+import { Layout } from '@/components/templates';
+import React from 'react';
+import { parseCookies } from 'nookies';
+import { useRouter } from 'next/router';
 
 const GET_SOCIO = gql`
   query {
@@ -100,7 +101,7 @@ function Carteirinha({ token }: CarteirinhaProps) {
             </Text>
           </Flex>
           <Flex
-            zIndex={1}
+            zIndex={0}
             position="absolute"
             right={-16}
             bottom={-20}
@@ -152,12 +153,9 @@ function Carteirinha({ token }: CarteirinhaProps) {
 
                 <FormControl>
                   <FormLabel>Email:</FormLabel>
-                  <Input
-                    variant="fluxed"
-                    type="email"
-                    isReadOnly
+                  <CarteirinhaInput
                     value={data?.socioAutenticado?.email}
-                    bgColor="green.100"
+                    type="email"
                   />
                 </FormControl>
                 <SimpleGrid
@@ -168,21 +166,15 @@ function Carteirinha({ token }: CarteirinhaProps) {
                 >
                   <FormControl>
                     <FormLabel>Matrícula:</FormLabel>
-                    <Input
-                      variant="fluxed"
-                      isReadOnly
+                    <CarteirinhaInput
                       value={data?.socioAutenticado?.matricula}
-                      bgColor="green.100"
                     />
                   </FormControl>
                   <FormControl>
                     <FormLabel>Data de nascimento:</FormLabel>
-                    <Input
-                      variant="fluxed"
+                    <CarteirinhaInput
                       type="date"
-                      isDisabled
                       value={data?.socioAutenticado?.dataNascimento}
-                      bgColor="green.100"
                     />
                   </FormControl>
                 </SimpleGrid>
@@ -194,12 +186,9 @@ function Carteirinha({ token }: CarteirinhaProps) {
                 >
                   <FormControl>
                     <FormLabel>RG:</FormLabel>
-                    <Input
-                      variant="fluxed"
+                    <CarteirinhaInput
                       type="number"
-                      isReadOnly
                       value={data?.socioAutenticado?.rg}
-                      bgColor="green.100"
                     />
                   </FormControl>
                   <FormControl>
@@ -215,22 +204,16 @@ function Carteirinha({ token }: CarteirinhaProps) {
                   </FormControl>
                   <FormControl>
                     <FormLabel>Valido até:</FormLabel>
-                    <Input
-                      variant="fluxed"
+                    <CarteirinhaInput
                       type="date"
-                      isDisabled
                       value={data?.socioAutenticado?.dataFim}
-                      bgColor="green.100"
                     />
                   </FormControl>
                   <FormControl>
                     <FormLabel>Sócio desde:</FormLabel>
-                    <Input
-                      variant="fluxed"
+                    <CarteirinhaInput
                       type="date"
-                      isDisabled
                       value={data?.socioAutenticado?.dataInicio}
-                      bgColor="green.100"
                     />
                   </FormControl>
                 </SimpleGrid>
