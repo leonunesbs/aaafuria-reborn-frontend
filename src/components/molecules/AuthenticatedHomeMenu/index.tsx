@@ -1,22 +1,22 @@
-import React, { useContext } from 'react';
-import { AuthContext } from '@/contexts/AuthContext';
-import { MdLogout, MdPerson } from 'react-icons/md';
-import { useRouter } from 'next/router';
 import {
   AreaDiretorButton,
   CustomButtom,
   CustomChakraNextLink,
 } from '@/components/atoms';
+import { MdLogout, MdPerson } from 'react-icons/md';
+import React, { useContext } from 'react';
 
-export interface AuthenticatedHomeMenuProps {
-  setLoading: React.Dispatch<React.SetStateAction<boolean>>;
-}
+import { AuthContext } from '@/contexts/AuthContext';
+import { LoadingContext } from '@/contexts/LoadingContext';
+import { useRouter } from 'next/router';
 
-export const AuthenticatedHomeMenu = ({
-  setLoading,
-}: AuthenticatedHomeMenuProps) => {
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
+export interface AuthenticatedHomeMenuProps {}
+
+export const AuthenticatedHomeMenu = ({}: AuthenticatedHomeMenuProps) => {
   const router = useRouter();
   const { signOut } = useContext(AuthContext);
+  const { setLoading } = useContext(LoadingContext);
 
   return (
     <>

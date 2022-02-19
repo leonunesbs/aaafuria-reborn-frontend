@@ -1,43 +1,48 @@
 import {
-  CustomButtom,
-  CustomChakraNextLink,
-  PageHeading,
-  SejaSocioButton,
-} from '@/components/atoms';
-import {
   AuthenticatedHomeMenu,
   Card,
   HomeMenu,
   SocialIcons,
 } from '@/components/molecules';
-import { Layout } from '@/components/templates';
-import { AuthContext } from '@/contexts/AuthContext';
 import {
   Badge,
   Box,
   BoxProps,
   Center,
-  chakra,
   Divider,
   Skeleton,
   Spinner,
   Stack,
+  chakra,
 } from '@chakra-ui/react';
-import NextImage from 'next/image';
-import React, { useContext, useEffect, useState } from 'react';
+import {
+  CustomButtom,
+  CustomChakraNextLink,
+  PageHeading,
+} from '@/components/atoms';
+import React, { useContext, useEffect } from 'react';
+
+import { AuthContext } from '@/contexts/AuthContext';
+import { Layout } from '@/components/templates';
+import { LoadingContext } from '@/contexts/LoadingContext';
 import { MdLogin } from 'react-icons/md';
+import NextImage from 'next/image';
 
 type HomeProps = BoxProps;
 
 export default function Home({}: HomeProps) {
   const { isAuthenticated, checkCredentials, matricula } =
     useContext(AuthContext);
-  const [loading, setLoading] = useState(false);
+  const { loading, setLoading } = useContext(LoadingContext);
   const ChakraNextImage = chakra(NextImage);
 
   useEffect(() => {
     checkCredentials();
   }, [checkCredentials]);
+
+  useEffect(() => {
+    setTimeout(() => setLoading(false), 100);
+  }, [setLoading]);
 
   if (loading) {
     return (
@@ -77,14 +82,12 @@ export default function Home({}: HomeProps) {
         <Skeleton isLoaded={!loading}>
           <Card>
             <Stack>
-              <SejaSocioButton setLoading={setLoading} />
-              <HomeMenu setLoading={setLoading} />
+              <HomeMenu />
               <Divider height="5px" />
 
-              {isAuthenticated && (
-                <AuthenticatedHomeMenu setLoading={setLoading} />
-              )}
-              {!isAuthenticated && (
+              {isAuthenticated ? (
+                <AuthenticatedHomeMenu />
+              ) : (
                 <CustomChakraNextLink href="/entrar">
                   <CustomButtom
                     name="entrar"

@@ -1,16 +1,24 @@
-import React from 'react';
-import { CustomButtom, CustomChakraNextLink } from '@/components/atoms';
-import { GiPartyPopper } from 'react-icons/gi';
-import { MdStore } from 'react-icons/md';
 import { Box, Stack } from '@chakra-ui/react';
+import {
+  CustomButtom,
+  CustomChakraNextLink,
+  SejaSocioButton,
+} from '@/components/atoms';
 import { FaDrum, FaVolleyballBall } from 'react-icons/fa';
-export interface HomeMenuProps {
-  setLoading: React.Dispatch<React.SetStateAction<boolean>>;
-}
+import React, { useContext } from 'react';
 
-export const HomeMenu = ({ setLoading }: HomeMenuProps) => {
+import { GiPartyPopper } from 'react-icons/gi';
+import { LoadingContext } from '@/contexts/LoadingContext';
+import { MdStore } from 'react-icons/md';
+
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
+export interface HomeMenuProps {}
+
+export const HomeMenu = ({}: HomeMenuProps) => {
+  const { setLoading } = useContext(LoadingContext);
   return (
     <Stack>
+      <SejaSocioButton setLoading={setLoading} />
       <CustomChakraNextLink href="/loja">
         <CustomButtom
           leftIcon={<MdStore size="20px" />}
