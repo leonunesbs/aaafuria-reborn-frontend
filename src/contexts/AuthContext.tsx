@@ -1,6 +1,7 @@
-import client from '@/services/apollo-client';
 import { createContext, useState } from 'react';
 import { destroyCookie, parseCookies, setCookie } from 'nookies';
+
+import client from '@/services/apollo-client';
 import { gql } from '@apollo/client';
 import { useRouter } from 'next/router';
 
@@ -67,13 +68,13 @@ export function AuthProvider({ children }: AuthProviderProps) {
   const isAuthenticated = !!token;
 
   const signOut = () => {
-    setUser(null);
     destroyCookie(null, 'aaafuriaToken');
     destroyCookie(null, 'aaafuriaMatricula');
     destroyCookie(null, 'aaafuriaIsSocio');
     destroyCookie(null, 'aaafuriaIsStaff');
+    setUser(null);
 
-    router.push('/entrar');
+    router.reload();
   };
 
   const checkCredentials = async () => {
