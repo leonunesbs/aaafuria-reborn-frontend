@@ -1,4 +1,4 @@
-import { Button, ButtonProps } from '@chakra-ui/react';
+import { Button, ButtonProps, useColorModeValue } from '@chakra-ui/react';
 import { forwardRef, ReactNode } from 'react';
 import { FiExternalLink } from 'react-icons/fi';
 
@@ -9,6 +9,7 @@ export interface CustomButtomProps extends ButtonProps {
 
 export const CustomButton = forwardRef<HTMLButtonElement, CustomButtomProps>(
   ({ children, hasExternalIcon, ...rest }, ref) => {
+    const green = useColorModeValue('green.600', 'green.200');
     return (
       <Button
         ref={ref}
@@ -16,6 +17,10 @@ export const CustomButton = forwardRef<HTMLButtonElement, CustomButtomProps>(
         variant="ghost"
         w="full"
         rightIcon={hasExternalIcon ? <FiExternalLink size="15px" /> : <></>}
+        _focus={{
+          outlineColor: green,
+          outlineWidth: '0.5px',
+        }}
         {...rest}
       >
         {children}

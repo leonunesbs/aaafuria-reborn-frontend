@@ -1,19 +1,15 @@
-import React, { useContext, useEffect, useState } from 'react';
-import { AuthContext } from '@/contexts/AuthContext';
-import { ButtonProps } from '@chakra-ui/button';
-import { MdGroups } from 'react-icons/md';
 import { CustomButtom, CustomChakraNextLink } from '@/components/atoms';
+import { AuthContext } from '@/contexts/AuthContext';
+import { LoadingContext } from '@/contexts/LoadingContext';
+import { ButtonProps } from '@chakra-ui/button';
+import React, { useContext, useEffect } from 'react';
+import { MdGroups } from 'react-icons/md';
 
-export interface SejaSocioButtonProps extends ButtonProps {
-  setLoading: React.Dispatch<React.SetStateAction<boolean>>;
-}
+export type SejaSocioButtonProps = ButtonProps;
 
-export const SejaSocioButton = ({
-  setLoading,
-  ...rest
-}: SejaSocioButtonProps) => {
+export const SejaSocioButton = ({ ...rest }: SejaSocioButtonProps) => {
   const { checkCredentials, isSocio } = useContext(AuthContext);
-  const [buttonLoading, setButtonLoading] = useState(false);
+  const { loading, setLoading } = useContext(LoadingContext);
 
   useEffect(() => {
     checkCredentials();
@@ -29,10 +25,9 @@ export const SejaSocioButton = ({
         name="sejasocio"
         leftIcon={<MdGroups size="20px" />}
         variant="outline"
-        isLoading={buttonLoading}
+        isLoading={loading}
         onClick={() => {
           setLoading(true);
-          setButtonLoading(true);
         }}
         {...rest}
       >

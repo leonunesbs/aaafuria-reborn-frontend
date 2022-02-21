@@ -18,7 +18,7 @@ export const HomeMenu = ({}: HomeMenuProps) => {
   const { setLoading } = useContext(LoadingContext);
   return (
     <Stack>
-      <SejaSocioButton setLoading={setLoading} />
+      <SejaSocioButton />
       <CustomChakraNextLink href="/loja">
         <CustomButtom
           leftIcon={<MdStore size="20px" />}
