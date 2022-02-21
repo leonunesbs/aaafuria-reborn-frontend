@@ -16,7 +16,8 @@ import {
   useDisclosure,
   useToast,
 } from '@chakra-ui/react';
-import { useCallback, useContext, useState } from 'react';
+import { useRouter } from 'next/router';
+import { useCallback, useContext, useEffect, useState } from 'react';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { MdCheck, MdRefresh } from 'react-icons/md';
 
@@ -52,9 +53,10 @@ type Inputs = {
 };
 
 function AssociacaoManual() {
-  const { token } = useContext(AuthContext);
+  const { token, isStaff, checkCredentials } = useContext(AuthContext);
   const { data, refetch } = useQuery(QUERY_SOCIO);
   const toast = useToast();
+  const router = useRouter();
 
   const [novaAssociacao, { loading }] = useMutation<NovaAssociacaoData>(
     NOVA_ASSOCIACAO,
@@ -115,6 +117,22 @@ function AssociacaoManual() {
     },
     [associacaoSubject, matriculaSubject, novaAssociacao, refetch, toast],
   );
+
+  useEffect(() => {
+    checkCredentials();
+
+    if (isStaff === false) {
+      toast({
+        title: 'Restrito.',
+        description: 'Você não tem permissão para acessar esta área.',
+        status: 'warning',
+        duration: 2500,
+        isClosable: true,
+        position: 'top-left',
+      });
+      router.push('/');
+    }
+  }, [checkCredentials, isStaff, router, toast]);
 
   return (
     <Layout title="Associação manual">

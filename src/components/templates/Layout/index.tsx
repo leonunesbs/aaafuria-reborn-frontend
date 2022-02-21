@@ -1,8 +1,8 @@
-import Head from 'next/head';
-import React, { ReactNode } from 'react';
-import { Box, BoxProps, useColorModeValue } from '@chakra-ui/react';
 import { Footer, Header } from '@/components/molecules';
+import { Box, BoxProps, useColorModeValue } from '@chakra-ui/react';
+import Head from 'next/head';
 import { useRouter } from 'next/router';
+import React, { ReactNode } from 'react';
 
 export interface LayoutProps extends BoxProps {
   children: ReactNode;
