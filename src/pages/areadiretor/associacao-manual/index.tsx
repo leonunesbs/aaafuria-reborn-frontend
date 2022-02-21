@@ -1,4 +1,4 @@
-import { CustomButtom, PageHeading } from '@/components/atoms';
+import { CustomButtom, PageHeading, VoltarButton } from '@/components/atoms';
 import { Card } from '@/components/molecules';
 import { Layout } from '@/components/templates';
 import { AuthContext } from '@/contexts/AuthContext';
@@ -136,7 +136,7 @@ function AssociacaoManual() {
 
   return (
     <Layout title="Associação manual">
-      <Box maxW="7xl" mx={'auto'}>
+      <Box maxW="xl" mx={'auto'}>
         <PageHeading>Associação manual</PageHeading>
         <form onSubmit={handleSubmit(onSubmit)}>
           <Card maxW={'xl'} mx="auto">
@@ -269,6 +269,7 @@ function AssociacaoManual() {
             </Stack>
           </Card>
         </Collapse>
+        <VoltarButton href={'/areadiretor'} />
       </Box>
     </Layout>
   );

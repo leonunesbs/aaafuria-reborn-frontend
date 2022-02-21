@@ -1,8 +1,9 @@
 import React from 'react';
-import { AiFillHome, AiFillSetting } from 'react-icons/ai';
+import { AiFillSetting } from 'react-icons/ai';
 import { CustomButtom, CustomChakraNextLink } from '@/components/atoms';
 import { Divider, Stack, StackProps } from '@chakra-ui/react';
 import { MdGroups, MdStore } from 'react-icons/md';
+import { VoltarButton } from '@/components/atoms/VoltarButton';
 
 export type AreaDiretorMenuProps = StackProps;
 
@@ -33,12 +34,7 @@ export const AreaDiretorMenu = ({ ...rest }: AreaDiretorMenuProps) => {
       </CustomChakraNextLink>
 
       <Divider height="15px" />
-
-      <CustomChakraNextLink href="/">
-        <CustomButtom leftIcon={<AiFillHome size="20px" />} colorScheme="red">
-          Voltar
-        </CustomButtom>
-      </CustomChakraNextLink>
+      <VoltarButton href="/" />
     </Stack>
   );
 };

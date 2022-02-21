@@ -1,8 +1,4 @@
-import {
-  CustomButtom,
-  CustomChakraNextLink,
-  PageHeading,
-} from '@/components/atoms';
+import { PageHeading, VoltarButton } from '@/components/atoms';
 import { Card } from '@/components/molecules';
 import { Layout } from '@/components/templates';
 import { AuthContext } from '@/contexts/AuthContext';
@@ -32,7 +28,6 @@ import { useRouter } from 'next/router';
 import { parseCookies } from 'nookies';
 import { useContext, useEffect, useState } from 'react';
 import { FaEquals } from 'react-icons/fa';
-import { MdArrowLeft } from 'react-icons/md';
 
 const GET_BANK_DATA = gql`
   query getMovimentacoes {
@@ -261,14 +256,7 @@ function Carteira() {
           </Box>
         </Card>
         <Stack mt={4} align="center">
-          <CustomChakraNextLink href="/areasocio">
-            <CustomButtom
-              colorScheme="red"
-              leftIcon={<MdArrowLeft size="25px" />}
-            >
-              Voltar
-            </CustomButtom>
-          </CustomChakraNextLink>
+          <VoltarButton href="/areasocio" />
         </Stack>
       </Stack>
     </Layout>

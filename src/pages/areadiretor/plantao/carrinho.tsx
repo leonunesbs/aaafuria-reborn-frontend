@@ -1,8 +1,4 @@
-import {
-  CustomButtom,
-  CustomChakraNextLink,
-  PageHeading,
-} from '@/components/atoms';
+import { CustomButtom, PageHeading, VoltarButton } from '@/components/atoms';
 import { CustomIconButton } from '@/components/atoms/CustomIconButton';
 import { Card } from '@/components/molecules';
 import { Layout } from '@/components/templates';
@@ -27,7 +23,7 @@ import { useRouter } from 'next/router';
 import { parseCookies } from 'nookies';
 import { useContext, useEffect, useState } from 'react';
 import { FaMinus, FaPlus } from 'react-icons/fa';
-import { MdArrowLeft, MdDelete, MdPayment } from 'react-icons/md';
+import { MdDelete, MdPayment } from 'react-icons/md';
 
 const GET_PLANTAO_CARRINHO = gql`
   query getPlantaoCarrinho($matriculaSocio: String!) {
@@ -298,18 +294,7 @@ function Carrinho() {
           >
             Pagamento
           </CustomButtom>
-          <CustomChakraNextLink
-            href={`/areadiretor/plantao?m=${matriculaSocio}`}
-          >
-            <CustomButtom
-              maxW="xs"
-              size="lg"
-              colorScheme="red"
-              leftIcon={<MdArrowLeft size="25px" />}
-            >
-              Voltar
-            </CustomButtom>
-          </CustomChakraNextLink>
+          <VoltarButton href={`/areadiretor/plantao?m=${matriculaSocio}`} />
         </HStack>
       </Box>
     </Layout>

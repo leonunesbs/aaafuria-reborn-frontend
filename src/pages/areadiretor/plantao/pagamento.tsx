@@ -2,15 +2,10 @@ import { AuthContext } from '@/contexts/AuthContext';
 import { GetServerSideProps } from 'next';
 import { gql, useQuery } from '@apollo/client';
 import { Layout } from '@/components/templates';
-import { MdArrowLeft } from 'react-icons/md';
 import { parseCookies } from 'nookies';
 import { useContext, useEffect } from 'react';
 import { useRouter } from 'next/router';
-import {
-  PageHeading,
-  CustomChakraNextLink,
-  CustomButtom,
-} from '@/components/atoms';
+import { PageHeading, VoltarButton } from '@/components/atoms';
 import {
   Card,
   EspecieTabPanel,
@@ -142,15 +137,7 @@ function Pagamento() {
             </TabPanels>
           </Tabs>
         </Card>
-        <CustomChakraNextLink href={'/areadiretor/plantao'}>
-          <CustomButtom
-            leftIcon={<MdArrowLeft size="25px" />}
-            colorScheme="red"
-            mt={4}
-          >
-            Voltar
-          </CustomButtom>
-        </CustomChakraNextLink>
+        <VoltarButton href={'/areadiretor/plantao'} />
       </Box>
     </Layout>
   );

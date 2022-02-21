@@ -2,6 +2,7 @@ import {
   CustomButtom,
   CustomChakraNextLink,
   PageHeading,
+  VoltarButton,
 } from '@/components/atoms';
 import { Card } from '@/components/molecules';
 import { Layout } from '@/components/templates';
@@ -25,7 +26,7 @@ import { useRouter } from 'next/router';
 import { parseCookies } from 'nookies';
 import { useCallback, useContext, useEffect, useState } from 'react';
 import { FaTicketAlt } from 'react-icons/fa';
-import { MdArrowLeft, MdLogin, MdPayment, MdSend } from 'react-icons/md';
+import { MdLogin, MdPayment, MdSend } from 'react-icons/md';
 
 const LOTE_QUERY = gql`
   query getLotes {
@@ -332,14 +333,7 @@ function Eventos() {
             Meus ingressos
           </CustomButtom>
         </CustomChakraNextLink>
-        <CustomChakraNextLink href="/">
-          <CustomButtom
-            colorScheme="red"
-            leftIcon={<MdArrowLeft size="25px" />}
-          >
-            Voltar
-          </CustomButtom>
-        </CustomChakraNextLink>
+        <VoltarButton href="/" />
       </Stack>
     </Layout>
   );

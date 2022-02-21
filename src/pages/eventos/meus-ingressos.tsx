@@ -1,8 +1,7 @@
 import {
-  CustomButtom,
-  CustomChakraNextLink,
   CustomIconButton,
   PageHeading,
+  VoltarButton,
 } from '@/components/atoms';
 import { Card } from '@/components/molecules';
 import { Layout } from '@/components/templates';
@@ -25,7 +24,6 @@ import { GetServerSideProps } from 'next';
 import { parseCookies } from 'nookies';
 import { useContext, useEffect, useState } from 'react';
 import { FaQrcode } from 'react-icons/fa';
-import { MdArrowLeft } from 'react-icons/md';
 import QRCode from 'react-qr-code';
 
 const USER_INGRESSOS = gql`
@@ -124,14 +122,7 @@ function MeusEventos() {
           </Flex>
         </Collapse>
         <Stack mt={4} align="center">
-          <CustomChakraNextLink href="/eventos">
-            <CustomButtom
-              colorScheme="red"
-              leftIcon={<MdArrowLeft size="25px" />}
-            >
-              Voltar
-            </CustomButtom>
-          </CustomChakraNextLink>
+          <VoltarButton href="/eventos" />
         </Stack>
       </Box>
     </Layout>

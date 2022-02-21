@@ -3,6 +3,7 @@ import {
   CustomChakraNextLink,
   FloatingCarrinhoPlantaoButton,
   PageHeading,
+  VoltarButton,
 } from '@/components/atoms';
 import { InputMatriculaPlantao } from '@/components/molecules';
 import { LojaPlantao } from '@/components/organisms';
@@ -13,7 +14,7 @@ import { GetServerSideProps } from 'next';
 import { useRouter } from 'next/router';
 import { parseCookies } from 'nookies';
 import React, { useContext, useEffect, useState } from 'react';
-import { MdArrowLeft, MdShoppingCart } from 'react-icons/md';
+import { MdShoppingCart } from 'react-icons/md';
 
 function Plantao() {
   const { isStaff } = useContext(AuthContext);
@@ -55,14 +56,7 @@ function Plantao() {
             </CustomButtom>
           </CustomChakraNextLink>
         )}
-        <CustomChakraNextLink href="/areadiretor">
-          <CustomButtom
-            colorScheme="red"
-            leftIcon={<MdArrowLeft size="25px" />}
-          >
-            Voltar
-          </CustomButtom>
-        </CustomChakraNextLink>
+        <VoltarButton href="/areadiretor" />
       </Stack>
     </Layout>
   );

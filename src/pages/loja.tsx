@@ -1,4 +1,8 @@
-import { CustomChakraNextLink, PageHeading } from '@/components/atoms';
+import {
+  CustomChakraNextLink,
+  PageHeading,
+  VoltarButton,
+} from '@/components/atoms';
 import { ProdutoCard, SocialIcons } from '@/components/molecules';
 import { Layout } from '@/components/templates';
 import { AuthContext } from '@/contexts/AuthContext';
@@ -6,7 +10,7 @@ import { gql, useQuery } from '@apollo/client';
 import { Box, Button, SimpleGrid, Stack, Text } from '@chakra-ui/react';
 import { parseCookies } from 'nookies';
 import React, { useContext, useEffect } from 'react';
-import { MdArrowLeft, MdShoppingCart } from 'react-icons/md';
+import { MdShoppingCart } from 'react-icons/md';
 
 const PRODUTO_QUERY = gql`
   query getProdutos {
@@ -84,17 +88,7 @@ function Loja() {
               Carrinho
             </Button>
           </CustomChakraNextLink>
-          <CustomChakraNextLink href="/">
-            <Button
-              mt={4}
-              colorScheme="red"
-              variant="ghost"
-              w="full"
-              leftIcon={<MdArrowLeft size="25px" />}
-            >
-              Voltar
-            </Button>
-          </CustomChakraNextLink>
+          <VoltarButton href="/" />
         </Stack>
 
         <SocialIcons mt={[4, 8]} />

@@ -1,11 +1,15 @@
-import { CustomButtom, CustomChakraNextLink } from '@/components/atoms';
+import {
+  CustomButtom,
+  CustomChakraNextLink,
+  VoltarButton,
+} from '@/components/atoms';
 import { gql, useQuery } from '@apollo/client';
 import { Box, Divider, Stack, StackProps } from '@chakra-ui/react';
 import { parseCookies } from 'nookies';
 import React from 'react';
 import { AiFillIdcard } from 'react-icons/ai';
 import { FaDrum, FaVolleyballBall, FaWallet } from 'react-icons/fa';
-import { MdArrowLeft, MdManageAccounts } from 'react-icons/md';
+import { MdManageAccounts } from 'react-icons/md';
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface AreaSocioMenuProps extends StackProps {}
@@ -68,11 +72,7 @@ export const AreaSocioMenu = ({ ...rest }: AreaSocioMenuProps) => {
           Gerenciar associação
         </CustomButtom>
       </CustomChakraNextLink>
-      <CustomChakraNextLink href="/">
-        <CustomButtom leftIcon={<MdArrowLeft size="25px" />} colorScheme="red">
-          Voltar
-        </CustomButtom>
-      </CustomChakraNextLink>
+      <VoltarButton href="/" />
     </Stack>
   );
 };

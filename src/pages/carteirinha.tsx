@@ -17,8 +17,12 @@ import {
   Text,
   useColorModeValue,
 } from '@chakra-ui/react';
-import { CarteirinhaInput, PageHeading } from '@/components/atoms';
-import { MdArrowLeft, MdRefresh } from 'react-icons/md';
+import {
+  CarteirinhaInput,
+  PageHeading,
+  VoltarButton,
+} from '@/components/atoms';
+import { MdRefresh } from 'react-icons/md';
 import { gql, useQuery } from '@apollo/client';
 
 import { Card } from '@/components/molecules';
@@ -251,16 +255,7 @@ function Carteirinha({ token }: CarteirinhaProps) {
           >
             Atualizar
           </Button>
-          <Button
-            leftIcon={<MdArrowLeft size="25px" />}
-            colorScheme="red"
-            variant="ghost"
-            maxW="md"
-            w="100%"
-            onClick={() => router.push('/areasocio')}
-          >
-            Voltar
-          </Button>
+          <VoltarButton href="/areasocio" />
         </Stack>
       </Box>
     </Layout>

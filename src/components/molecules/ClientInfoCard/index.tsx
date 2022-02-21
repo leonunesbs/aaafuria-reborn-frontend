@@ -33,11 +33,9 @@ export const ClientInfoCard = ({ isOpen, socioData }: ClientInfoCardProps) => {
           <Skeleton isLoaded={socioData !== null}>
             <Box>
               {socioData?.isSocio ? (
-                <CustomButtom maxW="250px" variant={'solid'}>
-                  Sócio ativo
-                </CustomButtom>
+                <CustomButtom variant={'solid'}>Sócio ativo</CustomButtom>
               ) : (
-                <CustomButtom maxW="200px" variant={'solid'} colorScheme="red">
+                <CustomButtom variant={'solid'} colorScheme="red">
                   Sócio inativo
                 </CustomButtom>
               )}

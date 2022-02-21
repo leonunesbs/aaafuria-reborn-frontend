@@ -3,6 +3,7 @@ import {
   CustomChakraNextLink,
   CustomIconButton,
   PageHeading,
+  VoltarButton,
 } from '@/components/atoms';
 import { AtividadesSocioTable, Card } from '@/components/molecules';
 import { Layout } from '@/components/templates';
@@ -12,7 +13,7 @@ import { useRouter } from 'next/router';
 import { useContext, useEffect, useState } from 'react';
 import { AiOutlineCalendar } from 'react-icons/ai';
 import { FaDrum, FaPlus, FaVolleyballBall } from 'react-icons/fa';
-import { MdArrowLeft, MdManageAccounts } from 'react-icons/md';
+import { MdManageAccounts } from 'react-icons/md';
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 interface AtividadesProps {}
@@ -102,14 +103,7 @@ function Atividades({}: AtividadesProps) {
             </>
           )}
 
-          <CustomChakraNextLink href="/">
-            <CustomButtom
-              leftIcon={<MdArrowLeft size="25px" />}
-              colorScheme="red"
-            >
-              Voltar
-            </CustomButtom>
-          </CustomChakraNextLink>
+          <VoltarButton href="/" />
         </Stack>
       </Box>
     </Layout>

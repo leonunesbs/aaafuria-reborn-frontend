@@ -1,3 +1,5 @@
+import dynamic from 'next/dynamic';
+import { RefAttributes } from 'react';
 import { AreaDiretorButtonProps } from './AreaDiretorButton';
 import { AtividadesSocioTableRowProps } from './AtividadesSocioTableRow';
 import { CarteirinhaInputProps } from './CarteirinhaInput';
@@ -6,9 +8,8 @@ import { CustomChakraNextLinkProps } from './CustomChakraNextLink';
 import { CustomIconButtonProps } from './CustomIconButton';
 import { FloatingCarrinhoPlantaoButtonProps } from './FloatingCarrinhoPlantaoButton';
 import { PageHeadingProps } from './PageHeading';
-import { RefAttributes } from 'react';
 import { SejaSocioButtonProps } from './SejaSocioButton';
-import dynamic from 'next/dynamic';
+import { VoltarButtonProps } from './VoltarButton';
 
 export const Analytics = dynamic<any>(() =>
   import('./Analytics').then((mod) => mod.Analytics),
@@ -53,4 +54,7 @@ export const PageHeading = dynamic<PageHeadingProps>(() =>
 
 export const SejaSocioButton = dynamic<SejaSocioButtonProps>(() =>
   import('./SejaSocioButton').then((mod) => mod.SejaSocioButton),
+);
+export const VoltarButton = dynamic<VoltarButtonProps>(() =>
+  import('./VoltarButton').then((mod) => mod.VoltarButton),
 );
