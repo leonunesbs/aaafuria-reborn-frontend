@@ -166,7 +166,7 @@ function Carrinho() {
               </Tr>
             </Thead>
             <Tbody>
-              {data?.plantaoCarrinho.produtos?.edges?.map(
+              {data?.plantaoCarrinho?.produtos?.edges?.map(
                 ({
                   node: {
                     id,

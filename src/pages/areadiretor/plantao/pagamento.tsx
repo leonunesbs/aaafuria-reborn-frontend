@@ -5,7 +5,11 @@ import { Layout } from '@/components/templates';
 import { parseCookies } from 'nookies';
 import { useContext, useEffect } from 'react';
 import { useRouter } from 'next/router';
-import { PageHeading, VoltarButton } from '@/components/atoms';
+import {
+  CustomIconButton,
+  PageHeading,
+  VoltarButton,
+} from '@/components/atoms';
 import {
   Card,
   EspecieTabPanel,
@@ -14,6 +18,7 @@ import {
 } from '@/components/molecules';
 import {
   Box,
+  HStack,
   Tab,
   TabList,
   TabPanel,
@@ -21,6 +26,7 @@ import {
   Tabs,
   Text,
 } from '@chakra-ui/react';
+import { MdRefresh } from 'react-icons/md';
 
 const GET_CARRINHO = gql`
   query getCarrinho($id: ID!) {
@@ -45,6 +51,7 @@ const GET_CARRINHO = gql`
           }
         }
       }
+      status
     }
   }
 `;
@@ -71,6 +78,7 @@ export type CarrinhoData = {
         };
       }[];
     };
+    status: string;
   };
 };
 
@@ -80,7 +88,7 @@ function Pagamento() {
   const router = useRouter();
   const { id = '' }: any = router.query;
 
-  const { data } = useQuery<CarrinhoData>(GET_CARRINHO, {
+  const { data, refetch, loading } = useQuery<CarrinhoData>(GET_CARRINHO, {
     variables: {
       id,
     },
@@ -108,6 +116,18 @@ function Pagamento() {
           <Text textAlign={'center'}>
             <b>Total: </b> R$ {data?.carrinho.total}
           </Text>
+          <HStack justify={'center'}>
+            <Text textAlign={'center'}>
+              <b>Status: </b>
+              {data?.carrinho.status}
+            </Text>
+            <CustomIconButton
+              aria-label="atualizar"
+              icon={<MdRefresh size="20px" />}
+              isLoading={loading}
+              onClick={() => refetch()}
+            />
+          </HStack>
 
           <Tabs isLazy align="center" colorScheme="green" mt={6} isFitted>
             <TabList>
