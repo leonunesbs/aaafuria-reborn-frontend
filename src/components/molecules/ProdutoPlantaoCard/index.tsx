@@ -1,22 +1,25 @@
-import { Card } from '@/components/molecules';
-import { gql, useMutation, useQuery } from '@apollo/client';
-import { MdShoppingCart } from 'react-icons/md';
-import { parseCookies } from 'nookies';
-import { ProdutoType } from '../../organisms/LojaPlantao';
-import { SubmitHandler, useForm } from 'react-hook-form';
-import { useCallback, useState } from 'react';
 import {
   Button,
   FormControl,
-  Heading,
   HStack,
+  Heading,
+  Image,
+  Input,
   Select,
   Stack,
-  useToast,
-  Image,
   Text,
+  useToast,
 } from '@chakra-ui/react';
+import { SubmitHandler, useForm } from 'react-hook-form';
+import { gql, useMutation, useQuery } from '@apollo/client';
+import { useCallback, useState } from 'react';
+
+import { Card } from '@/components/molecules';
 import { CustomButtom } from '@/components/atoms';
+import InputMask from 'react-input-mask';
+import { MdShoppingCart } from 'react-icons/md';
+import { ProdutoType } from '../../organisms/LojaPlantao';
+import { parseCookies } from 'nookies';
 import { useRouter } from 'next/router';
 
 const ADD_TO_CART_PLANTAO = gql`
@@ -25,12 +28,14 @@ const ADD_TO_CART_PLANTAO = gql`
     $quantidade: Int!
     $matriculaSocio: String!
     $variacaoId: String
+    $observacoes: String
   ) {
     adicionarAoCarrinhoPlantao(
       productId: $productId
       quantidade: $quantidade
       matriculaSocio: $matriculaSocio
       variacaoId: $variacaoId
+      observacoes: $observacoes
     ) {
       ok
     }
@@ -75,10 +80,11 @@ export const ProdutoPlantaoCard = ({
   const toast = useToast();
 
   const onSubmit: SubmitHandler<any> = useCallback(
-    (formData: { variacaoId: any }) => {
+    (formData: { variacaoId: any; observacoes: any }) => {
       const productId = node.id;
       const quantidade = 1;
       const variacaoId = formData.variacaoId;
+      const observacoes = formData.observacoes;
 
       addToCartPlantao({
         variables: {
@@ -86,6 +92,7 @@ export const ProdutoPlantaoCard = ({
           productId: productId,
           quantidade: quantidade,
           variacaoId: variacaoId,
+          observacoes: `${observacoes}`,
         },
       }).then(() => {
         setIsLoading(false);
@@ -181,6 +188,18 @@ export const ProdutoPlantaoCard = ({
                         ),
                     )}
                   </Select>
+                </FormControl>
+              )}
+              {node.hasObservacoes && (
+                <FormControl>
+                  <Input
+                    as={InputMask}
+                    mask="NÚMERO: 99"
+                    required
+                    focusBorderColor="green.500"
+                    placeholder="Número da camisa"
+                    {...register('observacoes')}
+                  />
                 </FormControl>
               )}
             </HStack>

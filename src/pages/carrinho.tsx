@@ -1,7 +1,3 @@
-import { PageHeading } from '@/components/atoms';
-import { Card } from '@/components/molecules';
-import { Layout } from '@/components/templates';
-import { gql, useMutation, useQuery } from '@apollo/client';
 import {
   Box,
   Button,
@@ -27,16 +23,22 @@ import {
   Tr,
   useToast,
 } from '@chakra-ui/react';
-import { GetServerSideProps } from 'next';
-import { useRouter } from 'next/router';
-import { parseCookies } from 'nookies';
-import React, { useEffect } from 'react';
 import { MdCreditCard, MdDelete, MdPayment, MdStore } from 'react-icons/md';
+import React, { useEffect } from 'react';
+import { gql, useMutation, useQuery } from '@apollo/client';
+
+import { Card } from '@/components/molecules';
+import { GetServerSideProps } from 'next';
+import { Layout } from '@/components/templates';
+import { PageHeading } from '@/components/atoms';
+import { parseCookies } from 'nookies';
+import { useRouter } from 'next/router';
 
 const GET_USER_CARRINHO = gql`
   query getUserCarrinho {
     userCarrinho {
       total
+
       produtos {
         edges {
           node {
@@ -47,6 +49,7 @@ const GET_USER_CARRINHO = gql`
             variacao {
               nome
             }
+            observacoes
             quantidade
             preco
             precoSocio
@@ -134,6 +137,7 @@ function Carrinho() {
               <Tr>
                 <Th>Produto</Th>
                 <Th>Variação</Th>
+                <Th>Observações</Th>
                 <Th maxW="sm">Quantidade</Th>
                 <Th isNumeric>Valor unitário</Th>
                 <Th isNumeric>Total unitário</Th>
@@ -164,6 +168,7 @@ function Carrinho() {
                   <Tr key={`${produto.id}-${quantidade}`}>
                     <Td>{produto.nome}</Td>
                     <Td>{variacao?.nome}</Td>
+                    <Td>{data?.userCarrinho?.observacoes}</Td>
                     <Td>{quantidade}</Td>
                     {isSocio === 'true' ? (
                       <>

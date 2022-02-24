@@ -1,21 +1,25 @@
-import { Card } from '@/components/molecules';
-import { AuthContext } from '@/contexts/AuthContext';
-import { ProdutoType } from '@/pages/loja';
-import { gql, useMutation, useQuery } from '@apollo/client';
-import { Flex, Heading, HStack, Stack } from '@chakra-ui/layout';
+import * as gtag from 'lib/gtag';
+
 import {
   Button,
   FormControl,
   Image,
+  Input,
   Select,
   Text,
   useToast,
 } from '@chakra-ui/react';
-import * as gtag from 'lib/gtag';
-import { parseCookies } from 'nookies';
+import { Flex, HStack, Heading, Stack } from '@chakra-ui/layout';
 import React, { useCallback, useContext, useEffect } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
+import { gql, useMutation, useQuery } from '@apollo/client';
+
+import { AuthContext } from '@/contexts/AuthContext';
+import { Card } from '@/components/molecules';
+import InputMask from 'react-input-mask';
 import { MdShoppingCart } from 'react-icons/md';
+import { ProdutoType } from '@/pages/loja';
+import { parseCookies } from 'nookies';
 
 export type ProdutoCardProps = ProdutoType;
 
@@ -79,12 +83,14 @@ export const ProdutoCard = ({ node }: ProdutoCardProps) => {
       const productId = node.id;
       const quantidade = 1;
       const variacaoId = formData.variacaoId;
+      const observacoes = formData.observacoes;
 
       addToCart({
         variables: {
           productId: productId,
           quantidade: quantidade,
           variacaoId: variacaoId,
+          observacoes: observacoes,
         },
       }).then(() => {
         setIsLoading(false);
@@ -205,6 +211,18 @@ export const ProdutoCard = ({ node }: ProdutoCardProps) => {
                       </option>
                     ))}
                   </Select>
+                </FormControl>
+              )}
+              {node.hasObservacoes && (
+                <FormControl>
+                  <Input
+                    as={InputMask}
+                    mask="NÚMERO: 99"
+                    required
+                    focusBorderColor="green.500"
+                    placeholder="Número da camisa"
+                    {...register('observacoes')}
+                  />
                 </FormControl>
               )}
             </HStack>

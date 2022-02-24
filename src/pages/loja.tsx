@@ -1,16 +1,17 @@
+import { Box, Button, SimpleGrid, Stack, Text } from '@chakra-ui/react';
 import {
   CustomChakraNextLink,
   PageHeading,
   VoltarButton,
 } from '@/components/atoms';
 import { ProdutoCard, SocialIcons } from '@/components/molecules';
-import { Layout } from '@/components/templates';
-import { AuthContext } from '@/contexts/AuthContext';
-import { gql, useQuery } from '@apollo/client';
-import { Box, Button, SimpleGrid, Stack, Text } from '@chakra-ui/react';
-import { parseCookies } from 'nookies';
 import React, { useContext, useEffect } from 'react';
+import { gql, useQuery } from '@apollo/client';
+
+import { AuthContext } from '@/contexts/AuthContext';
+import { Layout } from '@/components/templates';
 import { MdShoppingCart } from 'react-icons/md';
+import { parseCookies } from 'nookies';
 
 const PRODUTO_QUERY = gql`
   query getProdutos {
@@ -24,6 +25,7 @@ const PRODUTO_QUERY = gql`
           precoSocio
           imagem
           hasVariations
+          hasObservacoes
         }
       }
     }
@@ -39,6 +41,7 @@ export type ProdutoType = {
     precoSocio: number;
     imagem: string;
     hasVariations: boolean;
+    hasObservacoes: boolean;
   };
 };
 

@@ -1,9 +1,3 @@
-import { CustomButtom, PageHeading, VoltarButton } from '@/components/atoms';
-import { CustomIconButton } from '@/components/atoms/CustomIconButton';
-import { Card } from '@/components/molecules';
-import { Layout } from '@/components/templates';
-import { AuthContext } from '@/contexts/AuthContext';
-import { gql, useMutation, useQuery } from '@apollo/client';
 import {
   Box,
   HStack,
@@ -18,12 +12,19 @@ import {
   Thead,
   Tr,
 } from '@chakra-ui/react';
-import { GetServerSideProps } from 'next';
-import { useRouter } from 'next/router';
-import { parseCookies } from 'nookies';
-import { useContext, useEffect, useState } from 'react';
+import { CustomButtom, PageHeading, VoltarButton } from '@/components/atoms';
 import { FaMinus, FaPlus } from 'react-icons/fa';
 import { MdDelete, MdPayment } from 'react-icons/md';
+import { gql, useMutation, useQuery } from '@apollo/client';
+import { useContext, useEffect, useState } from 'react';
+
+import { AuthContext } from '@/contexts/AuthContext';
+import { Card } from '@/components/molecules';
+import { CustomIconButton } from '@/components/atoms/CustomIconButton';
+import { GetServerSideProps } from 'next';
+import { Layout } from '@/components/templates';
+import { parseCookies } from 'nookies';
+import { useRouter } from 'next/router';
 
 const GET_PLANTAO_CARRINHO = gql`
   query getPlantaoCarrinho($matriculaSocio: String!) {
@@ -47,6 +48,7 @@ const GET_PLANTAO_CARRINHO = gql`
               id
               nome
             }
+            observacoes
             quantidade
             preco
             precoSocio
@@ -159,6 +161,7 @@ function Carrinho() {
               <Tr>
                 <Th>Produto</Th>
                 <Th>Variação</Th>
+                <Th>Observações</Th>
                 <Th maxW="sm">Quantidade</Th>
                 <Th isNumeric>Valor unitário</Th>
                 <Th isNumeric>Total unitário</Th>
@@ -172,6 +175,7 @@ function Carrinho() {
                     id,
                     produto,
                     variacao,
+                    observacoes,
                     quantidade,
                     preco,
                     precoSocio,
@@ -186,6 +190,7 @@ function Carrinho() {
                     };
                     produto: { nome: string; id: string };
                     variacao: { nome: string; id: string } | null;
+                    observacoes: string;
                     quantidade: number;
                     preco: any;
                     precoSocio: any;
@@ -194,6 +199,7 @@ function Carrinho() {
                   <Tr key={`${produto.id}-${quantidade}`}>
                     <Td>{produto.nome}</Td>
                     <Td>{variacao?.nome}</Td>
+                    <Td>{observacoes}</Td>
                     <Td>
                       <HStack>
                         <CustomIconButton
