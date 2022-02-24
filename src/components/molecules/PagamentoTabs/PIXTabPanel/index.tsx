@@ -90,8 +90,8 @@ export const PixTabPanel = ({ parentData: parentData }: PixTabPanelProps) => {
           includeMargin
           fgColor="gray"
           pixParams={{
-            chave: '02544977302',
-            recebedor: 'Iago Antunes M de Souza',
+            chave: 'pix@aaafuria.site',
+            recebedor: 'ALBERICO SANTANA SANTOS AMORIM GONCALVES',
             cidade: 'Teresina',
             identificador: 'PLANTAOFURIA',
             valor: parseFloat(parentData.data?.carrinho.total),
