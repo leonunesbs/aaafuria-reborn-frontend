@@ -71,7 +71,7 @@ function Arquivo() {
   });
 
   return (
-    <Layout title="Arquivo">
+    <Layout title={data?.file.title as string} desc={data?.file.content}>
       <Box maxW="5xl" mx={'auto'}>
         <PageHeading>{data?.file.title}</PageHeading>
         <Skeleton isLoaded={!loading}>
