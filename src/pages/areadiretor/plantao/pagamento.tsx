@@ -1,21 +1,3 @@
-import { AuthContext } from '@/contexts/AuthContext';
-import { GetServerSideProps } from 'next';
-import { gql, useQuery } from '@apollo/client';
-import { Layout } from '@/components/templates';
-import { parseCookies } from 'nookies';
-import { useContext, useEffect } from 'react';
-import { useRouter } from 'next/router';
-import {
-  CustomIconButton,
-  PageHeading,
-  VoltarButton,
-} from '@/components/atoms';
-import {
-  Card,
-  EspecieTabPanel,
-  PixTabPanel,
-  CartaoCreditoTabPanel,
-} from '@/components/molecules';
 import {
   Box,
   HStack,
@@ -26,7 +8,26 @@ import {
   Tabs,
   Text,
 } from '@chakra-ui/react';
+import {
+  Card,
+  CartaoCreditoTabPanel,
+  EspecieTabPanel,
+  PixTabPanel,
+} from '@/components/molecules';
+import {
+  CustomIconButton,
+  PageHeading,
+  VoltarButton,
+} from '@/components/atoms';
+import { gql, useQuery } from '@apollo/client';
+import { useContext, useEffect } from 'react';
+
+import { AuthContext } from '@/contexts/AuthContext';
+import { GetServerSideProps } from 'next';
+import { Layout } from '@/components/templates';
 import { MdRefresh } from 'react-icons/md';
+import { parseCookies } from 'nookies';
+import { useRouter } from 'next/router';
 
 const GET_CARRINHO = gql`
   query getCarrinho($id: ID!) {
@@ -106,7 +107,7 @@ function Pagamento() {
   }, [isStaff, router]);
 
   return (
-    <Layout>
+    <Layout title="Pagamento plantão">
       <Box maxW="2xl" mx="auto">
         <PageHeading>Pagamento</PageHeading>
         <Card>
