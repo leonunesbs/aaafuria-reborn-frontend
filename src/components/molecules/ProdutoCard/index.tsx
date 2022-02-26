@@ -16,7 +16,6 @@ import { gql, useMutation, useQuery } from '@apollo/client';
 
 import { AuthContext } from '@/contexts/AuthContext';
 import { Card } from '@/components/molecules';
-import InputMask from 'react-input-mask';
 import { MdShoppingCart } from 'react-icons/md';
 import { ProdutoType } from '@/pages/loja';
 import { parseCookies } from 'nookies';
@@ -216,12 +215,13 @@ export const ProdutoCard = ({ node }: ProdutoCardProps) => {
               {node.hasObservacoes && (
                 <FormControl>
                   <Input
-                    as={InputMask}
-                    mask="NÚMERO: 99"
                     required
                     focusBorderColor="green.500"
-                    placeholder="Número da camisa"
-                    {...register('observacoes')}
+                    placeholder="Observações"
+                    {...register('observacoes', {
+                      required: true,
+                      maxLength: 100,
+                    })}
                   />
                 </FormControl>
               )}
