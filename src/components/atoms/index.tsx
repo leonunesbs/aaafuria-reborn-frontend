@@ -1,5 +1,3 @@
-import dynamic from 'next/dynamic';
-import { RefAttributes } from 'react';
 import { AreaDiretorButtonProps } from './AreaDiretorButton';
 import { AtividadesSocioTableRowProps } from './AtividadesSocioTableRow';
 import { CarteirinhaInputProps } from './CarteirinhaInput';
@@ -7,9 +5,12 @@ import { CustomButtomProps } from './CustomButton';
 import { CustomChakraNextLinkProps } from './CustomChakraNextLink';
 import { CustomIconButtonProps } from './CustomIconButton';
 import { FloatingCarrinhoPlantaoButtonProps } from './FloatingCarrinhoPlantaoButton';
+import { NotificationBadgeProps } from './NotificationBadge';
 import { PageHeadingProps } from './PageHeading';
+import { RefAttributes } from 'react';
 import { SejaSocioButtonProps } from './SejaSocioButton';
 import { VoltarButtonProps } from './VoltarButton';
+import dynamic from 'next/dynamic';
 
 export const Analytics = dynamic<any>(() =>
   import('./Analytics').then((mod) => mod.Analytics),
@@ -47,6 +48,9 @@ export const FloatingCarrinhoPlantaoButton =
       (mod) => mod.FloatingCarrinhoPlantaoButton,
     ),
   );
+export const NotificationBadge = dynamic<NotificationBadgeProps>(() =>
+  import('./NotificationBadge').then((mod) => mod.NotificationBadge),
+);
 
 export const PageHeading = dynamic<PageHeadingProps>(() =>
   import('./PageHeading').then((mod) => mod.PageHeading),

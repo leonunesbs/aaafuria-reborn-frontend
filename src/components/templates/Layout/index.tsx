@@ -1,12 +1,13 @@
-import { Footer, Header } from '@/components/molecules';
 import { Box, BoxProps, useColorModeValue } from '@chakra-ui/react';
+import { Footer, Header } from '@/components/molecules';
+import React, { ReactNode } from 'react';
+
 import Head from 'next/head';
 import { useRouter } from 'next/router';
-import React, { ReactNode } from 'react';
 
 export interface LayoutProps extends BoxProps {
   children: ReactNode;
-  title?: string;
+  title: string;
   desc?: string;
   kw?: string;
   isHeaded?: boolean;

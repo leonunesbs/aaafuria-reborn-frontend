@@ -1,12 +1,6 @@
+import { AiFillHome, AiOutlineInbox } from 'react-icons/ai';
 import {
-  ColorModeToggle,
-  CustomButtom,
-  CustomChakraNextLink,
-  CustomIconButton,
-} from '@/components/atoms';
-import { AuthContext } from '@/contexts/AuthContext';
-import { gql, useQuery } from '@apollo/client';
-import {
+  Box,
   Flex,
   HStack,
   Image,
@@ -14,9 +8,18 @@ import {
   Text,
   useColorModeValue,
 } from '@chakra-ui/react';
-import { parseCookies } from 'nookies';
+import {
+  ColorModeToggle,
+  CustomButtom,
+  CustomChakraNextLink,
+  CustomIconButton,
+  NotificationBadge,
+} from '@/components/atoms';
+import { gql, useQuery } from '@apollo/client';
 import { useContext, useEffect } from 'react';
-import { AiFillHome } from 'react-icons/ai';
+
+import { AuthContext } from '@/contexts/AuthContext';
+import { parseCookies } from 'nookies';
 
 const GET_SOCIO = gql`
   query {
@@ -76,7 +79,20 @@ export const Header = () => {
           </CustomChakraNextLink>
         )
       )}
-      <ColorModeToggle />
+      <HStack>
+        <CustomChakraNextLink href="/arquivos">
+          <CustomIconButton
+            aria-label="files"
+            icon={
+              <Box position="relative">
+                <NotificationBadge />
+                <AiOutlineInbox size="25px" />
+              </Box>
+            }
+          />
+        </CustomChakraNextLink>
+        <ColorModeToggle />
+      </HStack>
     </Flex>
   );
 };
