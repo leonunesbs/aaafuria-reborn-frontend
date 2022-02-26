@@ -1,4 +1,3 @@
-import { AiFillHome, AiOutlineInbox } from 'react-icons/ai';
 import {
   Box,
   Flex,
@@ -18,7 +17,9 @@ import {
 import { gql, useQuery } from '@apollo/client';
 import { useContext, useEffect } from 'react';
 
+import { AiFillHome } from 'react-icons/ai';
 import { AuthContext } from '@/contexts/AuthContext';
+import { FaInbox } from 'react-icons/fa';
 import { parseCookies } from 'nookies';
 
 const GET_SOCIO = gql`
@@ -86,7 +87,7 @@ export const Header = () => {
             icon={
               <Box position="relative">
                 <NotificationBadge />
-                <AiOutlineInbox size="25px" />
+                <FaInbox size="25px" />
               </Box>
             }
           />

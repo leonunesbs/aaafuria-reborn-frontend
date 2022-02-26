@@ -76,7 +76,7 @@ function Arquivos() {
           <Table>
             <Thead>
               <Tr>
-                <Th colSpan={5}>Título</Th>
+                <Th colSpan={4}>Título</Th>
                 <Th>Data</Th>
               </Tr>
             </Thead>
@@ -109,7 +109,6 @@ function Arquivos() {
                           {file.title}
                         </CustomChakraNextLink>
                       </Td>
-                      <Td></Td>
                       <Td></Td>
                       <Td></Td>
                       <Td></Td>
