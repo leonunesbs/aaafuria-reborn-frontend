@@ -193,11 +193,9 @@ export const ProdutoPlantaoCard = ({
               {node.hasObservacoes && (
                 <FormControl>
                   <Input
-                    as={InputMask}
-                    mask="NÚMERO: 99"
                     required
                     focusBorderColor="green.500"
-                    placeholder="Número da camisa"
+                    placeholder="Observações"
                     {...register('observacoes')}
                   />
                 </FormControl>
