@@ -87,7 +87,7 @@ export const Header = () => {
             icon={
               <Box position="relative">
                 <NotificationBadge />
-                <FaInbox size="25px" />
+                <FaInbox size="20px" />
               </Box>
             }
           />
