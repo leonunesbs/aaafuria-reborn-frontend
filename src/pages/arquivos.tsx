@@ -1,5 +1,7 @@
 import {
   Box,
+  Center,
+  Spinner,
   Table,
   Tbody,
   Td,
@@ -14,13 +16,13 @@ import {
   VoltarButton,
 } from '@/components/atoms';
 import { gql, useQuery } from '@apollo/client';
+import { useContext, useEffect } from 'react';
 
 import { AuthContext } from '@/contexts/AuthContext';
 import { Card } from '@/components/molecules';
 import { GetServerSideProps } from 'next';
 import { Layout } from '@/components/templates';
 import { parseCookies } from 'nookies';
-import { useContext } from 'react';
 
 type AllFilesProps = {
   allFiles: {
@@ -57,9 +59,10 @@ const GET_ALL_FILES = gql`
 `;
 
 function Arquivos() {
-  const { token, matricula } = useContext(AuthContext);
+  const green = useColorModeValue('green.600', 'green.200');
+  const { token, matricula, checkCredentials } = useContext(AuthContext);
 
-  const { data } = useQuery<AllFilesProps>(GET_ALL_FILES, {
+  const { data, loading } = useQuery<AllFilesProps>(GET_ALL_FILES, {
     context: {
       headers: {
         authorization: `JWT ${token}`,
@@ -67,7 +70,20 @@ function Arquivos() {
     },
   });
 
-  const green = useColorModeValue('green.600', 'green.200');
+  useEffect(() => {
+    checkCredentials();
+  }, [checkCredentials]);
+
+  if (loading) {
+    return (
+      <Layout title="Início" isHeaded={false} isFooted={false} h="100vh">
+        <Center h="100vh" flexDir="row">
+          <Spinner size="xl" color="green" />
+        </Center>
+      </Layout>
+    );
+  }
+
   return (
     <Layout title="Arquivos">
       <Box maxW="5xl" mx="auto">
