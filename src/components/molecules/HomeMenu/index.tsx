@@ -5,11 +5,11 @@ import {
   SejaSocioButton,
 } from '@/components/atoms';
 import { FaDrum, FaVolleyballBall } from 'react-icons/fa';
+import { MdEmojiEvents, MdStore } from 'react-icons/md';
 import React, { useContext } from 'react';
 
 import { GiPartyPopper } from 'react-icons/gi';
 import { LoadingContext } from '@/contexts/LoadingContext';
-import { MdStore } from 'react-icons/md';
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface HomeMenuProps {}
@@ -19,6 +19,17 @@ export const HomeMenu = ({}: HomeMenuProps) => {
   return (
     <Stack>
       <SejaSocioButton />
+      <CustomChakraNextLink href="/intermed">
+        <CustomButtom
+          leftIcon={<MdEmojiEvents size="20px" />}
+          onClick={() => {
+            setLoading(true);
+          }}
+          variant="solid"
+        >
+          INTERMED
+        </CustomButtom>
+      </CustomChakraNextLink>
       <CustomChakraNextLink href="/loja">
         <CustomButtom
           leftIcon={<MdStore size="20px" />}
