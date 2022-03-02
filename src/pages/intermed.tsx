@@ -18,6 +18,7 @@ import { Card } from '@/components/molecules';
 import { GetServerSideProps } from 'next';
 import { Layout } from '@/components/templates';
 import { parseCookies } from 'nookies';
+import { useRouter } from 'next/router';
 
 const RESGATAR_INTERMED = gql`
   mutation {
@@ -28,6 +29,7 @@ const RESGATAR_INTERMED = gql`
 `;
 
 function Intermed() {
+  const router = useRouter();
   const { token, isSocio } = useContext(AuthContext);
   const [resgatarIntermed] = useMutation(RESGATAR_INTERMED, {
     context: {
@@ -45,7 +47,7 @@ function Intermed() {
     await resgatarIntermed().catch((err) => {
       alert(err.message);
     });
-    window.open('https://cheersshop.com.br/produto/16832', '_blank');
+    router.push('https://cheersshop.com.br/produto/16832');
   };
 
   const handleInscricao = () => {
