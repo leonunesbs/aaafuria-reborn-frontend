@@ -64,7 +64,7 @@ function Intermed() {
       <Box maxW="xl" mx="auto">
         <PageHeading>Intermed Norte</PageHeading>
         <Card>
-          <Text>PIX: pix@aaafuria.site</Text>
+          <Text textAlign={'center'}>PIX: pix@aaafuria.site</Text>
           <Stack>
             <CustomButtom onClick={handleInscricao}>
               Inscreva-se no INTERMED NORTE
