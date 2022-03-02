@@ -9,11 +9,7 @@ import {
   Stack,
   useDisclosure,
 } from '@chakra-ui/react';
-import {
-  CustomButtom,
-  CustomChakraNextLink,
-  PageHeading,
-} from '@/components/atoms';
+import { CustomButtom, PageHeading } from '@/components/atoms';
 import { gql, useMutation } from '@apollo/client';
 import { useContext, useRef } from 'react';
 
@@ -22,7 +18,6 @@ import { Card } from '@/components/molecules';
 import { GetServerSideProps } from 'next';
 import { Layout } from '@/components/templates';
 import { parseCookies } from 'nookies';
-import { useRouter } from 'next/router';
 
 const RESGATAR_INTERMED = gql`
   mutation {
@@ -33,8 +28,7 @@ const RESGATAR_INTERMED = gql`
 `;
 
 function Intermed() {
-  const router = useRouter();
-  const { token } = useContext(AuthContext);
+  const { token, isSocio } = useContext(AuthContext);
   const [resgatarIntermed] = useMutation(RESGATAR_INTERMED, {
     context: {
       headers: {
@@ -51,7 +45,15 @@ function Intermed() {
     await resgatarIntermed().catch((err) => {
       alert(err.message);
     });
-    router.reload();
+    window.open('https://cheersshop.com.br/produto/16832', '_blank');
+  };
+
+  const handleInscricao = () => {
+    if (isSocio) {
+      onOpen();
+    } else {
+      handleResgate();
+    }
   };
 
   return (
@@ -60,17 +62,8 @@ function Intermed() {
         <PageHeading>Intermed Norte</PageHeading>
         <Card>
           <Stack>
-            <CustomChakraNextLink
-              href="https://cheersshop.com.br/produto/16763"
-              chakraLinkProps={{
-                target: '_blank',
-                isExternal: true,
-              }}
-            >
-              <CustomButtom>Inscreva-se no INTERMED NORTE</CustomButtom>
-            </CustomChakraNextLink>
-            <CustomButtom onClick={onOpen}>
-              Resgatar desconto por C$ 900
+            <CustomButtom onClick={handleInscricao}>
+              Inscreva-se no INTERMED NORTE
             </CustomButtom>
           </Stack>
         </Card>
@@ -86,8 +79,8 @@ function Intermed() {
               </AlertDialogHeader>
 
               <AlertDialogBody>
-                Tem certeza que deseja usar <strong>900 Calangos</strong> para
-                ativar seu desconto? <em>Esta ação não poderá ser desfeita.</em>
+                Deseja usar <strong>900 Calangos</strong> para ativar seu
+                desconto? <em>Esta ação não poderá ser desfeita.</em>
               </AlertDialogBody>
 
               <AlertDialogFooter>
