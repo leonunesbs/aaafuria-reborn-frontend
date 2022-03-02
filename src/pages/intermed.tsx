@@ -7,6 +7,7 @@ import {
   AlertDialogOverlay,
   Box,
   Stack,
+  Text,
   useDisclosure,
 } from '@chakra-ui/react';
 import { CustomButtom, PageHeading } from '@/components/atoms';
@@ -63,6 +64,7 @@ function Intermed() {
       <Box maxW="xl" mx="auto">
         <PageHeading>Intermed Norte</PageHeading>
         <Card>
+          <Text>PIX: pix@aaafuria.site</Text>
           <Stack>
             <CustomButtom onClick={handleInscricao}>
               Inscreva-se no INTERMED NORTE
