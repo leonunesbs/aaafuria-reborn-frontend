@@ -40,11 +40,7 @@ export const Layout = ({
         />
         <meta
           name="keywords"
-          content={
-            kw
-              ? `${kw}`
-              : 'aaafuria, plataforma, loja, atividades, eventos, atlética, sócio, uninovafapi'
-          }
+          content={kw ? `${kw}` : 'aaafuria, atlética, fúria, medicina, sócio'}
         />
         <link rel="canonical" href={`https://aaafuria.site${router.asPath}`} />
 
