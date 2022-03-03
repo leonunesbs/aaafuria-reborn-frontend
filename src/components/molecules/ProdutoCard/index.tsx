@@ -161,7 +161,7 @@ export const ProdutoCard = ({ node }: ProdutoCardProps) => {
           alt={node.nome}
         />
         <Stack>
-          <Stack p={4} h="130px">
+          <Stack p={4}>
             <Stack>
               <Heading as="h3" size="md">
                 {node.nome}
@@ -194,6 +194,7 @@ export const ProdutoCard = ({ node }: ProdutoCardProps) => {
                   </Text>
                 )}
               </Heading>
+              <Text>{node.descricao}</Text>
             </Stack>
             <HStack>
               {node.hasVariations && (
