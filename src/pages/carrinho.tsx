@@ -154,6 +154,7 @@ function Carrinho() {
                     quantidade,
                     preco,
                     precoSocio,
+                    observacoes,
                   },
                 }: {
                   node: {
@@ -163,12 +164,13 @@ function Carrinho() {
                     quantidade: number;
                     preco: any;
                     precoSocio: any;
+                    observacoes: string;
                   };
                 }) => (
                   <Tr key={`${produto.id}-${quantidade}`}>
                     <Td>{produto.nome}</Td>
                     <Td>{variacao?.nome}</Td>
-                    <Td>{data?.userCarrinho?.observacoes}</Td>
+                    <Td>{observacoes}</Td>
                     <Td>{quantidade}</Td>
                     {isSocio === 'true' ? (
                       <>

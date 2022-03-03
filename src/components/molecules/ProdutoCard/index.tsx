@@ -27,11 +27,13 @@ const ADD_TO_CART = gql`
     $productId: String!
     $quantidade: Int!
     $variacaoId: String
+    $observacoes: String
   ) {
     adicionarAoCarrinho(
       productId: $productId
       quantidade: $quantidade
       variacaoId: $variacaoId
+      observacoes: $observacoes
     ) {
       ok
     }
@@ -221,7 +223,7 @@ export const ProdutoCard = ({ node }: ProdutoCardProps) => {
                     placeholder="Digite algo importante aqui..."
                     {...register('observacoes', {
                       required: true,
-                      minLength: 5,
+                      minLength: 3,
                       maxLength: 100,
                     })}
                   />
