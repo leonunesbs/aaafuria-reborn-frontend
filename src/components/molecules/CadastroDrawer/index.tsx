@@ -1,11 +1,5 @@
-import InputMask from 'react-input-mask';
-import React, { useContext, useEffect } from 'react';
-import { AuthContext } from '@/contexts/AuthContext';
-import { Card } from '@/components/molecules';
-import { CustomButtom, PageHeading } from '@/components/atoms';
-import { gql, useMutation } from '@apollo/client';
-import { Layout } from '@/components/templates';
 import { Controller, useForm } from 'react-hook-form';
+import { CustomButtom, PageHeading } from '@/components/atoms';
 import {
   Drawer,
   DrawerBody,
@@ -22,6 +16,13 @@ import {
   Text,
   useToast,
 } from '@chakra-ui/react';
+import React, { useCallback, useContext, useEffect } from 'react';
+import { gql, useMutation } from '@apollo/client';
+
+import { AuthContext } from '@/contexts/AuthContext';
+import { Card } from '@/components/molecules';
+import InputMask from 'react-input-mask';
+import { Layout } from '@/components/templates';
 import { useRouter } from 'next/router';
 
 export interface CadastroDrawerProps {
@@ -99,42 +100,46 @@ export const CadastroDrawer = ({
     setMatricula(cadastro || '');
   }, [cadastro, isOpen, matricula, setValue]);
 
-  const signUp = async (data: Inputs) => {
-    if (data.pin !== data.pin_confirmar) {
-      toast({
-        description: 'Os PINs inseridos são diferentes.',
-        status: 'warning',
-        duration: 2500,
-        isClosable: true,
-        position: 'top-left',
-      });
-      return;
-    }
-
-    mutateFunction({
-      variables: {
-        matricula: data.matricula,
-        turma: data.turma,
-        email: data.email,
-        nome: data.nome,
-        apelido: data.apelido,
-        dataNascimento: data.dataNascimento,
-        whatsapp: data.whatsapp,
-        rg: data.rg,
-        cpf: data.cpf,
-        pin: data.pin,
-      },
-    }).then((res) => {
-      if (res.data) {
-        signIn({ matricula: data.matricula, pin: data.pin });
+  const signUp = useCallback(
+    async (data: Inputs) => {
+      if (data.pin !== data.pin_confirmar) {
+        toast({
+          description: 'Os PINs inseridos são diferentes.',
+          status: 'warning',
+          duration: 2500,
+          isClosable: true,
+          position: 'top-left',
+        });
+        return;
       }
-    });
-  };
 
-  const handleClose = () => {
+      mutateFunction({
+        variables: {
+          matricula: data.matricula,
+          turma: data.turma,
+          email: data.email,
+          nome: data.nome,
+          apelido: data.apelido,
+          dataNascimento: data.dataNascimento,
+          whatsapp: data.whatsapp,
+          rg: data.rg,
+          cpf: data.cpf,
+          pin: data.pin,
+        },
+      }).then((res) => {
+        if (res.data) {
+          signIn({ matricula: data.matricula, pin: data.pin });
+        }
+      });
+    },
+    [mutateFunction, signIn, toast],
+  );
+
+  const handleClose = useCallback(() => {
     onClose();
     router.replace('/entrar');
-  };
+  }, [onClose, router]);
+
   return (
     <Drawer
       size="sm"

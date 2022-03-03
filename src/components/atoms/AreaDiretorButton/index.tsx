@@ -1,37 +1,36 @@
-import router from 'next/router';
+import { useCallback, useContext, useEffect } from 'react';
+
 import { AuthContext } from '@/contexts/AuthContext';
-import { Button } from '@chakra-ui/react';
+import { CustomButtom } from '@/components/atoms';
+import { LoadingContext } from '@/contexts/LoadingContext';
 import { MdManageAccounts } from 'react-icons/md';
-import { useContext, useEffect } from 'react';
+import router from 'next/router';
 
-export interface AreaDiretorButtonProps {
-  setLoading: React.Dispatch<React.SetStateAction<boolean>>;
-}
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
+export interface AreaDiretorButtonProps {}
 
-export const AreaDiretorButton = ({ setLoading }: AreaDiretorButtonProps) => {
+export const AreaDiretorButton = ({}: AreaDiretorButtonProps) => {
   const { checkCredentials, isStaff } = useContext(AuthContext);
+  const { setLoading, loading } = useContext(LoadingContext);
 
   useEffect(() => {
     checkCredentials();
   }, [checkCredentials]);
 
-  if (!isStaff) {
-    return <></>;
-  }
+  const onClickAreaDiretor = useCallback(() => {
+    setLoading(true);
+    router.push('/areadiretor');
+  }, [setLoading]);
 
   return (
-    <Button
-      as="h2"
-      name="area-diretor"
+    <CustomButtom
+      display={isStaff ? 'flex' : 'none'}
       leftIcon={<MdManageAccounts size="20px" />}
       colorScheme="yellow"
-      variant="ghost"
-      onClick={() => {
-        setLoading(true);
-        router.push('/areadiretor');
-      }}
+      isLoading={loading}
+      onClick={onClickAreaDiretor}
     >
       Área do Diretor
-    </Button>
+    </CustomButtom>
   );
 };

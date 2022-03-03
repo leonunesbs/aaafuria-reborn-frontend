@@ -1,13 +1,4 @@
 import {
-  CustomIconButton,
-  PageHeading,
-  VoltarButton,
-} from '@/components/atoms';
-import { Card } from '@/components/molecules';
-import { Layout } from '@/components/templates';
-import { AuthContext } from '@/contexts/AuthContext';
-import { gql, useQuery } from '@apollo/client';
-import {
   Box,
   Collapse,
   Flex,
@@ -20,11 +11,21 @@ import {
   Tr,
   useDisclosure,
 } from '@chakra-ui/react';
-import { GetServerSideProps } from 'next';
-import { parseCookies } from 'nookies';
-import { useContext, useEffect, useState } from 'react';
+import {
+  CustomIconButton,
+  PageHeading,
+  VoltarButton,
+} from '@/components/atoms';
+import { gql, useQuery } from '@apollo/client';
+import { useCallback, useContext, useState } from 'react';
+
+import { AuthContext } from '@/contexts/AuthContext';
+import { Card } from '@/components/molecules';
 import { FaQrcode } from 'react-icons/fa';
+import { GetServerSideProps } from 'next';
+import { Layout } from '@/components/templates';
 import QRCode from 'react-qr-code';
+import { parseCookies } from 'nookies';
 
 const USER_INGRESSOS = gql`
   query getUserIngressos {
@@ -44,7 +45,7 @@ const USER_INGRESSOS = gql`
 function MeusEventos() {
   const { token } = useContext(AuthContext);
   const [url, setUrl] = useState('');
-  const { data, refetch } = useQuery(USER_INGRESSOS, {
+  const { data } = useQuery(USER_INGRESSOS, {
     context: {
       headers: {
         authorization: `JWT ${token}`,
@@ -53,15 +54,13 @@ function MeusEventos() {
   });
   const { isOpen, onToggle } = useDisclosure();
 
-  const handleQrCode = (id: string) => {
-    setUrl(`http://${window?.location.host}/areadiretor/ingresso/${id}`);
-    onToggle();
-  };
-
-  useEffect(() => {
-    refetch();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  const handleQrCode = useCallback(
+    (id: string) => {
+      setUrl(`http://${window?.location.host}/areadiretor/ingresso/${id}`);
+      onToggle();
+    },
+    [onToggle],
+  );
 
   return (
     <Layout

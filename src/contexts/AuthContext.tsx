@@ -1,4 +1,4 @@
-import { createContext, useState } from 'react';
+import { createContext, useCallback, useMemo, useState } from 'react';
 import { destroyCookie, parseCookies, setCookie } from 'nookies';
 
 import client from '@/services/apollo-client';
@@ -65,9 +65,9 @@ export function AuthProvider({ children }: AuthProviderProps) {
   const { ['aaafuriaToken']: token } = parseCookies();
   const matricula = parseCookies()['aaafuriaMatricula'];
 
-  const isAuthenticated = !!token;
+  const isAuthenticated = useMemo(() => !!token, [token]);
 
-  const signOut = () => {
+  const signOut = useCallback(() => {
     destroyCookie(null, 'aaafuriaToken');
     destroyCookie(null, 'aaafuriaMatricula');
     destroyCookie(null, 'aaafuriaIsSocio');
@@ -75,9 +75,9 @@ export function AuthProvider({ children }: AuthProviderProps) {
     setUser(null);
 
     router.reload();
-  };
+  }, [router]);
 
-  const checkCredentials = async () => {
+  const checkCredentials = useCallback(async () => {
     if (isAuthenticated) {
       if (!matricula) {
         return false;
@@ -119,43 +119,47 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
       setIsSocio(aaafuriaIsSocio === 'true');
       setIsStaff(aaafuriaIsStaff === 'true');
+
       return response?.data.socioByMatricula?.isSocio;
     }
-  };
+  }, [isAuthenticated, matricula, signOut]);
 
-  const signIn = async ({ matricula, pin, redirectUrl }: SignInData) => {
-    const response = await client
-      .mutate({
-        mutation: SIGN_IN,
-        variables: {
-          matricula: matricula,
-          pin: pin,
-        },
-      })
-      .then(({ data, errors }) => {
-        setCookie(null, 'aaafuriaToken', data.tokenAuth.token, {
-          maxAge: 60 * 60 * 24 * 7,
-          path: '/',
+  const signIn = useCallback(
+    async ({ matricula, pin, redirectUrl }: SignInData) => {
+      const response = await client
+        .mutate({
+          mutation: SIGN_IN,
+          variables: {
+            matricula: matricula,
+            pin: pin,
+          },
+        })
+        .then(({ data, errors }) => {
+          setCookie(null, 'aaafuriaToken', data.tokenAuth.token, {
+            maxAge: 60 * 60 * 24 * 7,
+            path: '/',
+          });
+          setCookie(null, 'aaafuriaMatricula', matricula, {
+            maxAge: 60 * 60 * 24 * 7,
+            path: '/',
+          });
+          setUser({ matricula: data.tokenAuth.payload.username });
+
+          checkCredentials();
+
+          router.push(redirectUrl || '/');
+
+          if (errors) {
+            throw errors;
+          }
+
+          return data;
         });
-        setCookie(null, 'aaafuriaMatricula', matricula, {
-          maxAge: 60 * 60 * 24 * 7,
-          path: '/',
-        });
-        setUser({ matricula: data.tokenAuth.payload.username });
 
-        checkCredentials();
-
-        router.push(redirectUrl || '/');
-
-        if (errors) {
-          throw errors;
-        }
-
-        return data;
-      });
-
-    return response;
-  };
+      return response;
+    },
+    [checkCredentials, router],
+  );
 
   return (
     <AuthContext.Provider

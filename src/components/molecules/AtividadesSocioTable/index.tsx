@@ -1,5 +1,3 @@
-import { AtividadesSocioTableRow } from '@/components/atoms';
-import { gql, useQuery } from '@apollo/client';
 import {
   Spinner,
   Table,
@@ -10,6 +8,10 @@ import {
   Thead,
   Tr,
 } from '@chakra-ui/react';
+import { gql, useQuery } from '@apollo/client';
+
+import { AtividadesSocioTableRow } from '@/components/atoms';
+import { useCallback } from 'react';
 
 export interface AtividadesSocioTableProps extends TableProps {
   categoria: string;
@@ -81,9 +83,9 @@ export const AtividadesSocioTable = ({
     },
   });
 
-  const handleRefetch = () => {
+  const handleRefetch = useCallback(() => {
     refetch();
-  };
+  }, [refetch]);
 
   return (
     <Table colorScheme="gray" {...rest}>

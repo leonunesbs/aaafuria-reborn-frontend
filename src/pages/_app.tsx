@@ -14,9 +14,9 @@ import { useRouter } from 'next/router';
 
 const ContextProviders: React.FC = ({ children }) => {
   return (
-    <AuthProvider>
-      <LoadingProvider>{children}</LoadingProvider>
-    </AuthProvider>
+    <LoadingProvider>
+      <AuthProvider>{children}</AuthProvider>
+    </LoadingProvider>
   );
 };
 

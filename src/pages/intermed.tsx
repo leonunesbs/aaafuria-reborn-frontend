@@ -12,7 +12,7 @@ import {
 } from '@chakra-ui/react';
 import { CustomButtom, PageHeading } from '@/components/atoms';
 import { gql, useMutation } from '@apollo/client';
-import { useContext, useRef } from 'react';
+import { useContext, useEffect, useRef } from 'react';
 
 import { AuthContext } from '@/contexts/AuthContext';
 import { Card } from '@/components/molecules';
@@ -31,7 +31,8 @@ const RESGATAR_INTERMED = gql`
 
 function Intermed() {
   const router = useRouter();
-  const { token, isSocio } = useContext(AuthContext);
+  const { token, isSocio, checkCredentials, isAuthenticated } =
+    useContext(AuthContext);
   const [resgatarIntermed] = useMutation(RESGATAR_INTERMED, {
     context: {
       headers: {
@@ -58,6 +59,13 @@ function Intermed() {
       handleResgate();
     }
   };
+
+  useEffect(() => {
+    checkCredentials();
+    if (!isAuthenticated) {
+      router.push(`/entrar?after=${router.asPath}`);
+    }
+  }, [checkCredentials, isAuthenticated, router]);
 
   return (
     <Layout title="Intermed">

@@ -9,7 +9,7 @@ export interface LayoutProps extends BoxProps {
   children: ReactNode;
   title: string;
   desc?: string;
-  kw?: string;
+  keywords?: string;
   isHeaded?: boolean;
   isFooted?: boolean;
 }
@@ -18,7 +18,7 @@ export const Layout = ({
   children,
   title,
   desc,
-  kw,
+  keywords,
   isFooted = true,
   isHeaded = true,
 }: LayoutProps) => {
@@ -40,7 +40,11 @@ export const Layout = ({
         />
         <meta
           name="keywords"
-          content={kw ? `${kw}` : 'aaafuria, atlética, fúria, medicina, sócio'}
+          content={
+            keywords
+              ? `${keywords}`
+              : 'aaafuria, atlética, fúria, medicina, sócio'
+          }
         />
         <link rel="canonical" href={`https://aaafuria.site${router.asPath}`} />
 

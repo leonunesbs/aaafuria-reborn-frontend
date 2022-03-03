@@ -1,3 +1,5 @@
+import { AtividadesSocioTable, Card } from '@/components/molecules';
+import { Box, HStack, Stack } from '@chakra-ui/react';
 import {
   CustomButtom,
   CustomChakraNextLink,
@@ -5,32 +7,40 @@ import {
   PageHeading,
   VoltarButton,
 } from '@/components/atoms';
-import { AtividadesSocioTable, Card } from '@/components/molecules';
-import { Layout } from '@/components/templates';
-import { AuthContext } from '@/contexts/AuthContext';
-import { Box, HStack, Stack } from '@chakra-ui/react';
-import { useRouter } from 'next/router';
-import { useContext, useEffect, useState } from 'react';
-import { AiOutlineCalendar } from 'react-icons/ai';
 import { FaDrum, FaPlus, FaVolleyballBall } from 'react-icons/fa';
+import { useCallback, useContext, useEffect, useState } from 'react';
+
+import { AiOutlineCalendar } from 'react-icons/ai';
+import { AuthContext } from '@/contexts/AuthContext';
+import { GetServerSideProps } from 'next';
+import { Layout } from '@/components/templates';
 import { MdManageAccounts } from 'react-icons/md';
+import { parseCookies } from 'nookies';
+import { useRouter } from 'next/router';
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 interface AtividadesProps {}
 
 function Atividades({}: AtividadesProps) {
-  const { isStaff, checkCredentials } = useContext(AuthContext);
+  const { isStaff, checkCredentials, isAuthenticated } =
+    useContext(AuthContext);
   const [categoria, setCategoria] = useState('Esporte');
   const router = useRouter();
 
-  const handleCategoria = (categoria: string) => {
-    setCategoria(categoria);
-    router.push(`/atividades?categoria=${categoria}`);
-  };
+  const handleCategoria = useCallback(
+    (categoria: string) => {
+      setCategoria(categoria);
+      router.push(`/atividades?categoria=${categoria}`);
+    },
+    [router],
+  );
 
   useEffect(() => {
     checkCredentials();
-  }, [checkCredentials, router]);
+    if (!isAuthenticated) {
+      router.push(`/entrar?after=${router.asPath}`);
+    }
+  }, [checkCredentials, isAuthenticated, router]);
 
   useEffect(() => {
     const query = router.query.categoria;
@@ -109,5 +119,24 @@ function Atividades({}: AtividadesProps) {
     </Layout>
   );
 }
+
+export const getServerSideProps: GetServerSideProps = async (ctx) => {
+  const { ['aaafuriaToken']: token } = parseCookies(ctx);
+
+  if (!token) {
+    return {
+      redirect: {
+        destination: `/entrar?after=${ctx.resolvedUrl}`,
+        permanent: false,
+      },
+    };
+  }
+
+  return {
+    props: {
+      token,
+    },
+  };
+};
 
 export default Atividades;
