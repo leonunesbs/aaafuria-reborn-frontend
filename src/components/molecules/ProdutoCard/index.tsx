@@ -218,7 +218,7 @@ export const ProdutoCard = ({ node }: ProdutoCardProps) => {
                   <Input
                     required
                     focusBorderColor="green.500"
-                    placeholder="Observações"
+                    placeholder="Digite algo importante aqui..."
                     {...register('observacoes', {
                       required: true,
                       maxLength: 100,
