@@ -221,6 +221,7 @@ export const ProdutoCard = ({ node }: ProdutoCardProps) => {
                     placeholder="Digite algo importante aqui..."
                     {...register('observacoes', {
                       required: true,
+                      minLength: 5,
                       maxLength: 100,
                     })}
                   />
