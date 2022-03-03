@@ -196,7 +196,7 @@ export const ProdutoCard = ({ node }: ProdutoCardProps) => {
                   </Text>
                 )}
               </Heading>
-              <Text>{node.descricao}</Text>
+              <Text fontSize="2xl">{node.descricao}</Text>
             </Stack>
             <HStack>
               {node.hasVariations && (
