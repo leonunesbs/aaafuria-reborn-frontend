@@ -291,7 +291,11 @@ function Eventos() {
                   }
                   isDisabled={node.evento.exclusivoSocios && !isSocio}
                 >
-                  {node.isGratuito ? 'Participar' : 'Ir para o pagamento'}
+                  {node.isGratuito
+                    ? 'Participar'
+                    : node.evento.exclusivoSocios && !isSocio
+                    ? 'Exclusivo para Sócios'
+                    : 'Ir para o pagamento'}
                 </CustomButtom>
               ) : (
                 <CustomButtom
