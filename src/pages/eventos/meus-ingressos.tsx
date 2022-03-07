@@ -12,6 +12,7 @@ import {
   useDisclosure,
 } from '@chakra-ui/react';
 import {
+  CustomChakraNextLink,
   CustomIconButton,
   PageHeading,
   VoltarButton,
@@ -78,36 +79,45 @@ function MeusEventos() {
             </Flex>
           )}
           {data?.userAuthenticatedIngressos?.map((ingresso: any) => (
-            <Table key={ingresso.id}>
-              <Thead>
-                <Tr>
-                  <Td>Lote - Evento</Td>
-                  <Td>Data de compra</Td>
-                  <Td>Ação</Td>
-                </Tr>
-              </Thead>
-              <Tbody>
-                <Tr>
-                  <Td>
-                    {ingresso.lote.nome} - {ingresso.lote.evento.nome}
-                  </Td>
-                  <Td>
-                    {new Date(ingresso?.dataCompra).toLocaleString('pt-BR', {
-                      dateStyle: 'short',
-                      timeStyle: 'short',
-                      timeZone: 'America/Sao_Paulo',
-                    })}
-                  </Td>
-                  <Td>
-                    <CustomIconButton
-                      aria-label="qr-code"
-                      icon={<FaQrcode size="25px" />}
-                      onClick={() => handleQrCode(ingresso.id)}
-                    />
-                  </Td>
-                </Tr>
-              </Tbody>
-            </Table>
+            <>
+              <CustomChakraNextLink
+                href={
+                  'https://docs.google.com/forms/d/e/1FAIpQLSdL1yB5rtoQjnWLXW65RVHtOcuUid7ODKPSe-rrR0mPX9A5wA/viewform?usp=sf_link'
+                }
+              >
+                Link para convidados
+              </CustomChakraNextLink>
+              <Table key={ingresso.id}>
+                <Thead>
+                  <Tr>
+                    <Td>Lote - Evento</Td>
+                    <Td>Data de compra</Td>
+                    <Td>Ação</Td>
+                  </Tr>
+                </Thead>
+                <Tbody>
+                  <Tr>
+                    <Td>
+                      {ingresso.lote.nome} - {ingresso.lote.evento.nome}
+                    </Td>
+                    <Td>
+                      {new Date(ingresso?.dataCompra).toLocaleString('pt-BR', {
+                        dateStyle: 'short',
+                        timeStyle: 'short',
+                        timeZone: 'America/Sao_Paulo',
+                      })}
+                    </Td>
+                    <Td>
+                      <CustomIconButton
+                        aria-label="qr-code"
+                        icon={<FaQrcode size="25px" />}
+                        onClick={() => handleQrCode(ingresso.id)}
+                      />
+                    </Td>
+                  </Tr>
+                </Tbody>
+              </Table>
+            </>
           ))}
         </Card>
         <Collapse in={isOpen} animateOpacity>
