@@ -69,7 +69,7 @@ function MeusEventos() {
     >
       <Box maxW="xl" mx="auto">
         <PageHeading>Meus ingressos</PageHeading>
-        <Card>
+        <Card overflowX={'auto'}>
           {data?.userAuthenticatedIngressos?.length == 0 && (
             <Flex align="center" justify="center" flexDirection="column" p={4}>
               <Text>
