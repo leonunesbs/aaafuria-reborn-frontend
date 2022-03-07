@@ -177,7 +177,7 @@ function Eventos() {
       >
         {data?.allLote?.edges?.map(({ node }: LoteType) => {
           return (
-            <Card key={node.nome} w="100%" px="0" py="0" overflow="hidden">
+            <Card key={node.id} w="100%" px="0" py="0" overflow="hidden">
               <Image
                 w="full"
                 objectFit="cover"

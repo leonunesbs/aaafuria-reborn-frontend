@@ -9,10 +9,11 @@ import {
   Text,
   Thead,
   Tr,
+  useClipboard,
   useDisclosure,
 } from '@chakra-ui/react';
 import {
-  CustomChakraNextLink,
+  CustomButtom,
   CustomIconButton,
   PageHeading,
   VoltarButton,
@@ -25,6 +26,7 @@ import { Card } from '@/components/molecules';
 import { FaQrcode } from 'react-icons/fa';
 import { GetServerSideProps } from 'next';
 import { Layout } from '@/components/templates';
+import { MdCopyAll } from 'react-icons/md';
 import QRCode from 'react-qr-code';
 import { parseCookies } from 'nookies';
 
@@ -44,6 +46,9 @@ const USER_INGRESSOS = gql`
 `;
 
 function MeusEventos() {
+  const { hasCopied, onCopy } = useClipboard(
+    'https://docs.google.com/forms/d/e/1FAIpQLSdL1yB5rtoQjnWLXW65RVHtOcuUid7ODKPSe-rrR0mPX9A5wA/viewform?usp=sf_link',
+  );
   const { token } = useContext(AuthContext);
   const [url, setUrl] = useState('');
   const { data } = useQuery(USER_INGRESSOS, {
@@ -80,13 +85,12 @@ function MeusEventos() {
           )}
           {data?.userAuthenticatedIngressos?.map((ingresso: any) => (
             <>
-              <CustomChakraNextLink
-                href={
-                  'https://docs.google.com/forms/d/e/1FAIpQLSdL1yB5rtoQjnWLXW65RVHtOcuUid7ODKPSe-rrR0mPX9A5wA/viewform?usp=sf_link'
-                }
+              <CustomButtom
+                onClick={onCopy}
+                leftIcon={!hasCopied ? <MdCopyAll size="25px" /> : <></>}
               >
-                Link para convidados
-              </CustomChakraNextLink>
+                {hasCopied ? 'Copiado!' : 'Copiar link convidados'}
+              </CustomButtom>
               <Table key={ingresso.id}>
                 <Thead>
                   <Tr>
