@@ -1,14 +1,4 @@
 import {
-  CustomButtom,
-  CustomChakraNextLink,
-  PageHeading,
-  VoltarButton,
-} from '@/components/atoms';
-import { Card } from '@/components/molecules';
-import { Layout } from '@/components/templates';
-import { AuthContext } from '@/contexts/AuthContext';
-import { gql, useMutation, useQuery } from '@apollo/client';
-import {
   Box,
   Center,
   Flex,
@@ -22,11 +12,22 @@ import {
   useColorModeValue,
   useToast,
 } from '@chakra-ui/react';
-import { useRouter } from 'next/router';
-import { parseCookies } from 'nookies';
-import { useCallback, useContext, useEffect, useState } from 'react';
-import { FaTicketAlt } from 'react-icons/fa';
+import {
+  CustomButtom,
+  CustomChakraNextLink,
+  PageHeading,
+  VoltarButton,
+} from '@/components/atoms';
 import { MdLogin, MdPayment, MdSend } from 'react-icons/md';
+import { gql, useMutation, useQuery } from '@apollo/client';
+import { useCallback, useContext, useEffect, useState } from 'react';
+
+import { AuthContext } from '@/contexts/AuthContext';
+import { Card } from '@/components/molecules';
+import { FaTicketAlt } from 'react-icons/fa';
+import { Layout } from '@/components/templates';
+import { parseCookies } from 'nookies';
+import { useRouter } from 'next/router';
 
 const LOTE_QUERY = gql`
   query getLotes {
@@ -40,6 +41,7 @@ const LOTE_QUERY = gql`
             imagem
             dataInicio
             fechado
+            exclusivoSocios
           }
           preco
           precoSocio
@@ -66,6 +68,7 @@ export type EventoType = {
   imagem: string;
   dataInicio: string;
   fechado: boolean;
+  exclusivoSocios: boolean;
 };
 
 export type LoteType = {
@@ -269,49 +272,36 @@ function Eventos() {
                   </form>
                 )}
               </Box>
-              {node.isGratuito ? (
+              {isAuthenticated ? (
                 <CustomButtom
                   leftIcon={
-                    isAuthenticated ? (
+                    node.isGratuito ? (
                       <MdSend size="25px" />
                     ) : (
-                      <MdLogin size="25px" />
+                      <MdPayment size="25px" />
                     )
                   }
                   borderTopRadius={0}
                   variant="solid"
                   isLoading={loading}
                   onClick={
-                    isAuthenticated
+                    node.isGratuito
                       ? () => handleParticipar(node.id)
-                      : () => router.push(`entrar?after=${router.asPath}`)
+                      : () => handleGoToPayment(node.id)
                   }
+                  isDisabled={node.evento.exclusivoSocios && !isSocio}
                 >
-                  {isAuthenticated
-                    ? 'Participar'
-                    : 'Faça login para participar'}
+                  {node.isGratuito ? 'Participar' : 'Ir para o pagamento'}
                 </CustomButtom>
               ) : (
                 <CustomButtom
-                  leftIcon={
-                    isAuthenticated ? (
-                      <MdPayment size="25px" />
-                    ) : (
-                      <MdLogin size="25px" />
-                    )
-                  }
+                  leftIcon={<MdLogin size="25px" />}
                   borderTopRadius={0}
-                  isLoading={loading}
                   variant="solid"
-                  onClick={
-                    isAuthenticated
-                      ? () => handleGoToPayment(node.id)
-                      : () => router.push(`entrar?after=${router.asPath}`)
-                  }
+                  isLoading={loading}
+                  onClick={() => router.push(`entrar?after=${router.asPath}`)}
                 >
-                  {isAuthenticated
-                    ? 'Ir para o pagamento'
-                    : 'Faça login para pagar'}
+                  Faça login para participar
                 </CustomButtom>
               )}
             </Card>
