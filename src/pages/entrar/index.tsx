@@ -22,7 +22,13 @@ import {
   CustomChakraNextLink,
   PageHeading,
 } from '@/components/atoms';
-import React, { useCallback, useContext, useEffect, useState } from 'react';
+import React, {
+  useCallback,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
 import { gql, useQuery } from '@apollo/client';
 
 import { AiFillHome } from 'react-icons/ai';
@@ -59,6 +65,7 @@ export default function Entrar() {
   const { after }: { after?: string } = router.query;
 
   const [login, setLogin] = useState(false);
+  const pinInputFieldRef = useRef<HTMLInputElement>(null);
 
   const { data, refetch } = useQuery<GetSocioData>(GET_SOCIO, {
     fetchPolicy: 'no-cache',
@@ -81,6 +88,7 @@ export default function Entrar() {
       refetch({ matricula }).then(({ data }) => {
         if (data.socioByMatricula) {
           setLogin(true);
+          pinInputFieldRef.current?.focus();
         } else if (matricula) {
           toast({
             description: 'Matrícula não encontrada. Cadastre-se!',
@@ -238,7 +246,7 @@ export default function Entrar() {
                           onComplete={() => handleSubmit(onSubmit)()}
                           {...field}
                         >
-                          <PinInputField />
+                          <PinInputField ref={pinInputFieldRef} />
                           <PinInputField />
                           <PinInputField />
                           <PinInputField />
