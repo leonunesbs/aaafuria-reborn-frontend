@@ -105,9 +105,13 @@ function Eventos() {
       setLoading(true);
       await novoIngresso({
         variables: { loteId },
-      }).then(({ data }) => {
-        router.push(data.novoIngresso?.ingresso?.stripeCheckoutUrl);
-      });
+      })
+        .then(({ data }) => {
+          router.push(data.novoIngresso?.ingresso?.stripeCheckoutUrl);
+        })
+        .catch((error) => {
+          alert(error.message);
+        });
       setLoading(false);
     },
     [novoIngresso, router],
@@ -117,26 +121,30 @@ function Eventos() {
       setLoading(true);
       await novoIngresso({
         variables: { loteId },
-      }).then(({ data }) => {
-        if (data.novoIngresso?.ok) {
-          toast({
-            description: 'Participação confirmada!',
-            status: 'success',
-            duration: 2500,
-            isClosable: true,
-            position: 'top-left',
-          });
-        } else {
-          toast({
-            title: 'Atenção',
-            description: 'Você já confirmou a sua participação.',
-            status: 'warning',
-            duration: 2500,
-            isClosable: true,
-            position: 'top-left',
-          });
-        }
-      });
+      })
+        .then(({ data }) => {
+          if (data.novoIngresso?.ok) {
+            toast({
+              description: 'Participação confirmada!',
+              status: 'success',
+              duration: 2500,
+              isClosable: true,
+              position: 'top-left',
+            });
+          } else {
+            toast({
+              title: 'Atenção',
+              description: 'Você já confirmou a sua participação.',
+              status: 'warning',
+              duration: 2500,
+              isClosable: true,
+              position: 'top-left',
+            });
+          }
+        })
+        .catch((error) => {
+          console.log(error.message);
+        });
       setLoading(false);
     },
     [novoIngresso, toast],
