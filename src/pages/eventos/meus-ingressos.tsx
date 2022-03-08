@@ -46,7 +46,7 @@ const USER_INGRESSOS = gql`
 `;
 
 function MeusEventos() {
-  const { hasCopied, onCopy } = useClipboard('https://bit.ly/3hOcSHR');
+  const { hasCopied, onCopy } = useClipboard('https://bit.ly/3MLq4f5');
   const { token } = useContext(AuthContext);
   const [url, setUrl] = useState('');
   const { data } = useQuery(USER_INGRESSOS, {
