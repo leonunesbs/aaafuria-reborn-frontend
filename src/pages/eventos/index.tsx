@@ -111,11 +111,17 @@ function Eventos() {
         })
         .catch((error) => {
           refetch();
-          alert(error.message);
+          toast({
+            description: error.message,
+            status: 'warning',
+            duration: 2500,
+            isClosable: true,
+            position: 'top-left',
+          });
         });
       setLoading(false);
     },
-    [novoIngresso, refetch, router],
+    [novoIngresso, refetch, router, toast],
   );
   const handleParticipar = useCallback(
     async (loteId: string) => {
@@ -144,7 +150,7 @@ function Eventos() {
           }
         })
         .catch((error) => {
-          console.log(error.message);
+          alert(error.message);
         });
       setLoading(false);
     },
