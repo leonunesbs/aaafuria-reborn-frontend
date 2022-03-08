@@ -110,7 +110,6 @@ const Ingresso = () => {
     (data && data) || {};
 
   const handleInvalidarIngresso = useCallback(async () => {
-    onClose();
     await invalidarIngresso({
       variables: { id },
     })
@@ -127,6 +126,7 @@ const Ingresso = () => {
       .catch((error) => {
         alert(error.message);
       });
+    onClose();
   }, [id, invalidarIngresso, onClose, refetch, toast]);
 
   useEffect(() => {
@@ -268,11 +268,7 @@ const Ingresso = () => {
                 </AlertDialogBody>
 
                 <AlertDialogFooter>
-                  <CustomButtom
-                    ref={cancelRef}
-                    colorScheme="gray"
-                    onClick={onClose}
-                  >
+                  <CustomButtom colorScheme="gray" onClick={onClose}>
                     Cancel
                   </CustomButtom>
                   <CustomButtom
