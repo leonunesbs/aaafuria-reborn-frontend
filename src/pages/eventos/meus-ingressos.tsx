@@ -46,9 +46,7 @@ const USER_INGRESSOS = gql`
 `;
 
 function MeusEventos() {
-  const { hasCopied, onCopy } = useClipboard(
-    'https://docs.google.com/forms/d/e/1FAIpQLSdL1yB5rtoQjnWLXW65RVHtOcuUid7ODKPSe-rrR0mPX9A5wA/viewform?usp=sf_link',
-  );
+  const { hasCopied, onCopy } = useClipboard('https://bit.ly/3hOcSHR');
   const { token } = useContext(AuthContext);
   const [url, setUrl] = useState('');
   const { data } = useQuery(USER_INGRESSOS, {
