@@ -1,8 +1,3 @@
-import { CustomButtom, PageHeading } from '@/components/atoms';
-import { Card } from '@/components/molecules';
-import { Layout } from '@/components/templates';
-import { AuthContext } from '@/contexts/AuthContext';
-import { gql, useMutation, useQuery } from '@apollo/client';
 import {
   AlertDialog,
   AlertDialogBody,
@@ -17,11 +12,17 @@ import {
   useDisclosure,
   useToast,
 } from '@chakra-ui/react';
-import { GetServerSideProps } from 'next';
-import { useRouter } from 'next/router';
-import { parseCookies } from 'nookies';
+import { CustomButtom, PageHeading } from '@/components/atoms';
+import { gql, useMutation, useQuery } from '@apollo/client';
 import { useCallback, useContext, useEffect, useRef } from 'react';
+
+import { AuthContext } from '@/contexts/AuthContext';
+import { Card } from '@/components/molecules';
+import { GetServerSideProps } from 'next';
+import { Layout } from '@/components/templates';
 import { MdCheck } from 'react-icons/md';
+import { parseCookies } from 'nookies';
+import { useRouter } from 'next/router';
 
 const INGRESSO_BY_ID = gql`
   query ingressoById($id: ID!) {
@@ -108,28 +109,24 @@ const Ingresso = () => {
   const { ingressoById: ingresso }: { ingressoById: IngressoProps } =
     (data && data) || {};
 
-  const handleInvalidarIngresso = useCallback(() => {
+  const handleInvalidarIngresso = useCallback(async () => {
     onClose();
-    invalidarIngresso({
+    await invalidarIngresso({
       variables: { id },
-    }).then(
-      ({
-        data: {
-          invalidarIngresso: { ok },
-        },
-      }) => {
-        if (ok) {
-          toast({
-            title: 'Ingresso invalidado com sucesso!',
-            status: 'success',
-            duration: 5000,
-            position: 'top-left',
-            isClosable: true,
-          });
-          refetch();
-        }
-      },
-    );
+    })
+      .then(() => {
+        toast({
+          title: 'Ingresso invalidado com sucesso!',
+          status: 'success',
+          duration: 5000,
+          position: 'top-left',
+          isClosable: true,
+        });
+        refetch();
+      })
+      .catch((error) => {
+        alert(error.message);
+      });
   }, [id, invalidarIngresso, onClose, refetch, toast]);
 
   useEffect(() => {
