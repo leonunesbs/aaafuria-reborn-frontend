@@ -86,7 +86,7 @@ export type LoteType = {
 function Eventos() {
   const router = useRouter();
   const toast = useToast();
-  const { data } = useQuery(LOTE_QUERY);
+  const { data, refetch } = useQuery(LOTE_QUERY);
   const { isSocio, isAuthenticated, checkCredentials } =
     useContext(AuthContext);
   const green = useColorModeValue('green.600', 'green.200');
@@ -110,11 +110,12 @@ function Eventos() {
           router.push(data.novoIngresso?.ingresso?.stripeCheckoutUrl);
         })
         .catch((error) => {
+          refetch();
           alert(error.message);
         });
       setLoading(false);
     },
-    [novoIngresso, router],
+    [novoIngresso, refetch, router],
   );
   const handleParticipar = useCallback(
     async (loteId: string) => {
