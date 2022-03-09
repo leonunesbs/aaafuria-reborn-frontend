@@ -239,13 +239,11 @@ function Eventos() {
                 </PageHeading>
                 <PageHeading as="h3" fontWeight="normal" fontSize="lg">
                   <em>
-                    {new Date(node.evento.dataInicio).toLocaleDateString(
-                      'pt-BR',
-                      {
-                        dateStyle: 'long',
-                        timeZone: 'America/Sao_Paulo',
-                      },
-                    )}
+                    {new Date(node.evento.dataInicio).toLocaleString('pt-BR', {
+                      dateStyle: 'long',
+                      timeStyle: 'short',
+                      timeZone: 'America/Sao_Paulo',
+                    })}
                   </em>
                 </PageHeading>
                 <PageHeading as="h3" fontWeight="normal" fontSize="lg">
