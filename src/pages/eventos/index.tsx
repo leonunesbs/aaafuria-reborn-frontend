@@ -1,6 +1,7 @@
 import {
   Box,
   Center,
+  Divider,
   Flex,
   FormControl,
   Image,
@@ -18,13 +19,13 @@ import {
   PageHeading,
   VoltarButton,
 } from '@/components/atoms';
+import { FaTicketAlt, FaWhatsapp } from 'react-icons/fa';
 import { MdLogin, MdPayment, MdSend } from 'react-icons/md';
 import { gql, useMutation, useQuery } from '@apollo/client';
 import { useCallback, useContext, useEffect, useState } from 'react';
 
 import { AuthContext } from '@/contexts/AuthContext';
 import { Card } from '@/components/molecules';
-import { FaTicketAlt } from 'react-icons/fa';
 import { Layout } from '@/components/templates';
 import { parseCookies } from 'nookies';
 import { useRouter } from 'next/router';
@@ -88,10 +89,10 @@ export type LoteType = {
 function Eventos() {
   const router = useRouter();
   const toast = useToast();
-  const { data, refetch } = useQuery(LOTE_QUERY);
   const { isSocio, isAuthenticated, checkCredentials } =
     useContext(AuthContext);
   const green = useColorModeValue('green.600', 'green.200');
+  const { data, refetch } = useQuery(LOTE_QUERY);
   const [loading, setLoading] = useState(false);
 
   const [novoIngresso] = useMutation(NOVO_INGRESSO_MUTATION, {
@@ -116,9 +117,26 @@ function Eventos() {
             refetch();
             toast({
               title: 'Reserva confirmada!',
-              description: 'Efetue o pagamento presencialmente.',
+              description: (
+                <Box mx="auto">
+                  <Text>
+                    Faça um PIX para <strong>pix@aaafuria.site</strong>.
+                  </Text>
+                  <CustomButtom
+                    colorScheme={'green'}
+                    variant="solid"
+                    leftIcon={<FaWhatsapp size="25px" />}
+                    shadow="base"
+                    onClick={() =>
+                      window.open('https://wa.me/558694282438', '_blank')
+                    }
+                  >
+                    Enviar comprovante
+                  </CustomButtom>
+                </Box>
+              ),
               status: 'success',
-              duration: 2500,
+              duration: 1000 * 60,
               isClosable: true,
               position: 'top-left',
             });
@@ -301,6 +319,14 @@ function Eventos() {
                     </Box>
                   </form>
                 )}
+                <Divider />
+                <Text textAlign={'center'} fontSize="sm" color={green}>
+                  <em>
+                    *Este ingresso, após a compra, é pessoal e intransferível. O
+                    acesso ao evento é restrito ao titular do ingresso com a
+                    devida apresentação do mesmo na portaria.
+                  </em>
+                </Text>
               </Box>
               {isAuthenticated ? (
                 <CustomButtom
