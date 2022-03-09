@@ -260,9 +260,9 @@ function Solicitacoes() {
               <Thead>
                 <Tr>
                   <Th></Th>
+                  <Th>Título</Th>
                   <Th>Atualizado em</Th>
                   <Th>Aberto em</Th>
-                  <Th>Título</Th>
                   <Th>Status</Th>
                   <Th>Prioridade</Th>
                 </Tr>
@@ -328,6 +328,7 @@ function Solicitacoes() {
                         </Box>
                       </HStack>
                     </Th>
+                    <Th>{issue.node.title}</Th>
                     <Th>
                       {new Date(issue.node.updatedAt).toLocaleString('pt-BR', {
                         dateStyle: 'short',
@@ -342,7 +343,6 @@ function Solicitacoes() {
                         timeZone: 'America/Sao_Paulo',
                       })}
                     </Th>
-                    <Th>{issue.node.title}</Th>
                     <Th>
                       <Badge
                         colorScheme={

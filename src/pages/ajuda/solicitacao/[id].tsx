@@ -9,6 +9,7 @@ import {
   Box,
   Divider,
   HStack,
+  Skeleton,
   Stack,
   Text,
   useDisclosure,
@@ -116,7 +117,7 @@ function Solicitacao() {
     useContext(AuthContext);
   const { id = '0' } = router.query;
 
-  const { data, refetch } = useQuery<QueryData>(GET_ISSUE, {
+  const { data, refetch, loading } = useQuery<QueryData>(GET_ISSUE, {
     variables: { id },
     context: {
       headers: {
@@ -126,11 +127,12 @@ function Solicitacao() {
   });
 
   useEffect(() => {
+    refetch();
     checkCredentials();
     if (!isAuthenticated) {
       router.push(`/entrar?after=${router.asPath}`);
     }
-  }, [checkCredentials, isAuthenticated, router]);
+  }, [checkCredentials, isAuthenticated, refetch, router]);
 
   const [closeIssue] = useMutation(CLOSE_ISSUE, {
     context: {
@@ -196,23 +198,25 @@ function Solicitacao() {
 
   return (
     <Layout title="Solicitação">
-      <Stack maxW="5xl" mx="auto">
+      <Stack maxW="7xl" mx="auto" spacing={4}>
         <Box>
           <PageHeading>Solicitação</PageHeading>
           <Card>
             <HStack justify={'space-between'} mb={2}>
-              <Badge
-                fontSize={'md'}
-                colorScheme={
-                  data?.issue.status === 'Open'
-                    ? 'green'
-                    : data?.issue.status === 'In Progress'
-                    ? 'yellow'
-                    : 'red'
-                }
-              >
-                {data?.issue.status}
-              </Badge>
+              <Skeleton isLoaded={!loading}>
+                <Badge
+                  fontSize={'md'}
+                  colorScheme={
+                    data?.issue.status === 'Open'
+                      ? 'green'
+                      : data?.issue.status === 'In Progress'
+                      ? 'yellow'
+                      : 'red'
+                  }
+                >
+                  {data?.issue.status}
+                </Badge>
+              </Skeleton>
               <HStack>
                 <Box>
                   <CustomIconButton
@@ -263,14 +267,18 @@ function Solicitacao() {
                 </Box>
               </HStack>
             </HStack>
-            <Box mb={2}>
-              <Text fontSize={'xl'} fontWeight={'bold'}>
-                {data?.issue.title}
-              </Text>
-              <Divider />
-            </Box>
-            <Text>{data?.issue.description}</Text>
-            <Box mt={4}>
+            <Skeleton isLoaded={!loading}>
+              <Box mb={2}>
+                <Text fontSize={'xl'} fontWeight={'bold'}>
+                  {data?.issue.title}
+                </Text>
+                <Divider />
+              </Box>
+            </Skeleton>
+            <Skeleton isLoaded={!loading}>
+              <Text>{data?.issue.description}</Text>
+            </Skeleton>
+            <Box>
               <Text textAlign={'right'} fontSize="sm">
                 <CustomChakraNextLink
                   href={`https://diretoria.aaafuria.site/admin/core/socio/?q=${data?.issue.author.matricula}`}
