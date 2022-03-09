@@ -120,7 +120,10 @@ function Eventos() {
               description: (
                 <Box mx="auto">
                   <Text>
-                    Faça um PIX para <strong>pix@aaafuria.site</strong>.
+                    Faça um PIX para <strong>mccvo14@gmail.com</strong>.
+                  </Text>
+                  <Text textAlign={'center'} fontSize="sm">
+                    <em>Maria Clara e Vasconcelos Oliveira</em>
                   </Text>
                   <CustomButtom
                     colorScheme={'green'}
@@ -225,7 +228,14 @@ function Eventos() {
       >
         {data?.allLote?.edges?.map(({ node }: LoteType) => {
           return (
-            <Card key={node.id} w="100%" px="0" py="0" overflow="hidden">
+            <Card
+              key={node.id}
+              w="100%"
+              px="0"
+              py="0"
+              overflow="hidden"
+              variant={node.presencial ? 'success' : ''}
+            >
               <Image
                 w="full"
                 objectFit="cover"
@@ -246,7 +256,7 @@ function Eventos() {
                     })}
                   </em>
                 </PageHeading>
-                <PageHeading as="h3" fontWeight="normal" fontSize="lg">
+                <PageHeading as="h3" fontWeight="normal" fontSize="2xl">
                   {node.nome}
                 </PageHeading>
                 <Flex
@@ -261,15 +271,23 @@ function Eventos() {
                     </Box>
                   ) : (
                     <>
-                      <Box textColor={isSocio ? green : 'inherit'}>
+                      <Box textColor={green}>
                         <Text>SÓCIO</Text>
-                        <Text fontWeight={'bold'} fontSize={'lg'}>
+                        <Text
+                          fontWeight={'extrabold'}
+                          fontSize={'3xl'}
+                          textShadow="base"
+                        >
                           R$ {node.precoSocio}
                         </Text>
                       </Box>
-                      <Box textColor={!isSocio ? green : 'inherit'}>
+                      <Box>
                         <Text>NÃO SÓCIO</Text>
-                        <Text fontWeight={'bold'} fontSize={'lg'}>
+                        <Text
+                          fontWeight={'extrabold'}
+                          fontSize={'3xl'}
+                          textShadow="base"
+                        >
                           R$ {node.preco}
                         </Text>
                       </Box>
