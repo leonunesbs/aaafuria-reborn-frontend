@@ -105,11 +105,24 @@ function Eventos() {
   const handleGoToPayment = useCallback(
     async (loteId: string, presencial: boolean) => {
       setLoading(true);
+      console.log(presencial);
       await novoIngresso({
         variables: { loteId, presencial },
       })
         .then(({ data }) => {
-          router.push(data.novoIngresso?.ingresso?.stripeCheckoutUrl);
+          if (!presencial) {
+            router.push(data.novoIngresso?.ingresso?.stripeCheckoutUrl);
+          } else {
+            refetch();
+            toast({
+              title: 'Reserva confirmada!',
+              description: 'Efetue o pagamento presencialmente.',
+              status: 'success',
+              duration: 2500,
+              isClosable: true,
+              position: 'top-left',
+            });
+          }
         })
         .catch((error) => {
           refetch();
