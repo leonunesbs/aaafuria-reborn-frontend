@@ -312,7 +312,7 @@ function Eventos() {
                     : node.evento.exclusivoSocios && !isSocio
                     ? 'Exclusivo para Sócios'
                     : node.presencial
-                    ? 'Resevar'
+                    ? 'Reservar'
                     : 'Reservar e pagar'}
                 </CustomButtom>
               ) : (
