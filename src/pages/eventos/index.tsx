@@ -47,6 +47,7 @@ const LOTE_QUERY = gql`
           precoSocio
           precoConvidado
           isGratuito
+          presencial
         }
       }
     }
