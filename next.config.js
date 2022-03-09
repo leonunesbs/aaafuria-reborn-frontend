@@ -1,4 +1,5 @@
 const withPWA = require('next-pwa');
+const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 
 module.exports = withPWA({
   pwa: {
@@ -6,6 +7,18 @@ module.exports = withPWA({
     register: true,
     skipWaiting: true,
     disable: process.env.NODE_ENV === 'development',
+  },
+  webpack: (config, { buildId, dev, isServer, defaultLoaders, webpack }) => {
+    if (process.env.ANALYZE) {
+      config.plugins.push(
+        new BundleAnalyzerPlugin({
+          analyzerMode: 'server',
+          analyzerPort: isServer ? 8888 : 8889,
+          openAnalyzer: true,
+        }),
+      );
+    }
+    return config;
   },
   reactStrictMode: true,
   images: {
@@ -15,5 +28,6 @@ module.exports = withPWA({
     BACKEND_DOMAIN: 'https://backend.aaafuria.site',
     NEXT_PUBLIC_GA_ID: 'G-K5LPGWWJL1',
     PUBLIC_AWS_URI: 'https://aaafuria-reborn.s3.sa-east-1.amazonaws.com/public',
+    ANALYZE: false,
   },
 });
