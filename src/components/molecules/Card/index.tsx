@@ -1,5 +1,6 @@
-import React from 'react';
 import { Box, BoxProps } from '@chakra-ui/react';
+
+import React from 'react';
 import { useColorModeValue } from '@chakra-ui/color-mode';
 
 export interface CardProps extends BoxProps {
@@ -9,9 +10,9 @@ export interface CardProps extends BoxProps {
 
 export const Card = ({ children, variant, ...rest }: CardProps) => {
   const bg = useColorModeValue('white', 'gray.800');
-  const greenBg = useColorModeValue('green.100', 'green.900');
+  const greenBg = useColorModeValue('green.50', 'green.900');
   const redBg = useColorModeValue('red.50', 'red.700');
-  const green = useColorModeValue('green.500', 'green.500');
+  const green = useColorModeValue('green.500', 'green.800');
   const red = useColorModeValue('red.600', 'red.200');
   if (variant === 'error') {
     return (

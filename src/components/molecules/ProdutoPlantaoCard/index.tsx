@@ -16,7 +16,6 @@ import { useCallback, useState } from 'react';
 
 import { Card } from '@/components/molecules';
 import { CustomButtom } from '@/components/atoms';
-import InputMask from 'react-input-mask';
 import { MdShoppingCart } from 'react-icons/md';
 import { ProdutoType } from '../../organisms/LojaPlantao';
 import { parseCookies } from 'nookies';

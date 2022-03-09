@@ -7,6 +7,7 @@ import { ApolloProvider } from '@apollo/client';
 import { AppProps } from 'next/app';
 import { AuthProvider } from '@/contexts/AuthContext';
 import { ChakraProvider } from '@chakra-ui/provider';
+import { ColorProvider } from '@/contexts/ColorContext';
 import { LoadingProvider } from '@/contexts/LoadingContext';
 import client from '../services/apollo-client';
 import { theme } from '@/styles/theme';
@@ -15,7 +16,9 @@ import { useRouter } from 'next/router';
 const ContextProviders: React.FC = ({ children }) => {
   return (
     <LoadingProvider>
-      <AuthProvider>{children}</AuthProvider>
+      <ColorProvider>
+        <AuthProvider>{children}</AuthProvider>
+      </ColorProvider>
     </LoadingProvider>
   );
 };

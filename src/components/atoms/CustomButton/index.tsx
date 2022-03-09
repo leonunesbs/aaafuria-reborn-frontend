@@ -1,5 +1,7 @@
-import { Button, ButtonProps, useColorModeValue } from '@chakra-ui/react';
-import { forwardRef, ReactNode } from 'react';
+import { Button, ButtonProps } from '@chakra-ui/react';
+import { ReactNode, forwardRef, useContext } from 'react';
+
+import { ColorContext } from '@/contexts/ColorContext';
 import { FiExternalLink } from 'react-icons/fi';
 
 export interface CustomButtomProps extends ButtonProps {
@@ -9,7 +11,7 @@ export interface CustomButtomProps extends ButtonProps {
 
 export const CustomButton = forwardRef<HTMLButtonElement, CustomButtomProps>(
   ({ children, hasExternalIcon, ...rest }, ref) => {
-    const green = useColorModeValue('green.600', 'green.200');
+    const { green } = useContext(ColorContext);
     return (
       <Button
         ref={ref}

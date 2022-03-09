@@ -13,6 +13,7 @@ import {
   Skeleton,
   Spinner,
   Stack,
+  Text,
   chakra,
 } from '@chakra-ui/react';
 import {
@@ -23,6 +24,7 @@ import {
 import React, { useContext, useEffect } from 'react';
 
 import { AuthContext } from '@/contexts/AuthContext';
+import { ColorContext } from '@/contexts/ColorContext';
 import { Layout } from '@/components/templates';
 import { LoadingContext } from '@/contexts/LoadingContext';
 import { MdLogin } from 'react-icons/md';
@@ -35,6 +37,7 @@ export default function Home({}: HomeProps) {
     useContext(AuthContext);
   const { loading, setLoading } = useContext(LoadingContext);
   const ChakraNextImage = chakra(NextImage);
+  const { green } = useContext(ColorContext);
 
   useEffect(() => {
     checkCredentials();
@@ -103,6 +106,20 @@ export default function Home({}: HomeProps) {
             </Stack>
           </Card>
         </Skeleton>
+        <Text as="em" textAlign="center">
+          Precisa de ajuda?{' '}
+          <CustomChakraNextLink
+            href="/ajuda/minhas-solicitacoes"
+            chakraLinkProps={{
+              color: green,
+              _hover: {
+                textDecoration: 'underline',
+              },
+            }}
+          >
+            Clique aqui
+          </CustomChakraNextLink>
+        </Text>
         <SocialIcons />
       </Stack>
     </Layout>

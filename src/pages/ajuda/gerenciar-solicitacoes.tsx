@@ -51,7 +51,7 @@ interface QueryData {
   };
 }
 
-function Solicitacoes() {
+function GerenciarSolicitacoes() {
   const { token } = useContext(AuthContext);
   const { data } = useQuery<QueryData>(GET_ISSUES, {
     context: {
@@ -61,9 +61,9 @@ function Solicitacoes() {
     },
   });
   return (
-    <Layout title="Solicitações">
+    <Layout title="Gerenciar solicitações">
       <Box maxW="5xl" mx="auto">
-        <PageHeading>Solicitações</PageHeading>
+        <PageHeading>Gerenciar solicitações</PageHeading>
         <Card overflowX="auto">
           <Table>
             <Thead>
@@ -81,7 +81,7 @@ function Solicitacoes() {
                 <Tr key={node.id}>
                   <Th>
                     <CustomChakraNextLink
-                      href={`/areadiretor/solicitacao/${node.id}`}
+                      href={`/ajuda/solicitacao/${node.id}`}
                     >
                       <CustomIconButton
                         aria-label="view"
@@ -101,9 +101,9 @@ function Solicitacoes() {
                   <Th>
                     <Badge
                       colorScheme={
-                        node.status === 'OPEN'
+                        node.status === 'Open'
                           ? 'green'
-                          : node.status === 'IN_PROGRESS'
+                          : node.status === 'In Progress'
                           ? 'yellow'
                           : 'red'
                       }
@@ -129,10 +129,10 @@ function Solicitacoes() {
             </Tbody>
           </Table>
         </Card>
-        <VoltarButton href="/" />
+        <VoltarButton href="/ajuda/minhas-solicitacoes" />
       </Box>
     </Layout>
   );
 }
 
-export default Solicitacoes;
+export default GerenciarSolicitacoes;
