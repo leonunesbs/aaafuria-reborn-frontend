@@ -53,8 +53,8 @@ const LOTE_QUERY = gql`
   }
 `;
 const NOVO_INGRESSO_MUTATION = gql`
-  mutation ($loteId: ID!) {
-    novoIngresso(loteId: $loteId) {
+  mutation ($loteId: ID!, $presencial: Boolean) {
+    novoIngresso(loteId: $loteId, presencial: $presencial) {
       ok
       ingresso {
         stripeCheckoutUrl
@@ -80,6 +80,7 @@ export type LoteType = {
     precoSocio: number;
     precoConvidado: number;
     isGratuito: boolean;
+    presencial: boolean;
   };
 };
 
@@ -101,10 +102,10 @@ function Eventos() {
   });
 
   const handleGoToPayment = useCallback(
-    async (loteId: string) => {
+    async (loteId: string, presencial: boolean) => {
       setLoading(true);
       await novoIngresso({
-        variables: { loteId },
+        variables: { loteId, presencial },
       })
         .then(({ data }) => {
           router.push(data.novoIngresso?.ingresso?.stripeCheckoutUrl);
@@ -302,7 +303,7 @@ function Eventos() {
                   onClick={
                     node.isGratuito
                       ? () => handleParticipar(node.id)
-                      : () => handleGoToPayment(node.id)
+                      : () => handleGoToPayment(node.id, node.presencial)
                   }
                   isDisabled={node.evento.exclusivoSocios && !isSocio}
                 >
@@ -310,7 +311,9 @@ function Eventos() {
                     ? 'Participar'
                     : node.evento.exclusivoSocios && !isSocio
                     ? 'Exclusivo para Sócios'
-                    : 'Ir para o pagamento'}
+                    : node.presencial
+                    ? 'Resevar'
+                    : 'Reservar e pagar'}
                 </CustomButtom>
               ) : (
                 <CustomButtom
