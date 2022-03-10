@@ -24,7 +24,7 @@ import {
 } from '@/components/atoms';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { gql, useMutation, useQuery } from '@apollo/client';
-import { useCallback, useContext } from 'react';
+import { useCallback, useContext, useEffect } from 'react';
 
 import { AiFillSetting } from 'react-icons/ai';
 import { AuthContext } from '@/contexts/AuthContext';
@@ -32,8 +32,11 @@ import { Card } from '@/components/molecules';
 import { ColorContext } from '@/contexts/ColorContext';
 import { CustomButton } from '@/components/atoms/CustomButton';
 import { FaEye } from 'react-icons/fa';
+import { GetServerSideProps } from 'next';
 import { Layout } from '@/components/templates';
 import { MdSend } from 'react-icons/md';
+import { parseCookies } from 'nookies';
+import router from 'next/router';
 
 type Inputs = {
   title: string;
@@ -98,7 +101,8 @@ function Solicitacoes() {
   const toast = useToast();
   const { register, handleSubmit, reset } = useForm<Inputs>();
   const { green } = useContext(ColorContext);
-  const { token, isStaff } = useContext(AuthContext);
+  const { token, isStaff, checkCredentials, isAuthenticated } =
+    useContext(AuthContext);
 
   const { data, refetch } = useQuery<QueryData>(GET_ISSUES, {
     context: {
@@ -115,6 +119,14 @@ function Solicitacoes() {
       },
     },
   });
+
+  useEffect(() => {
+    refetch();
+    checkCredentials();
+    if (!isAuthenticated) {
+      router.push(`/entrar?after=${router.asPath}`);
+    }
+  }, [checkCredentials, isAuthenticated, refetch]);
 
   const onSubmit: SubmitHandler<Inputs> = useCallback(
     async ({ title, description, priority, category }: Inputs) => {
@@ -296,5 +308,24 @@ function Solicitacoes() {
     </Layout>
   );
 }
+
+export const getServerSideProps: GetServerSideProps = async (ctx) => {
+  const { ['aaafuriaToken']: token } = parseCookies(ctx);
+
+  if (!token) {
+    return {
+      redirect: {
+        destination: `/entrar?after=${ctx.resolvedUrl}`,
+        permanent: false,
+      },
+    };
+  }
+
+  return {
+    props: {
+      token,
+    },
+  };
+};
 
 export default Solicitacoes;

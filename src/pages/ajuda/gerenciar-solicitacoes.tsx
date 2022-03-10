@@ -6,12 +6,15 @@ import {
   VoltarButton,
 } from '@/components/atoms';
 import { gql, useQuery } from '@apollo/client';
+import { useContext, useEffect } from 'react';
 
 import { AuthContext } from '@/contexts/AuthContext';
 import { Card } from '@/components/molecules';
 import { FaEye } from 'react-icons/fa';
+import { GetServerSideProps } from 'next';
 import { Layout } from '@/components/templates';
-import { useContext } from 'react';
+import { parseCookies } from 'nookies';
+import { useRouter } from 'next/router';
 
 const GET_ISSUES = gql`
   query {
@@ -52,14 +55,24 @@ interface QueryData {
 }
 
 function GerenciarSolicitacoes() {
-  const { token } = useContext(AuthContext);
-  const { data } = useQuery<QueryData>(GET_ISSUES, {
+  const router = useRouter();
+  const { token, isStaff, checkCredentials, isAuthenticated } =
+    useContext(AuthContext);
+  const { data, refetch } = useQuery<QueryData>(GET_ISSUES, {
     context: {
       headers: {
         authorization: `JWT ${token}`,
       },
     },
   });
+
+  useEffect(() => {
+    refetch();
+    checkCredentials();
+    if (!isAuthenticated || !isStaff) {
+      router.push(`/entrar?after=${router.asPath}`);
+    }
+  }, [checkCredentials, isAuthenticated, isStaff, refetch, router]);
   return (
     <Layout title="Gerenciar solicitações">
       <Box maxW="5xl" mx="auto">
@@ -134,5 +147,24 @@ function GerenciarSolicitacoes() {
     </Layout>
   );
 }
+
+export const getServerSideProps: GetServerSideProps = async (ctx) => {
+  const { ['aaafuriaToken']: token } = parseCookies(ctx);
+
+  if (!token) {
+    return {
+      redirect: {
+        destination: `/entrar?after=${ctx.resolvedUrl}`,
+        permanent: false,
+      },
+    };
+  }
+
+  return {
+    props: {
+      token,
+    },
+  };
+};
 
 export default GerenciarSolicitacoes;
