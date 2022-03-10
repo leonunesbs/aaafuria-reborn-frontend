@@ -178,13 +178,16 @@ function Solicitacao() {
     },
   });
 
-  const [createComment] = useMutation(CREATE_COMMENT, {
-    context: {
-      headers: {
-        authorization: `JWT ${token}`,
+  const [createComment, { loading: createCommentLoading }] = useMutation(
+    CREATE_COMMENT,
+    {
+      context: {
+        headers: {
+          authorization: `JWT ${token}`,
+        },
       },
     },
-  });
+  );
 
   const handleOpenIssue = useCallback(
     async (id: string) => {
@@ -490,6 +493,7 @@ function Solicitacao() {
                 leftIcon={<MdSend size="20px" />}
                 variant={'solid'}
                 type="submit"
+                isLoading={createCommentLoading}
               >
                 Enviar
               </CustomButtom>
