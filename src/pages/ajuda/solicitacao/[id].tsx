@@ -467,6 +467,7 @@ function Solicitacao() {
               <Textarea
                 placeholder="Digite aqui um comentário..."
                 focusBorderColor={green}
+                autoFocus
                 {...register('description')}
               />
             </DrawerBody>
