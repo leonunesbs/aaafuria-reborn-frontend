@@ -9,6 +9,7 @@ import {
   Stack,
   Table,
   Tbody,
+  Td,
   Textarea,
   Th,
   Thead,
@@ -234,7 +235,7 @@ function Solicitacoes() {
               <Tbody>
                 {data?.socioIssues?.edges.map((issue) => (
                   <Tr key={issue.node.id}>
-                    <Th>
+                    <Td>
                       <HStack>
                         <CustomChakraNextLink
                           href={`/ajuda/solicitacao/${issue.node.id}`}
@@ -245,23 +246,23 @@ function Solicitacoes() {
                           />
                         </CustomChakraNextLink>
                       </HStack>
-                    </Th>
-                    <Th>{issue.node.title}</Th>
-                    <Th>
+                    </Td>
+                    <Td>{issue.node.title}</Td>
+                    <Td>
                       {new Date(issue.node.updatedAt).toLocaleString('pt-BR', {
                         dateStyle: 'short',
                         timeStyle: 'short',
                         timeZone: 'America/Sao_Paulo',
                       })}
-                    </Th>
-                    <Th>
+                    </Td>
+                    <Td>
                       {new Date(issue.node.createdAt).toLocaleString('pt-BR', {
                         dateStyle: 'short',
                         timeStyle: 'short',
                         timeZone: 'America/Sao_Paulo',
                       })}
-                    </Th>
-                    <Th>
+                    </Td>
+                    <Td>
                       <Badge
                         colorScheme={
                           issue.node.status === 'Open'
@@ -273,8 +274,8 @@ function Solicitacoes() {
                       >
                         {issue.node.status}
                       </Badge>
-                    </Th>
-                    <Th>
+                    </Td>
+                    <Td>
                       <Badge
                         colorScheme={
                           issue.node.priority === 'LOW'
@@ -286,7 +287,7 @@ function Solicitacoes() {
                       >
                         {issue.node.priority}
                       </Badge>
-                    </Th>
+                    </Td>
                   </Tr>
                 ))}
               </Tbody>

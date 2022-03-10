@@ -1,4 +1,4 @@
-import { Badge, Box, Table, Tbody, Th, Thead, Tr } from '@chakra-ui/react';
+import { Badge, Box, Table, Tbody, Td, Th, Thead, Tr } from '@chakra-ui/react';
 import {
   CustomChakraNextLink,
   CustomIconButton,
@@ -92,7 +92,7 @@ function GerenciarSolicitacoes() {
             <Tbody>
               {data?.allIssues?.edges?.map(({ node }) => (
                 <Tr key={node.id}>
-                  <Th>
+                  <Td>
                     <CustomChakraNextLink
                       href={`/ajuda/solicitacao/${node.id}`}
                     >
@@ -101,17 +101,17 @@ function GerenciarSolicitacoes() {
                         icon={<FaEye size="15px" />}
                       />
                     </CustomChakraNextLink>
-                  </Th>
-                  <Th>
+                  </Td>
+                  <Td>
                     {new Date(node.createdAt).toLocaleString('pt-BR', {
                       dateStyle: 'short',
                       timeStyle: 'short',
                       timeZone: 'America/Sao_Paulo',
                     })}
-                  </Th>
-                  <Th>{node.title}</Th>
-                  <Th>{node.author.apelido}</Th>
-                  <Th>
+                  </Td>
+                  <Td>{node.title}</Td>
+                  <Td>{node.author.apelido}</Td>
+                  <Td>
                     <Badge
                       colorScheme={
                         node.status === 'Open'
@@ -123,8 +123,8 @@ function GerenciarSolicitacoes() {
                     >
                       {node.status}
                     </Badge>
-                  </Th>
-                  <Th>
+                  </Td>
+                  <Td>
                     <Badge
                       colorScheme={
                         node.priority === 'LOW'
@@ -136,7 +136,7 @@ function GerenciarSolicitacoes() {
                     >
                       {node.priority}
                     </Badge>
-                  </Th>
+                  </Td>
                 </Tr>
               ))}
             </Tbody>
