@@ -1,12 +1,5 @@
 import {
-  AlertDialog,
-  AlertDialogBody,
-  AlertDialogContent,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogOverlay,
   Badge,
-  Box,
   FormControl,
   FormLabel,
   HStack,
@@ -20,7 +13,6 @@ import {
   Th,
   Thead,
   Tr,
-  useDisclosure,
   useToast,
 } from '@chakra-ui/react';
 import {
@@ -30,10 +22,9 @@ import {
   PageHeading,
   VoltarButton,
 } from '@/components/atoms';
-import { MdClose, MdSend } from 'react-icons/md';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { gql, useMutation, useQuery } from '@apollo/client';
-import { useCallback, useContext, useRef } from 'react';
+import { useCallback, useContext } from 'react';
 
 import { AiFillSetting } from 'react-icons/ai';
 import { AuthContext } from '@/contexts/AuthContext';
@@ -42,6 +33,7 @@ import { ColorContext } from '@/contexts/ColorContext';
 import { CustomButton } from '@/components/atoms/CustomButton';
 import { FaEye } from 'react-icons/fa';
 import { Layout } from '@/components/templates';
+import { MdSend } from 'react-icons/md';
 
 type Inputs = {
   title: string;
@@ -86,14 +78,6 @@ const CREATE_ISSUE = gql`
   }
 `;
 
-const CLOSE_ISSUE = gql`
-  mutation closeIssue($id: ID!) {
-    closeIssue(id: $id) {
-      ok
-    }
-  }
-`;
-
 interface QueryData {
   socioIssues: {
     edges: {
@@ -112,8 +96,6 @@ interface QueryData {
 
 function Solicitacoes() {
   const toast = useToast();
-  const cancelRef = useRef<HTMLButtonElement>(null);
-  const { isOpen, onOpen, onClose } = useDisclosure();
   const { register, handleSubmit, reset } = useForm<Inputs>();
   const { green } = useContext(ColorContext);
   const { token, isStaff } = useContext(AuthContext);
@@ -127,13 +109,6 @@ function Solicitacoes() {
   });
 
   const [createIssue, { loading }] = useMutation(CREATE_ISSUE, {
-    context: {
-      headers: {
-        authorization: `JWT ${token}`,
-      },
-    },
-  });
-  const [closeIssue] = useMutation(CLOSE_ISSUE, {
     context: {
       headers: {
         authorization: `JWT ${token}`,
@@ -168,29 +143,6 @@ function Solicitacoes() {
     [createIssue, refetch, reset, toast],
   );
 
-  const handleCloseIssue = useCallback(
-    async (id: string) => {
-      await closeIssue({
-        variables: {
-          id,
-        },
-      })
-        .then(() => {
-          toast({
-            title: 'Solicitação fechada com sucesso!',
-            description: '',
-            status: 'success',
-            duration: 2500,
-            isClosable: true,
-            position: 'top-left',
-          });
-          refetch();
-        })
-        .catch((error) => alert(error.message));
-      onClose();
-    },
-    [closeIssue, onClose, refetch, toast],
-  );
   return (
     <Layout title="Minhas solicitações">
       <Stack maxW="5xl" mx="auto" spacing={4}>
@@ -220,9 +172,9 @@ function Solicitacoes() {
                   <Select
                     focusBorderColor={green}
                     required
+                    placeholder="Selecione..."
                     {...register('category')}
                   >
-                    <option>Selecione...</option>
                     <option value="ASSOCIACAO">Associação</option>
                     <option value="ESPORTES">Esportes</option>
                     <option value="BATERIA">Bateria</option>
@@ -236,9 +188,9 @@ function Solicitacoes() {
                   <Select
                     focusBorderColor={green}
                     required
+                    placeholder="Selecione..."
                     {...register('priority')}
                   >
-                    <option>Selecione...</option>
                     <option value="LOW">Baixa</option>
                     <option value="MEDIUM">Média</option>
                     <option value="HIGH">Alta</option>
@@ -262,7 +214,7 @@ function Solicitacoes() {
                   <Th></Th>
                   <Th>Título</Th>
                   <Th>Atualizado em</Th>
-                  <Th>Aberto em</Th>
+                  <Th>Iniciado em</Th>
                   <Th>Status</Th>
                   <Th>Prioridade</Th>
                 </Tr>
@@ -280,52 +232,6 @@ function Solicitacoes() {
                             icon={<FaEye size="15px" />}
                           />
                         </CustomChakraNextLink>
-                        <Box>
-                          <CustomIconButton
-                            aria-label="close-issue"
-                            colorScheme="red"
-                            icon={<MdClose size="15px" />}
-                            onClick={onOpen}
-                          />
-                          <AlertDialog
-                            isOpen={isOpen}
-                            leastDestructiveRef={cancelRef}
-                            onClose={onClose}
-                          >
-                            <AlertDialogOverlay>
-                              <AlertDialogContent>
-                                <AlertDialogHeader
-                                  fontSize="lg"
-                                  fontWeight="bold"
-                                >
-                                  Fechar solicitação
-                                </AlertDialogHeader>
-
-                                <AlertDialogBody>
-                                  Tem certeza? Esta ação não poderá ser desfeita
-                                </AlertDialogBody>
-
-                                <AlertDialogFooter>
-                                  <CustomButtom
-                                    onClick={onClose}
-                                    colorScheme="gray"
-                                  >
-                                    Cancelar
-                                  </CustomButtom>
-                                  <CustomButtom
-                                    colorScheme="red"
-                                    onClick={() =>
-                                      handleCloseIssue(issue.node.id)
-                                    }
-                                    ml={3}
-                                  >
-                                    Fechar solicitação
-                                  </CustomButtom>
-                                </AlertDialogFooter>
-                              </AlertDialogContent>
-                            </AlertDialogOverlay>
-                          </AlertDialog>
-                        </Box>
                       </HStack>
                     </Th>
                     <Th>{issue.node.title}</Th>

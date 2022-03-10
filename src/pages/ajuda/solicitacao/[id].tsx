@@ -222,6 +222,7 @@ function Solicitacao() {
                   <CustomIconButton
                     aria-label="open-issue"
                     icon={<MdOutlineCircle size="15px" />}
+                    isDisabled={!isStaff}
                     onClick={() => handleOpenIssue(data?.issue.id as string)}
                   />
                 </Box>
