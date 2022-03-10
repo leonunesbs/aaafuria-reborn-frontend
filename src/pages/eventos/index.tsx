@@ -274,7 +274,7 @@ function Eventos() {
                           fontSize={'3xl'}
                           textShadow="base"
                         >
-                          R$ {node.precoSocio}
+                          R$ {node.precoSocio.toString().replace('.', ',')}
                         </Text>
                       </Box>
                       <Box>
@@ -284,7 +284,7 @@ function Eventos() {
                           fontSize={'3xl'}
                           textShadow="base"
                         >
-                          R$ {node.preco}
+                          R$ {node.preco.toString().replace('.', ',')}
                         </Text>
                       </Box>
                     </>
