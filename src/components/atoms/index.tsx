@@ -48,6 +48,9 @@ export const FloatingCarrinhoPlantaoButton =
       (mod) => mod.FloatingCarrinhoPlantaoButton,
     ),
   );
+export const Fonts = dynamic<any>(() =>
+  import('./Fonts').then((mod) => mod.Fonts),
+);
 export const NotificationBadge = dynamic<NotificationBadgeProps>(() =>
   import('./NotificationBadge').then((mod) => mod.NotificationBadge),
 );

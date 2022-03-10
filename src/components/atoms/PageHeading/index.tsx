@@ -1,4 +1,5 @@
 import { Heading, HeadingProps, useColorModeValue } from '@chakra-ui/react';
+
 import { ReactNode } from 'react';
 
 export interface PageHeadingProps extends HeadingProps {
@@ -17,7 +18,7 @@ export const PageHeading = ({ children, ...rest }: PageHeadingProps) => {
       mb={4}
       {...rest}
     >
-      {children}
+      {children?.toString().toUpperCase()}
     </Heading>
   );
 };

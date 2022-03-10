@@ -1,9 +1,10 @@
 import {
+  Badge,
   Box,
   Center,
   Divider,
-  Flex,
   FormControl,
+  HStack,
   Image,
   Input,
   SimpleGrid,
@@ -243,11 +244,11 @@ function Eventos() {
                 mx="auto"
                 alt={node.evento.nome}
               />
-              <Box py="8" px={{ base: '4', md: '10' }}>
+              <Box py="8" px={{ base: '4', md: '10' }} textAlign="center">
                 <PageHeading as="h2" fontWeight="bold">
                   {node.evento.nome}
                 </PageHeading>
-                <PageHeading as="h3" fontWeight="normal" fontSize="lg">
+                <Badge fontSize={'lg'} mb={4} colorScheme="green">
                   <em>
                     {new Date(node.evento.dataInicio).toLocaleString('pt-BR', {
                       dateStyle: 'long',
@@ -255,16 +256,11 @@ function Eventos() {
                       timeZone: 'America/Sao_Paulo',
                     })}
                   </em>
-                </PageHeading>
+                </Badge>
                 <PageHeading as="h3" fontWeight="normal" fontSize="2xl">
                   {node.nome}
                 </PageHeading>
-                <Flex
-                  textAlign="center"
-                  justify="space-around"
-                  flexGrow={1}
-                  my={6}
-                >
+                <HStack textAlign="center" justify="space-around" p={2}>
                   {node.isGratuito ? (
                     <Box textColor={green}>
                       <Text fontWeight="bold">Evento Gratuito</Text>
@@ -301,7 +297,7 @@ function Eventos() {
                       </Text>
                     </Box>
                   )}
-                </Flex>
+                </HStack>
                 {!node.evento.fechado && (
                   <form>
                     <PageHeading as="h2" fontWeight="normal" fontSize="sm">

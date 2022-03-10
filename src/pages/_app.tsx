@@ -1,8 +1,8 @@
 import * as gtag from 'lib/gtag';
 
+import { Analytics, Fonts } from '@/components/atoms';
 import React, { useEffect } from 'react';
 
-import { Analytics } from '@/components/atoms';
 import { ApolloProvider } from '@apollo/client';
 import { AppProps } from 'next/app';
 import { AuthProvider } from '@/contexts/AuthContext';
@@ -40,6 +40,7 @@ export default function MyApp({ Component, pageProps }: AppProps) {
 
   return (
     <ChakraProvider theme={theme}>
+      <Fonts />
       <ApolloProvider client={client}>
         <ContextProviders>
           <Component {...pageProps} />
