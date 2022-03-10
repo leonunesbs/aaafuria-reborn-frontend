@@ -12,6 +12,7 @@ import {
   Skeleton,
   Stack,
   Text,
+  Textarea,
   useDisclosure,
   useToast,
 } from '@chakra-ui/react';
@@ -277,7 +278,12 @@ function Solicitacao() {
               </Box>
             </Skeleton>
             <Skeleton isLoaded={!loading}>
-              <Text>{data?.issue.description}</Text>
+              <Textarea
+                value={data?.issue.description}
+                isReadOnly
+                focusBorderColor={green}
+                minH="3xs"
+              />
             </Skeleton>
             <Box>
               <Text textAlign={'right'} fontSize="sm">
