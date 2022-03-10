@@ -15,10 +15,11 @@ export const PageHeading = ({ children, ...rest }: PageHeadingProps) => {
       size="xl"
       fontWeight="extrabold"
       textColor={color}
+      textTransform="uppercase"
       mb={4}
       {...rest}
     >
-      {children?.toString().toUpperCase()}
+      {children}
     </Heading>
   );
 };
