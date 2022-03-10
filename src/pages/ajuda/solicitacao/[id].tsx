@@ -336,6 +336,7 @@ function Solicitacao() {
                           </CustomButtom>
                           <CustomButtom
                             colorScheme="red"
+                            variant={'solid'}
                             onClick={() =>
                               handleCloseIssue(data?.issue.id as string)
                             }

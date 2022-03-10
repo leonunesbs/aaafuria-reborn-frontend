@@ -1,5 +1,12 @@
 import {
   Badge,
+  Drawer,
+  DrawerBody,
+  DrawerCloseButton,
+  DrawerContent,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerOverlay,
   FormControl,
   FormLabel,
   HStack,
@@ -14,6 +21,7 @@ import {
   Th,
   Thead,
   Tr,
+  useDisclosure,
   useToast,
 } from '@chakra-ui/react';
 import {
@@ -23,9 +31,10 @@ import {
   PageHeading,
   VoltarButton,
 } from '@/components/atoms';
+import { MdAdd, MdSend } from 'react-icons/md';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { gql, useMutation, useQuery } from '@apollo/client';
-import { useCallback, useContext, useEffect } from 'react';
+import { useCallback, useContext, useEffect, useRef } from 'react';
 
 import { AiFillSetting } from 'react-icons/ai';
 import { AuthContext } from '@/contexts/AuthContext';
@@ -35,7 +44,6 @@ import { CustomButton } from '@/components/atoms/CustomButton';
 import { FaEye } from 'react-icons/fa';
 import { GetServerSideProps } from 'next';
 import { Layout } from '@/components/templates';
-import { MdSend } from 'react-icons/md';
 import { parseCookies } from 'nookies';
 import router from 'next/router';
 
@@ -100,8 +108,10 @@ interface QueryData {
 
 function Solicitacoes() {
   const toast = useToast();
+  const btnRef = useRef<HTMLButtonElement>(null);
+  const createIssueDisclosure = useDisclosure();
   const { register, handleSubmit, reset } = useForm<Inputs>();
-  const { green } = useContext(ColorContext);
+  const { green, bg } = useContext(ColorContext);
   const { token, isStaff, checkCredentials, isAuthenticated } =
     useContext(AuthContext);
 
@@ -160,65 +170,6 @@ function Solicitacoes() {
     <Layout title="Minhas solicitações">
       <Stack maxW="5xl" mx="auto" spacing={4}>
         <PageHeading>Minhas solicitações</PageHeading>
-        <Card>
-          <form onSubmit={handleSubmit(onSubmit)}>
-            <Stack>
-              <FormControl>
-                <FormLabel>Título: </FormLabel>
-                <Input
-                  focusBorderColor={green}
-                  required
-                  {...register('title')}
-                />
-              </FormControl>
-              <FormControl>
-                <FormLabel>Descrição: </FormLabel>
-                <Textarea
-                  focusBorderColor={green}
-                  required
-                  {...register('description')}
-                />
-              </FormControl>
-              <HStack>
-                <FormControl>
-                  <FormLabel>Categoria: </FormLabel>
-                  <Select
-                    focusBorderColor={green}
-                    required
-                    placeholder="Selecione..."
-                    {...register('category')}
-                  >
-                    <option value="ASSOCIACAO">Associação</option>
-                    <option value="ESPORTES">Esportes</option>
-                    <option value="BATERIA">Bateria</option>
-                    <option value="EVENTOS">Eventos</option>
-                    <option value="LOJA">Loja</option>
-                    <option value="OUTRA">Outra</option>
-                  </Select>
-                </FormControl>
-                <FormControl>
-                  <FormLabel>Prioridade: </FormLabel>
-                  <Select
-                    focusBorderColor={green}
-                    required
-                    placeholder="Selecione..."
-                    {...register('priority')}
-                  >
-                    <option value="LOW">Baixa</option>
-                    <option value="MEDIUM">Média</option>
-                    <option value="HIGH">Alta</option>
-                  </Select>
-                </FormControl>
-              </HStack>
-              <CustomButtom type="submit" leftIcon={<MdSend size="20px" />}>
-                Enviar solicitação
-              </CustomButtom>
-            </Stack>
-          </form>
-        </Card>
-        <PageHeading as="h2" size="md">
-          Histórico de solicitações
-        </PageHeading>
         <Skeleton isLoaded={!loading}>
           <Card overflowX="auto">
             <Table>
@@ -294,18 +245,109 @@ function Solicitacoes() {
             </Table>
           </Card>
         </Skeleton>
-        {isStaff && (
-          <CustomChakraNextLink href={'/ajuda/gerenciar-solicitacoes'}>
-            <CustomButton
-              leftIcon={<AiFillSetting size="20px" />}
-              colorScheme={'yellow'}
-            >
-              Gerenciar solicitações
-            </CustomButton>
-          </CustomChakraNextLink>
-        )}
-        <VoltarButton href="/" />
+        <Stack>
+          <CustomButton
+            leftIcon={<MdAdd size="20px" />}
+            onClick={createIssueDisclosure.onOpen}
+          >
+            Nova solicitação
+          </CustomButton>
+          {isStaff && (
+            <CustomChakraNextLink href={'/ajuda/gerenciar-solicitacoes'}>
+              <CustomButton
+                leftIcon={<AiFillSetting size="20px" />}
+                colorScheme={'yellow'}
+              >
+                Gerenciar solicitações
+              </CustomButton>
+            </CustomChakraNextLink>
+          )}
+          <VoltarButton href="/" />
+        </Stack>
       </Stack>
+      <Drawer
+        isOpen={createIssueDisclosure.isOpen}
+        placement="right"
+        size={'md'}
+        onClose={createIssueDisclosure.onClose}
+        finalFocusRef={btnRef}
+      >
+        <DrawerOverlay />
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <DrawerContent bgColor={bg}>
+            <DrawerCloseButton />
+            <DrawerHeader>Nova solicitação</DrawerHeader>
+            <DrawerBody>
+              <Stack>
+                <FormControl>
+                  <FormLabel>Título: </FormLabel>
+                  <Input
+                    focusBorderColor={green}
+                    required
+                    {...register('title')}
+                  />
+                </FormControl>
+                <FormControl>
+                  <FormLabel>Descrição: </FormLabel>
+                  <Textarea
+                    focusBorderColor={green}
+                    required
+                    {...register('description')}
+                  />
+                </FormControl>
+                <HStack>
+                  <FormControl>
+                    <FormLabel>Categoria: </FormLabel>
+                    <Select
+                      focusBorderColor={green}
+                      required
+                      placeholder="Selecione..."
+                      {...register('category')}
+                    >
+                      <option value="ASSOCIACAO">Associação</option>
+                      <option value="ESPORTES">Esportes</option>
+                      <option value="BATERIA">Bateria</option>
+                      <option value="EVENTOS">Eventos</option>
+                      <option value="LOJA">Loja</option>
+                      <option value="OUTRA">Outra</option>
+                    </Select>
+                  </FormControl>
+                  <FormControl>
+                    <FormLabel>Prioridade: </FormLabel>
+                    <Select
+                      focusBorderColor={green}
+                      required
+                      placeholder="Selecione..."
+                      {...register('priority')}
+                    >
+                      <option value="LOW">Baixa</option>
+                      <option value="MEDIUM">Média</option>
+                      <option value="HIGH">Alta</option>
+                    </Select>
+                  </FormControl>
+                </HStack>
+              </Stack>
+            </DrawerBody>
+
+            <DrawerFooter>
+              <CustomButtom
+                colorScheme={'gray'}
+                mr={3}
+                onClick={createIssueDisclosure.onClose}
+              >
+                Cancelar
+              </CustomButtom>
+              <CustomButtom
+                variant={'solid'}
+                type="submit"
+                leftIcon={<MdSend size="20px" />}
+              >
+                Enviar solicitação
+              </CustomButtom>
+            </DrawerFooter>
+          </DrawerContent>
+        </form>
+      </Drawer>
     </Layout>
   );
 }
