@@ -24,7 +24,7 @@ const themeOverride: ThemeOverride = {
   },
 };
 
-export const theme: ThemeOverride = extendTheme({
+export const theme = extendTheme({
   config,
   ...themeOverride,
 });
