@@ -10,6 +10,7 @@ import {
   BoxProps,
   Center,
   Divider,
+  Flex,
   Skeleton,
   Spinner,
   Stack,
@@ -106,20 +107,25 @@ export default function Home({}: HomeProps) {
             </Stack>
           </Card>
         </Skeleton>
-        <Text as="em" textAlign="center">
-          Precisa de ajuda?{' '}
-          <CustomChakraNextLink
-            href="/ajuda/minhas-solicitacoes"
-            chakraLinkProps={{
-              color: green,
-              _hover: {
-                textDecoration: 'underline',
-              },
-            }}
-          >
-            Clique aqui
-          </CustomChakraNextLink>
-        </Text>
+        <Flex justify="center">
+          <Badge fontSize={'sm'} colorScheme="gray">
+            <Text as="em" textAlign="center">
+              Precisa de ajuda? Clique{' '}
+              <CustomChakraNextLink
+                href="/ajuda/minhas-solicitacoes"
+                chakraLinkProps={{
+                  color: green,
+                  _hover: {
+                    textDecoration: 'underline',
+                  },
+                }}
+              >
+                aqui
+              </CustomChakraNextLink>
+              !
+            </Text>
+          </Badge>
+        </Flex>
         <SocialIcons />
       </Stack>
     </Layout>
