@@ -19,7 +19,7 @@ export const AreaDiretorMenu = ({ ...rest }: AreaDiretorMenuProps) => {
           Associação manual
         </CustomButtom>
       </CustomChakraNextLink>
-      <CustomChakraNextLink href="/areadiretor/solicitacoes">
+      <CustomChakraNextLink href="/ajuda/gerenciar-solicitacoes">
         <CustomButtom leftIcon={<AiFillSetting size="20px" />}>
           Solicitações
         </CustomButtom>
