@@ -195,8 +195,7 @@ function Solicitacao() {
       })
         .then(() => {
           toast({
-            title: 'Solicitação aberta com sucesso!',
-            description: '',
+            description: 'Solicitação aberta com sucesso!',
             status: 'success',
             duration: 2500,
             isClosable: true,
@@ -219,9 +218,8 @@ function Solicitacao() {
       })
         .then(() => {
           toast({
-            title: 'Solicitação fechada com sucesso!',
-            description: '',
-            status: 'success',
+            description: 'Solicitação fechada com sucesso!',
+            status: 'info',
             duration: 2500,
             isClosable: true,
             position: 'top-left',
@@ -243,12 +241,20 @@ function Solicitacao() {
         },
       })
         .then(() => {
+          toast({
+            description: 'Comentário adicionado!',
+            status: 'info',
+            duration: 2500,
+            isClosable: true,
+            position: 'top-left',
+          });
           refetch();
           reset();
+          commentDisclosure.onClose();
         })
         .catch((error) => alert(error.message));
     },
-    [createComment, id, refetch, reset],
+    [commentDisclosure, createComment, id, refetch, reset, toast],
   );
 
   return (

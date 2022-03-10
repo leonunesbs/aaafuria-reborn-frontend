@@ -98,7 +98,13 @@ export const Layout = ({
         <meta name="twitter:image:alt" content="calango" />
       </Head>
       {isHeaded && <Header />}
-      <Box bg={bg} minH="100vh" py="12" px={{ base: '4', lg: '8' }}>
+      <Box
+        bg={bg}
+        minH="100vh"
+        py="12"
+        px={{ base: '4', lg: '8' }}
+        overscrollBehaviorY="none"
+      >
         {children}
       </Box>
       {isFooted && <Footer />}
