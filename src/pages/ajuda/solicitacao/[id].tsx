@@ -8,6 +8,13 @@ import {
   Badge,
   Box,
   Divider,
+  Drawer,
+  DrawerBody,
+  DrawerCloseButton,
+  DrawerContent,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerOverlay,
   HStack,
   Skeleton,
   Stack,
@@ -23,7 +30,8 @@ import {
   PageHeading,
   VoltarButton,
 } from '@/components/atoms';
-import { MdClose, MdOutlineCircle } from 'react-icons/md';
+import { MdClose, MdOutlineCircle, MdReply, MdSend } from 'react-icons/md';
+import { SubmitHandler, useForm } from 'react-hook-form';
 import { gql, useMutation, useQuery } from '@apollo/client';
 import { useCallback, useContext, useEffect, useRef } from 'react';
 
@@ -42,6 +50,7 @@ const GET_ISSUE = gql`
     issue(id: $id) {
       id
       status
+      priority
       title
       description
       author {
@@ -81,10 +90,19 @@ const OPEN_ISSUE = gql`
   }
 `;
 
+const CREATE_COMMENT = gql`
+  mutation createComment($issueId: ID!, $description: String!) {
+    createComment(issueId: $issueId, description: $description) {
+      ok
+    }
+  }
+`;
+
 interface QueryData {
   issue: {
     id: string;
     status: string;
+    priority: string;
     title: string;
     description: string;
     author: {
@@ -108,12 +126,22 @@ interface QueryData {
   };
 }
 
+type Inputs = {
+  description: string;
+};
+
 function Solicitacao() {
   const router = useRouter();
   const toast = useToast();
-  const { green } = useContext(ColorContext);
+  const { green, bg } = useContext(ColorContext);
+
   const cancelRef = useRef<HTMLButtonElement>(null);
+  const btnRef = useRef<HTMLButtonElement>(null);
+
+  const { register, handleSubmit, reset } = useForm<Inputs>();
+
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const commentDisclosure = useDisclosure();
   const { isAuthenticated, checkCredentials, token, isStaff } =
     useContext(AuthContext);
   const { id = '0' } = router.query;
@@ -150,6 +178,14 @@ function Solicitacao() {
     },
   });
 
+  const [createComment] = useMutation(CREATE_COMMENT, {
+    context: {
+      headers: {
+        authorization: `JWT ${token}`,
+      },
+    },
+  });
+
   const handleOpenIssue = useCallback(
     async (id: string) => {
       await openIssue({
@@ -173,6 +209,7 @@ function Solicitacao() {
     },
     [onClose, openIssue, refetch, toast],
   );
+
   const handleCloseIssue = useCallback(
     async (id: string) => {
       await closeIssue({
@@ -197,6 +234,23 @@ function Solicitacao() {
     [closeIssue, onClose, refetch, toast],
   );
 
+  const onSubmit: SubmitHandler<Inputs> = useCallback(
+    async ({ description }) => {
+      await createComment({
+        variables: {
+          issueId: id,
+          description,
+        },
+      })
+        .then(() => {
+          refetch();
+          reset();
+        })
+        .catch((error) => alert(error.message));
+    },
+    [createComment, id, refetch, reset],
+  );
+
   return (
     <Layout title="Solicitação">
       <Stack maxW="7xl" mx="auto" spacing={4}>
@@ -205,18 +259,36 @@ function Solicitacao() {
           <Card>
             <HStack justify={'space-between'} mb={2}>
               <Skeleton isLoaded={!loading}>
-                <Badge
-                  fontSize={'md'}
-                  colorScheme={
-                    data?.issue.status === 'Open'
-                      ? 'green'
-                      : data?.issue.status === 'In Progress'
-                      ? 'yellow'
-                      : 'red'
-                  }
-                >
-                  {data?.issue.status}
-                </Badge>
+                <Text>
+                  Status:{' '}
+                  <Badge
+                    fontSize={'md'}
+                    colorScheme={
+                      data?.issue.status === 'Open'
+                        ? 'green'
+                        : data?.issue.status === 'In Progress'
+                        ? 'yellow'
+                        : 'red'
+                    }
+                  >
+                    {data?.issue.status}
+                  </Badge>
+                </Text>
+                <Text>
+                  Prioridade:{' '}
+                  <Badge
+                    fontSize={'md'}
+                    colorScheme={
+                      data?.issue.priority === 'LOW'
+                        ? 'blue'
+                        : data?.issue.priority === 'MEDIUM'
+                        ? 'yellow'
+                        : 'red'
+                    }
+                  >
+                    {data?.issue.priority}
+                  </Badge>
+                </Text>
               </Skeleton>
               <HStack>
                 <Box>
@@ -318,53 +390,106 @@ function Solicitacao() {
             <PageHeading as="h2" size={'md'}>
               Comentários
             </PageHeading>
-            {data?.issue.comments.edges.map((comment) => (
-              <Card key={comment.node.id}>
-                <Text>{comment.node.description}</Text>
-                <Box mt={4}>
-                  <Text textAlign={'right'} fontSize="sm">
-                    <CustomChakraNextLink
-                      href={
-                        'https://diretoria.aaafuria.site/admin/core/socio/?q=18107053'
-                      }
-                      chakraLinkProps={{
-                        color: green,
-                        fontWeight: 'bold',
-                        _hover: {
-                          textDecoration: 'underline',
-                        },
-                      }}
-                    >
-                      {comment.node.author.apelido}
-                    </CustomChakraNextLink>
-                  </Text>
-                  <Text textAlign={'right'} fontSize="sm">
-                    {new Date(comment.node.createdAt as string).toLocaleString(
-                      'pt-BR',
-                      {
+            <Stack>
+              {data?.issue.comments.edges.map((comment) => (
+                <Card key={comment.node.id}>
+                  <Textarea
+                    value={comment.node.description}
+                    isReadOnly
+                    focusBorderColor={green}
+                  />
+                  <Box mt={4}>
+                    <Text textAlign={'right'} fontSize="sm">
+                      <CustomChakraNextLink
+                        href={
+                          'https://diretoria.aaafuria.site/admin/core/socio/?q=18107053'
+                        }
+                        chakraLinkProps={{
+                          color: green,
+                          fontWeight: 'bold',
+                          _hover: {
+                            textDecoration: 'underline',
+                          },
+                        }}
+                      >
+                        {comment.node.author.apelido}
+                      </CustomChakraNextLink>
+                    </Text>
+                    <Text textAlign={'right'} fontSize="sm">
+                      {new Date(
+                        comment.node.createdAt as string,
+                      ).toLocaleString('pt-BR', {
                         dateStyle: 'short',
                         timeStyle: 'short',
                         timeZone: 'America/Sao_Paulo',
-                      },
-                    )}
-                  </Text>
-                </Box>
-              </Card>
-            ))}
+                      })}
+                    </Text>
+                  </Box>
+                </Card>
+              ))}
+            </Stack>
           </Box>
         )}
-        {isStaff && (
-          <CustomChakraNextLink href={'/ajuda/gerenciar-solicitacoes'}>
-            <CustomButton
-              leftIcon={<AiFillSetting size="20px" />}
-              colorScheme={'yellow'}
-            >
-              Gerenciar solicitações
-            </CustomButton>
-          </CustomChakraNextLink>
-        )}
-        <VoltarButton href={'/ajuda/minhas-solicitacoes'} />
+        <Stack>
+          <CustomButtom
+            aria-label="comment"
+            leftIcon={<MdReply size="25px" />}
+            onClick={commentDisclosure.onOpen}
+          >
+            Responder
+          </CustomButtom>
+          {isStaff && (
+            <CustomChakraNextLink href={'/ajuda/gerenciar-solicitacoes'}>
+              <CustomButton
+                leftIcon={<AiFillSetting size="20px" />}
+                colorScheme={'yellow'}
+              >
+                Gerenciar solicitações
+              </CustomButton>
+            </CustomChakraNextLink>
+          )}
+          <VoltarButton href={'/ajuda/minhas-solicitacoes'} />
+        </Stack>
       </Stack>
+      <Drawer
+        isOpen={commentDisclosure.isOpen}
+        placement="bottom"
+        size="md"
+        onClose={commentDisclosure.onClose}
+        finalFocusRef={btnRef}
+      >
+        <DrawerOverlay />
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <DrawerContent bgColor={bg}>
+            <DrawerCloseButton />
+            <DrawerHeader>Adicionar comentário</DrawerHeader>
+            <DrawerBody>
+              <Textarea
+                placeholder="Digite aqui um comentário..."
+                focusBorderColor={green}
+                {...register('description')}
+              />
+            </DrawerBody>
+
+            <DrawerFooter>
+              <CustomButtom
+                mr={3}
+                colorScheme="gray"
+                onClick={commentDisclosure.onClose}
+              >
+                Cancelar
+              </CustomButtom>
+              <CustomButtom
+                leftIcon={<MdSend size="20px" />}
+                variant={'solid'}
+                type="submit"
+              >
+                Enviar
+              </CustomButtom>
+            </DrawerFooter>
+          </DrawerContent>
+        </form>
+      </Drawer>
     </Layout>
   );
 }
