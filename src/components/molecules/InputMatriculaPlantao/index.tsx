@@ -1,5 +1,5 @@
-import { CustomButtom } from '@/components/atoms';
-import { gql, useQuery } from '@apollo/client';
+import { Card, ClientInfoCard } from '@/components/molecules';
+import { Dispatch, useCallback, useEffect, useState } from 'react';
 import {
   FormControl,
   FormLabel,
@@ -11,17 +11,19 @@ import {
   useDisclosure,
   useToast,
 } from '@chakra-ui/react';
-import { useRouter } from 'next/router';
-import { Dispatch, useCallback, useEffect, useState } from 'react';
-import { SubmitHandler, useForm } from 'react-hook-form';
 import { MdCheck, MdRefresh } from 'react-icons/md';
-import { Card, ClientInfoCard } from '@/components/molecules';
+import { SubmitHandler, useForm } from 'react-hook-form';
+import { gql, useQuery } from '@apollo/client';
+
+import { CustomButtom } from '@/components/atoms';
+import { useRouter } from 'next/router';
 
 const QUERY_SOCIO = gql`
   query socioByMatricula($matricula: String!) {
     socioByMatricula(matricula: $matricula) {
       nome
       matricula
+      turma
       email
       isSocio
       user {
