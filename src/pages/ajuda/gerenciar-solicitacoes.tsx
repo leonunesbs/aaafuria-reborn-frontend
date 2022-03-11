@@ -1,24 +1,35 @@
-import { Badge, Box, Table, Tbody, Td, Th, Thead, Tr } from '@chakra-ui/react';
 import {
   CustomChakraNextLink,
   CustomIconButton,
   PageHeading,
   VoltarButton,
 } from '@/components/atoms';
-import { gql, useQuery } from '@apollo/client';
-import { useContext, useEffect } from 'react';
-
-import { AuthContext } from '@/contexts/AuthContext';
 import { Card } from '@/components/molecules';
-import { FaEye } from 'react-icons/fa';
-import { GetServerSideProps } from 'next';
 import { Layout } from '@/components/templates';
-import { parseCookies } from 'nookies';
+import { AuthContext } from '@/contexts/AuthContext';
+import { gql, useQuery } from '@apollo/client';
+import {
+  Badge,
+  Box,
+  HStack,
+  Table,
+  Tbody,
+  Td,
+  Text,
+  Th,
+  Thead,
+  Tr,
+} from '@chakra-ui/react';
+import { GetServerSideProps } from 'next';
 import { useRouter } from 'next/router';
+import { parseCookies } from 'nookies';
+import { useContext, useEffect, useState } from 'react';
+import { FaEye } from 'react-icons/fa';
+import { MdCircle } from 'react-icons/md';
 
 const GET_ISSUES = gql`
-  query {
-    allIssues {
+  query getIssues($status: String) {
+    allIssues(status: $status) {
       edges {
         node {
           id
@@ -28,6 +39,7 @@ const GET_ISSUES = gql`
           }
           status
           priority
+          category
           createdAt
         }
       }
@@ -43,6 +55,7 @@ type IssueType = {
   };
   status: string;
   priority: string;
+  category: string;
   createdAt: string;
 };
 
@@ -56,6 +69,7 @@ interface QueryData {
 
 function GerenciarSolicitacoes() {
   const router = useRouter();
+  const [statusFilter, setStatusFilter] = useState('');
   const { token, isStaff, checkCredentials, isAuthenticated } =
     useContext(AuthContext);
   const { data, refetch } = useQuery<QueryData>(GET_ISSUES, {
@@ -67,29 +81,67 @@ function GerenciarSolicitacoes() {
   });
 
   useEffect(() => {
+    if (statusFilter) {
+      refetch({ status: statusFilter });
+    }
+  }, [refetch, statusFilter]);
+
+  useEffect(() => {
     refetch();
     checkCredentials();
-    if (!isAuthenticated || !isStaff) {
+    if (isStaff === false) {
       router.push(`/entrar?after=${router.asPath}`);
     }
   }, [checkCredentials, isAuthenticated, isStaff, refetch, router]);
   return (
     <Layout title="Gerenciar solicitações">
-      <Box maxW="5xl" mx="auto">
+      <Box maxW="7xl" mx="auto">
         <PageHeading>Gerenciar solicitações</PageHeading>
         <Card overflowX="auto">
+          <HStack justify={'right'}>
+            <CustomIconButton
+              aria-label="open"
+              icon={<MdCircle size="15px" />}
+              isActive={statusFilter === 'OPEN'}
+              onClick={() => setStatusFilter('OPEN')}
+            />
+            <CustomIconButton
+              aria-label="in-progress"
+              icon={<MdCircle size="15px" />}
+              isActive={statusFilter === 'IN_PROGRESS'}
+              colorScheme={'yellow'}
+              onClick={() => setStatusFilter('IN_PROGRESS')}
+            />
+            <CustomIconButton
+              aria-label="closed"
+              icon={<MdCircle size="15px" />}
+              isActive={statusFilter === 'CLOSED'}
+              colorScheme={'red'}
+              onClick={() => setStatusFilter('CLOSED')}
+            />
+          </HStack>
           <Table>
             <Thead>
               <Tr>
                 <Th></Th>
-                <Th>Data</Th>
-                <Th>Título</Th>
+                <Th colSpan={4}>Título</Th>
+                <Th>Categoria</Th>
                 <Th>Autor</Th>
-                <Th>Status</Th>
+                <Th>Data da solicitação</Th>
                 <Th>Prioridade</Th>
+                <Th>Status</Th>
               </Tr>
             </Thead>
             <Tbody>
+              {data?.allIssues && data.allIssues.edges.length < 1 && (
+                <Tr>
+                  <Td colSpan={10}>
+                    <Text textAlign="center">
+                      <em>Nenhuma solicitação encontrada.</em>
+                    </Text>
+                  </Td>
+                </Tr>
+              )}
               {data?.allIssues?.edges?.map(({ node }) => (
                 <Tr key={node.id}>
                   <Td>
@@ -102,27 +154,18 @@ function GerenciarSolicitacoes() {
                       />
                     </CustomChakraNextLink>
                   </Td>
+                  <Td>{node.title}</Td>
+                  <Td />
+                  <Td />
+                  <Td />
+                  <Td>{node.category}</Td>
+                  <Td>{node.author.apelido}</Td>
                   <Td>
                     {new Date(node.createdAt).toLocaleString('pt-BR', {
                       dateStyle: 'short',
                       timeStyle: 'short',
                       timeZone: 'America/Sao_Paulo',
                     })}
-                  </Td>
-                  <Td>{node.title}</Td>
-                  <Td>{node.author.apelido}</Td>
-                  <Td>
-                    <Badge
-                      colorScheme={
-                        node.status === 'Open'
-                          ? 'green'
-                          : node.status === 'In Progress'
-                          ? 'yellow'
-                          : 'red'
-                      }
-                    >
-                      {node.status}
-                    </Badge>
                   </Td>
                   <Td>
                     <Badge
@@ -135,6 +178,19 @@ function GerenciarSolicitacoes() {
                       }
                     >
                       {node.priority}
+                    </Badge>
+                  </Td>
+                  <Td>
+                    <Badge
+                      colorScheme={
+                        node.status === 'Open'
+                          ? 'green'
+                          : node.status === 'In Progress'
+                          ? 'yellow'
+                          : 'red'
+                      }
+                    >
+                      {node.status}
                     </Badge>
                   </Td>
                 </Tr>

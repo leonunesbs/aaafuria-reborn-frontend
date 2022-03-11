@@ -1,4 +1,17 @@
 import {
+  CustomButtom,
+  CustomChakraNextLink,
+  CustomIconButton,
+  PageHeading,
+  VoltarButton,
+} from '@/components/atoms';
+import { CustomButton } from '@/components/atoms/CustomButton';
+import { Card } from '@/components/molecules';
+import { Layout } from '@/components/templates';
+import { AuthContext } from '@/contexts/AuthContext';
+import { ColorContext } from '@/contexts/ColorContext';
+import { gql, useMutation, useQuery } from '@apollo/client';
+import {
   Badge,
   Drawer,
   DrawerBody,
@@ -17,6 +30,7 @@ import {
   Table,
   Tbody,
   Td,
+  Text,
   Textarea,
   Th,
   Thead,
@@ -24,28 +38,14 @@ import {
   useDisclosure,
   useToast,
 } from '@chakra-ui/react';
-import {
-  CustomButtom,
-  CustomChakraNextLink,
-  CustomIconButton,
-  PageHeading,
-  VoltarButton,
-} from '@/components/atoms';
-import { MdAdd, MdSend } from 'react-icons/md';
-import { SubmitHandler, useForm } from 'react-hook-form';
-import { gql, useMutation, useQuery } from '@apollo/client';
-import { useCallback, useContext, useEffect, useRef } from 'react';
-
-import { AiFillSetting } from 'react-icons/ai';
-import { AuthContext } from '@/contexts/AuthContext';
-import { Card } from '@/components/molecules';
-import { ColorContext } from '@/contexts/ColorContext';
-import { CustomButton } from '@/components/atoms/CustomButton';
-import { FaEye } from 'react-icons/fa';
 import { GetServerSideProps } from 'next';
-import { Layout } from '@/components/templates';
-import { parseCookies } from 'nookies';
 import router from 'next/router';
+import { parseCookies } from 'nookies';
+import { useCallback, useContext, useEffect, useRef } from 'react';
+import { SubmitHandler, useForm } from 'react-hook-form';
+import { AiFillSetting } from 'react-icons/ai';
+import { FaEye } from 'react-icons/fa';
+import { MdAdd, MdSend } from 'react-icons/md';
 
 type Inputs = {
   title: string;
@@ -168,7 +168,7 @@ function Solicitacoes() {
 
   return (
     <Layout title="Minhas solicitações">
-      <Stack maxW="5xl" mx="auto" spacing={4}>
+      <Stack maxW="7xl" mx="auto" spacing={4}>
         <PageHeading>Minhas solicitações</PageHeading>
         <Skeleton isLoaded={!loading}>
           <Card overflowX="auto">
@@ -184,6 +184,15 @@ function Solicitacoes() {
                 </Tr>
               </Thead>
               <Tbody>
+                {data?.socioIssues && data.socioIssues.edges.length < 1 && (
+                  <Tr>
+                    <Td colSpan={6}>
+                      <Text textAlign={'center'}>
+                        <em>Você ainda não possui nenhuma solicitação.</em>
+                      </Text>
+                    </Td>
+                  </Tr>
+                )}
                 {data?.socioIssues?.edges.map((issue) => (
                   <Tr key={issue.node.id}>
                     <Td>

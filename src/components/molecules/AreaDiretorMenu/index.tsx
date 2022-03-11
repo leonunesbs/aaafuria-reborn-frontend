@@ -3,7 +3,6 @@ import { Divider, Stack, StackProps } from '@chakra-ui/react';
 import { MdGroups, MdStore } from 'react-icons/md';
 
 import { AiFillSetting } from 'react-icons/ai';
-import React from 'react';
 import { VoltarButton } from '@/components/atoms/VoltarButton';
 
 export type AreaDiretorMenuProps = StackProps;

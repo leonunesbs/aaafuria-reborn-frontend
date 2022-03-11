@@ -6,8 +6,11 @@ import { AuthenticatedHomeMenuProps } from './AuthenticatedHomeMenu';
 import { CadastroDrawerProps } from './CadastroDrawer';
 import { CardProps } from './Card';
 import { ClientInfoCardProps } from './ClientInfoCard';
+import { CommentCardProps } from './CommentCard';
+import { CreateCommentProps } from './CreateComment';
 import { HomeMenuProps } from './HomeMenu';
 import { InputMatriculaPlantaoProps } from './InputMatriculaPlantao';
+import { IssueInfoCardProps } from './IssueInfoCard';
 import { CartaoCreditoTabPanelProps } from './PagamentoTabs/CartaoCreditoTabPanel';
 import { EspecieTabPanelProps } from './PagamentoTabs/EspecieTabPanel';
 import { PixTabPanelProps } from './PagamentoTabs/PIXTabPanel';
@@ -35,6 +38,12 @@ export const Card = dynamic<CardProps>(() =>
 export const ClientInfoCard = dynamic<ClientInfoCardProps>(() =>
   import('./ClientInfoCard').then((mod) => mod.ClientInfoCard),
 );
+export const CommentCard = dynamic<CommentCardProps>(() =>
+  import('./CommentCard').then((mod) => mod.CommentCard),
+);
+export const CreateComment = dynamic<CreateCommentProps>(() =>
+  import('./CreateComment').then((mod) => mod.CreateComment),
+);
 export const Header = dynamic<any>(() =>
   import('./Header').then((mod) => mod.Header),
 );
@@ -46,6 +55,9 @@ export const HomeMenu = dynamic<HomeMenuProps>(() =>
 );
 export const InputMatriculaPlantao = dynamic<InputMatriculaPlantaoProps>(() =>
   import('./InputMatriculaPlantao').then((mod) => mod.InputMatriculaPlantao),
+);
+export const IssueInfoCard = dynamic<IssueInfoCardProps>(() =>
+  import('./IssueInfoCard').then((mod) => mod.IssueInfoCard),
 );
 
 export const CartaoCreditoTabPanel = dynamic<CartaoCreditoTabPanelProps>(() =>

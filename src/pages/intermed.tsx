@@ -94,7 +94,6 @@ function Intermed() {
                 Deseja usar <strong>900 Calangos</strong> para ativar seu
                 desconto? <em>Esta ação não poderá ser desfeita.</em>
               </AlertDialogBody>
-
               <AlertDialogFooter>
                 <CustomButtom colorScheme="red" onClick={onClose}>
                   Cancel

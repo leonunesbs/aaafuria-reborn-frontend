@@ -1,49 +1,24 @@
 import {
-  AlertDialog,
-  AlertDialogBody,
-  AlertDialogContent,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogOverlay,
-  Badge,
-  Box,
-  Divider,
-  Drawer,
-  DrawerBody,
-  DrawerCloseButton,
-  DrawerContent,
-  DrawerFooter,
-  DrawerHeader,
-  DrawerOverlay,
-  HStack,
-  Skeleton,
-  Stack,
-  Text,
-  Textarea,
-  useDisclosure,
-  useToast,
-} from '@chakra-ui/react';
-import {
-  CustomButtom,
   CustomChakraNextLink,
-  CustomIconButton,
   PageHeading,
   VoltarButton,
 } from '@/components/atoms';
-import { MdClose, MdOutlineCircle, MdReply, MdSend } from 'react-icons/md';
-import { SubmitHandler, useForm } from 'react-hook-form';
-import { gql, useMutation, useQuery } from '@apollo/client';
-import { useCallback, useContext, useEffect, useRef } from 'react';
-
-import { AiFillSetting } from 'react-icons/ai';
-import { AuthContext } from '@/contexts/AuthContext';
-import { Card } from '@/components/molecules';
-import { ColorContext } from '@/contexts/ColorContext';
 import { CustomButton } from '@/components/atoms/CustomButton';
-import { GetServerSideProps } from 'next';
+import {
+  CommentCard,
+  CreateComment,
+  IssueInfoCard,
+} from '@/components/molecules';
+import { IssueProps } from '@/components/molecules/IssueInfoCard';
 import { Layout } from '@/components/templates';
-import { parseCookies } from 'nookies';
+import { AuthContext } from '@/contexts/AuthContext';
+import { gql, useQuery } from '@apollo/client';
+import { Box, Stack } from '@chakra-ui/react';
+import { GetServerSideProps } from 'next';
 import { useRouter } from 'next/router';
+import { parseCookies } from 'nookies';
+import { useContext, useEffect } from 'react';
+import { AiFillSetting } from 'react-icons/ai';
 
 const GET_ISSUE = gql`
   query getIssue($id: ID!) {
@@ -75,78 +50,18 @@ const GET_ISSUE = gql`
   }
 `;
 
-const CLOSE_ISSUE = gql`
-  mutation closeIssue($id: ID!) {
-    closeIssue(id: $id) {
-      ok
-    }
-  }
-`;
-const OPEN_ISSUE = gql`
-  mutation openIssue($id: ID!) {
-    openIssue(id: $id) {
-      ok
-    }
-  }
-`;
-
-const CREATE_COMMENT = gql`
-  mutation createComment($issueId: ID!, $description: String!) {
-    createComment(issueId: $issueId, description: $description) {
-      ok
-    }
-  }
-`;
-
-interface QueryData {
-  issue: {
-    id: string;
-    status: string;
-    priority: string;
-    title: string;
-    description: string;
-    author: {
-      apelido: string;
-      matricula: string;
-    };
-    createdAt: string;
-    updatedAt: string;
-    comments: {
-      edges: {
-        node: {
-          id: string;
-          author: {
-            apelido: string;
-          };
-          description: string;
-          createdAt: string;
-        };
-      }[];
-    };
-  };
+export interface IssueQueryData {
+  issue: IssueProps;
 }
-
-type Inputs = {
-  description: string;
-};
 
 function Solicitacao() {
   const router = useRouter();
-  const toast = useToast();
-  const { green, bg } = useContext(ColorContext);
 
-  const cancelRef = useRef<HTMLButtonElement>(null);
-  const btnRef = useRef<HTMLButtonElement>(null);
-
-  const { register, handleSubmit, reset } = useForm<Inputs>();
-
-  const { isOpen, onOpen, onClose } = useDisclosure();
-  const commentDisclosure = useDisclosure();
   const { isAuthenticated, checkCredentials, token, isStaff } =
     useContext(AuthContext);
   const { id = '0' } = router.query;
 
-  const { data, refetch, loading } = useQuery<QueryData>(GET_ISSUE, {
+  const { data, refetch, loading } = useQuery<IssueQueryData>(GET_ISSUE, {
     variables: { id },
     context: {
       headers: {
@@ -163,238 +78,14 @@ function Solicitacao() {
     }
   }, [checkCredentials, isAuthenticated, refetch, router]);
 
-  const [closeIssue] = useMutation(CLOSE_ISSUE, {
-    context: {
-      headers: {
-        authorization: `JWT ${token}`,
-      },
-    },
-  });
-  const [openIssue] = useMutation(OPEN_ISSUE, {
-    context: {
-      headers: {
-        authorization: `JWT ${token}`,
-      },
-    },
-  });
-
-  const [createComment, { loading: createCommentLoading }] = useMutation(
-    CREATE_COMMENT,
-    {
-      context: {
-        headers: {
-          authorization: `JWT ${token}`,
-        },
-      },
-    },
-  );
-
-  const handleOpenIssue = useCallback(
-    async (id: string) => {
-      await openIssue({
-        variables: {
-          id,
-        },
-      })
-        .then(() => {
-          toast({
-            description: 'Solicitação aberta com sucesso!',
-            status: 'success',
-            duration: 2500,
-            isClosable: true,
-            position: 'top-left',
-          });
-          refetch();
-        })
-        .catch((error) => alert(error.message));
-      onClose();
-    },
-    [onClose, openIssue, refetch, toast],
-  );
-
-  const handleCloseIssue = useCallback(
-    async (id: string) => {
-      await closeIssue({
-        variables: {
-          id,
-        },
-      })
-        .then(() => {
-          toast({
-            description: 'Solicitação fechada com sucesso!',
-            status: 'info',
-            duration: 2500,
-            isClosable: true,
-            position: 'top-left',
-          });
-          refetch();
-        })
-        .catch((error) => alert(error.message));
-      onClose();
-    },
-    [closeIssue, onClose, refetch, toast],
-  );
-
-  const onSubmit: SubmitHandler<Inputs> = useCallback(
-    async ({ description }) => {
-      await createComment({
-        variables: {
-          issueId: id,
-          description,
-        },
-      })
-        .then(() => {
-          toast({
-            description: 'Comentário adicionado!',
-            status: 'info',
-            duration: 2500,
-            isClosable: true,
-            position: 'top-left',
-          });
-          refetch();
-          reset();
-          commentDisclosure.onClose();
-        })
-        .catch((error) => alert(error.message));
-    },
-    [commentDisclosure, createComment, id, refetch, reset, toast],
-  );
-
   return (
-    <Layout title="Solicitação">
+    <Layout title={data?.issue.title || 'Solicitação'}>
       <Stack maxW="7xl" mx="auto" spacing={4}>
-        <Box>
-          <PageHeading>Solicitação</PageHeading>
-          <Card>
-            <HStack justify={'space-between'} mb={2}>
-              <Skeleton isLoaded={!loading}>
-                <Text>
-                  Status:{' '}
-                  <Badge
-                    fontSize={'md'}
-                    colorScheme={
-                      data?.issue.status === 'Open'
-                        ? 'green'
-                        : data?.issue.status === 'In Progress'
-                        ? 'yellow'
-                        : 'red'
-                    }
-                  >
-                    {data?.issue.status}
-                  </Badge>
-                </Text>
-                <Text>
-                  Prioridade:{' '}
-                  <Badge
-                    fontSize={'md'}
-                    colorScheme={
-                      data?.issue.priority === 'LOW'
-                        ? 'blue'
-                        : data?.issue.priority === 'MEDIUM'
-                        ? 'yellow'
-                        : 'red'
-                    }
-                  >
-                    {data?.issue.priority}
-                  </Badge>
-                </Text>
-              </Skeleton>
-              <HStack>
-                <Box>
-                  <CustomIconButton
-                    aria-label="open-issue"
-                    icon={<MdOutlineCircle size="15px" />}
-                    isDisabled={!isStaff}
-                    onClick={() => handleOpenIssue(data?.issue.id as string)}
-                  />
-                </Box>
-                <Box>
-                  <CustomIconButton
-                    aria-label="close-issue"
-                    colorScheme="red"
-                    icon={<MdClose size="20px" />}
-                    onClick={onOpen}
-                  />
-                  <AlertDialog
-                    isOpen={isOpen}
-                    leastDestructiveRef={cancelRef}
-                    onClose={onClose}
-                  >
-                    <AlertDialogOverlay>
-                      <AlertDialogContent>
-                        <AlertDialogHeader fontSize="lg" fontWeight="bold">
-                          Fechar solicitação
-                        </AlertDialogHeader>
-
-                        <AlertDialogBody>
-                          Tem certeza que deseja fechar a solicitação?
-                        </AlertDialogBody>
-
-                        <AlertDialogFooter>
-                          <CustomButtom onClick={onClose} colorScheme="gray">
-                            Cancelar
-                          </CustomButtom>
-                          <CustomButtom
-                            colorScheme="red"
-                            variant={'solid'}
-                            onClick={() =>
-                              handleCloseIssue(data?.issue.id as string)
-                            }
-                            ml={3}
-                          >
-                            Fechar solicitação
-                          </CustomButtom>
-                        </AlertDialogFooter>
-                      </AlertDialogContent>
-                    </AlertDialogOverlay>
-                  </AlertDialog>
-                </Box>
-              </HStack>
-            </HStack>
-            <Skeleton isLoaded={!loading}>
-              <Box mb={2}>
-                <Text fontSize={'xl'} fontWeight={'bold'}>
-                  {data?.issue.title}
-                </Text>
-                <Divider />
-              </Box>
-            </Skeleton>
-            <Skeleton isLoaded={!loading}>
-              <Textarea
-                value={data?.issue.description}
-                isReadOnly
-                focusBorderColor={green}
-                minH="3xs"
-              />
-            </Skeleton>
-            <Box>
-              <Text textAlign={'right'} fontSize="sm">
-                <CustomChakraNextLink
-                  href={`https://diretoria.aaafuria.site/admin/core/socio/?q=${data?.issue.author.matricula}`}
-                  chakraLinkProps={{
-                    color: green,
-                    fontWeight: 'bold',
-                    _hover: {
-                      textDecoration: 'underline',
-                    },
-                  }}
-                >
-                  {data?.issue.author.apelido}
-                </CustomChakraNextLink>
-              </Text>
-              <Text textAlign={'right'} fontSize="sm">
-                {new Date(data?.issue.createdAt as string).toLocaleString(
-                  'pt-BR',
-                  {
-                    dateStyle: 'short',
-                    timeStyle: 'short',
-                    timeZone: 'America/Sao_Paulo',
-                  },
-                )}
-              </Text>
-            </Box>
-          </Card>
-        </Box>
+        <IssueInfoCard
+          issue={data?.issue as IssueProps}
+          loadingIssueQuery={loading}
+          refetchIssueQuery={refetch}
+        />
         {data?.issue.comments.edges && data.issue.comments.edges.length > 0 && (
           <Box>
             <PageHeading as="h2" size={'md'}>
@@ -402,52 +93,13 @@ function Solicitacao() {
             </PageHeading>
             <Stack>
               {data?.issue.comments.edges.map((comment) => (
-                <Card key={comment.node.id}>
-                  <Textarea
-                    value={comment.node.description}
-                    isReadOnly
-                    focusBorderColor={green}
-                  />
-                  <Box mt={4}>
-                    <Text textAlign={'right'} fontSize="sm">
-                      <CustomChakraNextLink
-                        href={
-                          'https://diretoria.aaafuria.site/admin/core/socio/?q=18107053'
-                        }
-                        chakraLinkProps={{
-                          color: green,
-                          fontWeight: 'bold',
-                          _hover: {
-                            textDecoration: 'underline',
-                          },
-                        }}
-                      >
-                        {comment.node.author.apelido}
-                      </CustomChakraNextLink>
-                    </Text>
-                    <Text textAlign={'right'} fontSize="sm">
-                      {new Date(
-                        comment.node.createdAt as string,
-                      ).toLocaleString('pt-BR', {
-                        dateStyle: 'short',
-                        timeStyle: 'short',
-                        timeZone: 'America/Sao_Paulo',
-                      })}
-                    </Text>
-                  </Box>
-                </Card>
+                <CommentCard key={comment.node.id} comment={comment} />
               ))}
             </Stack>
           </Box>
         )}
         <Stack>
-          <CustomButtom
-            aria-label="comment"
-            leftIcon={<MdReply size="25px" />}
-            onClick={commentDisclosure.onOpen}
-          >
-            Responder
-          </CustomButtom>
+          <CreateComment issueId={id as string} refetchIssue={refetch} />
           {isStaff && (
             <CustomChakraNextLink href={'/ajuda/gerenciar-solicitacoes'}>
               <CustomButton
@@ -461,47 +113,6 @@ function Solicitacao() {
           <VoltarButton href={'/ajuda/minhas-solicitacoes'} />
         </Stack>
       </Stack>
-      <Drawer
-        isOpen={commentDisclosure.isOpen}
-        placement="bottom"
-        size="md"
-        onClose={commentDisclosure.onClose}
-        finalFocusRef={btnRef}
-      >
-        <DrawerOverlay />
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <DrawerContent bgColor={bg}>
-            <DrawerCloseButton />
-            <DrawerHeader>Adicionar comentário</DrawerHeader>
-            <DrawerBody>
-              <Textarea
-                placeholder="Digite aqui um comentário..."
-                focusBorderColor={green}
-                autoFocus
-                {...register('description')}
-              />
-            </DrawerBody>
-
-            <DrawerFooter>
-              <CustomButtom
-                mr={3}
-                colorScheme="gray"
-                onClick={commentDisclosure.onClose}
-              >
-                Cancelar
-              </CustomButtom>
-              <CustomButtom
-                leftIcon={<MdSend size="20px" />}
-                variant={'solid'}
-                type="submit"
-                isLoading={createCommentLoading}
-              >
-                Enviar
-              </CustomButtom>
-            </DrawerFooter>
-          </DrawerContent>
-        </form>
-      </Drawer>
     </Layout>
   );
 }
