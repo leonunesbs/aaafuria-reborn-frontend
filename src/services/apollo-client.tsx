@@ -1,8 +1,8 @@
 import {
   ApolloClient,
+  createHttpLink,
   DefaultOptions,
   InMemoryCache,
-  createHttpLink,
 } from '@apollo/client';
 
 const defaultOptions: DefaultOptions = {
@@ -18,7 +18,7 @@ const defaultOptions: DefaultOptions = {
 
 const httpLink = createHttpLink({
   uri:
-    process.env.NODE_ENV != 'development'
+    process.env.NODE_ENV == 'development'
       ? 'http://192.168.5.166:8000/graphql'
       : `${process.env.BACKEND_DOMAIN}/graphql`,
   credentials: 'same-origin',
