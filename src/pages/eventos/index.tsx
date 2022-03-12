@@ -5,12 +5,12 @@ import {
   Divider,
   FormControl,
   HStack,
+  Image,
   Input,
   SimpleGrid,
   Spinner,
   Stack,
   Text,
-  chakra,
   useColorModeValue,
   useToast,
 } from '@chakra-ui/react';
@@ -28,7 +28,6 @@ import { useCallback, useContext, useEffect, useState } from 'react';
 import { AuthContext } from '@/contexts/AuthContext';
 import { Card } from '@/components/molecules';
 import { Layout } from '@/components/templates';
-import NextImage from 'next/image';
 import { parseCookies } from 'nookies';
 import { useRouter } from 'next/router';
 
@@ -96,8 +95,6 @@ function Eventos() {
   const green = useColorModeValue('green.600', 'green.200');
   const { data, refetch } = useQuery(GET_LOTES);
   const [loading, setLoading] = useState(false);
-
-  const ChakraNextImage = chakra(NextImage);
 
   const [novoIngresso] = useMutation(NOVO_INGRESSO_MUTATION, {
     context: {
@@ -239,17 +236,13 @@ function Eventos() {
               overflow="hidden"
               variant={node.presencial ? 'success' : ''}
             >
-              <Box w="450px" h="450px" position="relative">
-                <ChakraNextImage
-                  layout="fill"
-                  placeholder="blur"
-                  blurDataURL={node.evento.imagem}
-                  objectFit="cover"
-                  src={node.evento.imagem}
-                  alt={node.evento.nome}
-                  quality={1}
-                />
-              </Box>
+              <Image
+                w="full"
+                objectFit="cover"
+                src={node.evento.imagem}
+                mx="auto"
+                alt={node.evento.nome}
+              />
               <Box py="8" px={{ base: '4', md: '10' }} textAlign="center">
                 <PageHeading as="h2" fontWeight="bold">
                   {node.evento.nome}
