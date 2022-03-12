@@ -31,7 +31,7 @@ import { Layout } from '@/components/templates';
 import { parseCookies } from 'nookies';
 import { useRouter } from 'next/router';
 
-const LOTE_QUERY = gql`
+const GET_LOTES = gql`
   query getLotes {
     allLote(ativo: true) {
       edges {
@@ -93,7 +93,7 @@ function Eventos() {
   const { isSocio, isAuthenticated, checkCredentials } =
     useContext(AuthContext);
   const green = useColorModeValue('green.600', 'green.200');
-  const { data, refetch } = useQuery(LOTE_QUERY);
+  const { data, refetch } = useQuery(GET_LOTES);
   const [loading, setLoading] = useState(false);
 
   const [novoIngresso] = useMutation(NOVO_INGRESSO_MUTATION, {
@@ -107,7 +107,6 @@ function Eventos() {
   const handleGoToPayment = useCallback(
     async (loteId: string, presencial: boolean) => {
       setLoading(true);
-      console.log(presencial);
       await novoIngresso({
         variables: { loteId, presencial },
       })

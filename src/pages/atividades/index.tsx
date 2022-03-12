@@ -30,7 +30,7 @@ function Atividades({}: AtividadesProps) {
   const handleCategoria = useCallback(
     (categoria: string) => {
       setCategoria(categoria);
-      router.push(`/atividades?categoria=${categoria}`);
+      router.replace(`/atividades?categoria=${categoria}`);
     },
     [router],
   );
