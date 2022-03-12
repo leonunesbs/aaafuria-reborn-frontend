@@ -8,6 +8,19 @@ module.exports = withPWA({
     skipWaiting: true,
     disable: process.env.NODE_ENV === 'development',
   },
+  reactStrictMode: true,
+  images: {
+    domains: [
+      'aaafuria-reborn.s3.amazonaws.com',
+      'aaafuria-reborn.s3.sa-east-1.amazonaws.com',
+    ],
+  },
+  env: {
+    BACKEND_DOMAIN: 'https://backend.aaafuria.site',
+    NEXT_PUBLIC_GA_ID: 'G-K5LPGWWJL1',
+    PUBLIC_AWS_URI: 'https://aaafuria-reborn.s3.sa-east-1.amazonaws.com/public',
+    ANALYZE: false,
+  },
   webpack: (config, { buildId, dev, isServer, defaultLoaders, webpack }) => {
     if (process.env.ANALYZE) {
       config.plugins.push(
@@ -19,15 +32,5 @@ module.exports = withPWA({
       );
     }
     return config;
-  },
-  reactStrictMode: true,
-  images: {
-    domains: ['aaafuria-reborn.s3.sa-east-1.amazonaws.com'],
-  },
-  env: {
-    BACKEND_DOMAIN: 'https://backend.aaafuria.site',
-    NEXT_PUBLIC_GA_ID: 'G-K5LPGWWJL1',
-    PUBLIC_AWS_URI: 'https://aaafuria-reborn.s3.sa-east-1.amazonaws.com/public',
-    ANALYZE: false,
   },
 });
