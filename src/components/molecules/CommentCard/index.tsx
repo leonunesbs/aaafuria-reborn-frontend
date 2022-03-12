@@ -1,21 +1,14 @@
-import { CustomChakraNextLink } from '@/components/atoms';
-import { ColorContext } from '@/contexts/ColorContext';
 import { Box, Text, Textarea } from '@chakra-ui/react';
-import { useContext } from 'react';
-import { Card } from '..';
 
-export type CommentProps = {
-  id: string;
-  author: {
-    apelido: string;
-  };
-  description: string;
-  createdAt: string;
-};
+import { Card } from '..';
+import { ColorContext } from '@/contexts/ColorContext';
+import { CustomChakraNextLink } from '@/components/atoms';
+import { ICommentType } from '@/pages/ajuda/IIssueType';
+import { useContext } from 'react';
 
 export interface CommentCardProps {
   comment: {
-    node: CommentProps;
+    node: ICommentType;
   };
 }
 

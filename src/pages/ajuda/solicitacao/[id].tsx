@@ -1,31 +1,34 @@
-import {
-  CustomChakraNextLink,
-  PageHeading,
-  VoltarButton,
-} from '@/components/atoms';
-import { CustomButton } from '@/components/atoms/CustomButton';
+import { Box, Stack } from '@chakra-ui/react';
 import {
   CommentCard,
   CreateComment,
   IssueInfoCard,
 } from '@/components/molecules';
-import { IssueProps } from '@/components/molecules/IssueInfoCard';
-import { Layout } from '@/components/templates';
-import { AuthContext } from '@/contexts/AuthContext';
+import {
+  CustomChakraNextLink,
+  PageHeading,
+  VoltarButton,
+} from '@/components/atoms';
 import { gql, useQuery } from '@apollo/client';
-import { Box, Stack } from '@chakra-ui/react';
-import { GetServerSideProps } from 'next';
-import { useRouter } from 'next/router';
-import { parseCookies } from 'nookies';
 import { useContext, useEffect } from 'react';
+
 import { AiFillSetting } from 'react-icons/ai';
+import { AuthContext } from '@/contexts/AuthContext';
+import { CustomButton } from '@/components/atoms/CustomButton';
+import { GetServerSideProps } from 'next';
+import { IIssueType } from '../IIssueType';
+import { Layout } from '@/components/templates';
+import { parseCookies } from 'nookies';
+import { useRouter } from 'next/router';
 
 const GET_ISSUE = gql`
   query getIssue($id: ID!) {
     issue(id: $id) {
       id
       status
+      getStatusDisplay
       priority
+      getPriorityDisplay
       title
       description
       author {
@@ -51,7 +54,7 @@ const GET_ISSUE = gql`
 `;
 
 export interface IssueQueryData {
-  issue: IssueProps;
+  issue: IIssueType;
 }
 
 function Solicitacao() {
@@ -82,7 +85,7 @@ function Solicitacao() {
     <Layout title={data?.issue.title || 'Solicitação'}>
       <Stack maxW="7xl" mx="auto" spacing={4}>
         <IssueInfoCard
-          issue={data?.issue as IssueProps}
+          issue={data?.issue as IIssueType}
           loadingIssueQuery={loading}
           refetchIssueQuery={refetch}
         />

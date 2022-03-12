@@ -44,7 +44,7 @@ import { ColorContext } from '@/contexts/ColorContext';
 import { CustomButton } from '@/components/atoms/CustomButton';
 import { FaEye } from 'react-icons/fa';
 import { GetServerSideProps } from 'next';
-import { IssueType } from './gerenciar-solicitacoes';
+import { IIssueType } from './IIssueType';
 import { Layout } from '@/components/templates';
 import { parseCookies } from 'nookies';
 import router from 'next/router';
@@ -97,7 +97,7 @@ const CREATE_ISSUE = gql`
 interface QueryData {
   socioIssues: {
     edges: {
-      node: IssueType;
+      node: IIssueType;
     }[];
   };
 }

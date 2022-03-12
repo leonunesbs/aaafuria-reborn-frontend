@@ -23,6 +23,7 @@ import { AuthContext } from '@/contexts/AuthContext';
 import { Card } from '@/components/molecules';
 import { FaEye } from 'react-icons/fa';
 import { GetServerSideProps } from 'next';
+import { IIssueType } from './IIssueType';
 import { Layout } from '@/components/templates';
 import { MdCircle } from 'react-icons/md';
 import { parseCookies } from 'nookies';
@@ -51,26 +52,10 @@ const GET_ISSUES = gql`
   }
 `;
 
-export type IssueType = {
-  id: string;
-  title: string;
-  author: {
-    apelido: string;
-  };
-  status: string;
-  getStatusDisplay: string;
-  priority: string;
-  getPriorityDisplay: string;
-  category: string;
-  getCategoryDisplay: string;
-  createdAt: string;
-  updatedAt: string;
-};
-
 interface QueryData {
   allIssues: {
     edges: {
-      node: IssueType;
+      node: IIssueType;
     }[];
   };
 }

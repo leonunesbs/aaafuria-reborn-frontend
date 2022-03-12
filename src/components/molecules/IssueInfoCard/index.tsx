@@ -1,13 +1,4 @@
 import {
-  CustomButtom,
-  CustomChakraNextLink,
-  CustomIconButton,
-  PageHeading,
-} from '@/components/atoms';
-import { AuthContext } from '@/contexts/AuthContext';
-import { ColorContext } from '@/contexts/ColorContext';
-import { gql, useMutation } from '@apollo/client';
-import {
   AlertDialog,
   AlertDialogBody,
   AlertDialogContent,
@@ -26,10 +17,20 @@ import {
   useDisclosure,
   useToast,
 } from '@chakra-ui/react';
-import { useCallback, useContext, useRef } from 'react';
+import {
+  CustomButtom,
+  CustomChakraNextLink,
+  CustomIconButton,
+  PageHeading,
+} from '@/components/atoms';
 import { MdClose, MdOutlineCircle } from 'react-icons/md';
+import { gql, useMutation } from '@apollo/client';
+import { useCallback, useContext, useRef } from 'react';
+
+import { AuthContext } from '@/contexts/AuthContext';
 import { Card } from '..';
-import { CommentProps } from '../CommentCard';
+import { ColorContext } from '@/contexts/ColorContext';
+import { IIssueType } from '@/pages/ajuda/IIssueType';
 
 const CLOSE_ISSUE = gql`
   mutation closeIssue($id: ID!) {
@@ -46,27 +47,8 @@ const OPEN_ISSUE = gql`
   }
 `;
 
-export type IssueProps = {
-  id: string;
-  status: string;
-  priority: string;
-  title: string;
-  description: string;
-  author: {
-    apelido: string;
-    matricula: string;
-  };
-  createdAt: string;
-  updatedAt: string;
-  comments: {
-    edges: {
-      node: CommentProps;
-    }[];
-  };
-};
-
 export interface IssueInfoCardProps {
-  issue: IssueProps;
+  issue: IIssueType;
   loadingIssueQuery: boolean;
   refetchIssueQuery: () => void;
 }
@@ -191,14 +173,14 @@ export const IssueInfoCard = ({
                 <Badge
                   fontSize={'md'}
                   colorScheme={
-                    issue.status === 'Open'
+                    issue.status === 'OPEN'
                       ? 'green'
-                      : issue.status === 'In Progress'
+                      : issue.status === 'IN_PROGRESS'
                       ? 'yellow'
                       : 'red'
                   }
                 >
-                  {issue.status}
+                  {issue.getStatusDisplay}
                 </Badge>
               </Skeleton>
               <Text>Prioridade: </Text>
@@ -213,7 +195,7 @@ export const IssueInfoCard = ({
                       : 'red'
                   }
                 >
-                  {issue.priority}
+                  {issue.getPriorityDisplay}
                 </Badge>
               </Skeleton>
             </Box>
