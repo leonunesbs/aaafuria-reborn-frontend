@@ -1,6 +1,5 @@
-import { CustomButtom } from '@/components/atoms';
-import { CarrinhoData } from '@/pages/areadiretor/plantao/pagamento';
-import { gql, useMutation } from '@apollo/client';
+import * as gtag from 'lib/gtag';
+
 import {
   Modal,
   ModalBody,
@@ -13,10 +12,13 @@ import {
   useDisclosure,
   useToast,
 } from '@chakra-ui/react';
-import * as gtag from 'lib/gtag';
-import router from 'next/router';
-import { parseCookies } from 'nookies';
+import { gql, useMutation } from '@apollo/client';
+
+import { CarrinhoData } from '@/pages/areadiretor/plantao/pagamento';
+import { CustomButtom } from '@/components/atoms';
 import { PixQRCode } from 'pix-react';
+import { parseCookies } from 'nookies';
+import router from 'next/router';
 import { useCallback } from 'react';
 
 export interface PixTabPanelProps {
@@ -98,7 +100,7 @@ export const PixTabPanel = ({ parentData: parentData }: PixTabPanelProps) => {
             mensagem: `${parentData.data?.carrinho.id}`,
           }}
           imageSettings={{
-            src: `${process.env.PUBLIC_AWS_URI}/calango-verde-3.png`,
+            src: '/calango-verde-3.png',
             height: 100,
             width: 100,
             alt: 'Pix',

@@ -16,6 +16,7 @@ import { gql, useMutation, useQuery } from '@apollo/client';
 
 import { AuthContext } from '@/contexts/AuthContext';
 import { Card } from '@/components/molecules';
+import { ColorContext } from '@/contexts/ColorContext';
 import { MdShoppingCart } from 'react-icons/md';
 import { ProdutoType } from '@/pages/loja';
 import { parseCookies } from 'nookies';
@@ -51,6 +52,7 @@ const GET_VARIATIONS = gql`
 
 export const ProdutoCard = ({ node }: ProdutoCardProps) => {
   const { register, handleSubmit } = useForm<any>();
+  const { green, bg } = useContext(ColorContext);
   const [addToCart, { loading }] = useMutation(ADD_TO_CART, {
     context: {
       headers: {
@@ -133,22 +135,23 @@ export const ProdutoCard = ({ node }: ProdutoCardProps) => {
         {isSocio && (
           <Flex
             zIndex={1}
-            bg="green"
+            bg={green}
             position="absolute"
-            left={-16}
-            top={6}
-            width="210px"
-            transform="rotate(-45deg)"
+            right={-16}
+            top={10}
+            width="250px"
+            transform="rotate(45deg)"
             py={2}
             justifyContent="center"
             alignItems="center"
+            shadow={'base'}
           >
             <Text
-              fontSize={{ base: 'xs', lg: 'sm' }}
+              fontSize={{ base: 'lg', lg: 'sm' }}
               textTransform="uppercase"
               fontWeight="bold"
               letterSpacing="wider"
-              color="gray.100"
+              color={bg}
             >
               {((node.precoSocio / node.preco) * 100 - 100).toPrecision(2)}%
               OFF!

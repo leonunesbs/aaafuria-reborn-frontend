@@ -1,14 +1,4 @@
 import {
-  CustomChakraNextLink,
-  CustomIconButton,
-  PageHeading,
-  VoltarButton,
-} from '@/components/atoms';
-import { Card } from '@/components/molecules';
-import { Layout } from '@/components/templates';
-import { AuthContext } from '@/contexts/AuthContext';
-import { gql, useQuery } from '@apollo/client';
-import {
   Badge,
   Box,
   HStack,
@@ -20,12 +10,23 @@ import {
   Thead,
   Tr,
 } from '@chakra-ui/react';
-import { GetServerSideProps } from 'next';
-import { useRouter } from 'next/router';
-import { parseCookies } from 'nookies';
+import {
+  CustomChakraNextLink,
+  CustomIconButton,
+  PageHeading,
+  VoltarButton,
+} from '@/components/atoms';
+import { gql, useQuery } from '@apollo/client';
 import { useContext, useEffect, useState } from 'react';
+
+import { AuthContext } from '@/contexts/AuthContext';
+import { Card } from '@/components/molecules';
 import { FaEye } from 'react-icons/fa';
+import { GetServerSideProps } from 'next';
+import { Layout } from '@/components/templates';
 import { MdCircle } from 'react-icons/md';
+import { parseCookies } from 'nookies';
+import { useRouter } from 'next/router';
 
 const GET_ISSUES = gql`
   query getIssues($status: String) {
@@ -38,8 +39,11 @@ const GET_ISSUES = gql`
             apelido
           }
           status
+          getStatusDisplay
           priority
+          getPriorityDisplay
           category
+          getCategoryDisplay
           createdAt
         }
       }
@@ -47,16 +51,20 @@ const GET_ISSUES = gql`
   }
 `;
 
-type IssueType = {
+export type IssueType = {
   id: string;
   title: string;
   author: {
     apelido: string;
   };
   status: string;
+  getStatusDisplay: string;
   priority: string;
+  getPriorityDisplay: string;
   category: string;
+  getCategoryDisplay: string;
   createdAt: string;
+  updatedAt: string;
 };
 
 interface QueryData {
@@ -177,20 +185,20 @@ function GerenciarSolicitacoes() {
                           : 'red'
                       }
                     >
-                      {node.priority}
+                      {node.getPriorityDisplay}
                     </Badge>
                   </Td>
                   <Td>
                     <Badge
                       colorScheme={
-                        node.status === 'Open'
+                        node.status === 'OPEN'
                           ? 'green'
-                          : node.status === 'In Progress'
+                          : node.status === 'IN_PROGRESS'
                           ? 'yellow'
                           : 'red'
                       }
                     >
-                      {node.status}
+                      {node.getStatusDisplay}
                     </Badge>
                   </Td>
                 </Tr>

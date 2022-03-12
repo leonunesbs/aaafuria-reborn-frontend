@@ -1,14 +1,8 @@
-import { PageHeading, VoltarButton } from '@/components/atoms';
-import { Card } from '@/components/molecules';
-import { Layout } from '@/components/templates';
-import { AuthContext } from '@/contexts/AuthContext';
-import { gql, useQuery } from '@apollo/client';
 import {
   Box,
   Divider,
   HStack,
   Icon,
-  Image,
   Stack,
   Stat,
   StatGroup,
@@ -17,17 +11,25 @@ import {
   StatNumber,
   Table,
   Tbody,
+  Td,
   Text,
   Th,
   Thead,
   Tr,
   useToast,
 } from '@chakra-ui/react';
-import { GetServerSideProps } from 'next';
-import { useRouter } from 'next/router';
-import { parseCookies } from 'nookies';
+import { PageHeading, VoltarButton } from '@/components/atoms';
+import { gql, useQuery } from '@apollo/client';
 import { useContext, useEffect, useState } from 'react';
+
+import { AuthContext } from '@/contexts/AuthContext';
+import { Card } from '@/components/molecules';
 import { FaEquals } from 'react-icons/fa';
+import { GetServerSideProps } from 'next';
+import { Layout } from '@/components/templates';
+import NextImage from 'next/image';
+import { parseCookies } from 'nookies';
+import { useRouter } from 'next/router';
 
 const GET_BANK_DATA = gql`
   query getMovimentacoes {
@@ -91,7 +93,6 @@ function Carteira() {
         authorization: `JWT ${parseCookies()['aaafuriaToken']}`,
       },
     },
-    fetchPolicy: 'no-cache',
   });
   const contaSocio =
     data?.allUserMovimentacoes.edges[0]?.node.contaOrigem.socio.conta;
@@ -158,9 +159,10 @@ function Carteira() {
               <StatLabel>Receba</StatLabel>
               <StatNumber>
                 <HStack>
-                  <Image
-                    src={`${process.env.PUBLIC_AWS_URI}/calango-verde.png`}
-                    boxSize="25px"
+                  <NextImage
+                    src={'/calango-verde.png'}
+                    width={'25px'}
+                    height={'25px'}
                     alt="calangos"
                   />
                   <Text>50</Text>
@@ -186,9 +188,10 @@ function Carteira() {
               <StatLabel>Seu saldo (C$):</StatLabel>
               <StatNumber>
                 <HStack justify="center">
-                  <Image
-                    src={`${process.env.PUBLIC_AWS_URI}/calango-verde.png`}
-                    boxSize="25px"
+                  <NextImage
+                    src={'calango-verde.png'}
+                    width={'25px'}
+                    height={'25px'}
                     alt="calangos"
                   />
                   <Text>{contaSocio?.calangos || 0}</Text>
@@ -213,13 +216,14 @@ function Carteira() {
               <Tbody>
                 {sortedMovimentacoes?.map((movimentacao) => (
                   <Tr key={movimentacao.resolvidaEm}>
-                    <Th>{movimentacao.descricao}</Th>
-                    <Th>R$ {movimentacao.valor}</Th>
-                    <Th>
+                    <Td>{movimentacao.descricao}</Td>
+                    <Td>R$ {movimentacao.valor}</Td>
+                    <Td>
                       <HStack>
-                        <Image
-                          src={`${process.env.PUBLIC_AWS_URI}/calango-verde.png`}
-                          boxSize="15px"
+                        <NextImage
+                          src={'/calango-verde.png'}
+                          width={'15px'}
+                          height={'15px'}
                           alt="calangos"
                         />
                         ]
@@ -229,8 +233,8 @@ function Carteira() {
                           ).toFixed(0)}
                         </Text>
                       </HStack>
-                    </Th>
-                    <Th>
+                    </Td>
+                    <Td>
                       {new Date(movimentacao.resolvidaEm).toLocaleString(
                         'pt-BR',
                         {
@@ -239,16 +243,16 @@ function Carteira() {
                           timeZone: 'America/Sao_Paulo',
                         },
                       )}
-                    </Th>
+                    </Td>
                   </Tr>
                 ))}
                 {!sortedMovimentacoes?.length && (
                   <Tr>
-                    <Th colSpan={4}>
+                    <Td colSpan={4}>
                       <Text textAlign={'center'}>
                         <em>Nenhuma movimentação encontrada</em>
                       </Text>
-                    </Th>
+                    </Td>
                   </Tr>
                 )}
               </Tbody>

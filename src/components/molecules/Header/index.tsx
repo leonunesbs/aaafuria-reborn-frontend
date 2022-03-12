@@ -2,7 +2,6 @@ import {
   Box,
   Flex,
   HStack,
-  Image,
   Spinner,
   Text,
   useColorModeValue,
@@ -20,6 +19,7 @@ import { useContext, useEffect } from 'react';
 import { AiFillHome } from 'react-icons/ai';
 import { AuthContext } from '@/contexts/AuthContext';
 import { FaInbox } from 'react-icons/fa';
+import NextImage from 'next/image';
 import { parseCookies } from 'nookies';
 
 const GET_SOCIO = gql`
@@ -67,9 +67,10 @@ export const Header = () => {
           <CustomChakraNextLink href="/areasocio/carteira">
             <CustomButtom flexDir="column" textColor={green} w="initial">
               <HStack>
-                <Image
-                  src={`${process.env.PUBLIC_AWS_URI}/calango-verde.png`}
-                  boxSize="15px"
+                <NextImage
+                  src={'/calango-verde.png'}
+                  width="20px"
+                  height="20px"
                   alt="calangos"
                 />
                 <Text fontSize="sm">

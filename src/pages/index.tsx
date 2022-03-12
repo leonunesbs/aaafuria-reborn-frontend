@@ -34,15 +34,10 @@ import NextImage from 'next/image';
 type HomeProps = BoxProps;
 
 export default function Home({}: HomeProps) {
-  const { isAuthenticated, checkCredentials, matricula } =
-    useContext(AuthContext);
+  const { isAuthenticated, matricula } = useContext(AuthContext);
   const { loading, setLoading } = useContext(LoadingContext);
   const ChakraNextImage = chakra(NextImage);
   const { green } = useContext(ColorContext);
-
-  useEffect(() => {
-    checkCredentials();
-  }, [checkCredentials]);
 
   useEffect(() => {
     setTimeout(() => setLoading(false), 100);
@@ -65,10 +60,10 @@ export default function Home({}: HomeProps) {
           <Box width="270px" height="180px" position="relative">
             <ChakraNextImage
               placeholder="blur"
-              blurDataURL={`${process.env.PUBLIC_AWS_URI}/logo-aaafuria-h.webp`}
+              blurDataURL={'/logo-aaafuria-h.webp'}
               layout="fill"
               objectFit="cover"
-              src={`${process.env.PUBLIC_AWS_URI}/logo-aaafuria-h.webp`}
+              src={'/logo-aaafuria-h.webp'}
               quality={1}
               alt="logo"
               mx="auto"

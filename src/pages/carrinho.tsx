@@ -3,7 +3,6 @@ import {
   Button,
   HStack,
   IconButton,
-  Image,
   Popover,
   PopoverArrow,
   PopoverBody,
@@ -30,6 +29,7 @@ import { gql, useMutation, useQuery } from '@apollo/client';
 import { Card } from '@/components/molecules';
 import { GetServerSideProps } from 'next';
 import { Layout } from '@/components/templates';
+import NextImage from 'next/image';
 import { PageHeading } from '@/components/atoms';
 import { parseCookies } from 'nookies';
 import { useRouter } from 'next/router';
@@ -270,12 +270,11 @@ function Carrinho() {
                     colorScheme="green"
                     variant="outline"
                     leftIcon={
-                      <Image
-                        boxSize="25px"
-                        objectFit="cover"
-                        src={`${process.env.PUBLIC_AWS_URI}/calango-verde.png`}
+                      <NextImage
+                        height="25px"
+                        width="25px"
+                        src={'/calango-verde.png'}
                         alt="calangos"
-                        mx="auto"
                       />
                     }
                   >

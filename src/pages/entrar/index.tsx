@@ -26,6 +26,7 @@ import React, {
   useCallback,
   useContext,
   useEffect,
+  useMemo,
   useRef,
   useState,
 } from 'react';
@@ -81,7 +82,7 @@ export default function Entrar() {
     formState: { errors, isSubmitting },
   } = useForm<Inputs>();
 
-  const ChakraNextImage = chakra(NextImage);
+  const ChakraNextImage = useMemo(() => chakra(NextImage), []);
 
   const checkMatricula = useCallback(
     (matricula: string) => {
@@ -162,8 +163,8 @@ export default function Entrar() {
               placeholder="blur"
               layout="fill"
               objectFit="cover"
-              src={`${process.env.PUBLIC_AWS_URI}/calango-verde.png`}
-              blurDataURL={`${process.env.PUBLIC_AWS_URI}/calango-verde.png`}
+              src={'/calango-verde.png'}
+              blurDataURL={'/calango-verde.png'}
               quality={1}
               alt="logo"
               mx="auto"

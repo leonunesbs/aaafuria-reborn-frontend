@@ -1,4 +1,4 @@
-import { Box, Divider, Image, Stack, StackProps } from '@chakra-ui/react';
+import { Box, Divider, Stack, StackProps } from '@chakra-ui/react';
 import {
   CustomButtom,
   CustomChakraNextLink,
@@ -9,6 +9,7 @@ import { gql, useQuery } from '@apollo/client';
 
 import { AiFillIdcard } from 'react-icons/ai';
 import { MdManageAccounts } from 'react-icons/md';
+import NextImage from 'next/image';
 import React from 'react';
 import { parseCookies } from 'nookies';
 
@@ -37,10 +38,11 @@ export const AreaSocioMenu = ({ ...rest }: AreaSocioMenuProps) => {
       <CustomChakraNextLink href="/loja-calangos">
         <CustomButtom
           leftIcon={
-            <Image
-              src={`${process.env.PUBLIC_AWS_URI}/calango-verde.png`}
-              boxSize="25px"
+            <NextImage
+              src={'/calango-verde.png'}
               alt="calangos"
+              width={'25px'}
+              height={'25px'}
             />
           }
         >

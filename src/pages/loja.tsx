@@ -1,17 +1,17 @@
-import { Box, Button, SimpleGrid, Stack, Text } from '@chakra-ui/react';
 import {
   CustomChakraNextLink,
   PageHeading,
   VoltarButton,
 } from '@/components/atoms';
 import { ProdutoCard, SocialIcons } from '@/components/molecules';
-import React, { useContext, useEffect } from 'react';
-import { gql, useQuery } from '@apollo/client';
-
-import { AuthContext } from '@/contexts/AuthContext';
 import { Layout } from '@/components/templates';
-import { MdShoppingCart } from 'react-icons/md';
+import { AuthContext } from '@/contexts/AuthContext';
+import client from '@/services/apollo-client';
+import { gql, useQuery } from '@apollo/client';
+import { Box, Button, SimpleGrid, Stack, Text } from '@chakra-ui/react';
 import { parseCookies } from 'nookies';
+import React, { useContext, useEffect } from 'react';
+import { MdShoppingCart } from 'react-icons/md';
 
 const PRODUTO_QUERY = gql`
   query getProdutos {
@@ -32,6 +32,12 @@ const PRODUTO_QUERY = gql`
   }
 `;
 
+interface QueryData {
+  allProduto: {
+    edges: ProdutoType[];
+  };
+}
+
 export type ProdutoType = {
   node: {
     id: string;
@@ -46,7 +52,7 @@ export type ProdutoType = {
 };
 
 function Loja() {
-  const { data } = useQuery(PRODUTO_QUERY);
+  const { data } = useQuery<QueryData>(PRODUTO_QUERY);
   const { checkCredentials } = useContext(AuthContext);
   const [isSocio, setIsSocio] = React.useState(false);
 
@@ -70,7 +76,7 @@ function Loja() {
           justifyItems="center"
           alignItems="center"
         >
-          {data?.allProduto?.edges?.map(({ node }: ProdutoType) => {
+          {data?.allProduto?.edges?.map(({ node }) => {
             return <ProdutoCard key={node.id} node={node} />;
           })}
         </SimpleGrid>
@@ -99,5 +105,16 @@ function Loja() {
     </Layout>
   );
 }
+
+export const getStaticProps = async ({ params }) => {
+  await client.query({
+    query: PRODUTO_QUERY,
+  });
+  return {
+    props: {
+      apolloStaticCache: client.cache.extract(),
+    },
+  };
+};
 
 export default Loja;

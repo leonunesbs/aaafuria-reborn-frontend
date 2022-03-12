@@ -1,17 +1,4 @@
 import {
-  CustomButtom,
-  CustomChakraNextLink,
-  CustomIconButton,
-  PageHeading,
-  VoltarButton,
-} from '@/components/atoms';
-import { CustomButton } from '@/components/atoms/CustomButton';
-import { Card } from '@/components/molecules';
-import { Layout } from '@/components/templates';
-import { AuthContext } from '@/contexts/AuthContext';
-import { ColorContext } from '@/contexts/ColorContext';
-import { gql, useMutation, useQuery } from '@apollo/client';
-import {
   Badge,
   Drawer,
   DrawerBody,
@@ -38,14 +25,29 @@ import {
   useDisclosure,
   useToast,
 } from '@chakra-ui/react';
-import { GetServerSideProps } from 'next';
-import router from 'next/router';
-import { parseCookies } from 'nookies';
-import { useCallback, useContext, useEffect, useRef } from 'react';
-import { SubmitHandler, useForm } from 'react-hook-form';
-import { AiFillSetting } from 'react-icons/ai';
-import { FaEye } from 'react-icons/fa';
+import {
+  CustomButtom,
+  CustomChakraNextLink,
+  CustomIconButton,
+  PageHeading,
+  VoltarButton,
+} from '@/components/atoms';
 import { MdAdd, MdSend } from 'react-icons/md';
+import { SubmitHandler, useForm } from 'react-hook-form';
+import { gql, useMutation, useQuery } from '@apollo/client';
+import { useCallback, useContext, useEffect, useRef } from 'react';
+
+import { AiFillSetting } from 'react-icons/ai';
+import { AuthContext } from '@/contexts/AuthContext';
+import { Card } from '@/components/molecules';
+import { ColorContext } from '@/contexts/ColorContext';
+import { CustomButton } from '@/components/atoms/CustomButton';
+import { FaEye } from 'react-icons/fa';
+import { GetServerSideProps } from 'next';
+import { IssueType } from './gerenciar-solicitacoes';
+import { Layout } from '@/components/templates';
+import { parseCookies } from 'nookies';
+import router from 'next/router';
 
 type Inputs = {
   title: string;
@@ -63,9 +65,11 @@ const GET_ISSUES = gql`
           title
           description
           status
+          getStatusDisplay
+          priority
+          getPriorityDisplay
           updatedAt
           createdAt
-          priority
         }
       }
     }
@@ -93,15 +97,7 @@ const CREATE_ISSUE = gql`
 interface QueryData {
   socioIssues: {
     edges: {
-      node: {
-        id: string;
-        title: string;
-        description: string;
-        status: string;
-        updatedAt: string;
-        createdAt: string;
-        priority: string;
-      };
+      node: IssueType;
     }[];
   };
 }
@@ -225,14 +221,14 @@ function Solicitacoes() {
                     <Td>
                       <Badge
                         colorScheme={
-                          issue.node.status === 'Open'
+                          issue.node.status === 'OPEN'
                             ? 'green'
-                            : issue.node.status === 'In Progress'
+                            : issue.node.status === 'IN_PROGRESS'
                             ? 'yellow'
                             : 'red'
                         }
                       >
-                        {issue.node.status}
+                        {issue.node.getStatusDisplay}
                       </Badge>
                     </Td>
                     <Td>
@@ -245,7 +241,7 @@ function Solicitacoes() {
                             : 'red'
                         }
                       >
-                        {issue.node.priority}
+                        {issue.node.getPriorityDisplay}
                       </Badge>
                     </Td>
                   </Tr>

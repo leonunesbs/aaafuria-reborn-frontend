@@ -22,13 +22,13 @@ import {
   PageHeading,
   VoltarButton,
 } from '@/components/atoms';
-import { MdRefresh } from 'react-icons/md';
 import { gql, useQuery } from '@apollo/client';
 
 import { Card } from '@/components/molecules';
 import { GetServerSideProps } from 'next';
 import InputMask from 'react-input-mask';
 import { Layout } from '@/components/templates';
+import { MdRefresh } from 'react-icons/md';
 import React from 'react';
 import { parseCookies } from 'nookies';
 import { useRouter } from 'next/router';
@@ -117,7 +117,7 @@ function Carteirinha({ token }: CarteirinhaProps) {
             <Image
               boxSize="240px"
               objectFit="cover"
-              src={`${process.env.PUBLIC_AWS_URI}/calango-verde.png`}
+              src={'/calango-verde.png'}
               alt="logo"
               mx="auto"
               mb={{ base: '8', md: '12' }}
