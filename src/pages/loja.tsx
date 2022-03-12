@@ -1,17 +1,19 @@
+import { Box, Button, SimpleGrid, Stack, Text } from '@chakra-ui/react';
 import {
   CustomChakraNextLink,
   PageHeading,
   VoltarButton,
 } from '@/components/atoms';
 import { ProdutoCard, SocialIcons } from '@/components/molecules';
-import { Layout } from '@/components/templates';
-import { AuthContext } from '@/contexts/AuthContext';
-import client from '@/services/apollo-client';
-import { gql, useQuery } from '@apollo/client';
-import { Box, Button, SimpleGrid, Stack, Text } from '@chakra-ui/react';
-import { parseCookies } from 'nookies';
 import React, { useContext, useEffect } from 'react';
+
+import { AuthContext } from '@/contexts/AuthContext';
+import { GetStaticProps } from 'next';
+import { Layout } from '@/components/templates';
 import { MdShoppingCart } from 'react-icons/md';
+import client from '@/services/apollo-client';
+import { gql } from '@apollo/client';
+import { parseCookies } from 'nookies';
 
 const PRODUTO_QUERY = gql`
   query getProdutos {
@@ -51,8 +53,7 @@ export type ProdutoType = {
   };
 };
 
-function Loja() {
-  const { data } = useQuery<QueryData>(PRODUTO_QUERY);
+function Loja({ produtos }: { produtos: QueryData }) {
   const { checkCredentials } = useContext(AuthContext);
   const [isSocio, setIsSocio] = React.useState(false);
 
@@ -76,11 +77,11 @@ function Loja() {
           justifyItems="center"
           alignItems="center"
         >
-          {data?.allProduto?.edges?.map(({ node }) => {
+          {produtos?.allProduto?.edges?.map(({ node }) => {
             return <ProdutoCard key={node.id} node={node} />;
           })}
         </SimpleGrid>
-        {data?.allProduto?.edges?.length === 0 && (
+        {produtos?.allProduto?.edges?.length === 0 && (
           <Text textAlign={'center'}>
             <em>Nenhum produto disponível para compra online no momento.</em>
           </Text>
@@ -106,15 +107,18 @@ function Loja() {
   );
 }
 
-export const getStaticProps = async ({ params }) => {
-  await client.query({
-    query: PRODUTO_QUERY,
-  });
-  return {
-    props: {
-      apolloStaticCache: client.cache.extract(),
-    },
-  };
+export const getStaticProps: GetStaticProps = async ({}) => {
+  return await client
+    .query({
+      query: PRODUTO_QUERY,
+    })
+    .then(({ data }) => {
+      return {
+        props: {
+          produtos: data,
+        },
+      };
+    });
 };
 
 export default Loja;
