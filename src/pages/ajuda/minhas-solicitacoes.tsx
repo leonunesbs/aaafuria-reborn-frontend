@@ -32,12 +32,11 @@ import {
   PageHeading,
   VoltarButton,
 } from '@/components/atoms';
-import { MdAdd, MdSend } from 'react-icons/md';
+import { MdAdd, MdHelpCenter, MdSend } from 'react-icons/md';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { gql, useMutation, useQuery } from '@apollo/client';
 import { useCallback, useContext, useEffect, useRef } from 'react';
 
-import { AiFillSetting } from 'react-icons/ai';
 import { AuthContext } from '@/contexts/AuthContext';
 import { Card } from '@/components/molecules';
 import { ColorContext } from '@/contexts/ColorContext';
@@ -270,7 +269,7 @@ function Solicitacoes() {
           {isStaff && (
             <CustomChakraNextLink href={'/ajuda/gerenciar-solicitacoes'}>
               <CustomButton
-                leftIcon={<AiFillSetting size="20px" />}
+                leftIcon={<MdHelpCenter size="25px" />}
                 colorScheme={'yellow'}
               >
                 Gerenciar solicitações

@@ -21,6 +21,7 @@ import { useCallback, useContext, useEffect, useState } from 'react';
 
 import { AuthContext } from '@/contexts/AuthContext';
 import { Card } from '@/components/molecules';
+import { ColorContext } from '@/contexts/ColorContext';
 import { FaEye } from 'react-icons/fa';
 import { GetServerSideProps } from 'next';
 import { IIssueType } from './IIssueType';
@@ -65,6 +66,7 @@ function GerenciarSolicitacoes() {
   const [statusFilter, setStatusFilter] = useState('');
   const { token, isStaff, checkCredentials, isAuthenticated } =
     useContext(AuthContext);
+  const { green } = useContext(ColorContext);
   const { data, refetch } = useQuery<QueryData>(GET_ISSUES, {
     context: {
       headers: {
@@ -146,7 +148,19 @@ function GerenciarSolicitacoes() {
               )}
               {data?.allIssues?.edges?.map(({ node }) => (
                 <Tr key={node.id}>
-                  <Td>{node.title}</Td>
+                  <Td>
+                    <CustomChakraNextLink
+                      href={`/ajuda/solicitacao/${node.id}`}
+                      chakraLinkProps={{
+                        color: green,
+                        _hover: {
+                          textDecoration: 'underline',
+                        },
+                      }}
+                    >
+                      {node.title}
+                    </CustomChakraNextLink>
+                  </Td>
                   <Td />
                   <Td>{node.category}</Td>
                   <Td>{node.author.apelido}</Td>

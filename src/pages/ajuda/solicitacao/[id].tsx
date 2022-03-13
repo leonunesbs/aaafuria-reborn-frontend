@@ -12,12 +12,12 @@ import {
 import { gql, useQuery } from '@apollo/client';
 import { useContext, useEffect } from 'react';
 
-import { AiFillSetting } from 'react-icons/ai';
 import { AuthContext } from '@/contexts/AuthContext';
 import { CustomButton } from '@/components/atoms/CustomButton';
 import { GetServerSideProps } from 'next';
 import { IIssueType } from '../IIssueType';
 import { Layout } from '@/components/templates';
+import { MdHelpCenter } from 'react-icons/md';
 import { parseCookies } from 'nookies';
 import { useRouter } from 'next/router';
 
@@ -106,7 +106,7 @@ function Solicitacao() {
           {isStaff && (
             <CustomChakraNextLink href={'/ajuda/gerenciar-solicitacoes'}>
               <CustomButton
-                leftIcon={<AiFillSetting size="20px" />}
+                leftIcon={<MdHelpCenter size="25px" />}
                 colorScheme={'yellow'}
               >
                 Gerenciar solicitações
