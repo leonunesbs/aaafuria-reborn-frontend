@@ -10,11 +10,9 @@ import {
   BoxProps,
   Center,
   Divider,
-  Flex,
   Skeleton,
   Spinner,
   Stack,
-  Text,
   chakra,
 } from '@chakra-ui/react';
 import {
@@ -22,13 +20,12 @@ import {
   CustomChakraNextLink,
   PageHeading,
 } from '@/components/atoms';
+import { MdHelpCenter, MdLogin } from 'react-icons/md';
 import React, { useContext, useEffect } from 'react';
 
 import { AuthContext } from '@/contexts/AuthContext';
-import { ColorContext } from '@/contexts/ColorContext';
 import { Layout } from '@/components/templates';
 import { LoadingContext } from '@/contexts/LoadingContext';
-import { MdLogin } from 'react-icons/md';
 import NextImage from 'next/image';
 
 type HomeProps = BoxProps;
@@ -37,7 +34,6 @@ export default function Home({}: HomeProps) {
   const { isAuthenticated, matricula } = useContext(AuthContext);
   const { loading, setLoading } = useContext(LoadingContext);
   const ChakraNextImage = chakra(NextImage);
-  const { green } = useContext(ColorContext);
 
   useEffect(() => {
     setTimeout(() => setLoading(false), 100);
@@ -102,25 +98,11 @@ export default function Home({}: HomeProps) {
             </Stack>
           </Card>
         </Skeleton>
-        <Flex justify="center">
-          <Badge fontSize={'sm'} colorScheme="gray">
-            <Text as="em" textAlign="center">
-              Precisa de ajuda? Clique{' '}
-              <CustomChakraNextLink
-                href="/ajuda/minhas-solicitacoes"
-                chakraLinkProps={{
-                  color: green,
-                  _hover: {
-                    textDecoration: 'underline',
-                  },
-                }}
-              >
-                aqui
-              </CustomChakraNextLink>
-              !
-            </Text>
-          </Badge>
-        </Flex>
+        <CustomChakraNextLink href="/ajuda/minhas-solicitacoes">
+          <CustomButtom leftIcon={<MdHelpCenter size="25px" />}>
+            Ajuda
+          </CustomButtom>
+        </CustomChakraNextLink>
         <SocialIcons />
       </Stack>
     </Layout>
