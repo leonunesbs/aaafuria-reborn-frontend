@@ -82,7 +82,7 @@ function Solicitacao() {
   }, [checkCredentials, isAuthenticated, refetch, router]);
 
   return (
-    <Layout title={data?.issue.title || 'Solicitação'}>
+    <Layout title={data?.issue.title ? data.issue.title : 'Solicitação'}>
       <Stack maxW="7xl" mx="auto" spacing={4}>
         <IssueInfoCard
           issue={data?.issue as IIssueType}
