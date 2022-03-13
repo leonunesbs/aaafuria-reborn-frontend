@@ -43,6 +43,48 @@ class Document extends NextDocument {
             content={'/favicon/browserconfig.xml'}
           />
           <meta name="theme-color" content="#2F855A"></meta>
+          <link
+            rel="preload"
+            href="/fonts/AACHENN.TTF"
+            as="font"
+            crossOrigin=""
+          />
+          <link
+            rel="preload"
+            href="/fonts/Lato-Thin.ttf"
+            as="font"
+            crossOrigin=""
+          />
+          <link
+            rel="preload"
+            href="/fonts/Lato-Regular.ttf"
+            as="font"
+            crossOrigin=""
+          />
+          <link
+            rel="preload"
+            href="/fonts/Lato-Light.ttf"
+            as="font"
+            crossOrigin=""
+          />
+          <link
+            rel="preload"
+            href="/fonts/Lato-Italic.ttf"
+            as="font"
+            crossOrigin=""
+          />
+          <link
+            rel="preload"
+            href="/fonts/Lato-Bold.ttf"
+            as="font"
+            crossOrigin=""
+          />
+          <link
+            rel="preload"
+            href="/fonts/Lato-Black.ttf"
+            as="font"
+            crossOrigin=""
+          />
         </Head>
         <body>
           <ColorModeScript initialColorMode={theme.config.initialColorMode} />
