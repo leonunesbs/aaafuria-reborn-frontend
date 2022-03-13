@@ -205,18 +205,28 @@ function Solicitacoes() {
                     </Td>
                     <Td>{issue.node.title}</Td>
                     <Td>
-                      {new Date(issue.node.updatedAt).toLocaleString('pt-BR', {
-                        dateStyle: 'short',
-                        timeStyle: 'short',
-                        timeZone: 'America/Sao_Paulo',
-                      })}
+                      <Text as="time" dateTime={issue.node.updatedAt}>
+                        {new Date(issue.node.updatedAt).toLocaleString(
+                          'pt-BR',
+                          {
+                            dateStyle: 'short',
+                            timeStyle: 'short',
+                            timeZone: 'America/Sao_Paulo',
+                          },
+                        )}
+                      </Text>
                     </Td>
                     <Td>
-                      {new Date(issue.node.createdAt).toLocaleString('pt-BR', {
-                        dateStyle: 'short',
-                        timeStyle: 'short',
-                        timeZone: 'America/Sao_Paulo',
-                      })}
+                      <Text as="time" dateTime={issue.node.createdAt}>
+                        {new Date(issue.node.createdAt).toLocaleString(
+                          'pt-BR',
+                          {
+                            dateStyle: 'short',
+                            timeStyle: 'short',
+                            timeZone: 'America/Sao_Paulo',
+                          },
+                        )}
+                      </Text>
                     </Td>
                     <Td>
                       <Badge

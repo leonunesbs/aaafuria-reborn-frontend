@@ -8,6 +8,7 @@ import {
   Box,
   Table,
   Td,
+  Text,
   Tr,
   useDisclosure,
   useToast,
@@ -193,11 +194,13 @@ const Ingresso = () => {
                 <b>Data da Compra: </b>
               </Td>
               <Td>
-                {new Date(ingresso?.dataCompra).toLocaleString('pt-BR', {
-                  dateStyle: 'short',
-                  timeStyle: 'short',
-                  timeZone: 'America/Sao_Paulo',
-                })}
+                <Text as="time" dateTime={ingresso?.dataCompra}>
+                  {new Date(ingresso?.dataCompra).toLocaleString('pt-BR', {
+                    dateStyle: 'short',
+                    timeStyle: 'short',
+                    timeZone: 'America/Sao_Paulo',
+                  })}
+                </Text>
               </Td>
             </Tr>
             <Tr>

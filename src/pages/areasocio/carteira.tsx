@@ -235,14 +235,16 @@ function Carteira() {
                       </HStack>
                     </Td>
                     <Td>
-                      {new Date(movimentacao.resolvidaEm).toLocaleString(
-                        'pt-BR',
-                        {
-                          dateStyle: 'short',
-                          timeStyle: 'short',
-                          timeZone: 'America/Sao_Paulo',
-                        },
-                      )}
+                      <Text as="time" dateTime={movimentacao.resolvidaEm}>
+                        {new Date(movimentacao.resolvidaEm).toLocaleString(
+                          'pt-BR',
+                          {
+                            dateStyle: 'short',
+                            timeStyle: 'short',
+                            timeZone: 'America/Sao_Paulo',
+                          },
+                        )}
+                      </Text>
                     </Td>
                   </Tr>
                 ))}

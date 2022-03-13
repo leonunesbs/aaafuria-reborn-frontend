@@ -249,11 +249,16 @@ function Eventos() {
                 </PageHeading>
                 <Badge fontSize={'lg'} mb={4} colorScheme="green">
                   <em>
-                    {new Date(node.evento.dataInicio).toLocaleString('pt-BR', {
-                      dateStyle: 'long',
-                      timeStyle: 'short',
-                      timeZone: 'America/Sao_Paulo',
-                    })}
+                    <Text as="time" dateTime={node.evento.dataInicio}>
+                      {new Date(node.evento.dataInicio).toLocaleString(
+                        'pt-BR',
+                        {
+                          dateStyle: 'long',
+                          timeStyle: 'short',
+                          timeZone: 'America/Sao_Paulo',
+                        },
+                      )}
+                    </Text>
                   </em>
                 </Badge>
                 <PageHeading as="h3" fontWeight="normal" fontSize="2xl">

@@ -154,11 +154,13 @@ function GerenciarSolicitacoes() {
                   <Td>{node.category}</Td>
                   <Td>{node.author.apelido}</Td>
                   <Td>
-                    {new Date(node.createdAt).toLocaleString('pt-BR', {
-                      dateStyle: 'short',
-                      timeStyle: 'short',
-                      timeZone: 'America/Sao_Paulo',
-                    })}
+                    <Text as="time" dateTime={node.createdAt}>
+                      {new Date(node.createdAt).toLocaleString('pt-BR', {
+                        dateStyle: 'short',
+                        timeStyle: 'short',
+                        timeZone: 'America/Sao_Paulo',
+                      })}
+                    </Text>
                   </Td>
                   <Td>
                     <Badge

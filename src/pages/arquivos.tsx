@@ -5,6 +5,7 @@ import {
   Table,
   Tbody,
   Td,
+  Text,
   Th,
   Thead,
   Tr,
@@ -129,11 +130,13 @@ function Arquivos() {
                       <Td></Td>
                       <Td></Td>
                       <Td>
-                        {new Date(file.postedAt).toLocaleString('pt-BR', {
-                          dateStyle: 'short',
-                          timeStyle: 'short',
-                          timeZone: 'America/Sao_Paulo',
-                        })}
+                        <Text as="time" dateTime={file.postedAt}>
+                          {new Date(file.postedAt).toLocaleString('pt-BR', {
+                            dateStyle: 'short',
+                            timeStyle: 'short',
+                            timeZone: 'America/Sao_Paulo',
+                          })}
+                        </Text>
                       </Td>
                     </Tr>
                   ),

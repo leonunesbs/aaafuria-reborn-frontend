@@ -104,13 +104,18 @@ function Arquivo() {
                 </FormControl>
               )}
             </Stack>
-            <Text textAlign={'right'} mt={4}>
+            <Text textAlign={'right'} mt={4} isTruncated>
               <strong>Criado em:</strong>{' '}
-              {new Date(data?.file.postedAt as string).toLocaleString('pt-BR', {
-                dateStyle: 'short',
-                timeStyle: 'short',
-                timeZone: 'America/Sao_Paulo',
-              })}
+              <Text as="time" dateTime={data?.file.postedAt}>
+                {new Date(data?.file.postedAt as string).toLocaleString(
+                  'pt-BR',
+                  {
+                    dateStyle: 'short',
+                    timeStyle: 'short',
+                    timeZone: 'America/Sao_Paulo',
+                  },
+                )}
+              </Text>
             </Text>
           </Card>
         </Skeleton>

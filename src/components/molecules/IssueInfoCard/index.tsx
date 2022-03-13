@@ -214,7 +214,12 @@ export const IssueInfoCard = ({
                   {issue.author.apelido}
                 </CustomChakraNextLink>
               </Text>
-              <Text textAlign={'right'} fontSize="sm">
+              <Text
+                as="time"
+                dateTime={issue.createdAt}
+                textAlign={'right'}
+                fontSize="sm"
+              >
                 {new Date(issue.createdAt as string).toLocaleString('pt-BR', {
                   dateStyle: 'short',
                   timeStyle: 'short',

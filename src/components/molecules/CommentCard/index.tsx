@@ -38,7 +38,12 @@ export const CommentCard = ({ comment }: CommentCardProps) => {
             {comment.node.author.apelido}
           </CustomChakraNextLink>
         </Text>
-        <Text textAlign={'right'} fontSize="sm">
+        <Text
+          as="time"
+          dateTime={comment.node.createdAt}
+          textAlign={'right'}
+          fontSize="sm"
+        >
           {new Date(comment.node.createdAt as string).toLocaleString('pt-BR', {
             dateStyle: 'short',
             timeStyle: 'short',

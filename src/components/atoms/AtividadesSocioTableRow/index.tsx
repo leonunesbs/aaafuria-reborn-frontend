@@ -1,11 +1,4 @@
 import {
-  CustomButtom,
-  CustomChakraNextLink,
-  CustomIconButton,
-} from '@/components/atoms';
-import { AuthContext } from '@/contexts/AuthContext';
-import { gql, useMutation } from '@apollo/client';
-import {
   Badge,
   Box,
   Center,
@@ -20,8 +13,6 @@ import {
   useColorModeValue,
   useToast,
 } from '@chakra-ui/react';
-import { useRouter } from 'next/router';
-import { parseCookies } from 'nookies';
 import {
   ChangeEvent,
   useCallback,
@@ -29,9 +20,19 @@ import {
   useEffect,
   useState,
 } from 'react';
-import { FaWhatsapp } from 'react-icons/fa';
+import {
+  CustomButtom,
+  CustomChakraNextLink,
+  CustomIconButton,
+} from '@/components/atoms';
 import { MdCalendarToday, MdLogin } from 'react-icons/md';
+import { gql, useMutation } from '@apollo/client';
+
+import { AuthContext } from '@/contexts/AuthContext';
+import { FaWhatsapp } from 'react-icons/fa';
 import { ProgramacaoData } from '../../molecules/AtividadesSocioTable';
+import { parseCookies } from 'nookies';
+import { useRouter } from 'next/router';
 
 export interface AtividadesSocioTableRowProps extends TableRowProps {
   node: ProgramacaoData;
@@ -249,15 +250,10 @@ export const AtividadesSocioTableRow = ({
           icon={<MdCalendarToday size="20px" />}
           isDisabled
         />
-        <Text>
-          {new Date(node.dataHora).toLocaleDateString('pt-BR', {
-            dateStyle: 'short',
-            timeZone: 'America/Sao_Paulo',
-          })}
-        </Text>
-        <Text>
-          {new Date(node.dataHora).toLocaleTimeString('pt-BR', {
+        <Text as={'time'} dateTime={node.dataHora}>
+          {new Date(node.dataHora).toLocaleString('pt-BR', {
             timeStyle: 'short',
+            dateStyle: 'short',
             timeZone: 'America/Sao_Paulo',
           })}
         </Text>
