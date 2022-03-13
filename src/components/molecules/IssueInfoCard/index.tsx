@@ -23,7 +23,6 @@ import {
   CustomIconButton,
   PageHeading,
 } from '@/components/atoms';
-import { MdClose, MdOutlineCircle } from 'react-icons/md';
 import { gql, useMutation } from '@apollo/client';
 import { useCallback, useContext, useRef } from 'react';
 
@@ -31,6 +30,7 @@ import { AuthContext } from '@/contexts/AuthContext';
 import { Card } from '..';
 import { ColorContext } from '@/contexts/ColorContext';
 import { IIssueType } from '@/pages/ajuda/IIssueType';
+import { MdCircle } from 'react-icons/md';
 
 const CLOSE_ISSUE = gql`
   mutation closeIssue($id: ID!) {
@@ -139,14 +139,14 @@ export const IssueInfoCard = ({
           <HStack justify={'right'}>
             <CustomIconButton
               aria-label="open-issue"
-              icon={<MdOutlineCircle size="15px" />}
+              icon={<MdCircle size="15px" />}
               isDisabled={!isStaff}
               onClick={() => handleOpenIssue(issue.id as string)}
             />
             <CustomIconButton
               aria-label="close-issue"
               colorScheme="red"
-              icon={<MdClose size="20px" />}
+              icon={<MdCircle size="15px" />}
               onClick={onOpen}
             />
           </HStack>
@@ -199,34 +199,38 @@ export const IssueInfoCard = ({
                 </Badge>
               </Skeleton>
             </Box>
-            <Box>
-              <Text textAlign={'right'} fontSize="sm">
-                <CustomChakraNextLink
-                  href={`https://diretoria.aaafuria.site/admin/core/socio/?q=${issue.author.matricula}`}
-                  chakraLinkProps={{
-                    color: green,
-                    fontWeight: 'bold',
-                    _hover: {
-                      textDecoration: 'underline',
-                    },
-                  }}
+            <Stack>
+              <Skeleton isLoaded={!loadingIssueQuery}>
+                <Text textAlign={'right'} fontSize="sm">
+                  <CustomChakraNextLink
+                    href={`https://diretoria.aaafuria.site/admin/core/socio/?q=${issue.author.matricula}`}
+                    chakraLinkProps={{
+                      color: green,
+                      fontWeight: 'bold',
+                      _hover: {
+                        textDecoration: 'underline',
+                      },
+                    }}
+                  >
+                    {issue.author.apelido}
+                  </CustomChakraNextLink>
+                </Text>
+              </Skeleton>
+              <Skeleton isLoaded={!loadingIssueQuery}>
+                <Text
+                  as="time"
+                  dateTime={issue.createdAt}
+                  textAlign={'right'}
+                  fontSize="sm"
                 >
-                  {issue.author.apelido}
-                </CustomChakraNextLink>
-              </Text>
-              <Text
-                as="time"
-                dateTime={issue.createdAt}
-                textAlign={'right'}
-                fontSize="sm"
-              >
-                {new Date(issue.createdAt as string).toLocaleString('pt-BR', {
-                  dateStyle: 'short',
-                  timeStyle: 'short',
-                  timeZone: 'America/Sao_Paulo',
-                })}
-              </Text>
-            </Box>
+                  {new Date(issue.createdAt as string).toLocaleString('pt-BR', {
+                    dateStyle: 'short',
+                    timeStyle: 'short',
+                    timeZone: 'America/Sao_Paulo',
+                  })}
+                </Text>
+              </Skeleton>
+            </Stack>
           </HStack>
         </Stack>
       </Card>

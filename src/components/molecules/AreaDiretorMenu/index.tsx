@@ -1,6 +1,6 @@
 import { CustomButtom, CustomChakraNextLink } from '@/components/atoms';
 import { Divider, Stack, StackProps } from '@chakra-ui/react';
-import { MdGroups, MdStore } from 'react-icons/md';
+import { MdGroups, MdHelpCenter, MdStore } from 'react-icons/md';
 
 import { AiFillSetting } from 'react-icons/ai';
 import { VoltarButton } from '@/components/atoms/VoltarButton';
@@ -19,8 +19,8 @@ export const AreaDiretorMenu = ({ ...rest }: AreaDiretorMenuProps) => {
         </CustomButtom>
       </CustomChakraNextLink>
       <CustomChakraNextLink href="/ajuda/gerenciar-solicitacoes">
-        <CustomButtom leftIcon={<AiFillSetting size="20px" />}>
-          Solicitações
+        <CustomButtom leftIcon={<MdHelpCenter size="20px" />}>
+          Gerenciar solicitações
         </CustomButtom>
       </CustomChakraNextLink>
       <CustomChakraNextLink

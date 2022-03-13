@@ -25,11 +25,11 @@ const GET_ISSUE = gql`
   query getIssue($id: ID!) {
     issue(id: $id) {
       id
+      title
       status
       getStatusDisplay
       priority
       getPriorityDisplay
-      title
       description
       author {
         apelido
@@ -82,14 +82,14 @@ function Solicitacao() {
   }, [checkCredentials, isAuthenticated, refetch, router]);
 
   return (
-    <Layout title={data?.issue.title ? data.issue.title : 'Solicitação'}>
+    <Layout title={data?.issue?.title ? data.issue.title : 'Solicitação'}>
       <Stack maxW="7xl" mx="auto" spacing={4}>
         <IssueInfoCard
           issue={data?.issue as IIssueType}
           loadingIssueQuery={loading}
           refetchIssueQuery={refetch}
         />
-        {data?.issue.comments.edges && data.issue.comments.edges.length > 0 && (
+        {data?.issue?.comments.edges && data.issue.comments.edges.length > 0 && (
           <Box>
             <PageHeading as="h2" size={'md'}>
               Comentários

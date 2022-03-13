@@ -17,7 +17,7 @@ import {
   VoltarButton,
 } from '@/components/atoms';
 import { gql, useQuery } from '@apollo/client';
-import { useContext, useEffect, useState } from 'react';
+import { useCallback, useContext, useEffect, useState } from 'react';
 
 import { AuthContext } from '@/contexts/AuthContext';
 import { Card } from '@/components/molecules';
@@ -73,10 +73,19 @@ function GerenciarSolicitacoes() {
     },
   });
 
+  const handleStatusFilter = useCallback(
+    (status: string) => {
+      if (statusFilter === status) {
+        setStatusFilter('');
+      } else {
+        setStatusFilter(status);
+      }
+    },
+    [statusFilter],
+  );
+
   useEffect(() => {
-    if (statusFilter) {
-      refetch({ status: statusFilter });
-    }
+    refetch({ status: statusFilter });
   }, [refetch, statusFilter]);
 
   useEffect(() => {
@@ -96,33 +105,33 @@ function GerenciarSolicitacoes() {
               aria-label="open"
               icon={<MdCircle size="15px" />}
               isActive={statusFilter === 'OPEN'}
-              onClick={() => setStatusFilter('OPEN')}
+              onClick={() => handleStatusFilter('OPEN')}
             />
             <CustomIconButton
               aria-label="in-progress"
               icon={<MdCircle size="15px" />}
               isActive={statusFilter === 'IN_PROGRESS'}
               colorScheme={'yellow'}
-              onClick={() => setStatusFilter('IN_PROGRESS')}
+              onClick={() => handleStatusFilter('IN_PROGRESS')}
             />
             <CustomIconButton
               aria-label="closed"
               icon={<MdCircle size="15px" />}
               isActive={statusFilter === 'CLOSED'}
               colorScheme={'red'}
-              onClick={() => setStatusFilter('CLOSED')}
+              onClick={() => handleStatusFilter('CLOSED')}
             />
           </HStack>
           <Table>
             <Thead>
               <Tr>
-                <Th></Th>
-                <Th colSpan={4}>Título</Th>
+                <Th colSpan={2}>Título</Th>
                 <Th>Categoria</Th>
                 <Th>Autor</Th>
                 <Th>Data da solicitação</Th>
                 <Th>Prioridade</Th>
                 <Th>Status</Th>
+                <Th></Th>
               </Tr>
             </Thead>
             <Tbody>
@@ -137,19 +146,7 @@ function GerenciarSolicitacoes() {
               )}
               {data?.allIssues?.edges?.map(({ node }) => (
                 <Tr key={node.id}>
-                  <Td>
-                    <CustomChakraNextLink
-                      href={`/ajuda/solicitacao/${node.id}`}
-                    >
-                      <CustomIconButton
-                        aria-label="view"
-                        icon={<FaEye size="15px" />}
-                      />
-                    </CustomChakraNextLink>
-                  </Td>
                   <Td>{node.title}</Td>
-                  <Td />
-                  <Td />
                   <Td />
                   <Td>{node.category}</Td>
                   <Td>{node.author.apelido}</Td>
@@ -188,12 +185,22 @@ function GerenciarSolicitacoes() {
                       {node.getStatusDisplay}
                     </Badge>
                   </Td>
+                  <Td>
+                    <CustomChakraNextLink
+                      href={`/ajuda/solicitacao/${node.id}`}
+                    >
+                      <CustomIconButton
+                        aria-label="view"
+                        icon={<FaEye size="15px" />}
+                      />
+                    </CustomChakraNextLink>
+                  </Td>
                 </Tr>
               ))}
             </Tbody>
           </Table>
         </Card>
-        <VoltarButton href="/ajuda/minhas-solicitacoes" />
+        <VoltarButton href="/areadiretor" />
       </Box>
     </Layout>
   );
