@@ -1,17 +1,17 @@
-import Script from 'next/script';
 import { GA_TRACKING_ID } from 'lib/gtag';
+import Script from 'next/script';
 
 export const Analytics = () => {
   return (
     <>
       <Script
         id="analytics"
-        strategy="afterInteractive"
+        strategy="lazyOnload"
         src={`https://www.googletagmanager.com/gtag/js?id=${GA_TRACKING_ID}`}
       />
       <Script
         id="gtm-script"
-        strategy="afterInteractive"
+        strategy="lazyOnload"
         dangerouslySetInnerHTML={{
           __html: `
             window.dataLayer = window.dataLayer || [];
