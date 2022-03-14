@@ -1,4 +1,14 @@
 import {
+  CustomButtom,
+  CustomIconButton,
+  PageHeading,
+  VoltarButton,
+} from '@/components/atoms';
+import { Card } from '@/components/molecules';
+import { Layout } from '@/components/templates';
+import { AuthContext } from '@/contexts/AuthContext';
+import { gql, useQuery } from '@apollo/client';
+import {
   Box,
   Collapse,
   Flex,
@@ -12,23 +22,12 @@ import {
   useClipboard,
   useDisclosure,
 } from '@chakra-ui/react';
-import {
-  CustomButtom,
-  CustomIconButton,
-  PageHeading,
-  VoltarButton,
-} from '@/components/atoms';
-import { gql, useQuery } from '@apollo/client';
-import { useCallback, useContext, useState } from 'react';
-
-import { AuthContext } from '@/contexts/AuthContext';
-import { Card } from '@/components/molecules';
-import { FaQrcode } from 'react-icons/fa';
 import { GetServerSideProps } from 'next';
-import { Layout } from '@/components/templates';
+import { parseCookies } from 'nookies';
+import { useCallback, useContext, useState } from 'react';
+import { FaQrcode } from 'react-icons/fa';
 import { MdCopyAll } from 'react-icons/md';
 import QRCode from 'react-qr-code';
-import { parseCookies } from 'nookies';
 
 const USER_INGRESSOS = gql`
   query getUserIngressos {
@@ -46,7 +45,7 @@ const USER_INGRESSOS = gql`
 `;
 
 function MeusEventos() {
-  const { hasCopied, onCopy } = useClipboard('https://bit.ly/3MLq4f5');
+  const { hasCopied, onCopy } = useClipboard('https://bit.ly/3w1n0Fz');
   const { token } = useContext(AuthContext);
   const [url, setUrl] = useState('');
   const { data } = useQuery(USER_INGRESSOS, {
