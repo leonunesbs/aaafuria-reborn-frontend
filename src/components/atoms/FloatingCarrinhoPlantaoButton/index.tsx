@@ -1,8 +1,8 @@
 import { CustomIconButton } from '@/components/atoms';
+import { ICustomButton } from '../CustomButton/ICustomButton';
 import { MdShoppingCart } from 'react-icons/md';
-import { CustomButtomProps } from '../CustomButton';
 
-export type FloatingCarrinhoPlantaoButtonProps = CustomButtomProps;
+export type FloatingCarrinhoPlantaoButtonProps = ICustomButton;
 
 export const FloatingCarrinhoPlantaoButton = ({
   ...rest
