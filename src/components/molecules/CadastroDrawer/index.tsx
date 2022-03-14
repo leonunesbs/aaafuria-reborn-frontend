@@ -1,3 +1,4 @@
+import { CadastroInputsType, ICadastroDrawer } from './ICadastroDrawer';
 import { Controller, useForm } from 'react-hook-form';
 import { CustomButtom, PageHeading } from '@/components/atoms';
 import {
@@ -24,24 +25,6 @@ import { Card } from '@/components/molecules';
 import InputMask from 'react-input-mask';
 import { Layout } from '@/components/templates';
 import { useRouter } from 'next/router';
-
-export interface CadastroDrawerProps {
-  isOpen: boolean;
-  onClose: () => void;
-}
-type Inputs = {
-  matricula: string;
-  turma: string;
-  pin: string;
-  pin_confirmar: string;
-  email: string;
-  nome: string;
-  whatsapp: string;
-  apelido: string;
-  dataNascimento: string;
-  rg: string;
-  cpf: string;
-};
 
 const NOVO_USER = gql`
   mutation novoUser(
@@ -80,14 +63,15 @@ export const CadastroDrawer = ({
   isOpen,
   onClose,
   ...rest
-}: CadastroDrawerProps) => {
+}: ICadastroDrawer) => {
   const router = useRouter();
   const { cadastro }: { cadastro?: string } = router.query;
-  const { control, register, handleSubmit, setValue } = useForm<Inputs>({
-    defaultValues: {
-      matricula: cadastro,
-    },
-  });
+  const { control, register, handleSubmit, setValue } =
+    useForm<CadastroInputsType>({
+      defaultValues: {
+        matricula: cadastro,
+      },
+    });
   const [matricula, setMatricula] = React.useState('');
   const toast = useToast();
 
@@ -101,10 +85,21 @@ export const CadastroDrawer = ({
   }, [cadastro, isOpen, matricula, setValue]);
 
   const signUp = useCallback(
-    async (data: Inputs) => {
+    async (data: CadastroInputsType) => {
       if (data.pin !== data.pin_confirmar) {
         toast({
           description: 'Os PINs inseridos são diferentes.',
+          status: 'warning',
+          duration: 2500,
+          isClosable: true,
+          position: 'top-left',
+        });
+        return;
+      }
+
+      if (data.matricula !== data.confirm_matricula) {
+        toast({
+          description: 'As matrículas inseridas são diferentes.',
           status: 'warning',
           duration: 2500,
           isClosable: true,
@@ -184,6 +179,43 @@ export const CadastroDrawer = ({
                             focusBorderColor="green.500"
                             placeholder=""
                             isDisabled
+                            {...field}
+                          >
+                            <PinInputField />
+                            <PinInputField />
+                            <PinInputField />
+                            <PinInputField />
+                            <PinInputField />
+                            <PinInputField />
+                            <PinInputField />
+                            <PinInputField />
+                          </PinInput>
+                        </HStack>
+                      )}
+                    />
+                  </FormControl>
+                  <FormControl>
+                    <FormLabel>Confirme sua matrícula: </FormLabel>
+                    <Controller
+                      name="confirm_matricula"
+                      control={control}
+                      rules={{
+                        required: 'Matrícula obrigatória',
+                        minLength: {
+                          value: 8,
+                          message: 'Matrícula deve conter 8 números',
+                        },
+                        maxLength: {
+                          value: 8,
+                          message: 'Matrícula deve conter 8 números',
+                        },
+                      }}
+                      render={({ field }) => (
+                        <HStack>
+                          <PinInput
+                            size="lg"
+                            focusBorderColor="green.500"
+                            placeholder=""
                             {...field}
                           >
                             <PinInputField />
