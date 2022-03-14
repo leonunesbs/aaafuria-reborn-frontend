@@ -2,14 +2,12 @@ import { useCallback, useContext, useEffect } from 'react';
 
 import { AuthContext } from '@/contexts/AuthContext';
 import { CustomButtom } from '@/components/atoms';
+import { IAreaDiretorButton } from './IAreaDiretorButton';
 import { LoadingContext } from '@/contexts/LoadingContext';
 import { MdManageAccounts } from 'react-icons/md';
 import router from 'next/router';
 
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
-export interface AreaDiretorButtonProps {}
-
-export const AreaDiretorButton = ({}: AreaDiretorButtonProps) => {
+export const AreaDiretorButton = ({}: IAreaDiretorButton) => {
   const { checkCredentials, isStaff } = useContext(AuthContext);
   const { setLoading, loading } = useContext(LoadingContext);
 

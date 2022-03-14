@@ -1,10 +1,10 @@
-import { AreaDiretorButtonProps } from './AreaDiretorButton';
-import { AtividadesSocioTableRowProps } from './AtividadesSocioTableRow';
-import { CarteirinhaInputProps } from './CarteirinhaInput';
-import { CustomButtomProps } from './CustomButton';
 import { CustomChakraNextLinkProps } from './CustomChakraNextLink';
 import { CustomIconButtonProps } from './CustomIconButton';
 import { FloatingCarrinhoPlantaoButtonProps } from './FloatingCarrinhoPlantaoButton';
+import { IAreaDiretorButton } from './AreaDiretorButton/IAreaDiretorButton';
+import { IAtividadesSocioTableRow } from './AtividadesSocioTableRow/IAtividadesSocioTableRow';
+import { ICarteirinhaInput } from './CarteirinhaInput/ICarteirinhaInput';
+import { ICustomButton } from './CustomButton/ICustomButton';
 import { NotificationBadgeProps } from './NotificationBadge';
 import { PageHeadingProps } from './PageHeading';
 import { RefAttributes } from 'react';
@@ -18,20 +18,19 @@ export const Analytics = dynamic<any>(() =>
 export const ColorModeToggle = dynamic<any>(() =>
   import('./ColorModeToggle').then((mod) => mod.ColorModeToggle),
 );
-export const AreaDiretorButton = dynamic<AreaDiretorButtonProps>(() =>
+export const AreaDiretorButton = dynamic<IAreaDiretorButton>(() =>
   import('./AreaDiretorButton').then((mod) => mod.AreaDiretorButton),
 );
-export const AtividadesSocioTableRow = dynamic<AtividadesSocioTableRowProps>(
-  () =>
-    import('./AtividadesSocioTableRow').then(
-      (mod) => mod.AtividadesSocioTableRow,
-    ),
+export const AtividadesSocioTableRow = dynamic<IAtividadesSocioTableRow>(() =>
+  import('./AtividadesSocioTableRow').then(
+    (mod) => mod.AtividadesSocioTableRow,
+  ),
 );
-export const CarteirinhaInput = dynamic<CarteirinhaInputProps>(() =>
+export const CarteirinhaInput = dynamic<ICarteirinhaInput>(() =>
   import('./CarteirinhaInput').then((mod) => mod.CarteirinhaInput),
 );
 export const CustomButtom = dynamic<
-  CustomButtomProps & RefAttributes<HTMLButtonElement>
+  ICustomButton & RefAttributes<HTMLButtonElement>
 >(() => import('./CustomButton').then((mod) => mod.CustomButton));
 
 export const CustomIconButton = dynamic<

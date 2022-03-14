@@ -1,14 +1,9 @@
-import { Box, BoxProps } from '@chakra-ui/react';
-
+import { Box } from '@chakra-ui/react';
+import { ICard } from './ICard';
 import React from 'react';
 import { useColorModeValue } from '@chakra-ui/color-mode';
 
-export interface CardProps extends BoxProps {
-  children: React.ReactNode;
-  variant?: string;
-}
-
-export const Card = ({ children, variant, ...rest }: CardProps) => {
+export const Card = ({ children, variant, ...rest }: ICard) => {
   const bg = useColorModeValue('white', 'gray.800');
   const greenBg = useColorModeValue('green.50', 'green.900');
   const redBg = useColorModeValue('red.50', 'red.700');

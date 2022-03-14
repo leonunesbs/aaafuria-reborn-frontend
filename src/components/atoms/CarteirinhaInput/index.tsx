@@ -1,9 +1,8 @@
-import { Input, InputProps, useColorModeValue } from '@chakra-ui/react';
+import { Input, useColorModeValue } from '@chakra-ui/react';
 
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
-export interface CarteirinhaInputProps extends InputProps {}
+import { ICarteirinhaInput } from './ICarteirinhaInput';
 
-export const CarteirinhaInput = ({ ...rest }: CarteirinhaInputProps) => {
+export const CarteirinhaInput = ({ ...rest }: ICarteirinhaInput) => {
   const color = useColorModeValue('green.900', 'green.900');
 
   return (

@@ -6,7 +6,6 @@ import {
   Spinner,
   Stack,
   Switch,
-  TableRowProps,
   Td,
   Text,
   Tr,
@@ -30,14 +29,9 @@ import { gql, useMutation } from '@apollo/client';
 
 import { AuthContext } from '@/contexts/AuthContext';
 import { FaWhatsapp } from 'react-icons/fa';
-import { ProgramacaoData } from '../../molecules/AtividadesSocioTable';
+import { IAtividadesSocioTableRow } from './IAtividadesSocioTableRow';
 import { parseCookies } from 'nookies';
 import { useRouter } from 'next/router';
-
-export interface AtividadesSocioTableRowProps extends TableRowProps {
-  node: ProgramacaoData;
-  handleRefetch: () => void;
-}
 
 const MUTATION_REMOVER_COMPETIDOR = gql`
   mutation removerCompetidor($id: ID!) {
@@ -58,7 +52,7 @@ export const AtividadesSocioTableRow = ({
   node,
   handleRefetch,
   ...rest
-}: AtividadesSocioTableRowProps) => {
+}: IAtividadesSocioTableRow) => {
   const router = useRouter();
   const bgRow = useColorModeValue('white', 'gray.800');
   const confirmedBgRow = useColorModeValue('green.50', 'gray.900');

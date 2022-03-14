@@ -1,8 +1,8 @@
 import { gql, useQuery } from '@apollo/client';
-import { useContext, useEffect } from 'react';
 
 import { AuthContext } from '@/contexts/AuthContext';
 import { Circle } from '@chakra-ui/react';
+import { useContext } from 'react';
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface NotificationBadgeProps {}
@@ -18,18 +18,13 @@ const GET_UNREAD_FILES = gql`
 export const NotificationBadge = ({ ...rest }: NotificationBadgeProps) => {
   const { token } = useContext(AuthContext);
 
-  const { data, refetch } = useQuery(GET_UNREAD_FILES, {
+  const { data } = useQuery(GET_UNREAD_FILES, {
     context: {
       headers: {
         authorization: `JWT ${token}`,
       },
     },
   });
-
-  useEffect(() => {
-    refetch();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   if (!data) {
     return <></>;

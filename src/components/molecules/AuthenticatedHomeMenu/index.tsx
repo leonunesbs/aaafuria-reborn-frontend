@@ -7,13 +7,11 @@ import { MdLogout, MdPerson } from 'react-icons/md';
 import React, { useCallback, useContext } from 'react';
 
 import { AuthContext } from '@/contexts/AuthContext';
+import { IAuthenticatedHomeMenu } from './IAuthenticatedHomeMenu';
 import { LoadingContext } from '@/contexts/LoadingContext';
 import { useRouter } from 'next/router';
 
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
-export interface AuthenticatedHomeMenuProps {}
-
-export const AuthenticatedHomeMenu = ({}: AuthenticatedHomeMenuProps) => {
+export const AuthenticatedHomeMenu = ({}: IAuthenticatedHomeMenu) => {
   const router = useRouter();
   const { signOut } = useContext(AuthContext);
   const { setLoading } = useContext(LoadingContext);

@@ -1,15 +1,11 @@
-import { Button, ButtonProps } from '@chakra-ui/react';
-import { ReactNode, forwardRef, useContext } from 'react';
+import { forwardRef, useContext } from 'react';
 
+import { Button } from '@chakra-ui/react';
 import { ColorContext } from '@/contexts/ColorContext';
 import { FiExternalLink } from 'react-icons/fi';
+import { ICustomButton } from './ICustomButton';
 
-export interface CustomButtomProps extends ButtonProps {
-  children?: ReactNode;
-  hasExternalIcon?: boolean;
-}
-
-export const CustomButton = forwardRef<HTMLButtonElement, CustomButtomProps>(
+export const CustomButton = forwardRef<HTMLButtonElement, ICustomButton>(
   ({ children, hasExternalIcon, ...rest }, ref) => {
     const { green } = useContext(ColorContext);
     return (

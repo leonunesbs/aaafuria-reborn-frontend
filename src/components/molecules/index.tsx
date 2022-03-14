@@ -1,21 +1,21 @@
-import dynamic from 'next/dynamic';
 import { AreaDiretorMenuProps } from './AreaDiretorMenu';
 import { AreaSocioMenuProps } from './AreaSocioMenu';
-import { AtividadesSocioTableProps } from './AtividadesSocioTable';
-import { AuthenticatedHomeMenuProps } from './AuthenticatedHomeMenu';
-import { CadastroDrawerProps } from './CadastroDrawer';
-import { CardProps } from './Card';
+import { CartaoCreditoTabPanelProps } from './PagamentoTabs/CartaoCreditoTabPanel';
 import { ClientInfoCardProps } from './ClientInfoCard';
 import { CommentCardProps } from './CommentCard';
 import { CreateCommentProps } from './CreateComment';
+import { EspecieTabPanelProps } from './PagamentoTabs/EspecieTabPanel';
 import { HomeMenuProps } from './HomeMenu';
+import { IAtividadeSocioTable } from './AtividadesSocioTable/IAtividadesSocioTable';
+import { IAuthenticatedHomeMenu } from './AuthenticatedHomeMenu/IAuthenticatedHomeMenu';
+import { ICadastroDrawer } from './CadastroDrawer/ICadastroDrawer';
+import { ICard } from './Card/ICard';
 import { InputMatriculaPlantaoProps } from './InputMatriculaPlantao';
 import { IssueInfoCardProps } from './IssueInfoCard';
-import { CartaoCreditoTabPanelProps } from './PagamentoTabs/CartaoCreditoTabPanel';
-import { EspecieTabPanelProps } from './PagamentoTabs/EspecieTabPanel';
 import { PixTabPanelProps } from './PagamentoTabs/PIXTabPanel';
 import { ProdutoCardProps } from './ProdutoCard';
 import { ProdutoPlantaoCardProps } from './ProdutoPlantaoCard';
+import dynamic from 'next/dynamic';
 
 export const AreaDiretorMenu = dynamic<AreaDiretorMenuProps>(() =>
   import('./AreaDiretorMenu').then((mod) => mod.AreaDiretorMenu),
@@ -23,16 +23,16 @@ export const AreaDiretorMenu = dynamic<AreaDiretorMenuProps>(() =>
 export const AreaSocioMenu = dynamic<AreaSocioMenuProps>(() =>
   import('./AreaSocioMenu').then((mod) => mod.AreaSocioMenu),
 );
-export const AtividadesSocioTable = dynamic<AtividadesSocioTableProps>(() =>
+export const AtividadesSocioTable = dynamic<IAtividadeSocioTable>(() =>
   import('./AtividadesSocioTable').then((mod) => mod.AtividadesSocioTable),
 );
-export const AuthenticatedHomeMenu = dynamic<AuthenticatedHomeMenuProps>(() =>
+export const AuthenticatedHomeMenu = dynamic<IAuthenticatedHomeMenu>(() =>
   import('./AuthenticatedHomeMenu').then((mod) => mod.AuthenticatedHomeMenu),
 );
-export const CadastroDrawer = dynamic<CadastroDrawerProps>(() =>
+export const CadastroDrawer = dynamic<ICadastroDrawer>(() =>
   import('./CadastroDrawer').then((mod) => mod.CadastroDrawer),
 );
-export const Card = dynamic<CardProps>(() =>
+export const Card = dynamic<ICard>(() =>
   import('./Card').then((mod) => mod.Card),
 );
 export const ClientInfoCard = dynamic<ClientInfoCardProps>(() =>

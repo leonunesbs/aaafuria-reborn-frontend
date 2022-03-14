@@ -1,45 +1,9 @@
-import {
-  Spinner,
-  Table,
-  TableProps,
-  Tbody,
-  Td,
-  Th,
-  Thead,
-  Tr,
-} from '@chakra-ui/react';
+import { IAtividadeSocioTable, ProgramacaoData } from './IAtividadesSocioTable';
+import { Spinner, Table, Tbody, Td, Th, Thead, Tr } from '@chakra-ui/react';
 import { gql, useQuery } from '@apollo/client';
 
 import { AtividadesSocioTableRow } from '@/components/atoms';
 import { useCallback } from 'react';
-
-export interface AtividadesSocioTableProps extends TableProps {
-  categoria: string;
-}
-
-export type ProgramacaoData = {
-  id: string;
-  estado: string;
-  descricao: string;
-  modalidade: {
-    nome: string;
-    categoria: string;
-  };
-  dataHora: string;
-  local: string;
-  finalizado: boolean;
-  competidoresMinimo: number;
-  grupoWhatsappUrl: string;
-  competidoresConfirmados: {
-    edges: {
-      node: {
-        socio: {
-          matricula: string;
-        };
-      };
-    }[];
-  };
-};
 
 const QUERY_PROGRAMACAO = gql`
   query getProgramacao($categoria: String!) {
@@ -76,7 +40,7 @@ const QUERY_PROGRAMACAO = gql`
 export const AtividadesSocioTable = ({
   categoria,
   ...rest
-}: AtividadesSocioTableProps) => {
+}: IAtividadeSocioTable) => {
   const { data, refetch } = useQuery(QUERY_PROGRAMACAO, {
     variables: {
       categoria: categoria,
