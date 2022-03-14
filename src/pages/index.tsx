@@ -24,6 +24,7 @@ import { MdHelpCenter, MdLogin } from 'react-icons/md';
 import React, { useContext, useEffect } from 'react';
 
 import { AuthContext } from '@/contexts/AuthContext';
+import { GetStaticProps } from 'next';
 import { Layout } from '@/components/templates';
 import { LoadingContext } from '@/contexts/LoadingContext';
 import NextImage from 'next/image';
@@ -108,3 +109,9 @@ export default function Home({}: HomeProps) {
     </Layout>
   );
 }
+
+export const getStaticProps: GetStaticProps = async ({}) => {
+  return {
+    props: {},
+  };
+};
