@@ -1,8 +1,9 @@
 import { CustomButtom, CustomChakraNextLink } from '@/components/atoms';
-import { AuthContext } from '@/contexts/AuthContext';
-import { LoadingContext } from '@/contexts/LoadingContext';
-import { ButtonProps } from '@chakra-ui/button';
 import React, { useContext, useEffect } from 'react';
+
+import { AuthContext } from '@/contexts/AuthContext';
+import { ButtonProps } from '@chakra-ui/button';
+import { LoadingContext } from '@/contexts/LoadingContext';
 import { MdGroups } from 'react-icons/md';
 
 export type SejaSocioButtonProps = ButtonProps;

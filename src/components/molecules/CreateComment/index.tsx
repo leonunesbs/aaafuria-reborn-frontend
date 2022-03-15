@@ -1,7 +1,3 @@
-import { CustomButtom } from '@/components/atoms';
-import { AuthContext } from '@/contexts/AuthContext';
-import { ColorContext } from '@/contexts/ColorContext';
-import { gql, useMutation } from '@apollo/client';
 import {
   Drawer,
   DrawerBody,
@@ -14,9 +10,14 @@ import {
   useDisclosure,
   useToast,
 } from '@chakra-ui/react';
-import { useCallback, useContext, useRef } from 'react';
-import { SubmitHandler, useForm } from 'react-hook-form';
 import { MdReply, MdSend } from 'react-icons/md';
+import { SubmitHandler, useForm } from 'react-hook-form';
+import { gql, useMutation } from '@apollo/client';
+import { useCallback, useContext, useRef } from 'react';
+
+import { AuthContext } from '@/contexts/AuthContext';
+import { ColorContext } from '@/contexts/ColorContext';
+import { CustomButtom } from '@/components/atoms';
 
 export interface CreateCommentProps {
   issueId: string;

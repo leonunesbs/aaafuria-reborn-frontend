@@ -1,20 +1,21 @@
-import { CustomIconButton } from '@/components/atoms';
-import { gql, useMutation } from '@apollo/client';
 import {
   Box,
-  chakra,
   Input,
   InputGroup,
   InputRightElement,
   SimpleGrid,
   Skeleton,
+  chakra,
   useClipboard,
   useToast,
 } from '@chakra-ui/react';
-import { parseCookies } from 'nookies';
+import { gql, useMutation } from '@apollo/client';
 import { useEffect, useState } from 'react';
+
+import { CustomIconButton } from '@/components/atoms';
 import { MdCopyAll } from 'react-icons/md';
 import QRCode from 'react-qr-code';
+import { parseCookies } from 'nookies';
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface CartaoCreditoTabPanelProps {

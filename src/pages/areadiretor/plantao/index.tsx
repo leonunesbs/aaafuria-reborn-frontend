@@ -1,3 +1,4 @@
+import { Box, Stack } from '@chakra-ui/react';
 import {
   CustomButtom,
   CustomChakraNextLink,
@@ -5,16 +6,16 @@ import {
   PageHeading,
   VoltarButton,
 } from '@/components/atoms';
-import { InputMatriculaPlantao } from '@/components/molecules';
-import { LojaPlantao } from '@/components/organisms';
-import { Layout } from '@/components/templates';
-import { AuthContext } from '@/contexts/AuthContext';
-import { Box, Stack } from '@chakra-ui/react';
-import { GetServerSideProps } from 'next';
-import { useRouter } from 'next/router';
-import { parseCookies } from 'nookies';
 import React, { useContext, useEffect, useState } from 'react';
+
+import { AuthContext } from '@/contexts/AuthContext';
+import { GetServerSideProps } from 'next';
+import { InputMatriculaPlantao } from '@/components/molecules';
+import { Layout } from '@/components/templates';
+import { LojaPlantao } from '@/components/organisms';
 import { MdShoppingCart } from 'react-icons/md';
+import { parseCookies } from 'nookies';
+import { useRouter } from 'next/router';
 
 function Plantao() {
   const { isStaff } = useContext(AuthContext);

@@ -1,6 +1,7 @@
+import { CustomButtom, CustomChakraNextLink } from '..';
+
 import { Box } from '@chakra-ui/react';
 import { MdArrowLeft } from 'react-icons/md';
-import { CustomButtom, CustomChakraNextLink } from '..';
 
 export interface VoltarButtonProps {
   href: string;

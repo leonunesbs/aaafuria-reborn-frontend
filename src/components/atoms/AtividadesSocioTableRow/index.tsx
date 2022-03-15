@@ -2,6 +2,7 @@ import {
   Badge,
   Box,
   Center,
+  Icon,
   Progress,
   Spinner,
   Stack,
@@ -28,6 +29,7 @@ import { MdCalendarToday, MdLogin } from 'react-icons/md';
 import { gql, useMutation } from '@apollo/client';
 
 import { AuthContext } from '@/contexts/AuthContext';
+import { ColorContext } from '@/contexts/ColorContext';
 import { FaWhatsapp } from 'react-icons/fa';
 import { IAtividadesSocioTableRow } from './IAtividadesSocioTableRow';
 import { parseCookies } from 'nookies';
@@ -58,6 +60,7 @@ export const AtividadesSocioTableRow = ({
   const confirmedBgRow = useColorModeValue('green.50', 'gray.900');
   const toast = useToast();
   const { isAuthenticated } = useContext(AuthContext);
+  const { green } = useContext(ColorContext);
 
   const { ['aaafuriaMatricula']: matricula } = parseCookies();
   const [isConfirmed, setIsConfirmed] = useState(
@@ -236,21 +239,17 @@ export const AtividadesSocioTableRow = ({
       </Td>
       <Td>{node.modalidade.nome}</Td>
       <Td>{node.modalidade.categoria}</Td>
-      <Td textAlign="center">
-        <CustomIconButton
-          aria-label="Adicionar ao calendário"
-          colorScheme="green"
-          variant="ghost"
-          icon={<MdCalendarToday size="20px" />}
-          isDisabled
-        />
-        <Text as={'time'} dateTime={node.dataHora}>
-          {new Date(node.dataHora).toLocaleString('pt-BR', {
-            timeStyle: 'short',
-            dateStyle: 'short',
-            timeZone: 'America/Sao_Paulo',
-          })}
-        </Text>
+      <Td>
+        <Stack align="center" textAlign="center">
+          <Icon as={MdCalendarToday} color={green} w={6} h={6} />
+          <Text as={'time'} dateTime={node.dataHora}>
+            {new Date(node.dataHora).toLocaleString('pt-BR', {
+              timeStyle: 'short',
+              dateStyle: 'short',
+              timeZone: 'America/Sao_Paulo',
+            })}
+          </Text>
+        </Stack>
       </Td>
       <Td>{node.local}</Td>
       <Td>{node.descricao}</Td>
