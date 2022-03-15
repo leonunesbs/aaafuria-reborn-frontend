@@ -199,7 +199,7 @@ export const IssueInfoCard = ({
                 </Badge>
               </Skeleton>
             </Box>
-            <Stack>
+            <Stack spacing={1}>
               <Skeleton isLoaded={!loadingIssueQuery}>
                 <Text textAlign={'right'} fontSize="sm">
                   <CustomChakraNextLink

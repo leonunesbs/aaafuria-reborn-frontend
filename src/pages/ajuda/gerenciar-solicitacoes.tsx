@@ -162,7 +162,7 @@ function GerenciarSolicitacoes() {
                     </CustomChakraNextLink>
                   </Td>
                   <Td />
-                  <Td>{node.category}</Td>
+                  <Td>{node.getCategoryDisplay}</Td>
                   <Td>{node.author.apelido}</Td>
                   <Td>
                     <Text as="time" dateTime={node.createdAt}>

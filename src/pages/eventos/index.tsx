@@ -112,11 +112,18 @@ function Eventos() {
       })
         .then(({ data }) => {
           if (!presencial) {
+            toast({
+              title: 'Ingresso reservado, efetue o pagamento em até 1h!',
+              status: 'success',
+              duration: 2500,
+              isClosable: true,
+              position: 'top-left',
+            });
             router.push(data.novoIngresso?.ingresso?.stripeCheckoutUrl);
           } else {
             refetch();
             toast({
-              title: 'Reserva confirmada!',
+              title: 'Ingresso reservado, efetue o pagamento em até 1h!',
               description: (
                 <Box mx="auto">
                   <Text>
