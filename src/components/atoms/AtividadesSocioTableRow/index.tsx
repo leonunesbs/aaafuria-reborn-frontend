@@ -95,7 +95,7 @@ export const AtividadesSocioTableRow = ({
       })
         .then(() => {
           toast({
-            description: 'Participação confirmada.',
+            title: 'Participação confirmada!',
             status: 'success',
             duration: 2500,
             isClosable: true,
@@ -104,7 +104,7 @@ export const AtividadesSocioTableRow = ({
         })
         .catch(() => {
           toast({
-            description: 'Erro ao confirmar participação.',
+            title: 'Erro ao confirmar participação.',
             status: 'error',
             duration: 2500,
             isClosable: true,
@@ -133,7 +133,7 @@ export const AtividadesSocioTableRow = ({
       })
         .then(() => {
           toast({
-            description: 'Participação removida.',
+            title: 'Participação removida!',
             status: 'info',
             duration: 2500,
             isClosable: true,
@@ -142,7 +142,7 @@ export const AtividadesSocioTableRow = ({
         })
         .catch(() => {
           toast({
-            description: 'Erro ao remover participação.',
+            title: 'Erro ao remover participação.',
             status: 'error',
             duration: 2500,
             isClosable: true,
