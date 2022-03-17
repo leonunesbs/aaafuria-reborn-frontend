@@ -32,7 +32,7 @@ export const AlertMessages = ({}: IAlertMessages) => {
       if (localStorage.getItem('socioWhatsappAlert') !== 'true') {
         setTimeout(() => {
           onOpen();
-        }, 3000);
+        }, 2000);
       }
     }
   }, [isSocio, onClose, onOpen]);
