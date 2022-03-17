@@ -136,7 +136,7 @@ export const IssueInfoCard = ({
       <PageHeading>Solicitação</PageHeading>
       <Card>
         <Stack>
-          <HStack justify={'right'}>
+          <HStack justify={'flex-end'}>
             <CustomIconButton
               aria-label="open-issue"
               icon={<MdCircle size="15px" />}

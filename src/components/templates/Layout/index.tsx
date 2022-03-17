@@ -2,6 +2,7 @@ import { Box, BoxProps, useColorModeValue } from '@chakra-ui/react';
 import { Footer, Header } from '@/components/molecules';
 import React, { ReactNode } from 'react';
 
+import { AlertMessages } from '@/components/atoms';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 
@@ -92,6 +93,7 @@ export const Layout = ({
         <meta name="twitter:image:alt" content="calango" />
       </Head>
       {isHeaded && <Header />}
+      <AlertMessages />
       <Box
         bg={bg}
         minH="100vh"

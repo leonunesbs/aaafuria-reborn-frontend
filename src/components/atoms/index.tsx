@@ -12,6 +12,9 @@ import { SejaSocioButtonProps } from './SejaSocioButton';
 import { VoltarButtonProps } from './VoltarButton';
 import dynamic from 'next/dynamic';
 
+export const AlertMessages = dynamic<IAlertMessages>(() =>
+  import('./AlertMessages').then((mod) => mod.AlertMessages),
+);
 export const Analytics = dynamic<any>(() =>
   import('./Analytics').then((mod) => mod.Analytics),
 );

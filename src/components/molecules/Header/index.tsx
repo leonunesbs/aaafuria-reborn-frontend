@@ -20,7 +20,6 @@ import { AiFillHome } from 'react-icons/ai';
 import { AuthContext } from '@/contexts/AuthContext';
 import { FaInbox } from 'react-icons/fa';
 import NextImage from 'next/image';
-import { parseCookies } from 'nookies';
 
 const GET_SOCIO = gql`
   query {
@@ -36,15 +35,14 @@ const GET_SOCIO = gql`
 export const Header = () => {
   const bg = useColorModeValue('white', 'gray.800');
   const green = useColorModeValue('green.600', 'green.200');
-  const { isAuthenticated, isSocio, checkCredentials } =
+  const { isAuthenticated, isSocio, checkCredentials, token } =
     useContext(AuthContext);
   const { data, refetch } = useQuery(GET_SOCIO, {
     context: {
       headers: {
-        authorization: `JWT ${parseCookies()['aaafuriaToken']}`,
+        authorization: `JWT ${token}`,
       },
     },
-    fetchPolicy: 'no-cache',
   });
 
   useEffect(() => {
