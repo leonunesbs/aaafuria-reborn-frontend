@@ -1,7 +1,16 @@
 import {
+  AlertDialog,
+  AlertDialogBody,
+  AlertDialogContent,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogOverlay,
   Box,
   Collapse,
   Flex,
+  FormControl,
+  HStack,
+  Input,
   Stack,
   Table,
   Tbody,
@@ -18,12 +27,14 @@ import {
   PageHeading,
   VoltarButton,
 } from '@/components/atoms';
-import { gql, useQuery } from '@apollo/client';
-import { useCallback, useContext, useState } from 'react';
+import { FaExchangeAlt, FaQrcode } from 'react-icons/fa';
+import { SubmitHandler, useForm } from 'react-hook-form';
+import { gql, useMutation, useQuery } from '@apollo/client';
+import { useCallback, useContext, useRef, useState } from 'react';
 
 import { AuthContext } from '@/contexts/AuthContext';
 import { Card } from '@/components/molecules';
-import { FaQrcode } from 'react-icons/fa';
+import { ColorContext } from '@/contexts/ColorContext';
 import { GetServerSideProps } from 'next';
 import { Layout } from '@/components/templates';
 import { MdCopyAll } from 'react-icons/md';
@@ -45,10 +56,37 @@ const USER_INGRESSOS = gql`
   }
 `;
 
+const TRANSFER_INGRESSO = gql`
+  mutation transferIngresso($ingressoId: ID!, $newOwnerMatricula: String!) {
+    transferIngresso(
+      ingressoId: $ingressoId
+      newOwnerMatricula: $newOwnerMatricula
+    ) {
+      ok
+    }
+  }
+`;
+
+type Inputs = {
+  newOwnerMatricula: string;
+  confirmNewOwnerMatricula: string;
+};
+
 function MeusEventos() {
-  const { hasCopied, onCopy } = useClipboard('https://bit.ly/3w1n0Fz');
+  const cancelRef = useRef<HTMLButtonElement>(null);
   const { token } = useContext(AuthContext);
+  const { green } = useContext(ColorContext);
+  const { register, handleSubmit } = useForm<Inputs>();
+  const { hasCopied, onCopy } = useClipboard('https://bit.ly/3w1n0Fz');
+  const [contextIngressoId, setContextIngressoId] = useState('');
   const [url, setUrl] = useState('');
+  const [transferIngresso] = useMutation(TRANSFER_INGRESSO, {
+    context: {
+      headers: {
+        authorization: `JWT ${token}`,
+      },
+    },
+  });
   const { data } = useQuery(USER_INGRESSOS, {
     context: {
       headers: {
@@ -57,6 +95,7 @@ function MeusEventos() {
     },
   });
   const { isOpen, onToggle } = useDisclosure();
+  const transferIngressoDisclosure = useDisclosure();
 
   const handleQrCode = useCallback(
     (id: string) => {
@@ -66,12 +105,37 @@ function MeusEventos() {
     [onToggle],
   );
 
+  const onTransferSubmit: SubmitHandler<Inputs> = useCallback(
+    async ({ newOwnerMatricula, confirmNewOwnerMatricula }) => {
+      if (newOwnerMatricula === confirmNewOwnerMatricula) {
+        await transferIngresso({
+          variables: {
+            ingressoId: contextIngressoId,
+            newOwnerMatricula,
+          },
+        })
+          .then((res) => {
+            if (res.data?.transferIngresso?.ok) {
+              transferIngressoDisclosure.onClose();
+            }
+          })
+          .catch((error) => {
+            alert(error.message);
+          });
+        transferIngressoDisclosure.onClose();
+      } else {
+        alert('As matrículas não coincidem');
+        return;
+      }
+    },
+    [contextIngressoId, transferIngresso, transferIngressoDisclosure],
+  );
   return (
     <Layout
       title="Meus ingressos"
       desc="Confira aqui seus ingressos adquiridos para os próximos eventos."
     >
-      <Box maxW="xl" mx="auto">
+      <Box maxW="5xl" mx="auto">
         <PageHeading>Meus ingressos</PageHeading>
         <Card overflowX={'auto'}>
           {data?.userAuthenticatedIngressos?.length == 0 && (
@@ -115,11 +179,22 @@ function MeusEventos() {
                       </Text>
                     </Td>
                     <Td>
-                      <CustomIconButton
-                        aria-label="qr-code"
-                        icon={<FaQrcode size="25px" />}
-                        onClick={() => handleQrCode(ingresso.id)}
-                      />
+                      <HStack>
+                        <CustomIconButton
+                          aria-label="transfer-ingresso"
+                          icon={<FaExchangeAlt size="25px" />}
+                          onClick={() => {
+                            setContextIngressoId(ingresso.id);
+                            transferIngressoDisclosure.onOpen();
+                          }}
+                          isDisabled
+                        />
+                        <CustomIconButton
+                          aria-label="qr-code"
+                          icon={<FaQrcode size="25px" />}
+                          onClick={() => handleQrCode(ingresso.id)}
+                        />
+                      </HStack>
                     </Td>
                   </Tr>
                 </Tbody>
@@ -141,6 +216,61 @@ function MeusEventos() {
           <VoltarButton href="/eventos" />
         </Stack>
       </Box>
+      <AlertDialog
+        isOpen={transferIngressoDisclosure.isOpen}
+        leastDestructiveRef={cancelRef}
+        onClose={transferIngressoDisclosure.onClose}
+      >
+        <AlertDialogOverlay>
+          <form onSubmit={handleSubmit(onTransferSubmit)}>
+            <AlertDialogContent>
+              <AlertDialogHeader fontSize="lg" fontWeight="bold">
+                Transferir ingresso
+              </AlertDialogHeader>
+
+              <AlertDialogBody>
+                <Stack>
+                  <FormControl>
+                    <Input
+                      placeholder="Matrícula de destino"
+                      focusBorderColor={green}
+                      required
+                      {...register('newOwnerMatricula')}
+                    />
+                  </FormControl>
+                  <FormControl>
+                    <Input
+                      placeholder="Confirme a matrícula de destino"
+                      focusBorderColor={green}
+                      required
+                      {...register('confirmNewOwnerMatricula')}
+                    />
+                  </FormControl>
+                </Stack>
+                <Text mt={4} textAlign="center">
+                  <em>
+                    Tem certeza que deseja transferir o ingresso por{' '}
+                    <strong>C$ 90</strong>? Esta ação <strong>não</strong>{' '}
+                    poderá ser desfeita.
+                  </em>
+                </Text>
+              </AlertDialogBody>
+
+              <AlertDialogFooter>
+                <CustomButtom
+                  onClick={transferIngressoDisclosure.onClose}
+                  colorScheme="gray"
+                >
+                  Cancelar
+                </CustomButtom>
+                <CustomButtom variant={'solid'} ml={3} type="submit">
+                  Transferir
+                </CustomButtom>
+              </AlertDialogFooter>
+            </AlertDialogContent>
+          </form>
+        </AlertDialogOverlay>
+      </AlertDialog>
     </Layout>
   );
 }
