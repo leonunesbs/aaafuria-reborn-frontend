@@ -6,13 +6,13 @@ import {
 } from '@/components/atoms';
 import { ProdutoCard, SocialIcons } from '@/components/molecules';
 import React, { useContext, useEffect } from 'react';
+import { gql, useQuery } from '@apollo/client';
 
 import { AuthContext } from '@/contexts/AuthContext';
 import { GetStaticProps } from 'next';
 import { Layout } from '@/components/templates';
 import { MdShoppingCart } from 'react-icons/md';
 import client from '@/services/apollo-client';
-import { gql } from '@apollo/client';
 import { parseCookies } from 'nookies';
 
 const PRODUTO_QUERY = gql`
@@ -53,7 +53,8 @@ export type ProdutoType = {
   };
 };
 
-function Loja({ produtos }: { produtos: QueryData }) {
+function Loja() {
+  const { data: produtos } = useQuery<QueryData>(PRODUTO_QUERY);
   const { checkCredentials } = useContext(AuthContext);
   const [isSocio, setIsSocio] = React.useState(false);
 
