@@ -19,7 +19,6 @@ import { Card } from '@/components/molecules';
 import { ColorContext } from '@/contexts/ColorContext';
 import { MdShoppingCart } from 'react-icons/md';
 import { ProdutoType } from '@/pages/loja';
-import { parseCookies } from 'nookies';
 
 export type ProdutoCardProps = ProdutoType;
 
@@ -51,12 +50,14 @@ const GET_VARIATIONS = gql`
 `;
 
 export const ProdutoCard = ({ node }: ProdutoCardProps) => {
+  const { checkCredentials, isAuthenticated, isSocio, token } =
+    useContext(AuthContext);
   const { register, handleSubmit } = useForm<any>();
   const { green, bg } = useContext(ColorContext);
   const [addToCart, { loading }] = useMutation(ADD_TO_CART, {
     context: {
       headers: {
-        Authorization: `JWT ${parseCookies()['aaafuriaToken']}`,
+        Authorization: `JWT ${token}`,
       },
     },
   });
@@ -67,8 +68,6 @@ export const ProdutoCard = ({ node }: ProdutoCardProps) => {
     },
   });
 
-  const { checkCredentials, isAuthenticated, isSocio } =
-    useContext(AuthContext);
   const [isLoading, setIsLoading] = React.useState(loading);
   const toast = useToast();
 

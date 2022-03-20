@@ -6,16 +6,19 @@ import {
   AlertDialogHeader,
   AlertDialogOverlay,
   Box,
+  Center,
   Collapse,
   Flex,
   FormControl,
   HStack,
+  Heading,
   Input,
   Stack,
   Table,
   Tbody,
   Td,
   Text,
+  Th,
   Thead,
   Tr,
   useClipboard,
@@ -80,6 +83,7 @@ function MeusEventos() {
   const { hasCopied, onCopy } = useClipboard('https://bit.ly/3w1n0Fz');
   const [contextIngressoId, setContextIngressoId] = useState('');
   const [url, setUrl] = useState('');
+  const [title, setTitle] = useState('');
   const [transferIngresso] = useMutation(TRANSFER_INGRESSO, {
     context: {
       headers: {
@@ -98,8 +102,9 @@ function MeusEventos() {
   const transferIngressoDisclosure = useDisclosure();
 
   const handleQrCode = useCallback(
-    (id: string) => {
+    (id: string, title: string) => {
       setUrl(`http://${window?.location.host}/areadiretor/ingresso/${id}`);
+      setTitle(title);
       onToggle();
     },
     [onToggle],
@@ -138,14 +143,13 @@ function MeusEventos() {
       <Box maxW="5xl" mx="auto">
         <PageHeading>Meus ingressos</PageHeading>
         <Card overflowX={'auto'}>
-          {data?.userAuthenticatedIngressos?.length == 0 && (
+          {data?.userAuthenticatedIngressos?.length == 0 ? (
             <Flex align="center" justify="center" flexDirection="column" p={4}>
               <Text>
                 <em>Você não possui ingressos para eventos futuros.</em>
               </Text>
             </Flex>
-          )}
-          {data?.userAuthenticatedIngressos?.map((ingresso: any) => (
+          ) : (
             <>
               <CustomButtom
                 onClick={onCopy}
@@ -153,64 +157,71 @@ function MeusEventos() {
               >
                 {hasCopied ? 'Copiado!' : 'Copiar link convidados'}
               </CustomButtom>
-              <Table key={ingresso.id}>
+              <Table>
                 <Thead>
                   <Tr>
-                    <Td>Lote - Evento</Td>
-                    <Td>Data de compra</Td>
-                    <Td>Ação</Td>
+                    <Th>Lote - Evento</Th>
+                    <Th>Data de compra</Th>
+                    <Th>Ação</Th>
                   </Tr>
                 </Thead>
                 <Tbody>
-                  <Tr>
-                    <Td>
-                      {ingresso.lote.nome} - {ingresso.lote.evento.nome}
-                    </Td>
-                    <Td>
-                      <Text as="time" dateTime={ingresso?.dataCompra}>
-                        {new Date(ingresso?.dataCompra).toLocaleString(
-                          'pt-BR',
-                          {
-                            dateStyle: 'short',
-                            timeStyle: 'short',
-                            timeZone: 'America/Sao_Paulo',
-                          },
-                        )}
-                      </Text>
-                    </Td>
-                    <Td>
-                      <HStack>
-                        <CustomIconButton
-                          aria-label="transfer-ingresso"
-                          icon={<FaExchangeAlt size="25px" />}
-                          onClick={() => {
-                            setContextIngressoId(ingresso.id);
-                            transferIngressoDisclosure.onOpen();
-                          }}
-                          isDisabled
-                        />
-                        <CustomIconButton
-                          aria-label="qr-code"
-                          icon={<FaQrcode size="25px" />}
-                          onClick={() => handleQrCode(ingresso.id)}
-                        />
-                      </HStack>
-                    </Td>
-                  </Tr>
+                  {data?.userAuthenticatedIngressos?.map((ingresso: any) => (
+                    <Tr
+                      key={ingresso.id}
+                      onClick={() =>
+                        handleQrCode(ingresso.id, ingresso.lote.evento.nome)
+                      }
+                      cursor="pointer"
+                    >
+                      <Td>
+                        {ingresso.lote.nome} - {ingresso.lote.evento.nome}
+                      </Td>
+                      <Td>
+                        <Text as="time" dateTime={ingresso?.dataCompra}>
+                          {new Date(ingresso?.dataCompra).toLocaleString(
+                            'pt-BR',
+                            {
+                              dateStyle: 'short',
+                              timeStyle: 'short',
+                              timeZone: 'America/Sao_Paulo',
+                            },
+                          )}
+                        </Text>
+                      </Td>
+                      <Td>
+                        <HStack>
+                          <CustomIconButton
+                            aria-label="transfer-ingresso"
+                            icon={<FaExchangeAlt size="25px" />}
+                            onClick={() => {
+                              setContextIngressoId(ingresso.id);
+                              transferIngressoDisclosure.onOpen();
+                            }}
+                            isDisabled
+                          />
+                          <CustomIconButton
+                            aria-label="qr-code"
+                            icon={<FaQrcode size="25px" />}
+                          />
+                        </HStack>
+                      </Td>
+                    </Tr>
+                  ))}
                 </Tbody>
               </Table>
             </>
-          ))}
+          )}
         </Card>
         <Collapse in={isOpen} animateOpacity>
-          <Flex
-            py="8"
-            px={{ base: '4', md: '10' }}
-            justify={'center'}
-            flexGrow={1}
-          >
-            <QRCode value={url} size={256} fgColor="green" />
-          </Flex>
+          <Card py="8" px={{ base: '4', md: '10' }} mx="auto" maxW="sm" mt={4}>
+            <Heading size="md" textAlign={'center'}>
+              {title}
+            </Heading>
+            <Center mt={4}>
+              <QRCode value={url} size={256} fgColor="green" />
+            </Center>
+          </Card>
         </Collapse>
         <Stack mt={4} align="center">
           <VoltarButton href="/eventos" />
