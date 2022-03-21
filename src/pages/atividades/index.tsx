@@ -1,5 +1,5 @@
 import { AtividadesSocioTable, Card } from '@/components/molecules';
-import { Box, HStack, Stack } from '@chakra-ui/react';
+import { Box, HStack, Stack, useToast } from '@chakra-ui/react';
 import {
   CustomButtom,
   CustomChakraNextLink,
@@ -22,7 +22,8 @@ import { useRouter } from 'next/router';
 interface AtividadesProps {}
 
 function Atividades({}: AtividadesProps) {
-  const { isStaff, checkCredentials, isAuthenticated } =
+  const toast = useToast();
+  const { isStaff, isSocio, checkCredentials, isAuthenticated } =
     useContext(AuthContext);
   const [categoria, setCategoria] = useState('Esporte');
   const router = useRouter();
@@ -37,10 +38,23 @@ function Atividades({}: AtividadesProps) {
 
   useEffect(() => {
     checkCredentials();
+
     if (!isAuthenticated) {
       router.push(`/entrar?after=${router.asPath}`);
     }
-  }, [checkCredentials, isAuthenticated, router]);
+
+    if (isSocio === false) {
+      toast({
+        title: 'Que pena! Você não é sócio...',
+        description: 'Mas nossa associação está aberta, Seja Sócio!',
+        status: 'info',
+        duration: 2500,
+        isClosable: true,
+        position: 'top-left',
+      });
+      router.push('/sejasocio');
+    }
+  }, [checkCredentials, isAuthenticated, isSocio, router, toast]);
 
   useEffect(() => {
     const query = router.query.categoria;

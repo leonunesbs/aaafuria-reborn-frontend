@@ -1,12 +1,13 @@
-import { PageHeading } from '@/components/atoms';
-import { Card, AreaSocioMenu } from '@/components/molecules';
-import { Layout } from '@/components/templates';
-import { AuthContext } from '@/contexts/AuthContext';
+import { AreaSocioMenu, Card } from '@/components/molecules';
 import { Box, useToast } from '@chakra-ui/react';
-import { GetServerSideProps } from 'next';
-import { useRouter } from 'next/router';
-import { parseCookies } from 'nookies';
 import React, { useContext, useEffect } from 'react';
+
+import { AuthContext } from '@/contexts/AuthContext';
+import { GetServerSideProps } from 'next';
+import { Layout } from '@/components/templates';
+import { PageHeading } from '@/components/atoms';
+import { parseCookies } from 'nookies';
+import { useRouter } from 'next/router';
 
 function AreaSocio() {
   const router = useRouter();
@@ -27,8 +28,7 @@ function AreaSocio() {
       });
       router.push('/sejasocio');
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isSocio, toast]);
+  }, [checkCredentials, isSocio, router, toast]);
 
   return (
     <Layout title="Área do Socio">
