@@ -43,16 +43,18 @@ function Atividades({}: AtividadesProps) {
       router.push(`/entrar?after=${router.asPath}`);
     }
 
-    if (isSocio === false || isStaff === false) {
-      toast({
-        title: 'Que pena! Você não é sócio...',
-        description: 'Mas nossa associação está aberta, Seja Sócio!',
-        status: 'info',
-        duration: 2500,
-        isClosable: true,
-        position: 'top-left',
-      });
-      router.push('/sejasocio');
+    if (isStaff === false) {
+      if (isSocio === false) {
+        toast({
+          title: 'Que pena! Você não é sócio...',
+          description: 'Mas nossa associação está aberta, Seja Sócio!',
+          status: 'info',
+          duration: 2500,
+          isClosable: true,
+          position: 'top-left',
+        });
+        router.push('/sejasocio');
+      }
     }
   }, [checkCredentials, isAuthenticated, isSocio, isStaff, router, toast]);
 
