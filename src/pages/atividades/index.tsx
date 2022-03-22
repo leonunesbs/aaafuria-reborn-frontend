@@ -43,7 +43,7 @@ function Atividades({}: AtividadesProps) {
       router.push(`/entrar?after=${router.asPath}`);
     }
 
-    if (isSocio === false) {
+    if (isSocio === false || isStaff === false) {
       toast({
         title: 'Que pena! Você não é sócio...',
         description: 'Mas nossa associação está aberta, Seja Sócio!',
@@ -54,7 +54,7 @@ function Atividades({}: AtividadesProps) {
       });
       router.push('/sejasocio');
     }
-  }, [checkCredentials, isAuthenticated, isSocio, router, toast]);
+  }, [checkCredentials, isAuthenticated, isSocio, isStaff, router, toast]);
 
   useEffect(() => {
     const query = router.query.categoria;
