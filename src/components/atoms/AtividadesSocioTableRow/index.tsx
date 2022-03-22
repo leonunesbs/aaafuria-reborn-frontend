@@ -18,6 +18,7 @@ import {
   useCallback,
   useContext,
   useEffect,
+  useMemo,
   useState,
 } from 'react';
 import {
@@ -70,11 +71,14 @@ export const AtividadesSocioTableRow = ({
   );
   const [loading, setLoading] = useState(false);
 
-  const [value] = useState(
-    node.competidoresConfirmados.edges.length > 0
-      ? (node.competidoresConfirmados.edges.length / node.competidoresMinimo) *
+  const value = useMemo(
+    () =>
+      node.competidoresConfirmados.edges.length > 0
+        ? (node.competidoresConfirmados.edges.length /
+            node.competidoresMinimo) *
           100
-      : 0,
+        : 0,
+    [node.competidoresConfirmados.edges.length, node.competidoresMinimo],
   );
 
   const [confirmarCompetidor] = useMutation(MUTATION_CONFIRMAR_COMPETIDOR);
