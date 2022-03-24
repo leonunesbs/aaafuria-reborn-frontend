@@ -44,6 +44,9 @@ export const CommentCard = dynamic<CommentCardProps>(() =>
 export const CreateComment = dynamic<CreateCommentProps>(() =>
   import('./CreateComment').then((mod) => mod.CreateComment),
 );
+export const EmailConfirmation = dynamic<IEmailConfirmation>(() =>
+  import('./EmailConfirmation').then((mod) => mod.EmailConfirmation),
+);
 export const Header = dynamic<any>(() =>
   import('./Header').then((mod) => mod.Header),
 );
