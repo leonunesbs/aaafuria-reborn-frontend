@@ -44,7 +44,7 @@ type Inputs = {
 };
 
 export const EmailConfirmation = ({ ...rest }: IEmailConfirmation) => {
-  const { token } = useContext(AuthContext);
+  const { token, isAuthenticated } = useContext(AuthContext);
   const { green } = useContext(ColorContext);
   const { isOpen, onClose, onOpen } = useDisclosure();
   const toast = useToast();
@@ -99,10 +99,10 @@ export const EmailConfirmation = ({ ...rest }: IEmailConfirmation) => {
   );
 
   useEffect(() => {
-    if (data && !data.socioAutenticado.verifiedEmail) {
+    if (isAuthenticated && data && !data.socioAutenticado.verifiedEmail) {
       onOpen();
     }
-  }, [data, onClose, onOpen]);
+  }, [data, isAuthenticated, onClose, onOpen]);
 
   return (
     <Drawer size={'full'} isOpen={isOpen} onClose={onClose} {...rest}>
