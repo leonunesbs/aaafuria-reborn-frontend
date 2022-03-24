@@ -5,11 +5,12 @@ export interface ICadastroDrawer {
 
 export type CadastroInputsType = {
   matricula: string;
-  confirm_matricula: stirng;
+  confirmMatricula: stirng;
   turma: string;
   pin: string;
-  pin_confirmar: string;
+  confirmPin: string;
   email: string;
+  confirmEmail: string;
   nome: string;
   whatsapp: string;
   apelido: string;

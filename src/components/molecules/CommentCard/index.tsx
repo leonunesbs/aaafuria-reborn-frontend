@@ -20,6 +20,7 @@ export const CommentCard = ({ comment }: CommentCardProps) => {
         value={comment.node.description}
         isReadOnly
         focusBorderColor={green}
+        minH="3xs"
       />
       <Box mt={4}>
         <Text textAlign={'right'} fontSize="sm">

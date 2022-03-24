@@ -163,6 +163,7 @@ export const IssueInfoCard = ({
               value={issue.description}
               isReadOnly
               focusBorderColor={green}
+              minH="3xs"
             />
           </Skeleton>
 

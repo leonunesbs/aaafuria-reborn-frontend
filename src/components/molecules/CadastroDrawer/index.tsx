@@ -86,7 +86,7 @@ export const CadastroDrawer = ({
 
   const signUp = useCallback(
     async (data: CadastroInputsType) => {
-      if (data.pin !== data.pin_confirmar) {
+      if (data.pin !== data.confirmPin) {
         toast({
           description: 'Os PINs inseridos são diferentes.',
           status: 'warning',
@@ -96,8 +96,18 @@ export const CadastroDrawer = ({
         });
         return;
       }
+      if (data.email !== data.confirmEmail) {
+        toast({
+          description: 'Os Emails inseridos são diferentes.',
+          status: 'warning',
+          duration: 2500,
+          isClosable: true,
+          position: 'top-left',
+        });
+        return;
+      }
 
-      if (data.matricula !== data.confirm_matricula) {
+      if (data.matricula !== data.confirmMatricula) {
         toast({
           description: 'As matrículas inseridas são diferentes.',
           status: 'warning',
@@ -197,7 +207,7 @@ export const CadastroDrawer = ({
                   <FormControl>
                     <FormLabel>Confirme sua matrícula: </FormLabel>
                     <Controller
-                      name="confirm_matricula"
+                      name="confirmMatricula"
                       control={control}
                       rules={{
                         required: 'Matrícula obrigatória',
@@ -238,6 +248,15 @@ export const CadastroDrawer = ({
                       focusBorderColor="green.500"
                       required
                       {...register('email')}
+                    />
+                  </FormControl>
+                  <FormControl>
+                    <FormLabel>Confirmar email: </FormLabel>
+                    <Input
+                      type="email"
+                      focusBorderColor="green.500"
+                      required
+                      {...register('confirmEmail')}
                     />
                   </FormControl>
                   <FormControl>
@@ -348,7 +367,7 @@ export const CadastroDrawer = ({
                   <FormControl>
                     <FormLabel>Confirmar PIN: </FormLabel>
                     <Controller
-                      name="pin_confirmar"
+                      name="confirmPin"
                       control={control}
                       rules={{
                         required: 'PIN obrigatório',
