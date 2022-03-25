@@ -68,7 +68,7 @@ function Loja() {
   }, [isSocio, checkCredentials]);
 
   return (
-    <Layout title="Loja" hasBreadCrumbs breadCrumbsHrefs={['/', '/loja']}>
+    <Layout title="Loja">
       <Box maxW="5xl" mx="auto">
         <PageHeading>Loja</PageHeading>
         <SimpleGrid
