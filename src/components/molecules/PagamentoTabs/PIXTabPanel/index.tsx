@@ -15,7 +15,7 @@ import {
 import { gql, useMutation } from '@apollo/client';
 
 import { CarrinhoData } from '@/pages/areadiretor/plantao/pagamento';
-import { CustomButtom } from '@/components/atoms';
+import { CustomButton } from '@/components/atoms';
 import { PixQRCode } from 'pix-react';
 import { parseCookies } from 'nookies';
 import router from 'next/router';
@@ -107,7 +107,7 @@ export const PixTabPanel = ({ parentData: parentData }: PixTabPanelProps) => {
             excavate: false,
           }}
         />
-        <CustomButtom onClick={onOpen}>Confirmar pagamento</CustomButtom>
+        <CustomButton onClick={onOpen}>Confirmar pagamento</CustomButton>
       </SimpleGrid>
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
@@ -117,12 +117,12 @@ export const PixTabPanel = ({ parentData: parentData }: PixTabPanelProps) => {
           <ModalBody>PIX</ModalBody>
 
           <ModalFooter>
-            <CustomButtom color="red" onClick={onClose}>
+            <CustomButton color="red" onClick={onClose}>
               Fechar
-            </CustomButtom>
-            <CustomButtom mr={3} onClick={handleConfirmar}>
+            </CustomButton>
+            <CustomButton mr={3} onClick={handleConfirmar}>
               Confimar
-            </CustomButtom>
+            </CustomButton>
           </ModalFooter>
         </ModalContent>
       </Modal>

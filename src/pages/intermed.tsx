@@ -10,7 +10,7 @@ import {
   Text,
   useDisclosure,
 } from '@chakra-ui/react';
-import { CustomButtom, PageHeading } from '@/components/atoms';
+import { CustomButton, PageHeading } from '@/components/atoms';
 import { gql, useMutation } from '@apollo/client';
 import { useContext, useEffect, useRef } from 'react';
 
@@ -74,9 +74,9 @@ function Intermed() {
         <Card>
           <Text textAlign={'center'}>PIX: pix@aaafuria.site</Text>
           <Stack>
-            <CustomButtom onClick={handleInscricao}>
+            <CustomButton onClick={handleInscricao}>
               Inscreva-se no INTERMED NORTE
-            </CustomButtom>
+            </CustomButton>
           </Stack>
         </Card>
         <AlertDialog
@@ -95,12 +95,12 @@ function Intermed() {
                 desconto? <em>Esta ação não poderá ser desfeita.</em>
               </AlertDialogBody>
               <AlertDialogFooter>
-                <CustomButtom colorScheme="red" onClick={onClose}>
+                <CustomButton colorScheme="red" onClick={onClose}>
                   Cancel
-                </CustomButtom>
-                <CustomButtom onClick={handleResgate} ml={3}>
+                </CustomButton>
+                <CustomButton onClick={handleResgate} ml={3}>
                   Confirmar
-                </CustomButtom>
+                </CustomButton>
               </AlertDialogFooter>
             </AlertDialogContent>
           </AlertDialogOverlay>

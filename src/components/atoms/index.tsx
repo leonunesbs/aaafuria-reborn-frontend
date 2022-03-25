@@ -32,7 +32,7 @@ export const AtividadesSocioTableRow = dynamic<IAtividadesSocioTableRow>(() =>
 export const CarteirinhaInput = dynamic<ICarteirinhaInput>(() =>
   import('./CarteirinhaInput').then((mod) => mod.CarteirinhaInput),
 );
-export const CustomButtom = dynamic<
+export const CustomButton = dynamic<
   ICustomButton & RefAttributes<HTMLButtonElement>
 >(() => import('./CustomButton').then((mod) => mod.CustomButton));
 

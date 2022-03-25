@@ -18,7 +18,7 @@ import {
   useToast,
 } from '@chakra-ui/react';
 import {
-  CustomButtom,
+  CustomButton,
   CustomChakraNextLink,
   CustomIconButton,
   PageHeading,
@@ -251,17 +251,17 @@ export const IssueInfoCard = ({
             </AlertDialogBody>
 
             <AlertDialogFooter>
-              <CustomButtom onClick={onClose} colorScheme="gray">
+              <CustomButton onClick={onClose} colorScheme="gray">
                 Cancelar
-              </CustomButtom>
-              <CustomButtom
+              </CustomButton>
+              <CustomButton
                 colorScheme="red"
                 variant={'solid'}
                 onClick={() => handleCloseIssue(issue.id as string)}
                 ml={3}
               >
                 Fechar solicitação
-              </CustomButtom>
+              </CustomButton>
             </AlertDialogFooter>
           </AlertDialogContent>
         </AlertDialogOverlay>

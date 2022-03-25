@@ -1,6 +1,6 @@
 import { CadastroInputsType, ICadastroDrawer } from './ICadastroDrawer';
 import { Controller, useForm } from 'react-hook-form';
-import { CustomButtom, PageHeading } from '@/components/atoms';
+import { CustomButton, PageHeading } from '@/components/atoms';
 import {
   Drawer,
   DrawerBody,
@@ -404,10 +404,10 @@ export const CadastroDrawer = ({
                   </Text>
                 </Stack>
                 <Stack mt={8}>
-                  <CustomButtom type="submit">Cadastrar</CustomButtom>
-                  <CustomButtom colorScheme="gray" onClick={handleClose}>
+                  <CustomButton type="submit">Cadastrar</CustomButton>
+                  <CustomButton colorScheme="gray" onClick={handleClose}>
                     Fechar
-                  </CustomButtom>
+                  </CustomButton>
                 </Stack>
               </form>
             </Card>

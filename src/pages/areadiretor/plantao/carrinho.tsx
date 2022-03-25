@@ -12,7 +12,7 @@ import {
   Thead,
   Tr,
 } from '@chakra-ui/react';
-import { CustomButtom, PageHeading, VoltarButton } from '@/components/atoms';
+import { CustomButton, PageHeading, VoltarButton } from '@/components/atoms';
 import { FaMinus, FaPlus } from 'react-icons/fa';
 import { MdDelete, MdPayment } from 'react-icons/md';
 import { gql, useMutation, useQuery } from '@apollo/client';
@@ -291,7 +291,7 @@ function Carrinho() {
           </Table>
         </Card>
         <HStack flexDir="row-reverse" mt={4}>
-          <CustomButtom
+          <CustomButton
             maxW="xs"
             size="lg"
             ml={4}
@@ -299,7 +299,7 @@ function Carrinho() {
             onClick={handleCheckout}
           >
             Pagamento
-          </CustomButtom>
+          </CustomButton>
           <VoltarButton href={`/areadiretor/plantao?m=${matriculaSocio}`} />
         </HStack>
       </Box>

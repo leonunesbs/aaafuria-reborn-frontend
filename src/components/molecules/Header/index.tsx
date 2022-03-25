@@ -8,7 +8,7 @@ import {
 } from '@chakra-ui/react';
 import {
   ColorModeToggle,
-  CustomButtom,
+  CustomButton,
   CustomChakraNextLink,
   CustomIconButton,
   NotificationBadge,
@@ -63,7 +63,7 @@ export const Header = () => {
         isAuthenticated &&
         isSocio && (
           <CustomChakraNextLink href="/areasocio/carteira">
-            <CustomButtom textColor={green} variant="ghost">
+            <CustomButton textColor={green} variant="ghost">
               <HStack w="full">
                 <NextImage
                   src={'/calango-verde.png'}
@@ -75,7 +75,7 @@ export const Header = () => {
                   {data?.socioAutenticado?.conta.calangos}
                 </Text>
               </HStack>
-            </CustomButtom>
+            </CustomButton>
           </CustomChakraNextLink>
         )
       )}

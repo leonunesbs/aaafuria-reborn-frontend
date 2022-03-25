@@ -25,7 +25,7 @@ import {
   useDisclosure,
 } from '@chakra-ui/react';
 import {
-  CustomButtom,
+  CustomButton,
   CustomIconButton,
   PageHeading,
   VoltarButton,
@@ -151,12 +151,12 @@ function MeusEventos() {
             </Flex>
           ) : (
             <>
-              <CustomButtom
+              <CustomButton
                 onClick={onCopy}
                 leftIcon={!hasCopied ? <MdCopyAll size="25px" /> : <></>}
               >
                 {hasCopied ? 'Copiado!' : 'Copiar link convidados'}
-              </CustomButtom>
+              </CustomButton>
               <Table>
                 <Thead>
                   <Tr>
@@ -268,15 +268,15 @@ function MeusEventos() {
               </AlertDialogBody>
 
               <AlertDialogFooter>
-                <CustomButtom
+                <CustomButton
                   onClick={transferIngressoDisclosure.onClose}
                   colorScheme="gray"
                 >
                   Cancelar
-                </CustomButtom>
-                <CustomButtom variant={'solid'} ml={3} type="submit">
+                </CustomButton>
+                <CustomButton variant={'solid'} ml={3} type="submit">
                   Transferir
-                </CustomButtom>
+                </CustomButton>
               </AlertDialogFooter>
             </AlertDialogContent>
           </form>

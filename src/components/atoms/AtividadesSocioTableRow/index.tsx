@@ -22,7 +22,7 @@ import {
   useState,
 } from 'react';
 import {
-  CustomButtom,
+  CustomButton,
   CustomChakraNextLink,
   CustomIconButton,
 } from '@/components/atoms';
@@ -217,13 +217,13 @@ export const AtividadesSocioTableRow = ({
                 )}
               </Stack>
             ) : (
-              <CustomButtom
+              <CustomButton
                 rightIcon={<MdLogin size="25px" />}
                 onClick={() => router.push(`/entrar?after=${router.asPath}`)}
                 isLoading={loading}
               >
                 Fazer login
-              </CustomButtom>
+              </CustomButton>
             )}
           </Center>
         </Box>

@@ -1,6 +1,6 @@
 import { Box, Divider, Stack, StackProps } from '@chakra-ui/react';
 import {
-  CustomButtom,
+  CustomButton,
   CustomChakraNextLink,
   VoltarButton,
 } from '@/components/atoms';
@@ -36,7 +36,7 @@ export const AreaSocioMenu = ({ ...rest }: AreaSocioMenuProps) => {
   return (
     <Stack {...rest}>
       <CustomChakraNextLink href="/loja-calangos">
-        <CustomButtom
+        <CustomButton
           leftIcon={
             <NextImage
               src={'/calango-verde.png'}
@@ -47,10 +47,10 @@ export const AreaSocioMenu = ({ ...rest }: AreaSocioMenuProps) => {
           }
         >
           Loja Calangos
-        </CustomButtom>
+        </CustomButton>
       </CustomChakraNextLink>
       <CustomChakraNextLink href="/atividades">
-        <CustomButtom
+        <CustomButton
           leftIcon={
             <>
               <FaVolleyballBall size="20px" />
@@ -60,19 +60,19 @@ export const AreaSocioMenu = ({ ...rest }: AreaSocioMenuProps) => {
           }
         >
           Atividades
-        </CustomButtom>
+        </CustomButton>
       </CustomChakraNextLink>
       <CustomChakraNextLink href="/carteirinha">
-        <CustomButtom leftIcon={<AiFillIdcard size="20px" />}>
+        <CustomButton leftIcon={<AiFillIdcard size="20px" />}>
           Carteirinha de sócio
-        </CustomButtom>
+        </CustomButton>
       </CustomChakraNextLink>
 
       <Divider height="15px" />
       <CustomChakraNextLink href="/areasocio/carteira">
-        <CustomButtom leftIcon={<FaWallet size="20px" />}>
+        <CustomButton leftIcon={<FaWallet size="20px" />}>
           Carteira
-        </CustomButtom>
+        </CustomButton>
       </CustomChakraNextLink>
       <CustomChakraNextLink
         chakraLinkProps={{
@@ -80,13 +80,13 @@ export const AreaSocioMenu = ({ ...rest }: AreaSocioMenuProps) => {
         }}
         href={`${data?.queryStripePortalUrl?.stripePortalUrl}`}
       >
-        <CustomButtom
+        <CustomButton
           leftIcon={<MdManageAccounts size="20px" />}
           hasExternalIcon
           colorScheme="yellow"
         >
           Gerenciar associação
-        </CustomButtom>
+        </CustomButton>
       </CustomChakraNextLink>
       <VoltarButton href="/" />
     </Stack>

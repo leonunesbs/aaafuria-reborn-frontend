@@ -1,4 +1,4 @@
-import { CustomButtom, CustomChakraNextLink } from '..';
+import { CustomButton, CustomChakraNextLink } from '..';
 
 import { Box } from '@chakra-ui/react';
 import { MdArrowLeft } from 'react-icons/md';
@@ -11,9 +11,9 @@ export const VoltarButton = ({ href, ...rest }: VoltarButtonProps) => {
   return (
     <Box mt={4}>
       <CustomChakraNextLink href={href} {...rest}>
-        <CustomButtom colorScheme="red" leftIcon={<MdArrowLeft size="25px" />}>
+        <CustomButton colorScheme="red" leftIcon={<MdArrowLeft size="25px" />}>
           Voltar
-        </CustomButtom>
+        </CustomButton>
       </CustomChakraNextLink>
     </Box>
   );

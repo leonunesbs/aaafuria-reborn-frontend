@@ -15,7 +15,7 @@ import {
   useToast,
 } from '@chakra-ui/react';
 import {
-  CustomButtom,
+  CustomButton,
   CustomChakraNextLink,
   PageHeading,
   VoltarButton,
@@ -132,7 +132,7 @@ function Eventos() {
                   <Text textAlign={'center'} fontSize="sm">
                     <em>Maria Clara e Vasconcelos Oliveira</em>
                   </Text>
-                  <CustomButtom
+                  <CustomButton
                     colorScheme={'green'}
                     variant="solid"
                     leftIcon={<FaWhatsapp size="25px" />}
@@ -142,7 +142,7 @@ function Eventos() {
                     }
                   >
                     Enviar comprovante
-                  </CustomButtom>
+                  </CustomButton>
                 </Box>
               ),
               status: 'success',
@@ -332,13 +332,13 @@ function Eventos() {
                           />
                         </FormControl>
                       </Stack>
-                      <CustomButtom
+                      <CustomButton
                         type="submit"
                         size="sm"
                         isDisabled={!isAuthenticated}
                       >
                         Convidar
-                      </CustomButtom>
+                      </CustomButton>
                     </Box>
                   </form>
                 )}
@@ -352,7 +352,7 @@ function Eventos() {
                 </Text>
               </Box>
               {isAuthenticated ? (
-                <CustomButtom
+                <CustomButton
                   leftIcon={
                     node.isGratuito ? (
                       <MdSend size="25px" />
@@ -377,9 +377,9 @@ function Eventos() {
                     : node.presencial
                     ? 'Reservar'
                     : 'Reservar e pagar'}
-                </CustomButtom>
+                </CustomButton>
               ) : (
-                <CustomButtom
+                <CustomButton
                   leftIcon={<MdLogin size="25px" />}
                   borderTopRadius={0}
                   variant="solid"
@@ -387,7 +387,7 @@ function Eventos() {
                   onClick={() => router.push(`entrar?after=${router.asPath}`)}
                 >
                   Faça login para participar
-                </CustomButtom>
+                </CustomButton>
               )}
             </Card>
           );
@@ -400,13 +400,13 @@ function Eventos() {
       )}
       <Stack mt={4} align="center">
         <CustomChakraNextLink href="/eventos/meus-ingressos">
-          <CustomButtom
+          <CustomButton
             mt={4}
             colorScheme="gray"
             leftIcon={<FaTicketAlt size="25px" />}
           >
             Meus ingressos
-          </CustomButtom>
+          </CustomButton>
         </CustomChakraNextLink>
         <VoltarButton href="/" />
       </Stack>

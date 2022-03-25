@@ -15,7 +15,7 @@ import { MdCheck, MdRefresh } from 'react-icons/md';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { gql, useQuery } from '@apollo/client';
 
-import { CustomButtom } from '@/components/atoms';
+import { CustomButton } from '@/components/atoms';
 import { useRouter } from 'next/router';
 
 const QUERY_SOCIO = gql`
@@ -25,6 +25,7 @@ const QUERY_SOCIO = gql`
       matricula
       turma
       email
+
       isSocio
       user {
         isStaff
@@ -138,20 +139,20 @@ export const InputMatriculaPlantao = ({
             </FormControl>
 
             <Stack>
-              <CustomButtom
+              <CustomButton
                 type="submit"
                 isDisabled={socioData != null}
                 leftIcon={<MdCheck size="25px" />}
               >
                 Confirmar
-              </CustomButtom>
-              <CustomButtom
+              </CustomButton>
+              <CustomButton
                 leftIcon={<MdRefresh size="25px" />}
                 colorScheme="yellow"
                 onClick={handleRestart}
               >
                 Recomeçar
-              </CustomButtom>
+              </CustomButton>
             </Stack>
           </Stack>
         </Card>

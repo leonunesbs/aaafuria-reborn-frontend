@@ -1,13 +1,14 @@
-import { CustomButtom } from '@/components/atoms';
 import {
-  Text,
   Box,
   Collapse,
   Divider,
   Skeleton,
   Stack,
+  Text,
 } from '@chakra-ui/react';
+
 import { Card } from '..';
+import { CustomButton } from '@/components/atoms';
 
 export interface ClientInfoCardProps {
   isOpen: boolean;
@@ -33,11 +34,11 @@ export const ClientInfoCard = ({ isOpen, socioData }: ClientInfoCardProps) => {
           <Skeleton isLoaded={socioData !== null}>
             <Box>
               {socioData?.isSocio ? (
-                <CustomButtom variant={'solid'}>Sócio ativo</CustomButtom>
+                <CustomButton variant={'solid'}>Sócio ativo</CustomButton>
               ) : (
-                <CustomButtom variant={'solid'} colorScheme="red">
+                <CustomButton variant={'solid'} colorScheme="red">
                   Sócio inativo
-                </CustomButtom>
+                </CustomButton>
               )}
             </Box>
           </Skeleton>

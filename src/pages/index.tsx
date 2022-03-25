@@ -16,7 +16,7 @@ import {
   chakra,
 } from '@chakra-ui/react';
 import {
-  CustomButtom,
+  CustomButton,
   CustomChakraNextLink,
   PageHeading,
 } from '@/components/atoms';
@@ -85,7 +85,7 @@ export default function Home({}: HomeProps) {
                 <AuthenticatedHomeMenu />
               ) : (
                 <CustomChakraNextLink href="/entrar">
-                  <CustomButtom
+                  <CustomButton
                     name="entrar"
                     leftIcon={<MdLogin size="20px" />}
                     onClick={() => {
@@ -93,19 +93,19 @@ export default function Home({}: HomeProps) {
                     }}
                   >
                     Entrar
-                  </CustomButtom>
+                  </CustomButton>
                 </CustomChakraNextLink>
               )}
             </Stack>
           </Card>
         </Skeleton>
         <CustomChakraNextLink href="/ajuda/minhas-solicitacoes">
-          <CustomButtom
+          <CustomButton
             variant={'solid'}
             leftIcon={<MdHelpCenter size="25px" />}
           >
             Ajuda
-          </CustomButtom>
+          </CustomButton>
         </CustomChakraNextLink>
         <SocialIcons />
       </Stack>

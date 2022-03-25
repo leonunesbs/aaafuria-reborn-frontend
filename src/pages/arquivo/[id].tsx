@@ -9,7 +9,7 @@ import {
   useColorModeValue,
 } from '@chakra-ui/react';
 import {
-  CustomButtom,
+  CustomButton,
   CustomChakraNextLink,
   PageHeading,
   VoltarButton,
@@ -94,12 +94,12 @@ function Arquivo() {
                       target: '_blank',
                     }}
                   >
-                    <CustomButtom
+                    <CustomButton
                       maxW="3xs"
                       leftIcon={<AiOutlineLink size="25px" />}
                     >
                       Visualizar anexo
-                    </CustomButtom>
+                    </CustomButton>
                   </CustomChakraNextLink>
                 </FormControl>
               )}

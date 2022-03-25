@@ -12,7 +12,7 @@ import {
   useToast,
 } from '@chakra-ui/react';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
-import { CustomButtom, PageHeading, VoltarButton } from '@/components/atoms';
+import { CustomButton, PageHeading, VoltarButton } from '@/components/atoms';
 import { MdCheck, MdRefresh } from 'react-icons/md';
 import { gql, useMutation, useQuery } from '@apollo/client';
 import { useCallback, useContext, useEffect, useState } from 'react';
@@ -186,19 +186,19 @@ function AssociacaoManual() {
               </Text>
             )}
             <Stack mt={4}>
-              <CustomButtom
+              <CustomButton
                 type="submit"
                 isDisabled={matriculaSubject !== null}
               >
                 Confirmar
-              </CustomButtom>
-              <CustomButtom
+              </CustomButton>
+              <CustomButton
                 leftIcon={<MdRefresh size="25px" />}
                 colorScheme="yellow"
                 onClick={handleRestart}
               >
                 Recomeçar
-              </CustomButtom>
+              </CustomButton>
             </Stack>
           </Card>
         </form>
@@ -220,20 +220,20 @@ function AssociacaoManual() {
               <Skeleton isLoaded={data?.socioByMatricula !== null}>
                 <Box>
                   {data?.socioByMatricula?.isSocio ? (
-                    <CustomButtom variant={'solid'}>Sócio ativo</CustomButtom>
+                    <CustomButton variant={'solid'}>Sócio ativo</CustomButton>
                   ) : (
                     <Box>
                       <Text as="strong">Nova associação</Text>
                       <HStack mt={2}>
-                        <CustomButtom
+                        <CustomButton
                           variant={
                             associacaoSubject === 'Mensal' ? 'solid' : 'outline'
                           }
                           onClick={() => setAssociacaoSubject('Mensal')}
                         >
                           Mensal
-                        </CustomButtom>
-                        <CustomButtom
+                        </CustomButton>
+                        <CustomButton
                           variant={
                             associacaoSubject === 'Semestral'
                               ? 'solid'
@@ -242,17 +242,17 @@ function AssociacaoManual() {
                           onClick={() => setAssociacaoSubject('Semestral')}
                         >
                           Semestral
-                        </CustomButtom>
-                        <CustomButtom
+                        </CustomButton>
+                        <CustomButton
                           variant={
                             associacaoSubject === 'Anual' ? 'solid' : 'outline'
                           }
                           onClick={() => setAssociacaoSubject('Anual')}
                         >
                           Anual
-                        </CustomButtom>
+                        </CustomButton>
                       </HStack>
-                      <CustomButtom
+                      <CustomButton
                         mt={4}
                         size={'lg'}
                         onClick={() =>
@@ -263,7 +263,7 @@ function AssociacaoManual() {
                         isLoading={loading}
                       >
                         Validar
-                      </CustomButtom>
+                      </CustomButton>
                     </Box>
                   )}
                 </Box>

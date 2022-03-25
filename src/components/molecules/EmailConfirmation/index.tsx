@@ -1,4 +1,4 @@
-import { CustomButtom, PageHeading } from '@/components/atoms';
+import { CustomButton, PageHeading } from '@/components/atoms';
 import {
   Drawer,
   DrawerBody,
@@ -143,9 +143,9 @@ export const EmailConfirmation = ({ ...rest }: IEmailConfirmation) => {
                     <em>{errors.confirmEmail.message}</em>
                   </Text>
                 )}
-                <CustomButtom type="submit" leftIcon={<MdCheck size="25px" />}>
+                <CustomButton type="submit" leftIcon={<MdCheck size="25px" />}>
                   Confirmar email
-                </CustomButtom>
+                </CustomButton>
               </Stack>
             </form>
           </Card>

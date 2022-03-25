@@ -15,7 +15,7 @@ import { gql, useMutation, useQuery } from '@apollo/client';
 import { useCallback, useState } from 'react';
 
 import { Card } from '@/components/molecules';
-import { CustomButtom } from '@/components/atoms';
+import { CustomButton } from '@/components/atoms';
 import { MdShoppingCart } from 'react-icons/md';
 import { ProdutoType } from '../../organisms/LojaPlantao';
 import { parseCookies } from 'nookies';
@@ -98,7 +98,7 @@ export const ProdutoPlantaoCard = ({
         toast({
           title: `[${node.nome}] adicionado ao carrinho!`,
           description: (
-            <CustomButtom
+            <CustomButton
               colorScheme={'green'}
               variant="solid"
               leftIcon={<MdShoppingCart size="25px" />}
@@ -108,7 +108,7 @@ export const ProdutoPlantaoCard = ({
               }
             >
               Ir para o carrinho
-            </CustomButtom>
+            </CustomButton>
           ),
           status: 'success',
           position: 'top-left',

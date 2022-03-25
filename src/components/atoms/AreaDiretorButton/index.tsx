@@ -1,7 +1,7 @@
 import { useCallback, useContext, useEffect } from 'react';
 
 import { AuthContext } from '@/contexts/AuthContext';
-import { CustomButtom } from '@/components/atoms';
+import { CustomButton } from '@/components/atoms';
 import { IAreaDiretorButton } from './IAreaDiretorButton';
 import { LoadingContext } from '@/contexts/LoadingContext';
 import { MdManageAccounts } from 'react-icons/md';
@@ -21,7 +21,7 @@ export const AreaDiretorButton = ({}: IAreaDiretorButton) => {
   }, [setLoading]);
 
   return (
-    <CustomButtom
+    <CustomButton
       display={isStaff ? 'flex' : 'none'}
       leftIcon={<MdManageAccounts size="20px" />}
       colorScheme="yellow"
@@ -29,6 +29,6 @@ export const AreaDiretorButton = ({}: IAreaDiretorButton) => {
       onClick={onClickAreaDiretor}
     >
       Área do Diretor
-    </CustomButtom>
+    </CustomButton>
   );
 };

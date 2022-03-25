@@ -17,7 +17,7 @@ import { useCallback, useContext, useRef } from 'react';
 
 import { AuthContext } from '@/contexts/AuthContext';
 import { ColorContext } from '@/contexts/ColorContext';
-import { CustomButtom } from '@/components/atoms';
+import { CustomButton } from '@/components/atoms';
 
 export interface CreateCommentProps {
   issueId: string;
@@ -83,13 +83,13 @@ export const CreateComment = ({
   );
   return (
     <>
-      <CustomButtom
+      <CustomButton
         aria-label="comment"
         leftIcon={<MdReply size="25px" />}
         onClick={onOpen}
       >
         Responder
-      </CustomButtom>
+      </CustomButton>
       <Drawer
         isOpen={isOpen}
         placement="bottom"
@@ -112,17 +112,17 @@ export const CreateComment = ({
             </DrawerBody>
 
             <DrawerFooter>
-              <CustomButtom mr={3} colorScheme="gray" onClick={onClose}>
+              <CustomButton mr={3} colorScheme="gray" onClick={onClose}>
                 Cancelar
-              </CustomButtom>
-              <CustomButtom
+              </CustomButton>
+              <CustomButton
                 leftIcon={<MdSend size="20px" />}
                 variant={'solid'}
                 type="submit"
                 isLoading={createCommentLoading}
               >
                 Enviar
-              </CustomButtom>
+              </CustomButton>
             </DrawerFooter>
           </DrawerContent>
         </form>

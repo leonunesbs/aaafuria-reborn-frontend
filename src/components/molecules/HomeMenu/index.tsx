@@ -1,6 +1,6 @@
 import { Box, Stack } from '@chakra-ui/react';
 import {
-  CustomButtom,
+  CustomButton,
   CustomChakraNextLink,
   SejaSocioButton,
 } from '@/components/atoms';
@@ -20,7 +20,7 @@ export const HomeMenu = ({}: HomeMenuProps) => {
     <Stack>
       <SejaSocioButton />
       <CustomChakraNextLink href="/intermed">
-        <CustomButtom
+        <CustomButton
           leftIcon={<MdEmojiEvents size="20px" />}
           onClick={() => {
             setLoading(true);
@@ -28,20 +28,20 @@ export const HomeMenu = ({}: HomeMenuProps) => {
           variant="solid"
         >
           INTERMED
-        </CustomButtom>
+        </CustomButton>
       </CustomChakraNextLink>
       <CustomChakraNextLink href="/loja">
-        <CustomButtom
+        <CustomButton
           leftIcon={<MdStore size="20px" />}
           onClick={() => {
             setLoading(true);
           }}
         >
           Loja
-        </CustomButtom>
+        </CustomButton>
       </CustomChakraNextLink>
       <CustomChakraNextLink href="/atividades">
-        <CustomButtom
+        <CustomButton
           leftIcon={
             <>
               <FaVolleyballBall size="20px" />
@@ -51,17 +51,17 @@ export const HomeMenu = ({}: HomeMenuProps) => {
           }
         >
           Atividades
-        </CustomButtom>
+        </CustomButton>
       </CustomChakraNextLink>
       <CustomChakraNextLink href="/eventos">
-        <CustomButtom
+        <CustomButton
           leftIcon={<GiPartyPopper size="20px" />}
           onClick={() => {
             setLoading(true);
           }}
         >
           Eventos
-        </CustomButtom>
+        </CustomButton>
       </CustomChakraNextLink>
     </Stack>
   );

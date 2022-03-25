@@ -1,6 +1,6 @@
 import { Box, SimpleGrid, Stack, Text } from '@chakra-ui/react';
 import {
-  CustomButtom,
+  CustomButton,
   CustomChakraNextLink,
   PageHeading,
   VoltarButton,
@@ -90,12 +90,12 @@ function Loja() {
         )}
         <Stack mt={4}>
           <CustomChakraNextLink href="/carrinho">
-            <CustomButtom
+            <CustomButton
               colorScheme="yellow"
               leftIcon={<MdShoppingCart size="25px" />}
             >
               Carrinho
-            </CustomButtom>
+            </CustomButton>
           </CustomChakraNextLink>
           <VoltarButton href="/" />
         </Stack>

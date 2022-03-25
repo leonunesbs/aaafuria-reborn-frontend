@@ -1,6 +1,6 @@
 import { Box, Stack } from '@chakra-ui/react';
 import {
-  CustomButtom,
+  CustomButton,
   CustomChakraNextLink,
   FloatingCarrinhoPlantaoButton,
   PageHeading,
@@ -49,12 +49,12 @@ function Plantao() {
           <CustomChakraNextLink
             href={`/areadiretor/plantao/carrinho?m=${socioData.matricula}`}
           >
-            <CustomButtom
+            <CustomButton
               colorScheme="gray"
               leftIcon={<MdShoppingCart size="25px" />}
             >
               Ir para o carrinho
-            </CustomButtom>
+            </CustomButton>
           </CustomChakraNextLink>
         )}
         <VoltarButton href="/areadiretor" />

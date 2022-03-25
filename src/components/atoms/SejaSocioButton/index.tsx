@@ -1,4 +1,4 @@
-import { CustomButtom, CustomChakraNextLink } from '@/components/atoms';
+import { CustomButton, CustomChakraNextLink } from '@/components/atoms';
 import React, { useContext, useEffect } from 'react';
 
 import { AuthContext } from '@/contexts/AuthContext';
@@ -22,7 +22,7 @@ export const SejaSocioButton = ({ ...rest }: SejaSocioButtonProps) => {
 
   return (
     <CustomChakraNextLink href="/sejasocio">
-      <CustomButtom
+      <CustomButton
         name="sejasocio"
         leftIcon={<MdGroups size="20px" />}
         variant="outline"
@@ -33,7 +33,7 @@ export const SejaSocioButton = ({ ...rest }: SejaSocioButtonProps) => {
         {...rest}
       >
         Clique aqui e Seja Sócio!
-      </CustomButtom>
+      </CustomButton>
     </CustomChakraNextLink>
   );
 };

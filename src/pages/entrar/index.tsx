@@ -18,7 +18,7 @@ import {
 import { CadastroDrawer, Card } from '@/components/molecules';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import {
-  CustomButtom,
+  CustomButton,
   CustomChakraNextLink,
   PageHeading,
 } from '@/components/atoms';
@@ -281,21 +281,21 @@ export default function Entrar() {
               )}
 
               <Stack>
-                <CustomButtom
+                <CustomButton
                   leftIcon={<MdLogin size="20px" />}
                   mt={4}
                   type="submit"
                   isLoading={isSubmitting}
                 >
                   Entrar
-                </CustomButtom>
-                <CustomButtom
+                </CustomButton>
+                <CustomButton
                   leftIcon={<AiFillHome size="20px" />}
                   colorScheme="gray"
                   onClick={() => router.push('/')}
                 >
                   Início
-                </CustomButtom>
+                </CustomButton>
               </Stack>
             </Stack>
           </form>

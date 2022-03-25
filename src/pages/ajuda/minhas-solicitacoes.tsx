@@ -26,7 +26,7 @@ import {
   useToast,
 } from '@chakra-ui/react';
 import {
-  CustomButtom,
+  CustomButton,
   CustomChakraNextLink,
   CustomIconButton,
   PageHeading,
@@ -40,7 +40,6 @@ import { useCallback, useContext, useEffect, useRef } from 'react';
 import { AuthContext } from '@/contexts/AuthContext';
 import { Card } from '@/components/molecules';
 import { ColorContext } from '@/contexts/ColorContext';
-import { CustomButton } from '@/components/atoms/CustomButton';
 import { FaEye } from 'react-icons/fa';
 import { GetServerSideProps } from 'next';
 import { IIssueType } from './IIssueType';
@@ -344,20 +343,20 @@ function Solicitacoes() {
             </DrawerBody>
 
             <DrawerFooter>
-              <CustomButtom
+              <CustomButton
                 colorScheme={'gray'}
                 mr={3}
                 onClick={createIssueDisclosure.onClose}
               >
                 Cancelar
-              </CustomButtom>
-              <CustomButtom
+              </CustomButton>
+              <CustomButton
                 variant={'solid'}
                 type="submit"
                 leftIcon={<MdSend size="20px" />}
               >
                 Enviar solicitação
-              </CustomButtom>
+              </CustomButton>
             </DrawerFooter>
           </DrawerContent>
         </form>

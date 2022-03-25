@@ -1,4 +1,4 @@
-import { CustomButtom, CustomChakraNextLink } from '@/components/atoms';
+import { CustomButton, CustomChakraNextLink } from '@/components/atoms';
 import { Divider, Stack, StackProps } from '@chakra-ui/react';
 import { MdGroups, MdHelpCenter, MdStore } from 'react-icons/md';
 
@@ -11,17 +11,17 @@ export const AreaDiretorMenu = ({ ...rest }: AreaDiretorMenuProps) => {
   return (
     <Stack {...rest}>
       <CustomChakraNextLink href="/areadiretor/plantao">
-        <CustomButtom leftIcon={<MdStore size="20px" />}>Plantão</CustomButtom>
+        <CustomButton leftIcon={<MdStore size="20px" />}>Plantão</CustomButton>
       </CustomChakraNextLink>
       <CustomChakraNextLink href="/areadiretor/associacao-manual">
-        <CustomButtom leftIcon={<MdGroups size="20px" />}>
+        <CustomButton leftIcon={<MdGroups size="20px" />}>
           Associação manual
-        </CustomButtom>
+        </CustomButton>
       </CustomChakraNextLink>
       <CustomChakraNextLink href="/ajuda/gerenciar-solicitacoes">
-        <CustomButtom leftIcon={<MdHelpCenter size="25px" />}>
+        <CustomButton leftIcon={<MdHelpCenter size="25px" />}>
           Gerenciar solicitações
-        </CustomButtom>
+        </CustomButton>
       </CustomChakraNextLink>
       <CustomChakraNextLink
         chakraLinkProps={{
@@ -29,13 +29,13 @@ export const AreaDiretorMenu = ({ ...rest }: AreaDiretorMenuProps) => {
         }}
         href="https://diretoria.aaafuria.site/admin"
       >
-        <CustomButtom
+        <CustomButton
           leftIcon={<AiFillSetting size="20px" />}
           colorScheme="yellow"
           hasExternalIcon
         >
           Painel
-        </CustomButtom>
+        </CustomButton>
       </CustomChakraNextLink>
       <Divider height="15px" />
       <VoltarButton href="/" />

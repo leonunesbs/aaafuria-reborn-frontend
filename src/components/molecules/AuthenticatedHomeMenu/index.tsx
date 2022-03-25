@@ -1,6 +1,6 @@
 import {
   AreaDiretorButton,
-  CustomButtom,
+  CustomButton,
   CustomChakraNextLink,
 } from '@/components/atoms';
 import { MdLogout, MdPerson } from 'react-icons/md';
@@ -29,23 +29,23 @@ export const AuthenticatedHomeMenu = ({}: IAuthenticatedHomeMenu) => {
   return (
     <>
       <CustomChakraNextLink href="/areasocio">
-        <CustomButtom
+        <CustomButton
           name="area-socio"
           leftIcon={<MdPerson size="20px" />}
           onClick={onClickAreaSocio}
         >
           Área do Sócio
-        </CustomButtom>
+        </CustomButton>
       </CustomChakraNextLink>
       <AreaDiretorButton />
-      <CustomButtom
+      <CustomButton
         name="sair"
         leftIcon={<MdLogout size="20px" />}
         colorScheme="red"
         onClick={onClickSignOut}
       >
         Sair
-      </CustomButtom>
+      </CustomButton>
     </>
   );
 };

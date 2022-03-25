@@ -13,7 +13,7 @@ import {
   useDisclosure,
   useToast,
 } from '@chakra-ui/react';
-import { CustomButtom, PageHeading } from '@/components/atoms';
+import { CustomButton, PageHeading } from '@/components/atoms';
 import { gql, useMutation, useQuery } from '@apollo/client';
 import { useCallback, useContext, useEffect, useRef } from 'react';
 
@@ -247,10 +247,10 @@ const Ingresso = () => {
             </Tr>
           </Table>
           {ingresso?.status == 'PAGO' && (
-            <CustomButtom onClick={onOpen}>Invalidar ingresso</CustomButtom>
+            <CustomButton onClick={onOpen}>Invalidar ingresso</CustomButton>
           )}
           {ingresso?.status == 'INVALIDO' && (
-            <CustomButtom colorScheme="red">INGRESSO INVÁLIDO</CustomButtom>
+            <CustomButton colorScheme="red">INGRESSO INVÁLIDO</CustomButton>
           )}
           <AlertDialog
             isOpen={isOpen}
@@ -271,17 +271,17 @@ const Ingresso = () => {
                 </AlertDialogBody>
 
                 <AlertDialogFooter>
-                  <CustomButtom colorScheme="gray" onClick={onClose}>
+                  <CustomButton colorScheme="gray" onClick={onClose}>
                     Cancel
-                  </CustomButtom>
-                  <CustomButtom
+                  </CustomButton>
+                  <CustomButton
                     colorScheme="green"
                     onClick={handleInvalidarIngresso}
                     ml={3}
                     leftIcon={<MdCheck size="25px" />}
                   >
                     Invalidar
-                  </CustomButtom>
+                  </CustomButton>
                 </AlertDialogFooter>
               </AlertDialogContent>
             </AlertDialogOverlay>

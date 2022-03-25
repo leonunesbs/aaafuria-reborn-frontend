@@ -1,7 +1,7 @@
 import { AtividadesSocioTable, Card } from '@/components/molecules';
 import { Box, HStack, Stack, useToast } from '@chakra-ui/react';
 import {
-  CustomButtom,
+  CustomButton,
   CustomChakraNextLink,
   CustomIconButton,
   PageHeading,
@@ -104,13 +104,13 @@ function Atividades({}: AtividadesProps) {
                   target: '_blank',
                 }}
               >
-                <CustomButtom
+                <CustomButton
                   colorScheme="yellow"
                   leftIcon={<FaPlus size="20px" />}
                   hasExternalIcon
                 >
                   Nova programação
-                </CustomButtom>
+                </CustomButton>
               </CustomChakraNextLink>
               <CustomChakraNextLink
                 href="https://diretoria.aaafuria.site/admin/atividades/programacao"
@@ -118,13 +118,13 @@ function Atividades({}: AtividadesProps) {
                   target: '_blank',
                 }}
               >
-                <CustomButtom
+                <CustomButton
                   colorScheme="yellow"
                   leftIcon={<AiOutlineCalendar size="20px" />}
                   hasExternalIcon
                 >
                   Gerenciar programações
-                </CustomButtom>
+                </CustomButton>
               </CustomChakraNextLink>
             </>
           )}

@@ -1,6 +1,5 @@
-import { CustomButtom } from '@/components/atoms';
-import { CarrinhoData } from '@/pages/areadiretor/plantao/pagamento';
-import { gql, useMutation } from '@apollo/client';
+import * as gtag from 'lib/gtag';
+
 import {
   Modal,
   ModalBody,
@@ -12,9 +11,12 @@ import {
   useDisclosure,
   useToast,
 } from '@chakra-ui/react';
-import * as gtag from 'lib/gtag';
-import router from 'next/router';
+import { gql, useMutation } from '@apollo/client';
+
+import { CarrinhoData } from '@/pages/areadiretor/plantao/pagamento';
+import { CustomButton } from '@/components/atoms';
 import { parseCookies } from 'nookies';
+import router from 'next/router';
 import { useCallback } from 'react';
 
 const CHECKOUT_PLANTAO = gql`
@@ -75,7 +77,7 @@ export const EspecieTabPanel = ({ parentData }: EspecieTabPanelProps) => {
 
   return (
     <>
-      <CustomButtom onClick={onOpen}>Confirmar pagamento</CustomButtom>
+      <CustomButton onClick={onOpen}>Confirmar pagamento</CustomButton>
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent>
@@ -84,12 +86,12 @@ export const EspecieTabPanel = ({ parentData }: EspecieTabPanelProps) => {
           <ModalBody>Espécie</ModalBody>
 
           <ModalFooter>
-            <CustomButtom color="red" onClick={onClose}>
+            <CustomButton color="red" onClick={onClose}>
               Fechar
-            </CustomButtom>
-            <CustomButtom mr={3} onClick={handleConfirmar}>
+            </CustomButton>
+            <CustomButton mr={3} onClick={handleConfirmar}>
               Confimar
-            </CustomButtom>
+            </CustomButton>
           </ModalFooter>
         </ModalContent>
       </Modal>
