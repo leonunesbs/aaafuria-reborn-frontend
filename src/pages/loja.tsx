@@ -1,5 +1,6 @@
-import { Box, Button, SimpleGrid, Stack, Text } from '@chakra-ui/react';
+import { Box, SimpleGrid, Stack, Text } from '@chakra-ui/react';
 import {
+  CustomButtom,
   CustomChakraNextLink,
   PageHeading,
   VoltarButton,
@@ -67,7 +68,7 @@ function Loja() {
   }, [isSocio, checkCredentials]);
 
   return (
-    <Layout title="Loja">
+    <Layout title="Loja" hasBreadCrumbs breadCrumbsHrefs={['/', '/loja']}>
       <Box maxW="5xl" mx="auto">
         <PageHeading>Loja</PageHeading>
         <SimpleGrid
@@ -87,17 +88,14 @@ function Loja() {
             <em>Nenhum produto disponível para compra online no momento.</em>
           </Text>
         )}
-        <Stack mt={4} align="center">
+        <Stack mt={4}>
           <CustomChakraNextLink href="/carrinho">
-            <Button
-              mt={4}
+            <CustomButtom
               colorScheme="yellow"
-              variant="ghost"
-              w="full"
               leftIcon={<MdShoppingCart size="25px" />}
             >
               Carrinho
-            </Button>
+            </CustomButtom>
           </CustomChakraNextLink>
           <VoltarButton href="/" />
         </Stack>

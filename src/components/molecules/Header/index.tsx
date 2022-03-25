@@ -63,13 +63,13 @@ export const Header = () => {
         isAuthenticated &&
         isSocio && (
           <CustomChakraNextLink href="/areasocio/carteira">
-            <CustomButtom flexDir="column" textColor={green} w="initial">
-              <HStack>
+            <CustomButtom textColor={green} variant="ghost">
+              <HStack w="full">
                 <NextImage
                   src={'/calango-verde.png'}
                   width="20px"
                   height="20px"
-                  alt="calangos"
+                  alt="carteira-calangos"
                 />
                 <Text fontSize="sm">
                   {data?.socioAutenticado?.conta.calangos}

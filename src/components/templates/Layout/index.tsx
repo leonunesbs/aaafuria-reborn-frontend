@@ -1,8 +1,14 @@
-import { Box, BoxProps, useColorModeValue } from '@chakra-ui/react';
-import { EmailConfirmation, Footer, Header } from '@/components/molecules';
-import React, { ReactNode } from 'react';
+import { Box, BoxProps } from '@chakra-ui/react';
+import {
+  CustomBreadCrumbs,
+  EmailConfirmation,
+  Footer,
+  Header,
+} from '@/components/molecules';
+import React, { ReactNode, useContext } from 'react';
 
 import { AlertMessages } from '@/components/atoms';
+import { ColorContext } from '@/contexts/ColorContext';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 
@@ -11,6 +17,8 @@ export interface LayoutProps extends BoxProps {
   title: string;
   desc?: string;
   keywords?: string;
+  hasBreadCrumbs?: boolean;
+  breadCrumbsHrefs?: string[];
   isHeaded?: boolean;
   isFooted?: boolean;
 }
@@ -20,10 +28,12 @@ export const Layout = ({
   title,
   desc,
   keywords,
+  hasBreadCrumbs = false,
+  breadCrumbsHrefs,
   isFooted = true,
   isHeaded = true,
 }: LayoutProps) => {
-  const bg = useColorModeValue('gray.50', 'gray.900');
+  const { bg } = useContext(ColorContext);
   const router = useRouter();
 
   return (
@@ -94,6 +104,7 @@ export const Layout = ({
       </Head>
       {isHeaded && <Header />}
       <AlertMessages />
+      {hasBreadCrumbs && <CustomBreadCrumbs hrefs={breadCrumbsHrefs} />}
       <Box
         bg={bg}
         minH="100vh"
