@@ -100,7 +100,10 @@ export default function Home({}: HomeProps) {
           </Card>
         </Skeleton>
         <CustomChakraNextLink href="/ajuda/minhas-solicitacoes">
-          <CustomButtom leftIcon={<MdHelpCenter size="25px" />}>
+          <CustomButtom
+            variant={'solid'}
+            leftIcon={<MdHelpCenter size="25px" />}
+          >
             Ajuda
           </CustomButtom>
         </CustomChakraNextLink>
