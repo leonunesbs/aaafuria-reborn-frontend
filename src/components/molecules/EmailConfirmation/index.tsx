@@ -99,8 +99,10 @@ export const EmailConfirmation = ({ ...rest }: IEmailConfirmation) => {
   );
 
   useEffect(() => {
-    if (isAuthenticated && data && !data.socioAutenticado.verifiedEmail) {
+    if (data?.socioAutenticado && !data.socioAutenticado.verifiedEmail) {
       onOpen();
+    } else {
+      onClose();
     }
   }, [data, isAuthenticated, onClose, onOpen]);
 
