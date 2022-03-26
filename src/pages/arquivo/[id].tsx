@@ -2,6 +2,7 @@ import {
   Box,
   FormControl,
   FormLabel,
+  HStack,
   Skeleton,
   Stack,
   Text,
@@ -29,6 +30,7 @@ type FileType = {
   file: {
     id: string;
     title: string;
+    url: string;
     content: string;
     file: string;
     postedAt: string;
@@ -43,6 +45,7 @@ const GET_FILE = gql`
     file(id: $id) {
       id
       title
+      url
       content
       postedAt
       author {
@@ -85,24 +88,44 @@ function Arquivo() {
                   readOnly
                 />
               </FormControl>
-              {data?.file.file && (
-                <FormControl>
-                  <FormLabel>Anexo</FormLabel>
-                  <CustomChakraNextLink
-                    href={(data?.file.file as string) || '#'}
-                    chakraLinkProps={{
-                      target: '_blank',
-                    }}
-                  >
-                    <CustomButton
-                      maxW="3xs"
-                      leftIcon={<AiOutlineLink size="25px" />}
+              <HStack>
+                {data?.file.file && (
+                  <FormControl>
+                    <FormLabel>Anexo</FormLabel>
+                    <CustomChakraNextLink
+                      href={(data?.file.file as string) || '#'}
+                      chakraLinkProps={{
+                        target: '_blank',
+                      }}
                     >
-                      Visualizar anexo
-                    </CustomButton>
-                  </CustomChakraNextLink>
-                </FormControl>
-              )}
+                      <CustomButton
+                        maxW="3xs"
+                        leftIcon={<AiOutlineLink size="25px" />}
+                      >
+                        Visualizar anexo
+                      </CustomButton>
+                    </CustomChakraNextLink>
+                  </FormControl>
+                )}
+                {data?.file.url && (
+                  <FormControl>
+                    <FormLabel>URL</FormLabel>
+                    <CustomChakraNextLink
+                      href={(data?.file.url as string) || '#'}
+                      chakraLinkProps={{
+                        target: '_blank',
+                      }}
+                    >
+                      <CustomButton
+                        maxW="3xs"
+                        leftIcon={<AiOutlineLink size="25px" />}
+                      >
+                        Visualizar URL
+                      </CustomButton>
+                    </CustomChakraNextLink>
+                  </FormControl>
+                )}
+              </HStack>
             </Stack>
             <Text textAlign={'right'} mt={4} isTruncated>
               <strong>Criado em:</strong>{' '}
