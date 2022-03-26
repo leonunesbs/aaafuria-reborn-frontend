@@ -38,7 +38,7 @@ export const AlertMessages = ({}: IAlertMessages) => {
   }, [isSocio, onClose, onOpen]);
   return (
     <Collapse in={isOpen}>
-      <Alert status="success" variant="top-accent">
+      <Alert status="success">
         <AlertIcon />
         <Heading as="h2" fontSize={['md', 'xl']}>
           SÓCIO FÚRIA
