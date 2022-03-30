@@ -52,8 +52,7 @@ const GET_VARIATIONS = gql`
 
 export const ProdutoCard = ({ node }: ProdutoCardProps) => {
   const router = useRouter();
-  const { checkCredentials, isAuthenticated, isSocio, token } =
-    useContext(AuthContext);
+  const { isAuthenticated, isSocio, token } = useContext(AuthContext);
   const { register, handleSubmit } = useForm<any>();
   const { green, bg } = useContext(ColorContext);
   const [addToCart, { loading }] = useMutation(ADD_TO_CART, {
