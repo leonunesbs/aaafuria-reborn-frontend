@@ -242,7 +242,6 @@ export const AtividadesSocioTableRow = ({
         )}
       </Td>
       <Td>{node.modalidade.nome}</Td>
-      <Td>{node.modalidade.categoria}</Td>
       <Td>
         <Stack align="center" textAlign="center">
           <Icon as={MdCalendarToday} color={green} w={6} h={6} />
@@ -255,6 +254,7 @@ export const AtividadesSocioTableRow = ({
           </Text>
         </Stack>
       </Td>
+      <Td>{node.modalidade.categoria}</Td>
       <Td>{node.local}</Td>
       <Td>{node.descricao}</Td>
     </Tr>

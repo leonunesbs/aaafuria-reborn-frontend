@@ -58,8 +58,8 @@ export const AtividadesSocioTable = ({
           <Th></Th>
           <Th></Th>
           <Th>Modalidade</Th>
-          <Th>Categoria</Th>
           <Th>Data/hora</Th>
+          <Th>Categoria</Th>
           <Th>Local</Th>
           <Th>Descrição</Th>
         </Tr>
