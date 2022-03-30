@@ -46,7 +46,7 @@ export const Layout = ({
           content={
             desc
               ? `${desc}`
-              : 'Plataforma de sócios e loja da Associação Atlética de Medicina Fúria Uniniovafapi. Seja sócio da Maior do Piaiuí e aproveite as vantagens.'
+              : 'Plataforma de sócios e loja da Associação Atlética de Medicina Fúria Uniniovafapi. Seja sócio da Maior do Piauí e aproveite dos nossos produtos, treinos, ensaios, eventos e mais...'
           }
         />
         <meta
@@ -54,7 +54,7 @@ export const Layout = ({
           content={
             keywords
               ? `${keywords}`
-              : 'aaafuria, atlética, fúria, medicina, sócio'
+              : 'aaafuria, atlética, fúria, medicina, loja, eventos, intermed'
           }
         />
         <link rel="canonical" href={`https://aaafuria.site${router.asPath}`} />
@@ -74,11 +74,11 @@ export const Layout = ({
           content={
             desc
               ? `${desc}`
-              : 'Plataforma de sócios e loja da Associação Atlética de Medicina Fúria Uniniovafapi. Seja sócio da Maior do Piaiuí e aproveite as vantagens.'
+              : 'Plataforma de sócios e loja da Associação Atlética de Medicina Fúria Uniniovafapi. Seja sócio da Maior do Piauí e aproveite dos nossos produtos, treinos, ensaios, eventos e mais...'
           }
         />
-        <meta property="og:image" content={'/calango-verde.png'} />
-        <meta property="og:image:alt" content="calango" />
+        <meta property="og:image" content={'/logo-aaafuria-h.webp'} />
+        <meta property="og:image:alt" content="logo" />
         <meta property="og:locale" content="pt_BR" />
 
         {/* Twitter */}
@@ -96,11 +96,11 @@ export const Layout = ({
           content={
             desc
               ? `${desc}`
-              : 'Plataforma de sócios e loja da Associação Atlética de Medicina Fúria Uniniovafapi. Seja sócio da Maior do Piaiuí e aproveite as vantagens.'
+              : 'Plataforma de sócios e loja da Associação Atlética de Medicina Fúria Uniniovafapi. Seja sócio da Maior do Piauí e aproveite dos nossos produtos, treinos, ensaios, eventos e mais...'
           }
         />
-        <meta property="twitter:image" content={'/calango-verde.png'} />
-        <meta name="twitter:image:alt" content="calango" />
+        <meta property="twitter:image" content={'/logo-aaafuria-h.webp'} />
+        <meta name="twitter:image:alt" content="logo" />
       </Head>
       {isHeaded && <Header />}
       <AlertMessages />
