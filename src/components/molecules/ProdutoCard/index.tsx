@@ -10,7 +10,7 @@ import {
   useToast,
 } from '@chakra-ui/react';
 import { Flex, HStack, Heading, Stack } from '@chakra-ui/layout';
-import React, { useCallback, useContext, useEffect } from 'react';
+import React, { useCallback, useContext } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { gql, useMutation, useQuery } from '@apollo/client';
 
@@ -19,6 +19,7 @@ import { Card } from '@/components/molecules';
 import { ColorContext } from '@/contexts/ColorContext';
 import { MdShoppingCart } from 'react-icons/md';
 import { ProdutoType } from '@/pages/loja';
+import { useRouter } from 'next/router';
 
 export type ProdutoCardProps = ProdutoType;
 
@@ -50,6 +51,7 @@ const GET_VARIATIONS = gql`
 `;
 
 export const ProdutoCard = ({ node }: ProdutoCardProps) => {
+  const router = useRouter();
   const { checkCredentials, isAuthenticated, isSocio, token } =
     useContext(AuthContext);
   const { register, handleSubmit } = useForm<any>();
@@ -71,17 +73,12 @@ export const ProdutoCard = ({ node }: ProdutoCardProps) => {
   const [isLoading, setIsLoading] = React.useState(loading);
   const toast = useToast();
 
-  useEffect(() => {
-    checkCredentials();
-  }, [checkCredentials]);
-
-  useEffect(() => {
-    setIsLoading(loading);
-  }, [loading]);
-
   // Handle submit
   const onSubmit: SubmitHandler<any> = useCallback(
     (formData) => {
+      if (!isAuthenticated) {
+        router.push(`entrar?after=${router.asPath}`);
+      }
       const productId = node.id;
       const quantidade = 1;
       const variacaoId = formData.variacaoId;
@@ -118,7 +115,7 @@ export const ProdutoCard = ({ node }: ProdutoCardProps) => {
         });
       });
     },
-    [addToCart, setIsLoading, toast, node],
+    [isAuthenticated, node.id, node.nome, node.preco, addToCart, router, toast],
   );
 
   return (
@@ -240,7 +237,6 @@ export const ProdutoCard = ({ node }: ProdutoCardProps) => {
             colorScheme="green"
             isLoading={isLoading}
             loadingText="Adicionando..."
-            isDisabled={!isAuthenticated}
           >
             {isAuthenticated
               ? 'Adicionar ao carrinho'
