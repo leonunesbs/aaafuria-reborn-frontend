@@ -119,7 +119,7 @@ function Carrinho() {
         title: 'Carrinho vazio',
         description: 'Seu carrinho está vazio',
         status: 'warning',
-        duration: 5000,
+        duration: 2500,
         isClosable: true,
         position: 'top-left',
       });
@@ -140,7 +140,7 @@ function Carrinho() {
                 <Th>Observações</Th>
                 <Th maxW="sm">Quantidade</Th>
                 <Th isNumeric>Valor unitário</Th>
-                <Th isNumeric>Total unitário</Th>
+                <Th isNumeric>Subtotal</Th>
                 <Th>Ação</Th>
               </Tr>
             </Thead>
@@ -211,6 +211,8 @@ function Carrinho() {
               <Tr>
                 <Th />
                 <Th />
+                <Th />
+                <Th />
                 <Th isNumeric>TOTAL</Th>
                 <Th isNumeric>{data?.userCarrinho?.total.replace('.', ',')}</Th>
               </Tr>
@@ -241,9 +243,9 @@ function Carrinho() {
             </PopoverTrigger>
             <Button
               variant="ghost"
-              leftIcon={<MdStore size="20px" />}
+              leftIcon={<MdStore size="25px" />}
               size="lg"
-              colorScheme="yellow"
+              colorScheme="gray"
               onClick={() => router.push('/loja')}
             >
               Loja

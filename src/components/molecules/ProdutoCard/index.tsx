@@ -17,6 +17,7 @@ import { gql, useMutation, useQuery } from '@apollo/client';
 import { AuthContext } from '@/contexts/AuthContext';
 import { Card } from '@/components/molecules';
 import { ColorContext } from '@/contexts/ColorContext';
+import { CustomButton } from '@/components/atoms/CustomButton';
 import { MdShoppingCart } from 'react-icons/md';
 import { ProdutoType } from '@/pages/loja';
 import { useRouter } from 'next/router';
@@ -90,29 +91,50 @@ export const ProdutoCard = ({ node }: ProdutoCardProps) => {
           variacaoId: variacaoId,
           observacoes: observacoes,
         },
-      }).then(() => {
-        setIsLoading(false);
-        toast({
-          title: `[${node.nome}] adicionado ao carrinho!`,
-          status: 'success',
-          isClosable: true,
-          position: 'top-left',
+      })
+        .then(() => {
+          setIsLoading(false);
+          toast({
+            title: `[${node.nome}] adicionado ao carrinho!`,
+            description: (
+              <CustomButton
+                colorScheme={'green'}
+                variant="solid"
+                leftIcon={<MdShoppingCart size="25px" />}
+                shadow="base"
+                onClick={() => router.push('/carrinho')}
+              >
+                Ir para o carrinho
+              </CustomButton>
+            ),
+            status: 'success',
+            isClosable: true,
+            duration: 2500,
+            position: 'top-left',
+          });
+          gtag.event({
+            action: 'add_to_cart',
+            category: 'ecommerce',
+            label: node.nome,
+            value: 1,
+            items: [
+              {
+                id: node.id,
+                price: node.preco,
+                name: node.nome,
+                quantity: 1,
+              },
+            ],
+          });
+        })
+        .catch((error) => {
+          toast({
+            title: error.message,
+            status: 'info',
+            isClosable: true,
+            position: 'top-left',
+          });
         });
-        gtag.event({
-          action: 'add_to_cart',
-          category: 'ecommerce',
-          label: node.nome,
-          value: 1,
-          items: [
-            {
-              id: node.id,
-              price: node.preco,
-              name: node.nome,
-              quantity: 1,
-            },
-          ],
-        });
-      });
     },
     [isAuthenticated, node.id, node.nome, node.preco, addToCart, router, toast],
   );
