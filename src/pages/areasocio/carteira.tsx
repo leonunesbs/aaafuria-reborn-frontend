@@ -189,7 +189,7 @@ function Carteira() {
               <StatNumber>
                 <HStack justify="center">
                   <NextImage
-                    src={'calango-verde.png'}
+                    src={'/calango-verde.png'}
                     width={'25px'}
                     height={'25px'}
                     alt="calangos"
