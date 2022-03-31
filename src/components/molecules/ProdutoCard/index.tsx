@@ -151,6 +151,7 @@ export const ProdutoCard = ({ node }: ProdutoCardProps) => {
       >
         {isSocio && (
           <Flex
+            d="none"
             zIndex={1}
             bg={green}
             position="absolute"
