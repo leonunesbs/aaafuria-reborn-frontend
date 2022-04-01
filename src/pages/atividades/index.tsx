@@ -1,5 +1,5 @@
 import { AtividadesSocioTable, Card } from '@/components/molecules';
-import { Box, HStack, Stack, useToast } from '@chakra-ui/react';
+import { Box, Flex, HStack, Stack, useToast } from '@chakra-ui/react';
 import {
   CustomButton,
   CustomChakraNextLink,
@@ -12,6 +12,7 @@ import { useCallback, useContext, useEffect, useState } from 'react';
 
 import { AiOutlineCalendar } from 'react-icons/ai';
 import { AuthContext } from '@/contexts/AuthContext';
+import { CgTwilio } from 'react-icons/cg';
 import { GetServerSideProps } from 'next';
 import { Layout } from '@/components/templates';
 import { MdManageAccounts } from 'react-icons/md';
@@ -94,6 +95,22 @@ function Atividades({}: AtividadesProps) {
             )}
           </HStack>
           <AtividadesSocioTable categoria={categoria} />
+          <Flex justify={['center', 'flex-end']} mt={4}>
+            <CustomChakraNextLink
+              href="https://api.whatsapp.com/send/?phone=14155238886&amp;text=join%20break-treated"
+              chakraLinkProps={{
+                target: '_blank',
+                isExternal: true,
+              }}
+            >
+              <CustomButton
+                aria-label="ativar-notificacoes"
+                leftIcon={<CgTwilio size="25px" />}
+              >
+                Ativar notificações
+              </CustomButton>
+            </CustomChakraNextLink>
+          </Flex>
         </Card>
         <Stack mt={6}>
           {isStaff && (
