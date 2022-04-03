@@ -18,6 +18,7 @@ import NextImage from 'next/image';
 const GET_SOCIO = gql`
   query {
     socioAutenticado {
+      id
       matricula
       conta {
         calangos

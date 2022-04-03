@@ -1,7 +1,8 @@
-import { theme } from '@/styles/theme';
-import { ColorModeScript } from '@chakra-ui/react';
 import NextDocument, { Head, Html, Main, NextScript } from 'next/document';
+
+import { ColorModeScript } from '@chakra-ui/react';
 import React from 'react';
+import { theme } from '@/styles/theme';
 
 class Document extends NextDocument {
   render() {
@@ -57,12 +58,6 @@ class Document extends NextDocument {
           <link
             rel="preload"
             href="/fonts/woff2/Lato-Light.woff2"
-            as="font"
-            crossOrigin=""
-          />
-          <link
-            rel="preload"
-            href="/fonts/woff2/Lato-Italic.woff2"
             as="font"
             crossOrigin=""
           />

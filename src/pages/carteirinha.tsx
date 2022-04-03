@@ -36,6 +36,7 @@ import { useRouter } from 'next/router';
 const GET_SOCIO = gql`
   query {
     socioAutenticado {
+      id
       matricula
       avatar
       nome

@@ -25,6 +25,7 @@ import { MdCheck } from 'react-icons/md';
 const GET_SOCIO = gql`
   query {
     socioAutenticado {
+      id
       verifiedEmail
     }
   }
