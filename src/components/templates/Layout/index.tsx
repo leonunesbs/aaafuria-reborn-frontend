@@ -1,10 +1,5 @@
 import { Box, BoxProps } from '@chakra-ui/react';
-import {
-  CustomBreadCrumbs,
-  EmailConfirmation,
-  Footer,
-  Header,
-} from '@/components/molecules';
+import { EmailConfirmation, Footer, Header } from '@/components/molecules';
 import React, { ReactNode, useContext } from 'react';
 
 import { ColorContext } from '@/contexts/ColorContext';
@@ -16,8 +11,6 @@ export interface LayoutProps extends BoxProps {
   title: string;
   desc?: string;
   keywords?: string;
-  hasBreadCrumbs?: boolean;
-  breadCrumbsHrefs?: string[];
   isHeaded?: boolean;
   isFooted?: boolean;
 }
@@ -27,8 +20,6 @@ export const Layout = ({
   title,
   desc,
   keywords,
-  hasBreadCrumbs = false,
-  breadCrumbsHrefs,
   isFooted = true,
   isHeaded = true,
 }: LayoutProps) => {
@@ -103,7 +94,6 @@ export const Layout = ({
       </Head>
       {isHeaded && <Header />}
       {/* <AlertMessages /> */}
-      {hasBreadCrumbs && <CustomBreadCrumbs hrefs={breadCrumbsHrefs} />}
       <Box
         bg={bg}
         minH="100vh"

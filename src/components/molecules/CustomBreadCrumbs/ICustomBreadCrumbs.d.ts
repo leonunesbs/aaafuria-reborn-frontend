@@ -1,3 +1,0 @@
-interface ICustomBreadCrumbs {
-  hrefs?: string[];
-}
