@@ -18,7 +18,6 @@ export const CustomButton = forwardRef<HTMLButtonElement, ICustomButton>(
         p={4}
         _focus={{
           outlineColor: green,
-          outlineWidth: '0.5px',
         }}
         {...rest}
       >

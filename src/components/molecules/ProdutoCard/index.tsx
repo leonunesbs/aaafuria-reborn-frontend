@@ -18,6 +18,8 @@ import { AuthContext } from '@/contexts/AuthContext';
 import { Card } from '@/components/molecules';
 import { ColorContext } from '@/contexts/ColorContext';
 import { CustomButton } from '@/components/atoms/CustomButton';
+import { CustomChakraNextLink } from '@/components/atoms';
+import { FaEye } from 'react-icons/fa';
 import { MdShoppingCart } from 'react-icons/md';
 import { ProdutoType } from '@/pages/loja';
 import { useRouter } from 'next/router';
@@ -217,7 +219,9 @@ export const ProdutoCard = ({ node }: ProdutoCardProps) => {
                   </Text>
                 )}
               </Heading>
-              <Text fontSize="2xl">{node.descricao}</Text>
+              <Text fontSize="xl" fontWeight={'bold'} textColor={green}>
+                {node.descricao}
+              </Text>
             </Stack>
             <HStack>
               {node.hasVariations && (
@@ -252,6 +256,17 @@ export const ProdutoCard = ({ node }: ProdutoCardProps) => {
               )}
             </HStack>
           </Stack>
+          <CustomChakraNextLink href={`/produto/${node.id}`}>
+            <CustomButton
+              rounded="0"
+              leftIcon={<FaEye size="20px" />}
+              variant="ghost"
+              colorScheme="gray"
+              isLoading={isLoading}
+            >
+              Ver mais
+            </CustomButton>
+          </CustomChakraNextLink>
           <Button
             type="submit"
             rounded="0"

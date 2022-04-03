@@ -7,7 +7,6 @@ import {
 } from '@/components/molecules';
 import React, { ReactNode, useContext } from 'react';
 
-import { AlertMessages } from '@/components/atoms';
 import { ColorContext } from '@/contexts/ColorContext';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
@@ -103,7 +102,7 @@ export const Layout = ({
         <meta name="twitter:image:alt" content="logo" />
       </Head>
       {isHeaded && <Header />}
-      <AlertMessages />
+      {/* <AlertMessages /> */}
       {hasBreadCrumbs && <CustomBreadCrumbs hrefs={breadCrumbsHrefs} />}
       <Box
         bg={bg}
