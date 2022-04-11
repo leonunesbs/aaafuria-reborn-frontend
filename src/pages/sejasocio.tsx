@@ -1,8 +1,17 @@
+import { PageHeading, VoltarButton } from '@/components/atoms';
+import { Card, SocialIcons } from '@/components/molecules';
+import { Layout } from '@/components/templates';
+import { AuthContext } from '@/contexts/AuthContext';
+import { ColorContext } from '@/contexts/ColorContext';
+import { gql, useMutation } from '@apollo/client';
 import {
   Box,
   Button,
   Flex,
   Heading,
+  List,
+  ListIcon,
+  ListItem,
   Popover,
   PopoverArrow,
   PopoverBody,
@@ -18,17 +27,12 @@ import {
   useColorModeValue,
   useToast,
 } from '@chakra-ui/react';
-import { Card, SocialIcons } from '@/components/molecules';
-import { PageHeading, VoltarButton } from '@/components/atoms';
-import React, { useCallback, useContext, useEffect } from 'react';
-import { gql, useMutation } from '@apollo/client';
-
-import { AuthContext } from '@/contexts/AuthContext';
-import { BsCurrencyDollar } from 'react-icons/bs';
-import { Layout } from '@/components/templates';
-import { MdLogin } from 'react-icons/md';
-import { parseCookies } from 'nookies';
 import { useRouter } from 'next/router';
+import { parseCookies } from 'nookies';
+import React, { useCallback, useContext, useEffect } from 'react';
+import { BsCurrencyDollar } from 'react-icons/bs';
+import { HiCheckCircle } from 'react-icons/hi';
+import { MdLogin } from 'react-icons/md';
 
 const NOVO_PAGAMENTO = gql`
   mutation novoPagamento($tipoPlano: String!) {
@@ -42,16 +46,28 @@ const NOVO_PAGAMENTO = gql`
 
 function SejaSocio() {
   const router = useRouter();
+  const { green } = useContext(ColorContext);
   const toast = useToast();
   const { ['aaafuriaToken']: token } = parseCookies();
   const [mutateFunction, { loading, data }] = useMutation(NOVO_PAGAMENTO);
   const color = useColorModeValue('black', 'white');
-  const green = useColorModeValue('green.600', 'green.200');
 
   const { isAuthenticated, checkCredentials, isSocio } =
     useContext(AuthContext);
   const planos = [
-    { slug: 'Mensal', nome: 'Plano Mensal', valor: '24,90' },
+    {
+      slug: 'Mensal',
+      nome: 'Plano Mensal',
+      valor: '24,90',
+      features: [
+        '1 mês de acesso',
+        'Participe dos treinos de todas as modalidades',
+        'Participe dos ensaios da Carabina',
+        'Ganhe desconto em produtos e eventos',
+        'Acumule Calangos para desconto no INTERMED!',
+        'Desconto no BONDE DO AHAM',
+      ],
+    },
     {
       slug: 'Semestral',
       nome: 'Pacote Semestral',
@@ -60,12 +76,30 @@ function SejaSocio() {
       }/${new Date().getFullYear()}).`,
       valor: '99,50',
       best: true,
+      features: [
+        'TODOS OS BENEFÍCIOS DO SÓCIO FÚRIA',
+        'Acesso durante o semestre atual',
+        'Participe dos treinos de todas as modalidades',
+        'Participe dos ensaios da Carabina',
+        'Ganhe desconto em produtos e eventos',
+        'Desconto no INTERMED!',
+        'Desconto no BONDE DO AHAM',
+      ],
     },
     {
       slug: 'Anual',
       nome: 'Pacote Anual',
       descricao: `Associação válida até (31/12/${new Date().getFullYear()}).`,
       valor: '198,00',
+      features: [
+        'TODOS OS BENEFÍCIOS DO SÓCIO FÚRIA',
+        'Acesso durante o semestre atual e o próximo semestre',
+        'Participe dos treinos de todas as modalidades',
+        'Participe dos ensaios da Carabina',
+        'Ganhe desconto em produtos e eventos',
+        'Desconto no INTERMED e no BONDE DO AHAM',
+        'Desconto no BONDE DO AHAM',
+      ],
     },
   ];
 
@@ -134,6 +168,7 @@ function SejaSocio() {
               <Card
                 key={plano.nome}
                 w="100%"
+                h="100%"
                 position="relative"
                 overflow="hidden"
                 border={plano.best ? '1px solid green' : ''}
@@ -161,7 +196,12 @@ function SejaSocio() {
                     </Text>
                   </Flex>
                 )}
-                <Stack spacing={4} align="center">
+                <Stack
+                  spacing={4}
+                  h="100%"
+                  align="center"
+                  justify={'space-between'}
+                >
                   <Heading as="h3" size="md">
                     {plano.nome}
                   </Heading>
@@ -178,25 +218,39 @@ function SejaSocio() {
                         `/${new Date().getFullYear()}.1 + ${new Date().getFullYear()}.2`}
                     </Text>
                   </Text>
-
-                  <Text textAlign="center" as="em">
-                    Assine agora e aproveite 5% de desconto na{' '}
-                    <strong>primeira associação</strong>!
-                  </Text>
-                  <Text textAlign="center" fontSize="sm">
-                    {plano.descricao}
-                  </Text>
+                  <List spacing="4" mb="8" mx="auto">
+                    {plano.features.map((feature, index) => (
+                      <ListItem fontWeight="medium" key={index}>
+                        <ListIcon
+                          fontSize="xl"
+                          as={HiCheckCircle}
+                          marginEnd={2}
+                          color={green}
+                        />
+                        {feature}
+                      </ListItem>
+                    ))}
+                  </List>
 
                   <Popover placement="top">
-                    <PopoverTrigger>
-                      <Button
-                        colorScheme="green"
-                        w="100%"
-                        variant={plano.best ? 'solid' : 'outline'}
-                      >
-                        Seja Sócio!
-                      </Button>
-                    </PopoverTrigger>
+                    <Stack>
+                      <Text textAlign="center" as="em">
+                        Assine agora e aproveite 5% de desconto na{' '}
+                        <strong>primeira associação</strong>!
+                      </Text>
+                      <Text textAlign="center" fontSize="sm">
+                        {plano.descricao}
+                      </Text>
+                      <PopoverTrigger>
+                        <Button
+                          colorScheme="green"
+                          w="100%"
+                          variant={plano.best ? 'solid' : 'outline'}
+                        >
+                          Seja Sócio!
+                        </Button>
+                      </PopoverTrigger>
+                    </Stack>
                     <Portal>
                       <PopoverContent>
                         <PopoverArrow />
