@@ -1,8 +1,19 @@
+import { PageHeading, PriceTag } from '@/components/atoms';
+import { CustomButton } from '@/components/atoms/CustomButton';
+import { Card } from '@/components/molecules';
+import { Layout } from '@/components/templates';
+import { AuthContext } from '@/contexts/AuthContext';
+import { ColorContext } from '@/contexts/ColorContext';
+import { gql, useMutation, useQuery } from '@apollo/client';
 import {
   Box,
   Button,
+  chakra,
+  Divider,
+  Flex,
+  Heading,
   HStack,
-  IconButton,
+  Input,
   Popover,
   PopoverArrow,
   PopoverBody,
@@ -12,39 +23,28 @@ import {
   PopoverTrigger,
   Portal,
   Stack,
-  Table,
-  Tbody,
-  Td,
   Text,
-  Tfoot,
-  Th,
-  Thead,
-  Tr,
   useToast,
 } from '@chakra-ui/react';
-import { MdCreditCard, MdDelete, MdPayment, MdStore } from 'react-icons/md';
-import React, { useEffect } from 'react';
-import { gql, useMutation, useQuery } from '@apollo/client';
-
-import { Card } from '@/components/molecules';
 import { GetServerSideProps } from 'next';
-import { Layout } from '@/components/templates';
 import NextImage from 'next/image';
-import { PageHeading } from '@/components/atoms';
-import { parseCookies } from 'nookies';
 import { useRouter } from 'next/router';
+import { parseCookies } from 'nookies';
+import React, { useContext, useEffect } from 'react';
+import { MdArrowLeft, MdCreditCard, MdDelete, MdPayment } from 'react-icons/md';
 
 const GET_USER_CARRINHO = gql`
   query getUserCarrinho {
     userCarrinho {
       total
-
       produtos {
         edges {
           node {
             id
             produto {
+              id
               nome
+              imagem
             }
             variacao {
               nome
@@ -60,6 +60,30 @@ const GET_USER_CARRINHO = gql`
   }
 `;
 
+interface UserCarrinhoData {
+  userCarrinho: {
+    total: number;
+    produtos: {
+      edges: {
+        node: {
+          id: string;
+          produto: {
+            id: string;
+            nome: string;
+            imagem: string;
+          };
+          variacao: {
+            nome: string;
+          };
+          observacoes: string;
+          quantidade: number;
+          preco: number;
+          precoSocio: number;
+        };
+      }[];
+    };
+  };
+}
 const STRIPE_CHECKOUT = gql`
   mutation stripeCheckout {
     stripeCheckout {
@@ -82,10 +106,12 @@ const REMOVE_FROM_CART = gql`
 function Carrinho() {
   const router = useRouter();
   const toast = useToast();
-  const { data } = useQuery(GET_USER_CARRINHO, {
+  const { token } = useContext(AuthContext);
+  const { green } = useContext(ColorContext);
+  const { data, refetch } = useQuery<UserCarrinhoData>(GET_USER_CARRINHO, {
     context: {
       headers: {
-        authorization: `JWT ${parseCookies()['aaafuriaToken']}`,
+        authorization: `JWT ${token}`,
       },
     },
     fetchPolicy: 'no-cache',
@@ -93,23 +119,22 @@ function Carrinho() {
   const [removeFromCart] = useMutation(REMOVE_FROM_CART, {
     context: {
       headers: {
-        Authorization: `JWT ${parseCookies()['aaafuriaToken']}`,
+        Authorization: `JWT ${token}`,
       },
     },
   });
   const [stripeCheckout, { loading }] = useMutation(STRIPE_CHECKOUT, {
     context: {
       headers: {
-        authorization: `JWT ${parseCookies()['aaafuriaToken']}`,
+        authorization: `JWT ${token}`,
       },
     },
   });
 
-  const [isSocio] = React.useState(parseCookies()['aaafuriaIsSocio']);
-
   const handleStripeCheckout = async () => {
-    const { data } = await stripeCheckout();
-    router.push(data.stripeCheckout.carrinho.stripeCheckoutUrl);
+    await stripeCheckout().then(({ data }) => {
+      router.push(data.stripeCheckout.carrinho.stripeCheckoutUrl);
+    });
   };
 
   useEffect(() => {
@@ -127,166 +152,178 @@ function Carrinho() {
     }
   }, [data?.userCarrinho?.produtos?.edges, router, toast]);
 
+  const ChakraNextImage = chakra(NextImage);
   return (
     <Layout title="Carrinho">
       <Box maxW="6xl" mx="auto">
         <PageHeading>Meu carrinho</PageHeading>
-        <Card overflowX="auto">
-          <Table size="sm">
-            <Thead>
-              <Tr>
-                <Th>Produto</Th>
-                <Th>Variação</Th>
-                <Th>Observações</Th>
-                <Th maxW="sm">Quantidade</Th>
-                <Th isNumeric>Valor unitário</Th>
-                <Th isNumeric>Subtotal</Th>
-                <Th>Ação</Th>
-              </Tr>
-            </Thead>
-            <Tbody>
+        <Card mb={4}>
+          <Flex
+            direction={['column', 'column', 'row']}
+            align={['initial', 'initial', 'flex-start']}
+            justify={'space-between'}
+          >
+            <Stack spacing={2} w="full">
               {data?.userCarrinho?.produtos?.edges?.map(
                 ({
                   node: {
                     id,
                     produto,
-                    variacao,
                     quantidade,
+                    variacao,
+                    observacoes,
                     preco,
                     precoSocio,
-                    observacoes,
                   },
-                }: {
-                  node: {
-                    id: string;
-                    produto: { nome: string; id: string };
-                    variacao: { nome: string };
-                    quantidade: number;
-                    preco: any;
-                    precoSocio: any;
-                    observacoes: string;
-                  };
                 }) => (
-                  <Tr key={`${produto.id}-${quantidade}`}>
-                    <Td>{produto.nome}</Td>
-                    <Td>{variacao?.nome}</Td>
-                    <Td>{observacoes}</Td>
-                    <Td>{quantidade}</Td>
-                    {isSocio === 'true' ? (
-                      <>
-                        <Td isNumeric>{precoSocio.replace('.', ',')}</Td>
-                        <Td isNumeric>
-                          {(precoSocio * quantidade)
-                            .toFixed(2)
-                            .replace('.', ',')}
-                        </Td>
-                      </>
-                    ) : (
-                      <>
-                        <Td isNumeric>{preco.replace('.', ',')}</Td>
-                        <Td isNumeric>
-                          {(preco * quantidade).toFixed(2).replace('.', ',')}
-                        </Td>
-                      </>
-                    )}
-                    <Td>
-                      <IconButton
+                  <Stack key={id} w="full">
+                    <HStack spacing={4} mb={4}>
+                      <Box width="130px" height="130px" position="relative">
+                        <ChakraNextImage
+                          src={produto.imagem}
+                          alt={produto.nome}
+                          rounded={'md'}
+                          layout="fill"
+                          draggable={false}
+                        />
+                      </Box>
+                      <Box>
+                        <Heading as="h2" fontSize={'md'}>
+                          {produto.nome}
+                        </Heading>
+                        <Text as="h3">{variacao?.nome}</Text>
+                        <Text as="h3">
+                          {observacoes && `Obs.: ${observacoes}`}
+                        </Text>
+                      </Box>
+                    </HStack>
+                    <HStack
+                      justify={'space-between'}
+                      align="center"
+                      flexGrow={1}
+                      px={[0, 10]}
+                    >
+                      <CustomButton
+                        display={['flex', 'flex', 'none']}
                         aria-label="remover"
                         colorScheme="red"
                         variant="ghost"
+                        leftIcon={<MdDelete size="25px" />}
                         size="sm"
-                        icon={<MdDelete size="25px" />}
                         onClick={() =>
                           removeFromCart({
                             variables: { produtoPedidoId: id },
-                          }).then(() => router.reload())
+                          }).then(() => refetch())
                         }
+                        w="default"
+                      >
+                        Remover
+                      </CustomButton>
+                      <HStack maxW="50px">
+                        <Input
+                          value={quantidade}
+                          isReadOnly
+                          focusBorderColor={green}
+                        />
+                      </HStack>
+                      <PriceTag
+                        price={preco}
+                        discountedPrice={precoSocio}
+                        quantity={quantidade}
                       />
-                    </Td>
-                  </Tr>
+                      <CustomButton
+                        display={['none', 'none', 'flex']}
+                        colorScheme="red"
+                        variant="ghost"
+                        size="sm"
+                        leftIcon={<MdDelete size="25px" />}
+                        onClick={() =>
+                          removeFromCart({
+                            variables: { produtoPedidoId: id },
+                          }).then(() => refetch())
+                        }
+                        w="default"
+                      >
+                        Remover
+                      </CustomButton>
+                    </HStack>
+                    <Divider mb={2} />
+                  </Stack>
                 ),
               )}
-            </Tbody>
-            <Tfoot>
-              <Tr>
-                <Th />
-                <Th />
-                <Th />
-                <Th />
-                <Th isNumeric>TOTAL</Th>
-                <Th isNumeric>{data?.userCarrinho?.total.replace('.', ',')}</Th>
-              </Tr>
-            </Tfoot>
-          </Table>
+            </Stack>
+
+            <Card minW={{ md: 'xs' }}>
+              <Heading as="h3" fontSize="lg">
+                Resumo do pedido
+              </Heading>
+              <Divider mb={4} />
+              <HStack w="full" justify={'space-between'} fontSize={'lg'} mb={6}>
+                <Text>Total</Text>
+                <Text>
+                  R${data?.userCarrinho?.total.toString().replace('.', ',')}
+                </Text>
+              </HStack>
+              <Popover placement="top">
+                <PopoverTrigger>
+                  <CustomButton
+                    colorScheme="green"
+                    variant="solid"
+                    leftIcon={<MdPayment size="20px" />}
+                    isLoading={loading}
+                  >
+                    Pagamento
+                  </CustomButton>
+                </PopoverTrigger>
+                <Portal>
+                  <PopoverContent>
+                    <PopoverArrow />
+                    <PopoverHeader>
+                      <Text fontWeight="bold">Pagar com:</Text>
+                    </PopoverHeader>
+                    <PopoverCloseButton />
+                    <PopoverBody>
+                      <Stack>
+                        <Button
+                          colorScheme="green"
+                          leftIcon={<MdCreditCard size="25px" />}
+                          onClick={handleStripeCheckout}
+                        >
+                          Cartão de crédito
+                        </Button>
+                        <Button
+                          isDisabled
+                          colorScheme="green"
+                          variant="outline"
+                          leftIcon={
+                            <NextImage
+                              height="25px"
+                              width="25px"
+                              src={'/calango-verde.png'}
+                              alt="calangos"
+                            />
+                          }
+                        >
+                          Calangos
+                        </Button>
+                      </Stack>
+                    </PopoverBody>
+                  </PopoverContent>
+                </Portal>
+              </Popover>
+            </Card>
+          </Flex>
         </Card>
-        <Stack flexDir="row-reverse" mt={4}>
-          <Text>
-            TOTAL:{' '}
-            <Text as="span" fontWeight="bold" fontSize="lg">
-              R${data?.userCarrinho?.total.replace('.', ',')}
-            </Text>
-          </Text>
-        </Stack>
-        <Popover placement="top">
-          <HStack flexDir="row-reverse" mt={4}>
-            <PopoverTrigger>
-              <Button
-                colorScheme="green"
-                variant="ghost"
-                size="lg"
-                ml={4}
-                leftIcon={<MdPayment size="20px" />}
-                isLoading={loading}
-              >
-                Pagamento
-              </Button>
-            </PopoverTrigger>
-            <Button
-              variant="ghost"
-              leftIcon={<MdStore size="25px" />}
-              size="lg"
-              colorScheme="gray"
-              onClick={() => router.push('/loja')}
-            >
-              Loja
-            </Button>
-          </HStack>
-          <Portal>
-            <PopoverContent>
-              <PopoverArrow />
-              <PopoverHeader>
-                <Text fontWeight="bold">Pagar com:</Text>
-              </PopoverHeader>
-              <PopoverCloseButton />
-              <PopoverBody>
-                <Stack>
-                  <Button
-                    colorScheme="green"
-                    leftIcon={<MdCreditCard size="25px" />}
-                    onClick={handleStripeCheckout}
-                  >
-                    Cartão de crédito
-                  </Button>
-                  <Button
-                    isDisabled
-                    colorScheme="green"
-                    variant="outline"
-                    leftIcon={
-                      <NextImage
-                        height="25px"
-                        width="25px"
-                        src={'/calango-verde.png'}
-                        alt="calangos"
-                      />
-                    }
-                  >
-                    Calangos
-                  </Button>
-                </Stack>
-              </PopoverBody>
-            </PopoverContent>
-          </Portal>
-        </Popover>
+
+        <CustomButton
+          variant="ghost"
+          leftIcon={<MdArrowLeft size="25px" />}
+          size="lg"
+          colorScheme="gray"
+          onClick={() => router.push('/loja')}
+        >
+          Continuar comprando
+        </CustomButton>
       </Box>
     </Layout>
   );

@@ -1,10 +1,8 @@
-import { Box, BoxProps } from '@chakra-ui/react';
 import { EmailConfirmation, Footer, Header } from '@/components/molecules';
-import React, { ReactNode, useContext } from 'react';
-
-import { ColorContext } from '@/contexts/ColorContext';
+import { Box, BoxProps, useColorModeValue } from '@chakra-ui/react';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
+import React, { ReactNode } from 'react';
 
 export interface LayoutProps extends BoxProps {
   children: ReactNode;
@@ -23,7 +21,7 @@ export const Layout = ({
   isFooted = true,
   isHeaded = true,
 }: LayoutProps) => {
-  const { bg } = useContext(ColorContext);
+  const bg = useColorModeValue('gray.50', 'gray.900');
   const router = useRouter();
 
   return (
@@ -98,7 +96,7 @@ export const Layout = ({
         bg={bg}
         minH="100vh"
         py="12"
-        px={{ base: '4', lg: '8' }}
+        px={{ base: '2', lg: '8' }}
         overscrollBehaviorY="none"
       >
         {children}

@@ -1,7 +1,7 @@
-import { Box } from '@chakra-ui/react';
-import { ICard } from './ICard';
-import React from 'react';
 import { useColorModeValue } from '@chakra-ui/color-mode';
+import { Box } from '@chakra-ui/react';
+import React from 'react';
+import { ICard } from './ICard';
 
 export const Card = ({ children, variant, ...rest }: ICard) => {
   const bg = useColorModeValue('white', 'gray.800');
