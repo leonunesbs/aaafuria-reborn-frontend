@@ -61,7 +61,7 @@ function Carteirinha({ token }: CarteirinhaProps) {
   const { data } = useQuery(GET_SOCIO, {
     context: {
       headers: {
-        authorization: `JWT ${token}`,
+        authorization: `JWT ${token || ' '}`,
       },
     },
   });

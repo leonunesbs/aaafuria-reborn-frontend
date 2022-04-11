@@ -66,7 +66,7 @@ function Arquivos() {
   const { data, loading } = useQuery<AllFilesProps>(GET_ALL_FILES, {
     context: {
       headers: {
-        authorization: `JWT ${token}`,
+        authorization: `JWT ${token || ' '}`,
       },
     },
   });

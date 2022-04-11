@@ -1,8 +1,3 @@
-import { PageHeading, VoltarButton } from '@/components/atoms';
-import { Card, SocialIcons } from '@/components/molecules';
-import { Layout } from '@/components/templates';
-import { AuthContext } from '@/contexts/AuthContext';
-import { gql, useMutation } from '@apollo/client';
 import {
   Box,
   Button,
@@ -23,11 +18,17 @@ import {
   useColorModeValue,
   useToast,
 } from '@chakra-ui/react';
-import { useRouter } from 'next/router';
-import { parseCookies } from 'nookies';
+import { Card, SocialIcons } from '@/components/molecules';
+import { PageHeading, VoltarButton } from '@/components/atoms';
 import React, { useCallback, useContext, useEffect } from 'react';
+import { gql, useMutation } from '@apollo/client';
+
+import { AuthContext } from '@/contexts/AuthContext';
 import { BsCurrencyDollar } from 'react-icons/bs';
+import { Layout } from '@/components/templates';
 import { MdLogin } from 'react-icons/md';
+import { parseCookies } from 'nookies';
+import { useRouter } from 'next/router';
 
 const NOVO_PAGAMENTO = gql`
   mutation novoPagamento($tipoPlano: String!) {
@@ -99,7 +100,7 @@ function SejaSocio() {
         },
         context: {
           headers: {
-            authorization: `JWT ${token}`,
+            authorization: `JWT ${token || ' '}`,
           },
         },
       });

@@ -70,7 +70,7 @@ function GerenciarSolicitacoes() {
   const { data, refetch } = useQuery<QueryData>(GET_ISSUES, {
     context: {
       headers: {
-        authorization: `JWT ${token}`,
+        authorization: `JWT ${token || ' '}`,
       },
     },
   });

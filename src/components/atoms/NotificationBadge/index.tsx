@@ -21,7 +21,7 @@ export const NotificationBadge = ({ ...rest }: NotificationBadgeProps) => {
   const { data } = useQuery(GET_UNREAD_FILES, {
     context: {
       headers: {
-        authorization: `JWT ${token}`,
+        authorization: `JWT ${token || ' '}`,
       },
     },
   });

@@ -68,7 +68,7 @@ function Solicitacao() {
     variables: { id },
     context: {
       headers: {
-        authorization: `JWT ${token}`,
+        authorization: `JWT ${token || ' '}`,
       },
     },
   });

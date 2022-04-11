@@ -59,14 +59,14 @@ export const EmailConfirmation = ({ ...rest }: IEmailConfirmation) => {
   const { data } = useQuery(GET_SOCIO, {
     context: {
       headers: {
-        authorization: `JWT ${token}`,
+        authorization: `JWT ${token || ' '}`,
       },
     },
   });
   const [validateEmail] = useMutation(EMAIL_VALIDATION, {
     context: {
       headers: {
-        authorization: `JWT ${token}`,
+        authorization: `JWT ${token || ' '}`,
       },
     },
   });

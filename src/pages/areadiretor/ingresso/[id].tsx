@@ -96,14 +96,14 @@ const Ingresso = () => {
     variables: { id },
     context: {
       headers: {
-        authorization: `JWT ${token}`,
+        authorization: `JWT ${token || ' '}`,
       },
     },
   });
   const [invalidarIngresso] = useMutation(INVALIDAR_INGRESSO, {
     context: {
       headers: {
-        authorization: `JWT ${token}`,
+        authorization: `JWT ${token || ' '}`,
       },
     },
   });

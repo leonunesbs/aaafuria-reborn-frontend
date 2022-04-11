@@ -1,11 +1,17 @@
-import { Box, SimpleGrid, Spinner, Stack, Text } from '@chakra-ui/react';
+import {
+  Box,
+  Center,
+  SimpleGrid,
+  Spinner,
+  Stack,
+  Text,
+} from '@chakra-ui/react';
 import {
   CustomButton,
   CustomChakraNextLink,
   PageHeading,
   VoltarButton,
 } from '@/components/atoms';
-import { ProdutoCard, SocialIcons } from '@/components/molecules';
 import React, { useContext, useEffect } from 'react';
 import { gql, useQuery } from '@apollo/client';
 
@@ -14,6 +20,7 @@ import { AuthContext } from '@/contexts/AuthContext';
 import { GetStaticProps } from 'next';
 import { Layout } from '@/components/templates';
 import { MdShoppingCart } from 'react-icons/md';
+import { ProdutoCard } from '@/components/molecules';
 import client from '@/services/apollo-client';
 import { parseCookies } from 'nookies';
 
@@ -72,6 +79,11 @@ function Loja() {
     <Layout title="Loja">
       <Box maxW="5xl" mx="auto">
         <PageHeading>Loja</PageHeading>
+        {loading && (
+          <Center>
+            <Spinner color="green" mx={'auto'} />
+          </Center>
+        )}
         <SimpleGrid
           columns={{ base: 1, md: 2, lg: 3 }}
           spacing={{ base: '8', lg: '2' }}
@@ -80,7 +92,6 @@ function Loja() {
           justifyItems="center"
           alignItems="center"
         >
-          {loading && <Spinner color="green" />}
           {produtos?.allProduto?.edges?.map(({ node }) => {
             return <ProdutoCard key={node.id} node={node} />;
           })}
@@ -90,7 +101,7 @@ function Loja() {
             <em>Nenhum produto disponível para compra online no momento.</em>
           </Text>
         )}
-        <Stack mt={4}>
+        <Stack mt={10}>
           <CustomChakraNextLink href="/carrinho">
             <CustomButton
               colorScheme="gray"
@@ -109,8 +120,6 @@ function Loja() {
           </CustomChakraNextLink>
           <VoltarButton href="/" />
         </Stack>
-
-        <SocialIcons mt={[4, 8]} />
       </Box>
     </Layout>
   );

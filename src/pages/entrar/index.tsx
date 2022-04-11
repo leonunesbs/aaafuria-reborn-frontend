@@ -169,6 +169,7 @@ export default function Entrar() {
               alt="logo"
               mx="auto"
               mb={{ base: '8', md: '12' }}
+              draggable={false}
             />
           </Box>
         </Center>

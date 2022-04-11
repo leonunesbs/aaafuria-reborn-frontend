@@ -34,7 +34,7 @@ export const Header = () => {
   const { data, refetch } = useQuery(GET_SOCIO, {
     context: {
       headers: {
-        authorization: `JWT ${token}`,
+        authorization: `JWT ${token || ' '}`,
       },
     },
   });

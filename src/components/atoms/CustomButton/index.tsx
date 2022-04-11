@@ -14,7 +14,7 @@ export const CustomButton = forwardRef<HTMLButtonElement, ICustomButton>(
         colorScheme="green"
         variant="outline"
         w="full"
-        rightIcon={hasExternalIcon ? <FiExternalLink size="15px" /> : <></>}
+        rightIcon={hasExternalIcon ? <FiExternalLink size="15px" /> : undefined}
         p={4}
         _focus={{
           outlineColor: green,

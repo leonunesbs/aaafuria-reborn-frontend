@@ -112,7 +112,7 @@ function Solicitacoes() {
   const { data, refetch } = useQuery<QueryData>(GET_ISSUES, {
     context: {
       headers: {
-        authorization: `JWT ${token}`,
+        authorization: `JWT ${token || ' '}`,
       },
     },
   });
@@ -120,7 +120,7 @@ function Solicitacoes() {
   const [createIssue, { loading }] = useMutation(CREATE_ISSUE, {
     context: {
       headers: {
-        authorization: `JWT ${token}`,
+        authorization: `JWT ${token || ' '}`,
       },
     },
   });

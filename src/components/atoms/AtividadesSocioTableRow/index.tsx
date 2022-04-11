@@ -96,7 +96,7 @@ export const AtividadesSocioTableRow = ({
         },
         context: {
           headers: {
-            authorization: `JWT ${token}`,
+            authorization: `JWT ${token || ' '}`,
           },
         },
       })
@@ -134,7 +134,7 @@ export const AtividadesSocioTableRow = ({
         },
         context: {
           headers: {
-            authorization: `JWT ${token}`,
+            authorization: `JWT ${token || ' '}`,
           },
         },
       })

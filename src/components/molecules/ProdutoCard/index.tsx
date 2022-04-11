@@ -18,9 +18,8 @@ import { AuthContext } from '@/contexts/AuthContext';
 import { Card } from '@/components/molecules';
 import { ColorContext } from '@/contexts/ColorContext';
 import { CustomButton } from '@/components/atoms/CustomButton';
-import { CustomChakraNextLink } from '@/components/atoms';
-import { FaEye } from 'react-icons/fa';
 import { MdShoppingCart } from 'react-icons/md';
+import { PriceTag } from '@/components/atoms';
 import { ProdutoType } from '@/pages/loja';
 import { useRouter } from 'next/router';
 
@@ -58,10 +57,11 @@ export const ProdutoCard = ({ node }: ProdutoCardProps) => {
   const { isAuthenticated, isSocio, token } = useContext(AuthContext);
   const { register, handleSubmit } = useForm<any>();
   const { green, bg } = useContext(ColorContext);
+
   const [addToCart, { loading }] = useMutation(ADD_TO_CART, {
     context: {
       headers: {
-        Authorization: `JWT ${token}`,
+        Authorization: `JWT ${token || ' '}`,
       },
     },
   });
@@ -191,37 +191,13 @@ export const ProdutoCard = ({ node }: ProdutoCardProps) => {
               <Heading as="h3" size="md">
                 {node.nome}
               </Heading>
-              <Heading as="h4" size="sm">
-                <Text as={isSocio ? 's' : 'span'}>
-                  R${' '}
-                  {node.preco
-                    .toLocaleString('pt-BR', {
-                      style: 'currency',
-                      currency: 'BRL',
-                    })
-                    .replace('.', ',')}
-                </Text>
-                {isSocio && (
-                  <Text
-                    as="span"
-                    fontSize="xl"
-                    fontWeight="extrabold"
-                    color="green.500"
-                  >
-                    {' '}
-                    R${' '}
-                    {node.precoSocio
-                      .toLocaleString('pt-BR', {
-                        style: 'currency',
-                        currency: 'BRL',
-                      })
-                      .replace('.', ',')}
-                  </Text>
-                )}
-              </Heading>
-              <Text fontSize="xl" fontWeight={'bold'} textColor={green}>
-                {node.descricao}
-              </Text>
+              <PriceTag
+                as="h4"
+                fontSize={'xl'}
+                price={node.preco as number}
+                discountedPrice={node.precoSocio}
+              />
+              <Text fontSize="md">{node.descricao}</Text>
             </Stack>
             <HStack>
               {node.hasVariations && (
@@ -256,17 +232,6 @@ export const ProdutoCard = ({ node }: ProdutoCardProps) => {
               )}
             </HStack>
           </Stack>
-          <CustomChakraNextLink href={`/loja/produto/${node.id}`}>
-            <CustomButton
-              rounded="0"
-              leftIcon={<FaEye size="20px" />}
-              variant="ghost"
-              colorScheme="gray"
-              isLoading={isLoading}
-            >
-              Ver mais
-            </CustomButton>
-          </CustomChakraNextLink>
           <Button
             type="submit"
             rounded="0"

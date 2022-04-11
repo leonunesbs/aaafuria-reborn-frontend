@@ -5,6 +5,7 @@ import { IAreaDiretorButton } from './AreaDiretorButton/IAreaDiretorButton';
 import { IAtividadesSocioTableRow } from './AtividadesSocioTableRow/IAtividadesSocioTableRow';
 import { ICarteirinhaInput } from './CarteirinhaInput/ICarteirinhaInput';
 import { ICustomButton } from './CustomButton/ICustomButton';
+import { IPriceTag } from './PriceTag/IPriceTag';
 import { NotificationBadgeProps } from './NotificationBadge';
 import { PageHeadingProps } from './PageHeading';
 import { RefAttributes } from 'react';
@@ -59,6 +60,9 @@ export const NotificationBadge = dynamic<NotificationBadgeProps>(() =>
 
 export const PageHeading = dynamic<PageHeadingProps>(() =>
   import('./PageHeading').then((mod) => mod.PageHeading),
+);
+export const PriceTag = dynamic<IPriceTag>(() =>
+  import('./PriceTag').then((mod) => mod.PriceTag),
 );
 
 export const SejaSocioButton = dynamic<SejaSocioButtonProps>(() =>

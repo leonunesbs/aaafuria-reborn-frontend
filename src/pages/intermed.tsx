@@ -36,7 +36,7 @@ function Intermed() {
   const [resgatarIntermed] = useMutation(RESGATAR_INTERMED, {
     context: {
       headers: {
-        Authorization: `JWT ${token}`,
+        Authorization: `JWT ${token || ' '}`,
       },
     },
   });

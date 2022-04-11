@@ -68,7 +68,7 @@ function Arquivo() {
     },
     context: {
       headers: {
-        authorization: `JWT ${token}`,
+        authorization: `JWT ${token || ' '}`,
       },
     },
   });

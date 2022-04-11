@@ -65,6 +65,7 @@ export default function Home({}: HomeProps) {
               alt="logo"
               mx="auto"
               mb={{ base: '8', md: '12' }}
+              draggable={false}
             />
           </Box>
         </Center>

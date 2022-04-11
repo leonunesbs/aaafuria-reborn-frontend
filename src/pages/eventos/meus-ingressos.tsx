@@ -87,14 +87,14 @@ function MeusEventos() {
   const [transferIngresso] = useMutation(TRANSFER_INGRESSO, {
     context: {
       headers: {
-        authorization: `JWT ${token}`,
+        authorization: `JWT ${token || ' '}`,
       },
     },
   });
   const { data } = useQuery(USER_INGRESSOS, {
     context: {
       headers: {
-        authorization: `JWT ${token}`,
+        authorization: `JWT ${token || ' '}`,
       },
     },
   });

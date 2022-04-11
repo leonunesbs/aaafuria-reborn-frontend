@@ -69,14 +69,14 @@ export const IssueInfoCard = ({
   const [closeIssue] = useMutation(CLOSE_ISSUE, {
     context: {
       headers: {
-        authorization: `JWT ${token}`,
+        authorization: `JWT ${token || ' '}`,
       },
     },
   });
   const [openIssue] = useMutation(OPEN_ISSUE, {
     context: {
       headers: {
-        authorization: `JWT ${token}`,
+        authorization: `JWT ${token || ' '}`,
       },
     },
   });

@@ -65,7 +65,7 @@ function AssociacaoManual() {
     {
       context: {
         headers: {
-          authorization: `JWT ${token}`,
+          authorization: `JWT ${token || ' '}`,
         },
       },
     },

@@ -52,7 +52,7 @@ export const CreateComment = ({
     {
       context: {
         headers: {
-          authorization: `JWT ${token}`,
+          authorization: `JWT ${token || ' '}`,
         },
       },
     },
