@@ -153,6 +153,7 @@ function MeusEventos() {
             <>
               <CustomButton
                 onClick={onCopy}
+                variant="ghost"
                 leftIcon={!hasCopied ? <MdCopyAll size="25px" /> : <></>}
               >
                 {hasCopied ? 'Copiado!' : 'Copiar link convidados'}
@@ -160,35 +161,14 @@ function MeusEventos() {
               <Table>
                 <Thead>
                   <Tr>
+                    <Th>Ação</Th>
                     <Th>Lote - Evento</Th>
                     <Th>Data de compra</Th>
-                    <Th>Ação</Th>
                   </Tr>
                 </Thead>
                 <Tbody>
                   {data?.userAuthenticatedIngressos?.map((ingresso: any) => (
-                    <Tr
-                      key={ingresso.id}
-                      onClick={() =>
-                        handleQrCode(ingresso.id, ingresso.lote.evento.nome)
-                      }
-                      cursor="pointer"
-                    >
-                      <Td>
-                        {ingresso.lote.nome} - {ingresso.lote.evento.nome}
-                      </Td>
-                      <Td>
-                        <Text as="time" dateTime={ingresso?.dataCompra}>
-                          {new Date(ingresso?.dataCompra).toLocaleString(
-                            'pt-BR',
-                            {
-                              dateStyle: 'short',
-                              timeStyle: 'short',
-                              timeZone: 'America/Sao_Paulo',
-                            },
-                          )}
-                        </Text>
-                      </Td>
+                    <Tr key={ingresso.id}>
                       <Td>
                         <HStack>
                           <CustomIconButton
@@ -203,8 +183,40 @@ function MeusEventos() {
                           <CustomIconButton
                             aria-label="qr-code"
                             icon={<FaQrcode size="25px" />}
+                            onClick={() =>
+                              handleQrCode(
+                                ingresso.id,
+                                ingresso.lote.evento.nome,
+                              )
+                            }
                           />
                         </HStack>
+                      </Td>
+                      <Td>
+                        <Text
+                          onClick={() =>
+                            handleQrCode(ingresso.id, ingresso.lote.evento.nome)
+                          }
+                          cursor="pointer"
+                          color={green}
+                          _hover={{
+                            fontWeight: 'bold',
+                          }}
+                        >
+                          {ingresso.lote.nome} - {ingresso.lote.evento.nome}
+                        </Text>
+                      </Td>
+                      <Td>
+                        <Text as="time" dateTime={ingresso?.dataCompra}>
+                          {new Date(ingresso?.dataCompra).toLocaleString(
+                            'pt-BR',
+                            {
+                              dateStyle: 'short',
+                              timeStyle: 'short',
+                              timeZone: 'America/Sao_Paulo',
+                            },
+                          )}
+                        </Text>
                       </Td>
                     </Tr>
                   ))}

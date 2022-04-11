@@ -3,7 +3,7 @@ import {
   IconButtonProps,
   useColorModeValue,
 } from '@chakra-ui/react';
-import { forwardRef, ReactNode } from 'react';
+import { ReactNode, forwardRef } from 'react';
 
 export interface CustomIconButtonProps extends IconButtonProps {
   children?: ReactNode;
