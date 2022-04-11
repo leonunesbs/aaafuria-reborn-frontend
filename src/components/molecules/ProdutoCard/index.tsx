@@ -1,5 +1,11 @@
-import * as gtag from 'lib/gtag';
-
+import { PriceTag } from '@/components/atoms';
+import { CustomButton } from '@/components/atoms/CustomButton';
+import { Card } from '@/components/molecules';
+import { AuthContext } from '@/contexts/AuthContext';
+import { ColorContext } from '@/contexts/ColorContext';
+import { ProdutoType } from '@/pages/loja';
+import { gql, useMutation } from '@apollo/client';
+import { Flex, Heading, HStack, Stack } from '@chakra-ui/layout';
 import {
   Button,
   FormControl,
@@ -9,19 +15,11 @@ import {
   Text,
   useToast,
 } from '@chakra-ui/react';
-import { Flex, HStack, Heading, Stack } from '@chakra-ui/layout';
+import * as gtag from 'lib/gtag';
+import { useRouter } from 'next/router';
 import React, { useCallback, useContext } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { gql, useMutation, useQuery } from '@apollo/client';
-
-import { AuthContext } from '@/contexts/AuthContext';
-import { Card } from '@/components/molecules';
-import { ColorContext } from '@/contexts/ColorContext';
-import { CustomButton } from '@/components/atoms/CustomButton';
 import { MdShoppingCart } from 'react-icons/md';
-import { PriceTag } from '@/components/atoms';
-import { ProdutoType } from '@/pages/loja';
-import { useRouter } from 'next/router';
 
 export type ProdutoCardProps = ProdutoType;
 
@@ -43,15 +41,6 @@ const ADD_TO_CART = gql`
   }
 `;
 
-const GET_VARIATIONS = gql`
-  query getProdutoVariacoes($productId: String!) {
-    variacaoByProductId(id: $productId) {
-      id
-      nome
-    }
-  }
-`;
-
 export const ProdutoCard = ({ node }: ProdutoCardProps) => {
   const router = useRouter();
   const { isAuthenticated, isSocio, token } = useContext(AuthContext);
@@ -63,12 +52,6 @@ export const ProdutoCard = ({ node }: ProdutoCardProps) => {
       headers: {
         Authorization: `JWT ${token || ' '}`,
       },
-    },
-  });
-
-  const { data } = useQuery(GET_VARIATIONS, {
-    variables: {
-      productId: node.id,
     },
   });
 
@@ -208,9 +191,9 @@ export const ProdutoCard = ({ node }: ProdutoCardProps) => {
                     placeholder="Selecione o tamanho"
                     {...register('variacaoId')}
                   >
-                    {data?.variacaoByProductId.map((variacao: any) => (
-                      <option key={variacao.id} value={variacao.id}>
-                        {variacao.nome}
+                    {node?.variacoes.edges.map(({ node }) => (
+                      <option key={node.id} value={node.id}>
+                        {node.nome}
                       </option>
                     ))}
                   </Select>

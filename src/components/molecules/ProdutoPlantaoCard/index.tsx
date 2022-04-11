@@ -1,8 +1,11 @@
+import { CustomButton } from '@/components/atoms';
+import { Card } from '@/components/molecules';
+import { gql, useMutation } from '@apollo/client';
 import {
   Button,
   FormControl,
-  HStack,
   Heading,
+  HStack,
   Image,
   Input,
   Select,
@@ -10,16 +13,12 @@ import {
   Text,
   useToast,
 } from '@chakra-ui/react';
-import { SubmitHandler, useForm } from 'react-hook-form';
-import { gql, useMutation, useQuery } from '@apollo/client';
+import { useRouter } from 'next/router';
+import { parseCookies } from 'nookies';
 import { useCallback, useState } from 'react';
-
-import { Card } from '@/components/molecules';
-import { CustomButton } from '@/components/atoms';
+import { SubmitHandler, useForm } from 'react-hook-form';
 import { MdShoppingCart } from 'react-icons/md';
 import { ProdutoType } from '../../organisms/LojaPlantao';
-import { parseCookies } from 'nookies';
-import { useRouter } from 'next/router';
 
 const ADD_TO_CART_PLANTAO = gql`
   mutation addToCartPlantao(
@@ -41,16 +40,6 @@ const ADD_TO_CART_PLANTAO = gql`
   }
 `;
 
-const GET_VARIATIONS = gql`
-  query getProdutoVariacoes($productId: String!) {
-    variacaoByProductId(id: $productId) {
-      id
-      nome
-      estoque
-    }
-  }
-`;
-
 export interface ProdutoPlantaoCardProps extends ProdutoType {
   matriculaSocio: string;
 }
@@ -66,12 +55,6 @@ export const ProdutoPlantaoCard = ({
       headers: {
         Authorization: `JWT ${parseCookies()['aaafuriaToken']}`,
       },
-    },
-  });
-
-  const { data } = useQuery(GET_VARIATIONS, {
-    variables: {
-      productId: node.id,
     },
   });
 
@@ -178,11 +161,11 @@ export const ProdutoPlantaoCard = ({
                     placeholder="Selecione o tamanho"
                     {...register('variacaoId')}
                   >
-                    {data?.variacaoByProductId.map(
-                      (variacao: any) =>
-                        variacao.estoque > 0 && (
-                          <option key={variacao.id} value={variacao.id}>
-                            {variacao.nome}
+                    {node?.variacoes.edges.map(
+                      ({ node }) =>
+                        node.estoque > 0 && (
+                          <option key={node.id} value={node.id}>
+                            {node.nome}
                           </option>
                         ),
                     )}

@@ -1,6 +1,5 @@
-import { gql, useQuery } from '@apollo/client';
-
 import { ProdutoPlantaoCard } from '@/components/molecules';
+import { gql, useQuery } from '@apollo/client';
 import { SimpleGrid } from '@chakra-ui/react';
 
 const PRODUTO_QUERY = gql`
@@ -15,6 +14,15 @@ const PRODUTO_QUERY = gql`
           precoSocio
           imagem
           hasVariations
+          variacoes {
+            edges {
+              node {
+                id
+                nome
+                estoque
+              }
+            }
+          }
           hasObservacoes
           estoque
         }
@@ -32,6 +40,15 @@ export type ProdutoType = {
     precoSocio: number;
     imagem: string;
     hasVariations: boolean;
+    variacoes: {
+      edges: {
+        node: {
+          id: string;
+          nome: string;
+          estoque: number;
+        };
+      }[];
+    };
     hasObservacoes: boolean;
     estoque: number;
   };
