@@ -12,7 +12,7 @@ export const CustomButton = forwardRef<HTMLButtonElement, ICustomButton>(
       <Button
         ref={ref}
         colorScheme="green"
-        variant="ghost"
+        variant="outline"
         w="full"
         rightIcon={hasExternalIcon ? <FiExternalLink size="15px" /> : <></>}
         p={4}

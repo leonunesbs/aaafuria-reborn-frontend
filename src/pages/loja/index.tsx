@@ -1,4 +1,4 @@
-import { Box, SimpleGrid, Stack, Text } from '@chakra-ui/react';
+import { Box, SimpleGrid, Spinner, Stack, Text } from '@chakra-ui/react';
 import {
   CustomButton,
   CustomChakraNextLink,
@@ -9,6 +9,7 @@ import { ProdutoCard, SocialIcons } from '@/components/molecules';
 import React, { useContext, useEffect } from 'react';
 import { gql, useQuery } from '@apollo/client';
 
+import { AiOutlineUnorderedList } from 'react-icons/ai';
 import { AuthContext } from '@/contexts/AuthContext';
 import { GetStaticProps } from 'next';
 import { Layout } from '@/components/templates';
@@ -55,7 +56,7 @@ export type ProdutoType = {
 };
 
 function Loja() {
-  const { data: produtos } = useQuery<QueryData>(PRODUTO_QUERY);
+  const { data: produtos, loading } = useQuery<QueryData>(PRODUTO_QUERY);
   const { checkCredentials } = useContext(AuthContext);
   const [isSocio, setIsSocio] = React.useState(false);
 
@@ -79,6 +80,7 @@ function Loja() {
           justifyItems="center"
           alignItems="center"
         >
+          {loading && <Spinner color="green" />}
           {produtos?.allProduto?.edges?.map(({ node }) => {
             return <ProdutoCard key={node.id} node={node} />;
           })}
@@ -91,10 +93,18 @@ function Loja() {
         <Stack mt={4}>
           <CustomChakraNextLink href="/carrinho">
             <CustomButton
-              colorScheme="yellow"
+              colorScheme="gray"
               leftIcon={<MdShoppingCart size="25px" />}
             >
               Carrinho
+            </CustomButton>
+          </CustomChakraNextLink>
+          <CustomChakraNextLink href="/loja/meus-pedidos">
+            <CustomButton
+              colorScheme="gray"
+              leftIcon={<AiOutlineUnorderedList size="25px" />}
+            >
+              Meus pedidos
             </CustomButton>
           </CustomChakraNextLink>
           <VoltarButton href="/" />

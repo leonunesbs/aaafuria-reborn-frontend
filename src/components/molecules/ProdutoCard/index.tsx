@@ -256,7 +256,7 @@ export const ProdutoCard = ({ node }: ProdutoCardProps) => {
               )}
             </HStack>
           </Stack>
-          <CustomChakraNextLink href={`/produto/${node.id}`}>
+          <CustomChakraNextLink href={`/loja/produto/${node.id}`}>
             <CustomButton
               rounded="0"
               leftIcon={<FaEye size="20px" />}
