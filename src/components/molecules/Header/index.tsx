@@ -268,7 +268,7 @@ export const Header = () => {
                       </CustomChakraNextLink>
                       <Stack spacing={0} textColor={bg}>
                         <Text fontSize={['sm']} fontWeight="bold">
-                          {user?.nome}
+                          {user?.apelido}
                         </Text>
                         <Text fontSize={['xs']}>{user?.matricula}</Text>
                       </Stack>
