@@ -240,7 +240,7 @@ export const SejaSocioPricing = ({}: ISejaSocioPricing) => {
                             colorScheme="green"
                             leftIcon={<MdLogin />}
                             onClick={() =>
-                              router.push('/entrar?after=/#sejasocio')
+                              router.push('/entrar?after=/#seja-socio')
                             }
                           >
                             Entrar

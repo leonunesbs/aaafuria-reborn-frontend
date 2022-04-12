@@ -54,7 +54,7 @@ function Atividades({}: AtividadesProps) {
           isClosable: true,
           position: 'top-left',
         });
-        router.push('/#sejasocio');
+        router.push('/#seja-socio');
       }
     }
   }, [checkCredentials, isAuthenticated, isSocio, isStaff, router, toast]);

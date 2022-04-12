@@ -115,7 +115,7 @@ function Carteira() {
         isClosable: true,
         position: 'top-left',
       });
-      router.push('/#sejasocio');
+      router.push('/#seja-socio');
     }
   }, [isSocio, router, toast]);
 
