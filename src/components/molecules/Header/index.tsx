@@ -157,7 +157,7 @@ export const Header = () => {
       <Drawer isOpen={isOpen} placement="left" onClose={onClose} size="xs">
         <DrawerOverlay />
         <DrawerContent bgColor={green} pr={6}>
-          <DrawerCloseButton color={bg} />
+          <DrawerCloseButton color={bg} mr={6} />
           <DrawerHeader shadow={'base'} borderBottomRadius={'md'}>
             <CustomChakraNextLink
               href="/"
