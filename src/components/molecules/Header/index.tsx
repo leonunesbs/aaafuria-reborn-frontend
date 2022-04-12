@@ -116,7 +116,7 @@ export const Header = () => {
             </CustomChakraNextLink>
           </HStack>
         </HStack>
-        <HStack spacing={2}>
+        <HStack spacing={[2, 2, 4]}>
           <ColorModeToggle />
           {isAuthenticated ? (
             <CustomChakraNextLink href={'/carteirinha'}>
@@ -203,20 +203,59 @@ export const Header = () => {
                   Loja
                 </CustomButton>
               </CustomChakraNextLink>
+              <CustomChakraNextLink href={'/carrinho'}>
+                <CustomButton
+                  isActive={router.asPath == '/carrinho'}
+                  variant={'solid'}
+                  justifyContent={'flex-start'}
+                  leftIcon={<Box boxSize={'20px'} />}
+                >
+                  Carrinho
+                </CustomButton>
+              </CustomChakraNextLink>
+              <CustomChakraNextLink href={'/loja/meus-pedidos'}>
+                <CustomButton
+                  isActive={router.asPath == '/loja/meus-pedidos'}
+                  variant={'solid'}
+                  justifyContent={'flex-start'}
+                  leftIcon={<Box boxSize={'20px'} />}
+                >
+                  Meus pedidos
+                </CustomButton>
+              </CustomChakraNextLink>
               <CustomChakraNextLink href={'/atividades'}>
                 <CustomButton
                   isActive={router.asPath == '/atividades'}
                   variant={'solid'}
-                  py={10}
                   justifyContent={'flex-start'}
                   leftIcon={
-                    <Stack>
+                    <HStack>
                       <FaVolleyballBall size="20px" />
                       <FaDrum size="20px" />
-                    </Stack>
+                    </HStack>
                   }
                 >
                   Atividades
+                </CustomButton>
+              </CustomChakraNextLink>
+              <CustomChakraNextLink href={'/atividades?categoria=Esporte'}>
+                <CustomButton
+                  isActive={router.asPath == '/atividades?categoria=Esporte'}
+                  variant={'solid'}
+                  justifyContent={'flex-start'}
+                  leftIcon={<Box boxSize={'20px'} />}
+                >
+                  Esportes
+                </CustomButton>
+              </CustomChakraNextLink>
+              <CustomChakraNextLink href={'/atividades?categoria=Bateria'}>
+                <CustomButton
+                  isActive={router.asPath == '/atividades?categoria=Bateria'}
+                  variant={'solid'}
+                  justifyContent={'flex-start'}
+                  leftIcon={<Box boxSize={'20px'} />}
+                >
+                  Bateria
                 </CustomButton>
               </CustomChakraNextLink>
               <CustomChakraNextLink href={'/eventos'}>
@@ -227,6 +266,16 @@ export const Header = () => {
                   leftIcon={<GiPartyPopper size="20px" />}
                 >
                   Eventos
+                </CustomButton>
+              </CustomChakraNextLink>
+              <CustomChakraNextLink href={'/eventos/meus-ingressos'}>
+                <CustomButton
+                  isActive={router.asPath == '/eventos/meus-ingressos'}
+                  variant={'solid'}
+                  justifyContent={'flex-start'}
+                  leftIcon={<Box boxSize={'20px'} />}
+                >
+                  Meus ingressos
                 </CustomButton>
               </CustomChakraNextLink>
             </Stack>
@@ -274,7 +323,7 @@ export const Header = () => {
                         />
                       </CustomChakraNextLink>
                       <Stack spacing={0} textColor={bg}>
-                        <Text fontSize={['sm']} fontWeight="bold">
+                        <Text fontSize={['md']} fontWeight="bold">
                           {user?.apelido}
                         </Text>
                         <Text fontSize={['xs']}>{user?.matricula}</Text>
@@ -295,7 +344,6 @@ export const Header = () => {
                   <CustomButton
                     isActive={router.asPath == '/entrar'}
                     variant={'solid'}
-                    colorScheme="gray"
                     justifyContent={'flex-start'}
                     leftIcon={<MdLogin size="20px" />}
                   >
