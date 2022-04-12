@@ -56,7 +56,7 @@ export const AtividadesSocioTable = ({
   return (
     <>
       {loading && (
-        <Stack w="full" justify={'center'}>
+        <Stack w="full" justify={'center'} align="center" my={4}>
           <Spinner color={green} />
         </Stack>
       )}
