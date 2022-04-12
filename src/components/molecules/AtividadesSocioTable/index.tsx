@@ -1,10 +1,9 @@
 import { IAtividadeSocioTable, ProgramacaoData } from './IAtividadesSocioTable';
-import { SimpleGrid, Spinner, Stack } from '@chakra-ui/react';
+import { SimpleGrid, Skeleton } from '@chakra-ui/react';
 import { gql, useQuery } from '@apollo/client';
-import { useCallback, useContext } from 'react';
 
 import { AtividadesSocioTableRow } from '@/components/atoms';
-import { ColorContext } from '@/contexts/ColorContext';
+import { useCallback } from 'react';
 
 const QUERY_PROGRAMACAO = gql`
   query getProgramacao($categoria: String!) {
@@ -42,7 +41,6 @@ export const AtividadesSocioTable = ({
   categoria,
   ...rest
 }: IAtividadeSocioTable) => {
-  const { green } = useContext(ColorContext);
   const { data, refetch, loading } = useQuery(QUERY_PROGRAMACAO, {
     variables: {
       categoria: categoria,
@@ -55,19 +53,21 @@ export const AtividadesSocioTable = ({
 
   return (
     <>
-      {loading && (
-        <Stack w="full" justify={'center'} align="center" my={4}>
-          <Spinner color={green} />
-        </Stack>
-      )}
       <SimpleGrid
         columns={{ base: 1, md: 3 }}
         gap={{ base: '5', md: '6' }}
         {...rest}
       >
+        {loading && (
+          <>
+            <Skeleton h={'210px'} rounded="md" w="100%" />
+            <Skeleton h={'210px'} rounded="md" w="100%" />
+            <Skeleton h={'210px'} rounded="md" w="100%" />
+          </>
+        )}
         {data?.allProgramacao.edges.map(
           ({ node }: { node: ProgramacaoData }) => {
-            if (!node.finalizado) {
+            if (!node.finalizado && !loading) {
               return (
                 <AtividadesSocioTableRow
                   key={node.id}
