@@ -155,13 +155,12 @@ function Carrinho() {
   const ChakraNextImage = chakra(NextImage);
   return (
     <Layout title="Carrinho">
-      <Box maxW="6xl" mx="auto">
+      <Box maxW="8xl" mx="auto">
         <PageHeading>Meu carrinho</PageHeading>
         <Card mb={4}>
           <Flex
             direction={['column', 'column', 'row']}
             align={['initial', 'initial', 'flex-start']}
-            justify={'space-between'}
           >
             <Stack spacing={2} w="full">
               {data?.userCarrinho?.produtos?.edges?.map(
@@ -176,8 +175,12 @@ function Carrinho() {
                     precoSocio,
                   },
                 }) => (
-                  <Stack key={id} w="full">
-                    <HStack spacing={4} mb={4}>
+                  <Stack
+                    key={id}
+                    w="full"
+                    direction={['column', 'column', 'row']}
+                  >
+                    <HStack spacing={4} mb={4} w="full">
                       <Box width="130px" height="130px" position="relative">
                         <ChakraNextImage
                           src={produto.imagem}
@@ -197,12 +200,7 @@ function Carrinho() {
                         </Text>
                       </Box>
                     </HStack>
-                    <HStack
-                      justify={'space-between'}
-                      align="center"
-                      flexGrow={1}
-                      px={[0, 10]}
-                    >
+                    <HStack w="full" justify={'space-between'} px={[0, 10]}>
                       <CustomButton
                         display={['flex', 'flex', 'none']}
                         aria-label="remover"
@@ -247,7 +245,6 @@ function Carrinho() {
                         Remover
                       </CustomButton>
                     </HStack>
-                    <Divider mb={2} />
                   </Stack>
                 ),
               )}
