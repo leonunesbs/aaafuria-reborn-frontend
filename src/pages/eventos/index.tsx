@@ -1,4 +1,14 @@
 import {
+  CustomButton,
+  CustomChakraNextLink,
+  PageHeading,
+  VoltarButton,
+} from '@/components/atoms';
+import { Card } from '@/components/molecules';
+import { Layout } from '@/components/templates';
+import { AuthContext } from '@/contexts/AuthContext';
+import { gql, useMutation, useQuery } from '@apollo/client';
+import {
   Badge,
   Box,
   Center,
@@ -14,22 +24,11 @@ import {
   useColorModeValue,
   useToast,
 } from '@chakra-ui/react';
-import {
-  CustomButton,
-  CustomChakraNextLink,
-  PageHeading,
-  VoltarButton,
-} from '@/components/atoms';
+import { useRouter } from 'next/router';
+import { parseCookies } from 'nookies';
+import { useCallback, useContext, useEffect, useState } from 'react';
 import { FaTicketAlt, FaWhatsapp } from 'react-icons/fa';
 import { MdLogin, MdPayment, MdSend } from 'react-icons/md';
-import { gql, useMutation, useQuery } from '@apollo/client';
-import { useCallback, useContext, useEffect, useState } from 'react';
-
-import { AuthContext } from '@/contexts/AuthContext';
-import { Card } from '@/components/molecules';
-import { Layout } from '@/components/templates';
-import { parseCookies } from 'nookies';
-import { useRouter } from 'next/router';
 
 const GET_LOTES = gql`
   query getLotes {

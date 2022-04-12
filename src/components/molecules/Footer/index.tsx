@@ -1,7 +1,6 @@
-import { Box, Text } from '@chakra-ui/react';
-
-import { ColorContext } from '@/contexts/ColorContext';
 import { CustomChakraNextLink } from '@/components/atoms';
+import { ColorContext } from '@/contexts/ColorContext';
+import { Box, Text } from '@chakra-ui/react';
 import NextImage from 'next/image';
 import { useContext } from 'react';
 

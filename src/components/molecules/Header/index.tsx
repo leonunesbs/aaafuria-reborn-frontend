@@ -1,4 +1,3 @@
-import { Box, Flex, HStack, Spinner, Text } from '@chakra-ui/react';
 import {
   ColorModeToggle,
   CustomButton,
@@ -6,14 +5,14 @@ import {
   CustomIconButton,
   NotificationBadge,
 } from '@/components/atoms';
-import { gql, useQuery } from '@apollo/client';
-import { useContext, useEffect } from 'react';
-
-import { AiFillHome } from 'react-icons/ai';
 import { AuthContext } from '@/contexts/AuthContext';
 import { ColorContext } from '@/contexts/ColorContext';
-import { FaInbox } from 'react-icons/fa';
+import { gql, useQuery } from '@apollo/client';
+import { Box, Flex, HStack, Spinner, Text } from '@chakra-ui/react';
 import NextImage from 'next/image';
+import { useContext, useEffect } from 'react';
+import { AiFillHome } from 'react-icons/ai';
+import { FaInbox } from 'react-icons/fa';
 
 const GET_SOCIO = gql`
   query {

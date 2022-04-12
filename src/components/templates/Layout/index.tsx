@@ -20,6 +20,7 @@ export const Layout = ({
   keywords,
   isFooted = true,
   isHeaded = true,
+  ...rest
 }: LayoutProps) => {
   const bg = useColorModeValue('gray.50', 'gray.900');
   const router = useRouter();
@@ -98,6 +99,7 @@ export const Layout = ({
         py="12"
         px={{ base: '2', lg: '8' }}
         overscrollBehaviorY="none"
+        {...rest}
       >
         {children}
       </Box>

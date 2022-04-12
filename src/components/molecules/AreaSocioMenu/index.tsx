@@ -1,17 +1,16 @@
-import { Box, Divider, Stack, StackProps } from '@chakra-ui/react';
 import {
   CustomButton,
   CustomChakraNextLink,
   VoltarButton,
 } from '@/components/atoms';
-import { FaDrum, FaVolleyballBall, FaWallet } from 'react-icons/fa';
 import { gql, useQuery } from '@apollo/client';
-
-import { AiFillIdcard } from 'react-icons/ai';
-import { MdManageAccounts } from 'react-icons/md';
+import { Box, Divider, Stack, StackProps } from '@chakra-ui/react';
 import NextImage from 'next/image';
-import React from 'react';
 import { parseCookies } from 'nookies';
+import React from 'react';
+import { AiFillIdcard } from 'react-icons/ai';
+import { FaDrum, FaVolleyballBall, FaWallet } from 'react-icons/fa';
+import { MdManageAccounts } from 'react-icons/md';
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface AreaSocioMenuProps extends StackProps {}

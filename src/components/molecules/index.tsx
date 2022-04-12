@@ -1,21 +1,22 @@
+import dynamic from 'next/dynamic';
 import { AreaDiretorMenuProps } from './AreaDiretorMenu';
 import { AreaSocioMenuProps } from './AreaSocioMenu';
-import { CartaoCreditoTabPanelProps } from './PagamentoTabs/CartaoCreditoTabPanel';
-import { ClientInfoCardProps } from './ClientInfoCard';
-import { CommentCardProps } from './CommentCard';
-import { CreateCommentProps } from './CreateComment';
-import { EspecieTabPanelProps } from './PagamentoTabs/EspecieTabPanel';
-import { HomeMenuProps } from './HomeMenu';
 import { IAtividadeSocioTable } from './AtividadesSocioTable/IAtividadesSocioTable';
 import { IAuthenticatedHomeMenu } from './AuthenticatedHomeMenu/IAuthenticatedHomeMenu';
 import { ICadastroDrawer } from './CadastroDrawer/ICadastroDrawer';
 import { ICard } from './Card/ICard';
+import { ClientInfoCardProps } from './ClientInfoCard';
+import { CommentCardProps } from './CommentCard';
+import { CreateCommentProps } from './CreateComment';
+import { HomeMenuProps } from './HomeMenu';
 import { InputMatriculaPlantaoProps } from './InputMatriculaPlantao';
 import { IssueInfoCardProps } from './IssueInfoCard';
+import { CartaoCreditoTabPanelProps } from './PagamentoTabs/CartaoCreditoTabPanel';
+import { EspecieTabPanelProps } from './PagamentoTabs/EspecieTabPanel';
 import { PixTabPanelProps } from './PagamentoTabs/PIXTabPanel';
 import { ProdutoCardProps } from './ProdutoCard';
 import { ProdutoPlantaoCardProps } from './ProdutoPlantaoCard';
-import dynamic from 'next/dynamic';
+import { ISejaSocioPricing } from './SejaSocioPricing/ISejaSocioPricing';
 
 export const AreaDiretorMenu = dynamic<AreaDiretorMenuProps>(() =>
   import('./AreaDiretorMenu').then((mod) => mod.AreaDiretorMenu),
@@ -79,6 +80,9 @@ export const ProdutoCard = dynamic<ProdutoCardProps>(() =>
 );
 export const ProdutoPlantaoCard = dynamic<ProdutoPlantaoCardProps>(() =>
   import('./ProdutoPlantaoCard').then((mod) => mod.ProdutoPlantaoCard),
+);
+export const SejaSocioPricing = dynamic<ISejaSocioPricing>(() =>
+  import('./SejaSocioPricing').then((mod) => mod.SejaSocioPricing),
 );
 export const SocialIcons = dynamic<any>(() =>
   import('./SocialIcons').then((mod) => mod.SocialIcons),

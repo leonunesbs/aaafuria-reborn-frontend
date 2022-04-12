@@ -1,4 +1,16 @@
 import {
+  CustomButton,
+  CustomChakraNextLink,
+  CustomIconButton,
+  PageHeading,
+  VoltarButton,
+} from '@/components/atoms';
+import { Card } from '@/components/molecules';
+import { Layout } from '@/components/templates';
+import { AuthContext } from '@/contexts/AuthContext';
+import { ColorContext } from '@/contexts/ColorContext';
+import { gql, useMutation, useQuery } from '@apollo/client';
+import {
   Badge,
   Drawer,
   DrawerBody,
@@ -25,27 +37,14 @@ import {
   useDisclosure,
   useToast,
 } from '@chakra-ui/react';
-import {
-  CustomButton,
-  CustomChakraNextLink,
-  CustomIconButton,
-  PageHeading,
-  VoltarButton,
-} from '@/components/atoms';
-import { MdAdd, MdHelpCenter, MdSend } from 'react-icons/md';
-import { SubmitHandler, useForm } from 'react-hook-form';
-import { gql, useMutation, useQuery } from '@apollo/client';
-import { useCallback, useContext, useEffect, useRef } from 'react';
-
-import { AuthContext } from '@/contexts/AuthContext';
-import { Card } from '@/components/molecules';
-import { ColorContext } from '@/contexts/ColorContext';
-import { FaEye } from 'react-icons/fa';
 import { GetServerSideProps } from 'next';
-import { IIssueType } from './IIssueType';
-import { Layout } from '@/components/templates';
-import { parseCookies } from 'nookies';
 import router from 'next/router';
+import { parseCookies } from 'nookies';
+import { useCallback, useContext, useEffect, useRef } from 'react';
+import { SubmitHandler, useForm } from 'react-hook-form';
+import { FaEye } from 'react-icons/fa';
+import { MdAdd, MdHelpCenter, MdSend } from 'react-icons/md';
+import { IIssueType } from './IIssueType';
 
 type Inputs = {
   title: string;

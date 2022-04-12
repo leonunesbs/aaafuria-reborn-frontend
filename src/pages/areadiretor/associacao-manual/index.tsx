@@ -1,3 +1,8 @@
+import { CustomButton, PageHeading, VoltarButton } from '@/components/atoms';
+import { Card } from '@/components/molecules';
+import { Layout } from '@/components/templates';
+import { AuthContext } from '@/contexts/AuthContext';
+import { gql, useMutation, useQuery } from '@apollo/client';
 import {
   Box,
   Collapse,
@@ -11,16 +16,10 @@ import {
   useDisclosure,
   useToast,
 } from '@chakra-ui/react';
-import { Controller, SubmitHandler, useForm } from 'react-hook-form';
-import { CustomButton, PageHeading, VoltarButton } from '@/components/atoms';
-import { MdCheck, MdRefresh } from 'react-icons/md';
-import { gql, useMutation, useQuery } from '@apollo/client';
-import { useCallback, useContext, useEffect, useState } from 'react';
-
-import { AuthContext } from '@/contexts/AuthContext';
-import { Card } from '@/components/molecules';
-import { Layout } from '@/components/templates';
 import { useRouter } from 'next/router';
+import { useCallback, useContext, useEffect, useState } from 'react';
+import { Controller, SubmitHandler, useForm } from 'react-hook-form';
+import { MdCheck, MdRefresh } from 'react-icons/md';
 
 const QUERY_SOCIO = gql`
   query socioByMatricula($matricula: String) {

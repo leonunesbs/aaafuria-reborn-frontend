@@ -1,5 +1,3 @@
-import { AtividadesSocioTable, Card } from '@/components/molecules';
-import { Box, Flex, HStack, Stack, useToast } from '@chakra-ui/react';
 import {
   CustomButton,
   CustomChakraNextLink,
@@ -7,17 +5,18 @@ import {
   PageHeading,
   VoltarButton,
 } from '@/components/atoms';
-import { FaDrum, FaPlus, FaVolleyballBall } from 'react-icons/fa';
-import { useCallback, useContext, useEffect, useState } from 'react';
-
-import { AiOutlineCalendar } from 'react-icons/ai';
-import { AuthContext } from '@/contexts/AuthContext';
-import { CgTwilio } from 'react-icons/cg';
-import { GetServerSideProps } from 'next';
+import { AtividadesSocioTable, Card } from '@/components/molecules';
 import { Layout } from '@/components/templates';
-import { MdManageAccounts } from 'react-icons/md';
-import { parseCookies } from 'nookies';
+import { AuthContext } from '@/contexts/AuthContext';
+import { Box, Flex, HStack, Stack, useToast } from '@chakra-ui/react';
+import { GetServerSideProps } from 'next';
 import { useRouter } from 'next/router';
+import { parseCookies } from 'nookies';
+import { useCallback, useContext, useEffect, useState } from 'react';
+import { AiOutlineCalendar } from 'react-icons/ai';
+import { CgTwilio } from 'react-icons/cg';
+import { FaDrum, FaPlus, FaVolleyballBall } from 'react-icons/fa';
+import { MdManageAccounts } from 'react-icons/md';
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 interface AtividadesProps {}

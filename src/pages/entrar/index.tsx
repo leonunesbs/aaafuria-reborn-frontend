@@ -1,8 +1,16 @@
-import * as gtag from 'lib/gtag';
-
+import {
+  CustomButton,
+  CustomChakraNextLink,
+  PageHeading,
+} from '@/components/atoms';
+import { CadastroDrawer, Card } from '@/components/molecules';
+import { Layout } from '@/components/templates';
+import { AuthContext } from '@/contexts/AuthContext';
+import { gql, useQuery } from '@apollo/client';
 import {
   Box,
   Center,
+  chakra,
   Collapse,
   FormControl,
   FormLabel,
@@ -11,17 +19,14 @@ import {
   PinInputField,
   Stack,
   Text,
-  chakra,
   useDisclosure,
   useToast,
 } from '@chakra-ui/react';
-import { CadastroDrawer, Card } from '@/components/molecules';
-import { Controller, SubmitHandler, useForm } from 'react-hook-form';
-import {
-  CustomButton,
-  CustomChakraNextLink,
-  PageHeading,
-} from '@/components/atoms';
+import * as gtag from 'lib/gtag';
+import { GetServerSideProps } from 'next';
+import NextImage from 'next/image';
+import { useRouter } from 'next/router';
+import { parseCookies } from 'nookies';
 import React, {
   useCallback,
   useContext,
@@ -30,16 +35,9 @@ import React, {
   useRef,
   useState,
 } from 'react';
-import { gql, useQuery } from '@apollo/client';
-
+import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { AiFillHome } from 'react-icons/ai';
-import { AuthContext } from '@/contexts/AuthContext';
-import { GetServerSideProps } from 'next';
-import { Layout } from '@/components/templates';
 import { MdLogin } from 'react-icons/md';
-import NextImage from 'next/image';
-import { parseCookies } from 'nookies';
-import { useRouter } from 'next/router';
 
 const GET_SOCIO = gql`
   query getSocio($matricula: String) {

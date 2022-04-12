@@ -1,4 +1,4 @@
-import { ThemeConfig, extendTheme } from '@chakra-ui/react';
+import { extendTheme, ThemeConfig } from '@chakra-ui/react';
 
 const config: ThemeConfig = {
   initialColorMode: 'light',
@@ -15,6 +15,7 @@ export const theme = extendTheme({
       html: {
         overflow: 'hidden',
         height: '100%',
+        scrollBehavior: 'smooth',
       },
       body: {
         overflow: 'auto',

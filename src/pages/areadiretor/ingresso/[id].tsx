@@ -1,3 +1,8 @@
+import { CustomButton, PageHeading } from '@/components/atoms';
+import { Card } from '@/components/molecules';
+import { Layout } from '@/components/templates';
+import { AuthContext } from '@/contexts/AuthContext';
+import { gql, useMutation, useQuery } from '@apollo/client';
 import {
   AlertDialog,
   AlertDialogBody,
@@ -13,17 +18,11 @@ import {
   useDisclosure,
   useToast,
 } from '@chakra-ui/react';
-import { CustomButton, PageHeading } from '@/components/atoms';
-import { gql, useMutation, useQuery } from '@apollo/client';
-import { useCallback, useContext, useEffect, useRef } from 'react';
-
-import { AuthContext } from '@/contexts/AuthContext';
-import { Card } from '@/components/molecules';
 import { GetServerSideProps } from 'next';
-import { Layout } from '@/components/templates';
-import { MdCheck } from 'react-icons/md';
-import { parseCookies } from 'nookies';
 import { useRouter } from 'next/router';
+import { parseCookies } from 'nookies';
+import { useCallback, useContext, useEffect, useRef } from 'react';
+import { MdCheck } from 'react-icons/md';
 
 const INGRESSO_BY_ID = gql`
   query ingressoById($id: ID!) {

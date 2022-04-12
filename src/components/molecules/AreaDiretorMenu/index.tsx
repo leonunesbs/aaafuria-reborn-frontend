@@ -1,9 +1,8 @@
 import { CustomButton, CustomChakraNextLink } from '@/components/atoms';
-import { Divider, Stack, StackProps } from '@chakra-ui/react';
-import { MdGroups, MdHelpCenter, MdStore } from 'react-icons/md';
-
-import { AiFillSetting } from 'react-icons/ai';
 import { VoltarButton } from '@/components/atoms/VoltarButton';
+import { Divider, Stack, StackProps } from '@chakra-ui/react';
+import { AiFillSetting } from 'react-icons/ai';
+import { MdGroups, MdHelpCenter, MdStore } from 'react-icons/md';
 
 export type AreaDiretorMenuProps = StackProps;
 

@@ -1,8 +1,7 @@
 import { PageHeading, VoltarButton } from '@/components/atoms';
-
-import { Box } from '@chakra-ui/react';
 import { Card } from '@/components/molecules';
 import { Layout } from '@/components/templates';
+import { Box } from '@chakra-ui/react';
 
 function PagamentoConfirmado() {
   return (

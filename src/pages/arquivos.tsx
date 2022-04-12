@@ -1,4 +1,13 @@
 import {
+  CustomChakraNextLink,
+  PageHeading,
+  VoltarButton,
+} from '@/components/atoms';
+import { Card } from '@/components/molecules';
+import { Layout } from '@/components/templates';
+import { AuthContext } from '@/contexts/AuthContext';
+import { gql, useQuery } from '@apollo/client';
+import {
   Box,
   Center,
   Spinner,
@@ -11,19 +20,9 @@ import {
   Tr,
   useColorModeValue,
 } from '@chakra-ui/react';
-import {
-  CustomChakraNextLink,
-  PageHeading,
-  VoltarButton,
-} from '@/components/atoms';
-import { gql, useQuery } from '@apollo/client';
-import { useContext, useEffect } from 'react';
-
-import { AuthContext } from '@/contexts/AuthContext';
-import { Card } from '@/components/molecules';
 import { GetServerSideProps } from 'next';
-import { Layout } from '@/components/templates';
 import { parseCookies } from 'nookies';
+import { useContext, useEffect } from 'react';
 
 type AllFilesProps = {
   allFiles: {
