@@ -1,18 +1,9 @@
-import { PageHeading, PriceTag } from '@/components/atoms';
-import { CustomButton } from '@/components/atoms/CustomButton';
-import { Card } from '@/components/molecules';
-import { Layout } from '@/components/templates';
-import { AuthContext } from '@/contexts/AuthContext';
-import { ColorContext } from '@/contexts/ColorContext';
-import { gql, useMutation, useQuery } from '@apollo/client';
 import {
   Box,
   Button,
-  chakra,
   Divider,
-  Flex,
-  Heading,
   HStack,
+  Heading,
   Input,
   Popover,
   PopoverArrow,
@@ -24,14 +15,23 @@ import {
   Portal,
   Stack,
   Text,
+  chakra,
   useToast,
 } from '@chakra-ui/react';
-import { GetServerSideProps } from 'next';
-import NextImage from 'next/image';
-import { useRouter } from 'next/router';
-import { parseCookies } from 'nookies';
-import React, { useContext, useEffect } from 'react';
 import { MdArrowLeft, MdCreditCard, MdDelete, MdPayment } from 'react-icons/md';
+import { PageHeading, PriceTag } from '@/components/atoms';
+import React, { useContext, useEffect } from 'react';
+import { gql, useMutation, useQuery } from '@apollo/client';
+
+import { AuthContext } from '@/contexts/AuthContext';
+import { Card } from '@/components/molecules';
+import { ColorContext } from '@/contexts/ColorContext';
+import { CustomButton } from '@/components/atoms/CustomButton';
+import { GetServerSideProps } from 'next';
+import { Layout } from '@/components/templates';
+import NextImage from 'next/image';
+import { parseCookies } from 'nookies';
+import { useRouter } from 'next/router';
 
 const GET_USER_CARRINHO = gql`
   query getUserCarrinho {
@@ -158,9 +158,10 @@ function Carrinho() {
       <Box maxW="8xl" mx="auto">
         <PageHeading>Meu carrinho</PageHeading>
         <Card mb={4}>
-          <Flex
+          <Stack
             direction={['column', 'column', 'row']}
             align={['initial', 'initial', 'flex-start']}
+            spacing={4}
           >
             <Stack spacing={2} w="full">
               {data?.userCarrinho?.produtos?.edges?.map(
@@ -309,7 +310,7 @@ function Carrinho() {
                 </Portal>
               </Popover>
             </Card>
-          </Flex>
+          </Stack>
         </Card>
 
         <CustomButton
