@@ -1,11 +1,12 @@
+import { Box, Stack, Text, useToast } from '@chakra-ui/react';
 import { PageHeading, VoltarButton } from '@/components/atoms';
-import { SejaSocioPricing, SocialIcons } from '@/components/molecules';
-import { Layout } from '@/components/templates';
+import React, { useContext, useEffect } from 'react';
+
 import { AuthContext } from '@/contexts/AuthContext';
 import { ColorContext } from '@/contexts/ColorContext';
-import { Box, Stack, Text, useToast } from '@chakra-ui/react';
+import { Layout } from '@/components/templates';
+import { SejaSocioPricing } from '@/components/molecules';
 import { useRouter } from 'next/router';
-import React, { useContext, useEffect } from 'react';
 
 function SejaSocio() {
   const router = useRouter();
@@ -48,7 +49,6 @@ function SejaSocio() {
         <Stack align="center">
           <VoltarButton href="/" />
         </Stack>
-        <SocialIcons mt={[4, 8]} />
       </Box>
     </Layout>
   );

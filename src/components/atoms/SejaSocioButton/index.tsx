@@ -21,7 +21,7 @@ export const SejaSocioButton = ({ ...rest }: SejaSocioButtonProps) => {
   }
 
   return (
-    <CustomChakraNextLink href="/sejasocio">
+    <CustomChakraNextLink href="/#sejasocio">
       <CustomButton
         name="sejasocio"
         leftIcon={<MdGroups size="20px" />}

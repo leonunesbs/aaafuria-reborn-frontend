@@ -26,7 +26,7 @@ function AreaSocio() {
         isClosable: true,
         position: 'top-left',
       });
-      router.push('/sejasocio');
+      router.push('/#sejasocio');
     }
   }, [checkCredentials, isSocio, router, toast]);
 

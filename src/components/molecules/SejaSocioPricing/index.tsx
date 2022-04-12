@@ -1,6 +1,3 @@
-import { AuthContext } from '@/contexts/AuthContext';
-import { ColorContext } from '@/contexts/ColorContext';
-import { gql, useMutation } from '@apollo/client';
 import {
   Button,
   Flex,
@@ -22,13 +19,17 @@ import {
   Text,
   useColorModeValue,
 } from '@chakra-ui/react';
-import { useRouter } from 'next/router';
+import { gql, useMutation } from '@apollo/client';
 import { useCallback, useContext, useEffect } from 'react';
+
+import { AuthContext } from '@/contexts/AuthContext';
 import { BsCurrencyDollar } from 'react-icons/bs';
-import { HiCheckCircle } from 'react-icons/hi';
-import { MdLogin } from 'react-icons/md';
 import { Card } from '..';
+import { ColorContext } from '@/contexts/ColorContext';
+import { HiCheckCircle } from 'react-icons/hi';
 import { ISejaSocioPricing } from './ISejaSocioPricing';
+import { MdLogin } from 'react-icons/md';
+import { useRouter } from 'next/router';
 
 const NOVO_PAGAMENTO = gql`
   mutation novoPagamento($tipoPlano: String!) {
@@ -239,7 +240,7 @@ export const SejaSocioPricing = ({}: ISejaSocioPricing) => {
                             colorScheme="green"
                             leftIcon={<MdLogin />}
                             onClick={() =>
-                              router.push('/entrar?after=/sejasocio')
+                              router.push('/entrar?after=/#sejasocio')
                             }
                           >
                             Entrar
