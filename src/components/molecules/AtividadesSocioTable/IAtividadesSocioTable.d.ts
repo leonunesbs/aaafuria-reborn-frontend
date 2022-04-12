@@ -1,6 +1,6 @@
-import { TableProps } from '@chakra-ui/react';
+import { SimpleGridProps } from '@chakra-ui/react';
 
-export interface IAtividadeSocioTable extends TableProps {
+export interface IAtividadeSocioTable extends SimpleGridProps {
   categoria: string;
 }
 

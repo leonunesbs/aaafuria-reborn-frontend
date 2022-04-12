@@ -1,4 +1,3 @@
-import { AtividadesSocioTable, Card } from '@/components/molecules';
 import { Box, Flex, HStack, Stack, useToast } from '@chakra-ui/react';
 import {
   CustomButton,
@@ -11,6 +10,7 @@ import { FaDrum, FaPlus, FaVolleyballBall } from 'react-icons/fa';
 import { useCallback, useContext, useEffect, useState } from 'react';
 
 import { AiOutlineCalendar } from 'react-icons/ai';
+import { AtividadesSocioTable } from '@/components/molecules';
 import { AuthContext } from '@/contexts/AuthContext';
 import { CgTwilio } from 'react-icons/cg';
 import { GetServerSideProps } from 'next';
@@ -70,48 +70,46 @@ function Atividades({}: AtividadesProps) {
     <Layout title="Atividades" desc="Programação de atividades">
       <Box maxW="8xl" mx="auto">
         <PageHeading>Programação de Atividades</PageHeading>
-        <Card overflowX="auto">
-          <HStack justify="center">
+        <HStack justify="center" mb={4}>
+          <CustomIconButton
+            aria-label="Esportes"
+            icon={<FaVolleyballBall size="25px" />}
+            onClick={() => handleCategoria('Esporte')}
+            isActive={categoria === 'Esporte'}
+          />
+          <CustomIconButton
+            aria-label="Bateria"
+            icon={<FaDrum size="25px" />}
+            onClick={() => handleCategoria('Bateria')}
+            isActive={categoria === 'Bateria'}
+          />
+          {isStaff && (
             <CustomIconButton
-              aria-label="Esportes"
-              icon={<FaVolleyballBall size="25px" />}
-              onClick={() => handleCategoria('Esporte')}
-              isActive={categoria === 'Esporte'}
+              aria-label="Diretoria"
+              icon={<MdManageAccounts size="25px" />}
+              onClick={() => handleCategoria('Diretoria')}
+              isActive={categoria === 'Diretoria'}
+              colorScheme="yellow"
             />
-            <CustomIconButton
-              aria-label="Bateria"
-              icon={<FaDrum size="25px" />}
-              onClick={() => handleCategoria('Bateria')}
-              isActive={categoria === 'Bateria'}
-            />
-            {isStaff && (
-              <CustomIconButton
-                aria-label="Diretoria"
-                icon={<MdManageAccounts size="25px" />}
-                onClick={() => handleCategoria('Diretoria')}
-                isActive={categoria === 'Diretoria'}
-                colorScheme="yellow"
-              />
-            )}
-          </HStack>
-          <AtividadesSocioTable categoria={categoria} />
-          <Flex justify={['center', 'flex-end']} mt={4}>
-            <CustomChakraNextLink
-              href="https://api.whatsapp.com/send/?phone=14155238886&amp;text=join%20break-treated"
-              chakraLinkProps={{
-                target: '_blank',
-                isExternal: true,
-              }}
+          )}
+        </HStack>
+        <AtividadesSocioTable categoria={categoria} />
+        <Flex justify={['center', 'flex-end']} mt={4}>
+          <CustomChakraNextLink
+            href="https://api.whatsapp.com/send/?phone=14155238886&amp;text=join%20break-treated"
+            chakraLinkProps={{
+              target: '_blank',
+              isExternal: true,
+            }}
+          >
+            <CustomButton
+              aria-label="ativar-notificacoes"
+              leftIcon={<CgTwilio size="25px" />}
             >
-              <CustomButton
-                aria-label="ativar-notificacoes"
-                leftIcon={<CgTwilio size="25px" />}
-              >
-                Ativar notificações
-              </CustomButton>
-            </CustomChakraNextLink>
-          </Flex>
-        </Card>
+              Ativar notificações
+            </CustomButton>
+          </CustomChakraNextLink>
+        </Flex>
         <Stack mt={6}>
           {isStaff && (
             <>
@@ -145,7 +143,6 @@ function Atividades({}: AtividadesProps) {
               </CustomChakraNextLink>
             </>
           )}
-
           <VoltarButton href="/" />
         </Stack>
       </Box>

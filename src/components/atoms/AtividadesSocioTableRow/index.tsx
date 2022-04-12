@@ -1,15 +1,14 @@
 import {
   Badge,
   Box,
-  Center,
+  HStack,
+  Heading,
   Icon,
   Progress,
   Spinner,
   Stack,
   Switch,
-  Td,
   Text,
-  Tr,
   useColorModeValue,
   useToast,
 } from '@chakra-ui/react';
@@ -30,6 +29,7 @@ import { MdCalendarToday, MdLogin } from 'react-icons/md';
 import { gql, useMutation } from '@apollo/client';
 
 import { AuthContext } from '@/contexts/AuthContext';
+import { Card } from '@/components/molecules';
 import { ColorContext } from '@/contexts/ColorContext';
 import { FaWhatsapp } from 'react-icons/fa';
 import { IAtividadesSocioTableRow } from './IAtividadesSocioTableRow';
@@ -182,22 +182,53 @@ export const AtividadesSocioTableRow = ({
   }, [matricula, node.competidoresConfirmados.edges, toast]);
 
   return (
-    <Tr key={node.id} {...rest} bgColor={isConfirmed ? confirmedBgRow : bgRow}>
-      <Td>
-        <Box>
+    <Card
+      key={node.id}
+      {...rest}
+      bgColor={isConfirmed ? confirmedBgRow : bgRow}
+      position="relative"
+      overflow={'hidden'}
+    >
+      <Stack direction={['column', 'column', 'row']}>
+        <Stack w="full" spacing={4}>
+          <Heading as="h2" size="md">
+            {node.modalidade.nome}
+            <Badge
+              ml={2}
+              fontFamily="Lato"
+              colorScheme={node.estado === 'Confirmado' ? 'green' : 'orange'}
+            >
+              {node.estado}
+            </Badge>
+          </Heading>
           <Box>
-            <Text textAlign="center">
-              <i>{node.estado}</i>
-            </Text>
-            <Progress
-              value={value}
-              hasStripe={value >= 100 ? true : false}
-              isAnimated
-              colorScheme="green"
-              mb={2}
-            />
+            <HStack w="full" justify={'space-between'}>
+              <Text>Local: </Text>
+              <Text>{node.local}</Text>
+            </HStack>
+            <HStack w="full" justify={'space-between'}>
+              <Text>Obs.: </Text>
+              <Text>{node.descricao}</Text>
+            </HStack>
           </Box>
-          <Center>
+          <HStack>
+            <Icon as={MdCalendarToday} color={green} w={6} h={6} />
+            <Text as={'time'} dateTime={node.dataHora}>
+              {new Date(node.dataHora).toLocaleString('pt-BR', {
+                timeStyle: 'short',
+                dateStyle: 'short',
+                timeZone: 'America/Sao_Paulo',
+              })}
+            </Text>
+          </HStack>
+        </Stack>
+        <Stack
+          spacing={6}
+          direction={['row-reverse', 'row-reverse', 'column-reverse']}
+          justify="space-around"
+          align={'center'}
+        >
+          <Box>
             {isAuthenticated ? (
               <Stack align="center">
                 {isConfirmed && (
@@ -225,38 +256,31 @@ export const AtividadesSocioTableRow = ({
                 Fazer login
               </CustomButton>
             )}
-          </Center>
-        </Box>
-      </Td>
-      <Td>
-        {isAuthenticated && node.grupoWhatsappUrl && (
-          <CustomChakraNextLink
-            href={node.grupoWhatsappUrl}
-            chakraLinkProps={{ target: '_blank' }}
-          >
-            <CustomIconButton
-              aria-label={node.modalidade.nome}
-              icon={<FaWhatsapp size="25px" />}
-            />
-          </CustomChakraNextLink>
-        )}
-      </Td>
-      <Td>{node.modalidade.nome}</Td>
-      <Td>
-        <Stack align="center" textAlign="center">
-          <Icon as={MdCalendarToday} color={green} w={6} h={6} />
-          <Text as={'time'} dateTime={node.dataHora}>
-            {new Date(node.dataHora).toLocaleString('pt-BR', {
-              timeStyle: 'short',
-              dateStyle: 'short',
-              timeZone: 'America/Sao_Paulo',
-            })}
-          </Text>
+          </Box>
+          {isAuthenticated && node.grupoWhatsappUrl && (
+            <CustomChakraNextLink
+              href={node.grupoWhatsappUrl}
+              chakraLinkProps={{ target: '_blank' }}
+            >
+              <CustomIconButton
+                aria-label={node.modalidade.nome}
+                icon={<FaWhatsapp size="25px" />}
+              />
+            </CustomChakraNextLink>
+          )}
         </Stack>
-      </Td>
-      <Td>{node.modalidade.categoria}</Td>
-      <Td>{node.local}</Td>
-      <Td>{node.descricao}</Td>
-    </Tr>
+      </Stack>
+      <Progress
+        position={'absolute'}
+        value={value}
+        hasStripe={value >= 100 ? true : false}
+        isAnimated
+        colorScheme="green"
+        mb={2}
+        w="full"
+        bottom={-2}
+        left={0}
+      />
+    </Card>
   );
 };

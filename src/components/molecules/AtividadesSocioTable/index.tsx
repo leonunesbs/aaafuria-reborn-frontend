@@ -1,8 +1,8 @@
 import { IAtividadeSocioTable, ProgramacaoData } from './IAtividadesSocioTable';
-import { Spinner, Table, Tbody, Td, Th, Thead, Tr } from '@chakra-ui/react';
 import { gql, useQuery } from '@apollo/client';
 
 import { AtividadesSocioTableRow } from '@/components/atoms';
+import { SimpleGrid } from '@chakra-ui/react';
 import { useCallback } from 'react';
 
 const QUERY_PROGRAMACAO = gql`
@@ -52,47 +52,22 @@ export const AtividadesSocioTable = ({
   }, [refetch]);
 
   return (
-    <Table colorScheme="gray" {...rest}>
-      <Thead>
-        <Tr>
-          <Th></Th>
-          <Th></Th>
-          <Th>Modalidade</Th>
-          <Th>Data/hora</Th>
-          <Th>Categoria</Th>
-          <Th>Local</Th>
-          <Th>Descrição</Th>
-        </Tr>
-      </Thead>
-      <Tbody>
-        {data?.allProgramacao.edges.map(
-          ({ node }: { node: ProgramacaoData }) => {
-            if (!node.finalizado) {
-              return (
-                <AtividadesSocioTableRow
-                  key={node.id}
-                  node={node}
-                  handleRefetch={handleRefetch}
-                />
-              );
-            }
-          },
-        )}
-        {!data && (
-          <Tr>
-            <Td colSpan={7} textAlign="center">
-              <Spinner color="green" />
-            </Td>
-          </Tr>
-        )}
-        {data?.allProgramacao.edges.length === 0 && (
-          <Tr>
-            <Td colSpan={7} textAlign="center">
-              <em>Nenhuma atividade programada.</em>
-            </Td>
-          </Tr>
-        )}
-      </Tbody>
-    </Table>
+    <SimpleGrid
+      columns={{ base: 1, md: 3 }}
+      gap={{ base: '5', md: '6' }}
+      {...rest}
+    >
+      {data?.allProgramacao.edges.map(({ node }: { node: ProgramacaoData }) => {
+        if (!node.finalizado) {
+          return (
+            <AtividadesSocioTableRow
+              key={node.id}
+              node={node}
+              handleRefetch={handleRefetch}
+            />
+          );
+        }
+      })}
+    </SimpleGrid>
   );
 };
