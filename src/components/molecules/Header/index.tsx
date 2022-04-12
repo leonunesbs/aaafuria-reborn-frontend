@@ -116,7 +116,7 @@ export const Header = () => {
             </CustomChakraNextLink>
           </HStack>
         </HStack>
-        <HStack spacing={4}>
+        <HStack>
           <ColorModeToggle />
           {isAuthenticated ? (
             <CustomChakraNextLink href={'/carteirinha'}>
