@@ -1,6 +1,7 @@
 import {
   Box,
   Center,
+  Circle,
   HStack,
   Heading,
   Stack,
@@ -23,8 +24,18 @@ import { GiPartyPopper } from 'react-icons/gi';
 import { Layout } from '@/components/templates/Layout';
 import { MdStore } from 'react-icons/md';
 import NextImage from 'next/image';
+import client from '@/services/apollo-client';
+import { gql } from '@apollo/client';
 
-function Home() {
+type FeaturePostData = {
+  id: string;
+  title: string;
+  content: string;
+  image: string;
+  buttonTarget: string;
+};
+
+function Home({ post }: { post: FeaturePostData }) {
   const sejaSocioDiv = useRef<HTMLDivElement>(null);
   const featuresDiv = useRef<HTMLDivElement>(null);
   const { bg, green } = useContext(ColorContext);
@@ -122,7 +133,7 @@ function Home() {
           </Box>
         </Stack>
       </Box>
-      <Box ref={featuresDiv} id="features" py="12" px={{ base: '4', lg: '8' }}>
+      <Box ref={featuresDiv} id="features" py={12} px={{ base: '4', lg: '8' }}>
         <Stack
           direction={['column', 'column', 'row']}
           justify={'space-around'}
@@ -255,7 +266,7 @@ function Home() {
                 layout="fill"
                 objectFit="cover"
                 src={'/calango-verde.png'}
-                quality={1}
+                quality={100}
                 alt="logo"
                 mx="auto"
                 mb={{ base: '8', md: '12' }}
@@ -278,6 +289,68 @@ function Home() {
           </CustomButton>
         </Box>
       </Box>
+      <Box bgColor={bg} py={12} px={{ base: '4', lg: '8' }}>
+        <HStack w={'full'} justify="space-around">
+          <Circle size="15px" bgColor={green} />
+          <Circle size="15px" bgColor={green} />
+          <Circle size="15px" bgColor={green} />
+          <Circle size="15px" bgColor={green} />
+        </HStack>
+        <Stack spacing={8} maxW="7xl" w="full" mx="auto" my={12}>
+          <Stack
+            w="full"
+            justify="space-around"
+            direction={['column', 'column', 'row']}
+          >
+            <Center>
+              <Box
+                width={['400px', '500px', '550px']}
+                height={['400px', '500px', '550px']}
+                position="relative"
+              >
+                <ChakraNextImage
+                  placeholder="blur"
+                  blurDataURL={post.image}
+                  layout="fill"
+                  objectFit="cover"
+                  src={post.image}
+                  quality={50}
+                  alt="logo"
+                  draggable={false}
+                  rounded="md"
+                />
+              </Box>
+            </Center>
+            <Stack justify={'space-between'}>
+              <Stack justify={'center'} h="100%" my={4}>
+                <Heading as="h2" textAlign={['left', 'left', 'right']}>
+                  {post.title}
+                </Heading>
+                <Text as="h4" maxW="md" textAlign={['left', 'left', 'right']}>
+                  {post.content}
+                </Text>
+              </Stack>
+              <Stack>
+                <CustomButton
+                  variant={'solid'}
+                  onClick={() => sejaSocioDiv.current?.scrollIntoView()}
+                >
+                  Seja sócio
+                </CustomButton>
+                <CustomChakraNextLink href={post.buttonTarget}>
+                  <CustomButton variant={'outline'}>Saiba mais</CustomButton>
+                </CustomChakraNextLink>
+              </Stack>
+            </Stack>
+          </Stack>
+        </Stack>
+        <HStack w={'full'} justify="space-around" mb={10}>
+          <Circle size="15px" bgColor={green} />
+          <Circle size="15px" bgColor={green} />
+          <Circle size="15px" bgColor={green} />
+          <Circle size="15px" bgColor={green} />
+        </HStack>
+      </Box>
       <Box ref={sejaSocioDiv} bgColor={green} id="seja-socio" py={12} px={2}>
         <PageHeading as="h2" textColor={bg}>
           Junte-se a nós, seja um <Text as="span">sócio Fúria</Text>!
@@ -289,6 +362,27 @@ function Home() {
       </Box>
     </Layout>
   );
+}
+
+export async function getStaticProps() {
+  const { data } = await client.query({
+    query: gql`
+      query getFeaturePost {
+        featurePost {
+          id
+          title
+          content
+          image
+          buttonTarget
+        }
+      }
+    `,
+  });
+  return {
+    props: {
+      post: data.featurePost,
+    },
+  };
 }
 
 export default Home;
