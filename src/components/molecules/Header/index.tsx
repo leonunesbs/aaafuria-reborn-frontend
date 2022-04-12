@@ -80,6 +80,7 @@ export const Header = () => {
                   mx="auto"
                   mb={{ base: '8', md: '12' }}
                   draggable={false}
+                  filter="drop-shadow(0.12rem 0.15rem 0.15rem rgba(0, 0, 0, 0.2))"
                 />
               </Box>
             </CustomChakraNextLink>
@@ -176,6 +177,7 @@ export const Header = () => {
                   mx="auto"
                   mb={{ base: '8', md: '12' }}
                   draggable={false}
+                  filter="drop-shadow(0.12rem 0.15rem 0.15rem rgba(0, 0, 0, 0.2))"
                 />
               </Box>
             </CustomChakraNextLink>
