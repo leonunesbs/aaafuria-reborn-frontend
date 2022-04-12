@@ -37,6 +37,7 @@ type FeaturePostData = {
 
 function Home({ post }: { post?: FeaturePostData }) {
   const sejaSocioDiv = useRef<HTMLDivElement>(null);
+  const postDiv = useRef<HTMLDivElement>(null);
   const featuresDiv = useRef<HTMLDivElement>(null);
   const { bg, green } = useContext(ColorContext);
   const ctaLogo = useColorModeValue('/logo-cinza.png', '/logo-branco.png');
@@ -77,10 +78,15 @@ function Home({ post }: { post?: FeaturePostData }) {
               </CustomButton>
               <CustomButton
                 onClick={() =>
-                  featuresDiv.current?.scrollIntoView({
-                    block: 'start',
-                    behavior: 'smooth',
-                  })
+                  post
+                    ? postDiv.current?.scrollIntoView({
+                        block: 'start',
+                        behavior: 'smooth',
+                      })
+                    : featuresDiv.current?.scrollIntoView({
+                        block: 'start',
+                        behavior: 'smooth',
+                      })
                 }
               >
                 Ver mais
@@ -134,7 +140,13 @@ function Home({ post }: { post?: FeaturePostData }) {
         </Stack>
       </Box>
       {post && (
-        <Box bgColor={bg} py={12} px={{ base: '4', lg: '8' }}>
+        <Box
+          id="post"
+          ref={postDiv}
+          bgColor={bg}
+          py={12}
+          px={{ base: '4', lg: '8' }}
+        >
           <HStack w={'full'} justify="space-around">
             <Circle size="15px" bgColor={green} />
             <Circle size="15px" bgColor={green} />
