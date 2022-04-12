@@ -1,15 +1,4 @@
 import {
-  CustomButton,
-  CustomChakraNextLink,
-  PageHeading,
-  VoltarButton,
-} from '@/components/atoms';
-import { ProdutoCard } from '@/components/molecules';
-import { Layout } from '@/components/templates';
-import { AuthContext } from '@/contexts/AuthContext';
-import client from '@/services/apollo-client';
-import { gql, useQuery } from '@apollo/client';
-import {
   Box,
   Center,
   SimpleGrid,
@@ -17,11 +6,23 @@ import {
   Stack,
   Text,
 } from '@chakra-ui/react';
-import { GetStaticProps } from 'next';
-import { parseCookies } from 'nookies';
+import {
+  CustomButton,
+  CustomChakraNextLink,
+  PageHeading,
+  VoltarButton,
+} from '@/components/atoms';
 import React, { useContext, useEffect } from 'react';
+import { gql, useQuery } from '@apollo/client';
+
 import { AiOutlineUnorderedList } from 'react-icons/ai';
+import { AuthContext } from '@/contexts/AuthContext';
+import { GetStaticProps } from 'next';
+import { Layout } from '@/components/templates';
 import { MdShoppingCart } from 'react-icons/md';
+import { ProdutoCard } from '@/components/molecules';
+import client from '@/services/apollo-client';
+import { parseCookies } from 'nookies';
 
 const PRODUTO_QUERY = gql`
   query getProdutos {
@@ -92,7 +93,7 @@ function Loja() {
 
   return (
     <Layout title="Loja">
-      <Box maxW="5xl" mx="auto">
+      <Box maxW="8xl" mx="auto">
         <PageHeading>Loja</PageHeading>
         {loading && (
           <Center>

@@ -1,37 +1,40 @@
 import {
+  Box,
+  Center,
+  HStack,
+  Heading,
+  Stack,
+  Text,
+  chakra,
+  useColorModeValue,
+} from '@chakra-ui/react';
+import { Card, SejaSocioPricing } from '@/components/molecules';
+import {
   CustomButton,
   CustomChakraNextLink,
   CustomIconButton,
   PageHeading,
 } from '@/components/atoms';
-import { Card, SejaSocioPricing } from '@/components/molecules';
-import { Layout } from '@/components/templates/Layout';
-import { ColorContext } from '@/contexts/ColorContext';
-import {
-  Box,
-  Center,
-  chakra,
-  Heading,
-  HStack,
-  Stack,
-  Text,
-} from '@chakra-ui/react';
-import NextImage from 'next/image';
-import { useContext, useRef } from 'react';
 import { FaDrum, FaVolleyballBall } from 'react-icons/fa';
+import { useContext, useRef } from 'react';
+
+import { ColorContext } from '@/contexts/ColorContext';
 import { GiPartyPopper } from 'react-icons/gi';
+import { Layout } from '@/components/templates/Layout';
 import { MdStore } from 'react-icons/md';
+import NextImage from 'next/image';
 
 function Home() {
   const sejaSocioDiv = useRef<HTMLDivElement>(null);
   const featuresDiv = useRef<HTMLDivElement>(null);
   const { bg, green } = useContext(ColorContext);
+  const ctaLogo = useColorModeValue('/logo-cinza.png', '/logo-branco.png');
   const ChakraNextImage = chakra(NextImage);
   return (
     <Layout title="Início" px={0} py={0}>
       <Box py="12" px={{ base: '4', lg: '8' }}>
         <Stack
-          direction={['column-reverse', 'column-reverse', 'row']}
+          direction={['column', 'column', 'row']}
           justify={'space-around'}
           align="center"
           spacing={8}
@@ -74,17 +77,13 @@ function Home() {
             </Stack>
           </Stack>
           <Center>
-            <Box
-              width={['280px', '380px', '560px']}
-              height={['180px', '240px', '360px']}
-              position="relative"
-            >
+            <Box boxSize={['xs', 'md', 'lg']} position="relative">
               <ChakraNextImage
                 placeholder="blur"
-                blurDataURL={'/logo-aaafuria-h.webp'}
+                blurDataURL={ctaLogo}
                 layout="fill"
                 objectFit="cover"
-                src={'/logo-aaafuria-h.webp'}
+                src={ctaLogo}
                 quality={1}
                 alt="logo"
                 mx="auto"

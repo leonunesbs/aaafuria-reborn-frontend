@@ -1,8 +1,9 @@
-import { EmailConfirmation, Footer, Header } from '@/components/molecules';
 import { Box, BoxProps, useColorModeValue } from '@chakra-ui/react';
+import { EmailConfirmation, Footer, Header } from '@/components/molecules';
+import React, { ReactNode } from 'react';
+
 import Head from 'next/head';
 import { useRouter } from 'next/router';
-import React, { ReactNode } from 'react';
 
 export interface LayoutProps extends BoxProps {
   children: ReactNode;
@@ -93,14 +94,7 @@ export const Layout = ({
       </Head>
       {isHeaded && <Header />}
       {/* <AlertMessages /> */}
-      <Box
-        bg={bg}
-        minH="100vh"
-        py="12"
-        px={{ base: '2', lg: '8' }}
-        overscrollBehaviorY="none"
-        {...rest}
-      >
+      <Box bg={bg} minH="100vh" py="12" px={{ base: '2', lg: '8' }} {...rest}>
         {children}
       </Box>
       {isFooted && <Footer />}

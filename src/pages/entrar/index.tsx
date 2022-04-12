@@ -1,16 +1,8 @@
-import {
-  CustomButton,
-  CustomChakraNextLink,
-  PageHeading,
-} from '@/components/atoms';
-import { CadastroDrawer, Card } from '@/components/molecules';
-import { Layout } from '@/components/templates';
-import { AuthContext } from '@/contexts/AuthContext';
-import { gql, useQuery } from '@apollo/client';
+import * as gtag from 'lib/gtag';
+
 import {
   Box,
   Center,
-  chakra,
   Collapse,
   FormControl,
   FormLabel,
@@ -19,14 +11,17 @@ import {
   PinInputField,
   Stack,
   Text,
+  chakra,
   useDisclosure,
   useToast,
 } from '@chakra-ui/react';
-import * as gtag from 'lib/gtag';
-import { GetServerSideProps } from 'next';
-import NextImage from 'next/image';
-import { useRouter } from 'next/router';
-import { parseCookies } from 'nookies';
+import { CadastroDrawer, Card } from '@/components/molecules';
+import { Controller, SubmitHandler, useForm } from 'react-hook-form';
+import {
+  CustomButton,
+  CustomChakraNextLink,
+  PageHeading,
+} from '@/components/atoms';
 import React, {
   useCallback,
   useContext,
@@ -35,9 +30,16 @@ import React, {
   useRef,
   useState,
 } from 'react';
-import { Controller, SubmitHandler, useForm } from 'react-hook-form';
+import { gql, useQuery } from '@apollo/client';
+
 import { AiFillHome } from 'react-icons/ai';
+import { AuthContext } from '@/contexts/AuthContext';
+import { GetServerSideProps } from 'next';
+import { Layout } from '@/components/templates';
 import { MdLogin } from 'react-icons/md';
+import NextImage from 'next/image';
+import { parseCookies } from 'nookies';
+import { useRouter } from 'next/router';
 
 const GET_SOCIO = gql`
   query getSocio($matricula: String) {
@@ -153,7 +155,12 @@ export default function Entrar() {
   }, [getValues().matricula]);
 
   return (
-    <Layout title="Entrar" desc="Acesse a plataforma de Sócios da @aaafuria!">
+    <Layout
+      title="Entrar"
+      desc="Acesse a plataforma de Sócios da @aaafuria!"
+      isHeaded={false}
+      isFooted={false}
+    >
       <Box maxW="md" mx="auto">
         <Center>
           <Box boxSize="250px" position="relative">

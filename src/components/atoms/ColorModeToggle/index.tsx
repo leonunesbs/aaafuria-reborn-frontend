@@ -14,7 +14,6 @@ export const ColorModeToggle = () => {
       aria-label="colorMode"
       icon={icon}
       onClick={toggleColorMode}
-      alignSelf="flex-end"
     />
   );
 };
