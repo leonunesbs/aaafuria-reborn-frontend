@@ -157,7 +157,7 @@ export const Header = () => {
         <DrawerOverlay />
         <DrawerContent bgColor={green} pr={6}>
           <DrawerCloseButton color={bg} />
-          <DrawerHeader>
+          <DrawerHeader shadow={'base'} borderBottomRadius={'md'}>
             <CustomChakraNextLink
               href="/"
               chakraLinkProps={{
@@ -181,8 +181,14 @@ export const Header = () => {
             </CustomChakraNextLink>
           </DrawerHeader>
 
-          <DrawerBody>
-            <Stack mt={10}>
+          <DrawerBody
+            borderRightRadius={'md'}
+            shadow={'base'}
+            my={2}
+            py={4}
+            px={2}
+          >
+            <Stack>
               <CustomChakraNextLink href={'/'}>
                 <CustomButton
                   isActive={router.asPath == '/'}
@@ -281,7 +287,7 @@ export const Header = () => {
             </Stack>
           </DrawerBody>
 
-          <DrawerFooter>
+          <DrawerFooter shadow={'base'} borderTopRadius={'md'}>
             {isAuthenticated ? (
               <Box w="full">
                 <Stack>
