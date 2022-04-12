@@ -38,7 +38,7 @@ function Home() {
           maxW="8xl"
           mx="auto"
         >
-          <Stack spacing={4} maxW="2xl">
+          <Stack spacing={4} maxW="xl">
             <Stack>
               <Heading as="h1" fontSize={['4xl', '5xl']}>
                 A MAIOR DO PIAUÍ ESTÁ TE ESPERANDO!
