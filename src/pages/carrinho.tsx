@@ -255,7 +255,7 @@ function Carrinho() {
 
             <Card minW={{ md: 'xs' }}>
               <Heading as="h3" fontSize="lg">
-                Resumo do pedido
+                RESUMO DO PEDIDO
               </Heading>
               <Divider mb={4} />
               <HStack w="full" justify={'space-between'} fontSize={'lg'} mb={6}>
