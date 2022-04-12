@@ -266,7 +266,7 @@ function Home({ post }: { post?: FeaturePostData }) {
                 layout="fill"
                 objectFit="cover"
                 src={'/calango-verde.png'}
-                quality={100}
+                quality={20}
                 alt="logo"
                 mx="auto"
                 mb={{ base: '8', md: '12' }}
@@ -315,7 +315,7 @@ function Home({ post }: { post?: FeaturePostData }) {
                     layout="fill"
                     objectFit="cover"
                     src={post.image}
-                    quality={50}
+                    quality={20}
                     alt="logo"
                     draggable={false}
                     rounded="md"
