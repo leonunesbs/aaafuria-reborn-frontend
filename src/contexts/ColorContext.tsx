@@ -14,7 +14,7 @@ interface ColorProviderProps {
 export const ColorContext = createContext({} as ColorContextProps);
 
 export function ColorProvider({ children }: ColorProviderProps) {
-  const green = useColorModeValue('green.600', 'green.300');
+  const green = useColorModeValue('green.600', 'green.200');
   const bg = useColorModeValue('white', 'gray.800');
   const invertedBg = useColorModeValue('gray.800', 'white');
 

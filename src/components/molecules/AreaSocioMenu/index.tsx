@@ -1,15 +1,15 @@
+import { Box, Divider, Stack, StackProps } from '@chakra-ui/react';
 import {
   CustomButton,
   CustomChakraNextLink,
   VoltarButton,
 } from '@/components/atoms';
-import { gql, useQuery } from '@apollo/client';
-import { Box, Divider, Stack, StackProps } from '@chakra-ui/react';
-import NextImage from 'next/image';
-import { parseCookies } from 'nookies';
-import React from 'react';
-import { AiFillIdcard } from 'react-icons/ai';
 import { FaDrum, FaVolleyballBall, FaWallet } from 'react-icons/fa';
+import React, { useContext } from 'react';
+import { gql, useQuery } from '@apollo/client';
+
+import { AiFillIdcard } from 'react-icons/ai';
+import { AuthContext } from '@/contexts/AuthContext';
 import { MdManageAccounts } from 'react-icons/md';
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
@@ -24,30 +24,17 @@ const QUERY_PORTAL = gql`
 `;
 
 export const AreaSocioMenu = ({ ...rest }: AreaSocioMenuProps) => {
+  const { token } = useContext(AuthContext);
   const { data } = useQuery(QUERY_PORTAL, {
     context: {
       headers: {
-        authorization: `JWT ${parseCookies()['aaafuriaToken']}`,
+        authorization: `JWT ${token || ' '}`,
       },
     },
   });
 
   return (
     <Stack {...rest}>
-      <CustomChakraNextLink href="/loja-calangos">
-        <CustomButton
-          leftIcon={
-            <NextImage
-              src={'/calango-verde.png'}
-              alt="calangos"
-              width={'25px'}
-              height={'25px'}
-            />
-          }
-        >
-          Loja Calangos
-        </CustomButton>
-      </CustomChakraNextLink>
       <CustomChakraNextLink href="/atividades">
         <CustomButton
           leftIcon={

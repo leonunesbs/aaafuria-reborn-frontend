@@ -11,13 +11,8 @@ import {
   DrawerOverlay,
   Flex,
   HStack,
-  Menu,
-  MenuButton,
-  MenuDivider,
-  MenuGroup,
-  MenuItem,
-  MenuList,
   Stack,
+  Text,
   chakra,
   useDisclosure,
 } from '@chakra-ui/react';
@@ -28,9 +23,14 @@ import {
   CustomIconButton,
 } from '@/components/atoms';
 import { FaDrum, FaVolleyballBall } from 'react-icons/fa';
-import { MdManageAccounts, MdPerson, MdStore } from 'react-icons/md';
-import { gql, useQuery } from '@apollo/client';
-import { useContext, useRef } from 'react';
+import {
+  MdLogin,
+  MdLogout,
+  MdManageAccounts,
+  MdPerson,
+  MdStore,
+} from 'react-icons/md';
+import { useContext, useEffect, useRef } from 'react';
 
 import { AiFillHome } from 'react-icons/ai';
 import { AuthContext } from '@/contexts/AuthContext';
@@ -40,37 +40,17 @@ import Hamburger from 'hamburger-react';
 import NextImage from 'next/image';
 import { useRouter } from 'next/router';
 
-const GET_SOCIO = gql`
-  query {
-    socioAutenticado {
-      id
-      apelido
-      nome
-      avatar
-      isSocio
-      matricula
-      conta {
-        calangos
-      }
-    }
-  }
-`;
-
 export const Header = () => {
   const router = useRouter();
   const btnRef = useRef<HTMLButtonElement>(null);
   const { isOpen, onToggle, onClose } = useDisclosure();
   const { bg, green } = useContext(ColorContext);
-  const { isAuthenticated, token, signOut, isStaff } = useContext(AuthContext);
-  const { data } = useQuery(GET_SOCIO, {
-    context: {
-      headers: {
-        authorization: `JWT ${token || ' '}`,
-      },
-    },
-  });
+  const { isAuthenticated, signOut, isStaff, user, checkCredentials } =
+    useContext(AuthContext);
   const ChakraNextImage = chakra(NextImage);
-
+  useEffect(() => {
+    checkCredentials();
+  }, [checkCredentials]);
   return (
     <>
       <Flex
@@ -139,51 +119,14 @@ export const Header = () => {
         <HStack spacing={4}>
           <ColorModeToggle />
           {isAuthenticated ? (
-            <Menu>
-              <MenuButton>
-                <Avatar
-                  display={['none', 'none', 'flex']}
-                  name={data?.socioAutenticado?.nome}
-                  src={data?.socioAutenticado?.avatar}
-                  border={
-                    data?.socioAutenticado?.isSocio
-                      ? '2px solid green'
-                      : '2px solid gray'
-                  }
-                />
-              </MenuButton>
-              <MenuList>
-                <MenuGroup title="Menu">
-                  <CustomChakraNextLink href={'/'}>
-                    <MenuItem>Início</MenuItem>
-                  </CustomChakraNextLink>
-                  <CustomChakraNextLink href={'/loja'}>
-                    <MenuItem>Loja</MenuItem>
-                  </CustomChakraNextLink>
-                  <CustomChakraNextLink href={'/atividades'}>
-                    <MenuItem>Atividades</MenuItem>
-                  </CustomChakraNextLink>
-                  <CustomChakraNextLink href={'/eventos'}>
-                    <MenuItem>Eventos</MenuItem>
-                  </CustomChakraNextLink>
-                </MenuGroup>
-                <MenuDivider />
-                <MenuGroup title="Conta">
-                  <CustomChakraNextLink href={'/areasocio'}>
-                    <MenuItem>Área do Sócio</MenuItem>
-                  </CustomChakraNextLink>
-                  <CustomChakraNextLink href={'/areadiretor'}>
-                    <MenuItem>Área do Diretor</MenuItem>
-                  </CustomChakraNextLink>
-                  <MenuItem onClick={signOut}>Sair</MenuItem>
-                </MenuGroup>
-                <MenuDivider />
-                <MenuItem>
-                  {data?.socioAutenticado?.apelido}{' '}
-                  {data?.socioAutenticado?.matricula}
-                </MenuItem>
-              </MenuList>
-            </Menu>
+            <CustomChakraNextLink href={'/carteirinha'}>
+              <Avatar
+                display={['none', 'none', 'flex']}
+                name={user?.nome}
+                src={user?.avatar}
+                border={user?.isSocio ? '2px solid green' : '2px solid gray'}
+              />
+            </CustomChakraNextLink>
           ) : (
             <CustomChakraNextLink
               href={'entrar'}
@@ -198,7 +141,7 @@ export const Header = () => {
             ref={btnRef}
             aria-label="hamburguer-menu"
             onClick={onToggle}
-            icon={<Hamburger toggled={isOpen} size={24} />}
+            icon={<Hamburger toggled={isOpen} toggle={onToggle} size={24} />}
           />
         </HStack>
       </Flex>
@@ -214,11 +157,7 @@ export const Header = () => {
                 onClick: onClose,
               }}
             >
-              <Box
-                height={['80px', '100px']}
-                width={['130px', '160px']}
-                position="relative"
-              >
+              <Box height={['100px']} width={['160px']} position="relative">
                 <ChakraNextImage
                   placeholder="blur"
                   layout="fill"
@@ -277,7 +216,6 @@ export const Header = () => {
                 <CustomButton
                   isActive={router.asPath == '/eventos'}
                   variant={'solid'}
-                  py={10}
                   justifyContent={'flex-start'}
                   leftIcon={<GiPartyPopper size="20px" />}
                 >
@@ -288,33 +226,77 @@ export const Header = () => {
           </DrawerBody>
 
           <DrawerFooter>
-            <Box w="full">
-              <Stack>
-                <CustomChakraNextLink href={'/areasocio'}>
-                  <CustomButton
-                    isActive={router.asPath == '/areasocio'}
-                    variant={'solid'}
-                    justifyContent={'flex-start'}
-                    leftIcon={<MdPerson size="20px" />}
-                  >
-                    Área do Sócio
-                  </CustomButton>
-                </CustomChakraNextLink>
-                {isStaff && (
-                  <CustomChakraNextLink href={'/areadiretor'}>
+            {isAuthenticated ? (
+              <Box w="full">
+                <Stack>
+                  <CustomChakraNextLink href={'/areasocio'}>
                     <CustomButton
-                      isActive={router.asPath == '/areadiretor'}
+                      isActive={router.asPath == '/areasocio'}
                       variant={'solid'}
-                      colorScheme="yellow"
                       justifyContent={'flex-start'}
-                      leftIcon={<MdManageAccounts size="20px" />}
+                      leftIcon={<MdPerson size="20px" />}
                     >
-                      Área do Diretor
+                      Área do Sócio
                     </CustomButton>
                   </CustomChakraNextLink>
-                )}
-              </Stack>
-            </Box>
+                  {isStaff && (
+                    <CustomChakraNextLink href={'/areadiretor'}>
+                      <CustomButton
+                        isActive={router.asPath == '/areadiretor'}
+                        variant={'solid'}
+                        colorScheme="yellow"
+                        justifyContent={'flex-start'}
+                        leftIcon={<MdManageAccounts size="20px" />}
+                      >
+                        Área do Diretor
+                      </CustomButton>
+                    </CustomChakraNextLink>
+                  )}
+                </Stack>
+                <Box h={'1px'} my={6} bgColor={'rgb(0,0,0,0.5)'} rounded="sm" />
+                <Stack>
+                  <HStack w="full" justify={'space-between'}>
+                    <HStack>
+                      <CustomChakraNextLink href={'/carteirinha'}>
+                        <Avatar
+                          name={user?.nome}
+                          src={user?.avatar}
+                          border={
+                            user?.isSocio ? '2px solid green' : '2px solid gray'
+                          }
+                        />
+                      </CustomChakraNextLink>
+                      <Stack spacing={0} textColor={bg}>
+                        <Text fontSize={['sm']} fontWeight="bold">
+                          {user?.nome}
+                        </Text>
+                        <Text fontSize={['xs']}>{user?.matricula}</Text>
+                      </Stack>
+                    </HStack>
+                    <CustomIconButton
+                      aria-label="sair"
+                      variant={'solid'}
+                      icon={<MdLogout size="20px" />}
+                      onClick={signOut}
+                    />
+                  </HStack>
+                </Stack>
+              </Box>
+            ) : (
+              <Box w="full">
+                <CustomChakraNextLink href={'/entrar'}>
+                  <CustomButton
+                    isActive={router.asPath == '/entrar'}
+                    variant={'solid'}
+                    colorScheme="gray"
+                    justifyContent={'flex-start'}
+                    leftIcon={<MdLogin size="20px" />}
+                  >
+                    Entrar
+                  </CustomButton>
+                </CustomChakraNextLink>
+              </Box>
+            )}
           </DrawerFooter>
         </DrawerContent>
       </Drawer>

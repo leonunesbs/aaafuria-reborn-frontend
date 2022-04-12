@@ -17,11 +17,18 @@ const SIGN_IN = gql`
 const QUERY_SOCIO = gql`
   query socioByMatricula($matricula: String!) {
     socioByMatricula(matricula: $matricula) {
+      id
+      apelido
       nome
+      avatar
       email
       isSocio
+      matricula
       user {
         isStaff
+      }
+      conta {
+        calangos
       }
     }
   }
@@ -50,7 +57,19 @@ type SignInData = {
 };
 
 type UserData = {
+  id: string;
+  apelido: string;
+  nome: string;
+  email: string;
+  user: {
+    isStaff: string;
+  };
+  avatar: string;
+  isSocio: string;
   matricula: string;
+  conta: {
+    calangos: string;
+  };
 };
 
 export const AuthContext = createContext({} as AuthContextProps);
@@ -88,6 +107,8 @@ export function AuthProvider({ children }: AuthProviderProps) {
           matricula: matricula,
         },
       });
+
+      setUser(response.data.socioByMatricula);
 
       if (response.data.socioByMatricula === null) {
         return signOut();
@@ -143,7 +164,6 @@ export function AuthProvider({ children }: AuthProviderProps) {
             maxAge: 60 * 60 * 24 * 7,
             path: '/',
           });
-          setUser({ matricula: data.tokenAuth.payload.username });
 
           checkCredentials();
 

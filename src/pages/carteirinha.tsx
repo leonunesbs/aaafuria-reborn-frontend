@@ -31,7 +31,6 @@ import { Layout } from '@/components/templates';
 import { MdRefresh } from 'react-icons/md';
 import React from 'react';
 import { parseCookies } from 'nookies';
-import { useRouter } from 'next/router';
 
 const GET_SOCIO = gql`
   query {
@@ -57,8 +56,7 @@ interface CarteirinhaProps extends BoxProps {
 }
 
 function Carteirinha({ token }: CarteirinhaProps) {
-  const router = useRouter();
-  const { data } = useQuery(GET_SOCIO, {
+  const { data, refetch, loading } = useQuery(GET_SOCIO, {
     context: {
       headers: {
         authorization: `JWT ${token || ' '}`,
@@ -252,7 +250,8 @@ function Carteirinha({ token }: CarteirinhaProps) {
             variant="ghost"
             maxW="md"
             w="100%"
-            onClick={() => router.reload()}
+            isLoading={loading}
+            onClick={() => refetch()}
           >
             Atualizar
           </Button>
