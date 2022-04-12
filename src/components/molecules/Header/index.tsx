@@ -116,7 +116,7 @@ export const Header = () => {
             </CustomChakraNextLink>
           </HStack>
         </HStack>
-        <HStack>
+        <HStack spacing={2}>
           <ColorModeToggle />
           {isAuthenticated ? (
             <CustomChakraNextLink href={'/carteirinha'}>
@@ -141,7 +141,14 @@ export const Header = () => {
             ref={btnRef}
             aria-label="hamburguer-menu"
             onClick={onToggle}
-            icon={<Hamburger toggled={isOpen} toggle={onToggle} size={24} />}
+            icon={
+              <Hamburger
+                toggled={isOpen}
+                toggle={onToggle}
+                size={20}
+                hideOutline={false}
+              />
+            }
           />
         </HStack>
       </Flex>
