@@ -52,7 +52,7 @@ export const SejaSocioPricing = ({}: ISejaSocioPricing) => {
       nome: 'PLANO MENSAL',
       valor: '24,90',
       features: [
-        '1 mês de acesso',
+        '1 mês de acesso com renovação automática',
         'Participe dos treinos de todas as modalidades',
         'Participe dos ensaios da Carabina',
         'Ganhe desconto em produtos e eventos',
@@ -70,7 +70,7 @@ export const SejaSocioPricing = ({}: ISejaSocioPricing) => {
       best: true,
       features: [
         'TODOS OS BENEFÍCIOS DO SÓCIO FÚRIA',
-        'Acesso durante o semestre atual',
+        'Acesso durante o semestre atual com renovação automática',
         'Participe dos treinos de todas as modalidades',
         'Participe dos ensaios da Carabina',
         'Ganhe desconto em produtos e eventos',
@@ -85,7 +85,7 @@ export const SejaSocioPricing = ({}: ISejaSocioPricing) => {
       valor: '198,00',
       features: [
         'TODOS OS BENEFÍCIOS DO SÓCIO FÚRIA',
-        'Acesso durante o semestre atual e o próximo semestre',
+        'Acesso durante o semestre atual e o próximo semestre com renovação automática',
         'Participe dos treinos de todas as modalidades',
         'Participe dos ensaios da Carabina',
         'Ganhe desconto em produtos e eventos',
