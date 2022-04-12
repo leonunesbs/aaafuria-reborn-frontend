@@ -4,6 +4,7 @@ import { useColorModeValue } from '@chakra-ui/react';
 interface ColorContextProps {
   green: string;
   bg: string;
+  invertedBg: string;
 }
 
 interface ColorProviderProps {
@@ -13,14 +14,16 @@ interface ColorProviderProps {
 export const ColorContext = createContext({} as ColorContextProps);
 
 export function ColorProvider({ children }: ColorProviderProps) {
-  const green = useColorModeValue('green.600', 'green.200');
+  const green = useColorModeValue('green.600', 'green.300');
   const bg = useColorModeValue('white', 'gray.800');
+  const invertedBg = useColorModeValue('gray.800', 'white');
 
   return (
     <ColorContext.Provider
       value={{
         green,
         bg,
+        invertedBg,
       }}
     >
       {children}
