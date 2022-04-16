@@ -1,5 +1,5 @@
-import { createContext } from 'react';
 import { useColorModeValue } from '@chakra-ui/react';
+import { createContext } from 'react';
 
 interface ColorContextProps {
   green: string;

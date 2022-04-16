@@ -1,50 +1,91 @@
 import { CustomChakraNextLink } from '@/components/atoms';
+import { CustomButton } from '@/components/atoms/CustomButton';
 import { ColorContext } from '@/contexts/ColorContext';
-import { Box, Text } from '@chakra-ui/react';
+import { Box, chakra, Circle, HStack, Stack, Text } from '@chakra-ui/react';
 import NextImage from 'next/image';
 import { useContext } from 'react';
+import { SocialIcons } from '..';
 
 export const Footer = () => {
-  const { green } = useContext(ColorContext);
+  const { green, bg } = useContext(ColorContext);
+  const ChakraNextImage = chakra(NextImage);
   return (
-    <Box bg="green.900" py="2" px={{ base: '4', lg: '8' }} position="relative">
-      <Text textAlign="center" color="gray.50" letterSpacing={2}>
-        &copy; 2022 |{' '}
-        <CustomChakraNextLink
-          href="/"
-          chakraLinkProps={{
-            fontFamily: 'heading',
-            _hover: {
-              color: green,
-            },
-          }}
-        >
-          A.A.A. FÚRIA
-        </CustomChakraNextLink>{' '}
-      </Text>
-      <CustomChakraNextLink
-        href="https://www.instagram.com/leonunesbs/"
-        chakraLinkProps={{
-          ml: '1',
-          _hover: {
-            bgColor: 'gray.700',
-          },
-          position: 'absolute',
-          bottom: '0',
-          right: '4',
-          p: '1',
-        }}
-      >
-        <Text d={['none', 'initial']} as="em" textColor={'white'}>
-          Dev&amp;Design{' '}
-        </Text>
-        <NextImage
-          src={'/myLogo.png'}
-          height="25px"
-          width="25px"
-          alt="myLogo"
-        />
-      </CustomChakraNextLink>
+    <Box
+      as="footer"
+      role={'contentinfo'}
+      bg={green}
+      py={12}
+      px={{ base: '4', lg: '8' }}
+      textColor={bg}
+    >
+      <HStack w={'full'} justify="space-around">
+        <Circle size="15px" bgColor={bg} />
+        <Circle size="15px" bgColor={bg} />
+        <Circle size="15px" bgColor={bg} />
+        <Circle size="15px" bgColor={bg} />
+      </HStack>
+      <HStack py={4} w="full" justify={'space-between'}>
+        <Stack>
+          <CustomChakraNextLink href="/">
+            <Box
+              height={['80px', '100px']}
+              width={['130px', '160px']}
+              position="relative"
+            >
+              <ChakraNextImage
+                placeholder="blur"
+                layout="fill"
+                objectFit="cover"
+                src={'/logo-aaafuria-h.webp'}
+                blurDataURL={'/logo-aaafuria-h.webp'}
+                quality={1}
+                alt="logo"
+                mx="auto"
+                mb={{ base: '8', md: '12' }}
+                draggable={false}
+                filter="drop-shadow(0.12rem 0.15rem 0.15rem rgba(0, 0, 0, 0.1))"
+              />
+            </Box>
+          </CustomChakraNextLink>
+          <Text letterSpacing={2}>
+            &copy; 2022 |{' '}
+            <CustomChakraNextLink
+              href="/"
+              chakraLinkProps={{
+                fontFamily: 'heading',
+                _hover: {
+                  color: green,
+                },
+              }}
+            >
+              A.A.A. FÚRIA
+            </CustomChakraNextLink>
+          </Text>
+
+          <CustomChakraNextLink
+            href="https://github.com/leonunesbs"
+            chakraLinkProps={{
+              target: '_blank',
+            }}
+          >
+            <CustomButton
+              aria-label="designer"
+              variant={'solid'}
+              rightIcon={
+                <NextImage
+                  src={'/myLogo.png'}
+                  height="25px"
+                  width="25px"
+                  alt="myLogo"
+                />
+              }
+            >
+              Designed by
+            </CustomButton>
+          </CustomChakraNextLink>
+        </Stack>
+        <SocialIcons variant="solid" colorScheme="gray" />
+      </HStack>
     </Box>
   );
 };

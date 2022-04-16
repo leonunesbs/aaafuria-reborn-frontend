@@ -1,42 +1,43 @@
+import { CustomChakraNextLink, CustomIconButton } from '@/components/atoms';
+import { ButtonGroup, ButtonGroupProps } from '@chakra-ui/react';
+import React from 'react';
 import {
   AiFillFacebook,
   AiFillInstagram,
   AiFillTwitterSquare,
 } from 'react-icons/ai';
-import { CustomChakraNextLink, CustomIconButton } from '@/components/atoms';
-
-import { ButtonGroup } from '@chakra-ui/react';
 import { FaTiktok } from 'react-icons/fa';
-import React from 'react';
 
-export const SocialIcons = () => {
+export type ISocialIcons = ButtonGroupProps;
+
+export const SocialIcons = ({ variant, ...rest }: ISocialIcons) => {
   return (
-    <ButtonGroup variant={'ghost'} alignSelf="center">
+    <ButtonGroup alignSelf="center" {...rest}>
       <CustomChakraNextLink href="https://facebook.com/aaafuria">
         <CustomIconButton
           aria-label="Facebook"
-          colorScheme="green"
+          variant={variant}
           icon={<AiFillFacebook size="35px" />}
         />
       </CustomChakraNextLink>
       <CustomChakraNextLink href="https://instagram.com/aaafuria">
         <CustomIconButton
           aria-label="Instagram"
-          colorScheme="green"
+          variant={variant}
           icon={<AiFillInstagram size="35px" />}
         />
       </CustomChakraNextLink>
       <CustomChakraNextLink href="https://twitter.com/Aaafuria">
         <CustomIconButton
           aria-label="Twitter"
-          colorScheme="green"
+          variant={variant}
           icon={<AiFillTwitterSquare size="35px" />}
         />
       </CustomChakraNextLink>
       <CustomChakraNextLink href="https://tiktok.com/@aaafuria">
         <CustomIconButton
           aria-label="TikTok"
-          colorScheme="green"
+          variant={variant}
           icon={<FaTiktok size="35px" />}
         />
       </CustomChakraNextLink>
