@@ -155,7 +155,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
             pin: pin,
           },
         })
-        .then(({ data, errors }) => {
+        .then(async ({ data, errors }) => {
           setCookie(null, 'aaafuriaToken', data.tokenAuth.token, {
             maxAge: 60 * 60 * 24 * 7,
             path: '/',
@@ -165,7 +165,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
             path: '/',
           });
 
-          checkCredentials();
+          await checkCredentials();
 
           router.push(redirectUrl || '/');
 

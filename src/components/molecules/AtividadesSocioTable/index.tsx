@@ -40,7 +40,7 @@ export const AtividadesSocioTable = ({
   categoria,
   ...rest
 }: IAtividadeSocioTable) => {
-  const { data, refetch, loading } = useQuery(QUERY_PROGRAMACAO, {
+  const { data, refetch } = useQuery(QUERY_PROGRAMACAO, {
     variables: {
       categoria: categoria,
     },
@@ -57,7 +57,7 @@ export const AtividadesSocioTable = ({
         gap={{ base: '5', md: '6' }}
         {...rest}
       >
-        {loading && (
+        {!data && (
           <>
             <Skeleton h={'210px'} rounded="md" w="100%" />
             <Skeleton h={'210px'} rounded="md" w="100%" />
@@ -66,7 +66,7 @@ export const AtividadesSocioTable = ({
         )}
         {data?.allProgramacao.edges.map(
           ({ node }: { node: ProgramacaoData }) => {
-            if (!node.finalizado && !loading) {
+            if (!node.finalizado) {
               return (
                 <AtividadesSocioTableRow
                   key={node.id}
