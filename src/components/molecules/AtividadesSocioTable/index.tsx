@@ -1,9 +1,8 @@
-import { IAtividadeSocioTable, ProgramacaoData } from './IAtividadesSocioTable';
-import { SimpleGrid, Skeleton } from '@chakra-ui/react';
-import { gql, useQuery } from '@apollo/client';
-
 import { AtividadesSocioTableRow } from '@/components/atoms';
+import { gql, useQuery } from '@apollo/client';
+import { SimpleGrid, Skeleton } from '@chakra-ui/react';
 import { useCallback } from 'react';
+import { IAtividadeSocioTable, ProgramacaoData } from './IAtividadesSocioTable';
 
 const QUERY_PROGRAMACAO = gql`
   query getProgramacao($categoria: String!) {

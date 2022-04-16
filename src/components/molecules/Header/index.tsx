@@ -1,7 +1,16 @@
 import {
+  ColorModeToggle,
+  CustomButton,
+  CustomChakraNextLink,
+  CustomIconButton,
+} from '@/components/atoms';
+import { AuthContext } from '@/contexts/AuthContext';
+import { ColorContext } from '@/contexts/ColorContext';
+import {
   Avatar,
   Box,
   Center,
+  chakra,
   Drawer,
   DrawerBody,
   DrawerCloseButton,
@@ -11,18 +20,18 @@ import {
   DrawerOverlay,
   Flex,
   HStack,
+  Skeleton,
   Stack,
   Text,
-  chakra,
   useDisclosure,
 } from '@chakra-ui/react';
-import {
-  ColorModeToggle,
-  CustomButton,
-  CustomChakraNextLink,
-  CustomIconButton,
-} from '@/components/atoms';
+import Hamburger from 'hamburger-react';
+import NextImage from 'next/image';
+import { useRouter } from 'next/router';
+import { useContext, useEffect, useRef } from 'react';
+import { AiFillHome } from 'react-icons/ai';
 import { FaDrum, FaVolleyballBall } from 'react-icons/fa';
+import { GiPartyPopper } from 'react-icons/gi';
 import {
   MdLogin,
   MdLogout,
@@ -30,15 +39,6 @@ import {
   MdPerson,
   MdStore,
 } from 'react-icons/md';
-import { useContext, useEffect, useRef } from 'react';
-
-import { AiFillHome } from 'react-icons/ai';
-import { AuthContext } from '@/contexts/AuthContext';
-import { ColorContext } from '@/contexts/ColorContext';
-import { GiPartyPopper } from 'react-icons/gi';
-import Hamburger from 'hamburger-react';
-import NextImage from 'next/image';
-import { useRouter } from 'next/router';
 
 export const Header = () => {
   const router = useRouter();
@@ -319,31 +319,35 @@ export const Header = () => {
                 </Stack>
                 <Box h={'1px'} my={6} bgColor={'rgb(0,0,0,0.5)'} rounded="sm" />
                 <Stack>
-                  <HStack w="full" justify={'space-between'}>
-                    <HStack>
-                      <CustomChakraNextLink href={'/carteirinha'}>
-                        <Avatar
-                          name={user?.nome}
-                          src={user?.avatar}
-                          border={
-                            user?.isSocio ? '2px solid green' : '2px solid gray'
-                          }
-                        />
-                      </CustomChakraNextLink>
-                      <Stack spacing={0} textColor={bg}>
-                        <Text fontSize={['md']} fontWeight="bold">
-                          {user?.apelido}
-                        </Text>
-                        <Text fontSize={['xs']}>{user?.matricula}</Text>
-                      </Stack>
+                  <Skeleton isLoaded={user ? true : false}>
+                    <HStack w="full" justify={'space-between'}>
+                      <HStack>
+                        <CustomChakraNextLink href={'/carteirinha'}>
+                          <Avatar
+                            name={user?.nome}
+                            src={user?.avatar}
+                            border={
+                              user?.isSocio
+                                ? '2px solid green'
+                                : '2px solid gray'
+                            }
+                          />
+                        </CustomChakraNextLink>
+                        <Stack spacing={0} textColor={bg}>
+                          <Text fontSize={['md']} fontWeight="bold">
+                            {user?.apelido}
+                          </Text>
+                          <Text fontSize={['xs']}>{user?.matricula}</Text>
+                        </Stack>
+                      </HStack>
+                      <CustomIconButton
+                        aria-label="sair"
+                        variant={'solid'}
+                        icon={<MdLogout size="20px" />}
+                        onClick={signOut}
+                      />
                     </HStack>
-                    <CustomIconButton
-                      aria-label="sair"
-                      variant={'solid'}
-                      icon={<MdLogout size="20px" />}
-                      onClick={signOut}
-                    />
-                  </HStack>
+                  </Skeleton>
                 </Stack>
               </Box>
             ) : (

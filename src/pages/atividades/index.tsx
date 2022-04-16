@@ -1,4 +1,3 @@
-import { Box, Flex, HStack, Stack, useToast } from '@chakra-ui/react';
 import {
   CustomButton,
   CustomChakraNextLink,
@@ -6,18 +5,18 @@ import {
   PageHeading,
   VoltarButton,
 } from '@/components/atoms';
-import { FaDrum, FaPlus, FaVolleyballBall } from 'react-icons/fa';
-import { useCallback, useContext, useEffect, useState } from 'react';
-
-import { AiOutlineCalendar } from 'react-icons/ai';
 import { AtividadesSocioTable } from '@/components/molecules';
-import { AuthContext } from '@/contexts/AuthContext';
-import { CgTwilio } from 'react-icons/cg';
-import { GetServerSideProps } from 'next';
 import { Layout } from '@/components/templates';
-import { MdManageAccounts } from 'react-icons/md';
-import { parseCookies } from 'nookies';
+import { AuthContext } from '@/contexts/AuthContext';
+import { Box, Flex, HStack, Stack, useToast } from '@chakra-ui/react';
+import { GetServerSideProps } from 'next';
 import { useRouter } from 'next/router';
+import { parseCookies } from 'nookies';
+import { useCallback, useContext, useEffect, useState } from 'react';
+import { AiOutlineCalendar } from 'react-icons/ai';
+import { CgTwilio } from 'react-icons/cg';
+import { FaDrum, FaPlus, FaVolleyballBall } from 'react-icons/fa';
+import { MdManageAccounts } from 'react-icons/md';
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 interface AtividadesProps {}
@@ -44,18 +43,16 @@ function Atividades({}: AtividadesProps) {
       router.push(`/entrar?after=${router.asPath}`);
     }
 
-    if (isStaff === false) {
-      if (isSocio === false) {
-        toast({
-          title: 'Que pena! Você não é sócio...',
-          description: 'Mas nossa associação está aberta, Seja Sócio!',
-          status: 'info',
-          duration: 2500,
-          isClosable: true,
-          position: 'top-left',
-        });
-        router.push('/#seja-socio');
-      }
+    if (isStaff === false && isSocio === false) {
+      toast({
+        title: 'Que pena! Você não é sócio...',
+        description: 'Mas nossa associação está aberta, Seja Sócio!',
+        status: 'info',
+        duration: 2500,
+        isClosable: true,
+        position: 'top-left',
+      });
+      router.push('/#seja-socio');
     }
   }, [checkCredentials, isAuthenticated, isSocio, isStaff, router, toast]);
 

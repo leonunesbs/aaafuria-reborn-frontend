@@ -1,9 +1,8 @@
-import { createContext, useCallback, useMemo, useState } from 'react';
-import { destroyCookie, parseCookies, setCookie } from 'nookies';
-
 import client from '@/services/apollo-client';
 import { gql } from '@apollo/client';
 import { useRouter } from 'next/router';
+import { destroyCookie, parseCookies, setCookie } from 'nookies';
+import { createContext, useCallback, useMemo, useState } from 'react';
 
 const SIGN_IN = gql`
   mutation getToken($matricula: String!, $pin: String!) {
@@ -91,10 +90,11 @@ export function AuthProvider({ children }: AuthProviderProps) {
     destroyCookie(null, 'aaafuriaMatricula');
     destroyCookie(null, 'aaafuriaIsSocio');
     destroyCookie(null, 'aaafuriaIsStaff');
-    setUser(null);
 
-    router.reload();
-  }, [router]);
+    setUser(null);
+    setIsStaff(null);
+    setIsSocio(null);
+  }, []);
 
   const checkCredentials = useCallback(async () => {
     if (isAuthenticated) {
