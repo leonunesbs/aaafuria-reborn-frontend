@@ -10,7 +10,7 @@ export const Footer = () => {
   const { green, bg } = useContext(ColorContext);
   const ChakraNextImage = chakra(NextImage);
   return (
-    <Box as="footer" role={'contentinfo'} bg={green} py={12} textColor={bg}>
+    <Box as="footer" role={'contentinfo'} bg={green} py={12}>
       <HStack w={'full'} justify="space-around">
         <Circle size="15px" bgColor={bg} />
         <Circle size="15px" bgColor={bg} />
@@ -39,15 +39,14 @@ export const Footer = () => {
                 src={'/logo-aaafuria-h.webp'}
                 blurDataURL={'/logo-aaafuria-h.webp'}
                 quality={1}
-                alt="logo"
-                mx="auto"
+                alt="footer-logo"
                 mb={{ base: '8', md: '12' }}
                 draggable={false}
                 filter="drop-shadow(0.12rem 0.15rem 0.15rem rgba(0, 0, 0, 0.1))"
               />
             </Box>
           </CustomChakraNextLink>
-          <Text letterSpacing={2}>
+          <Text letterSpacing={2} textColor={bg}>
             &copy; 2022 |{' '}
             <CustomChakraNextLink
               href="/"
@@ -70,9 +69,8 @@ export const Footer = () => {
           >
             <CustomButton
               aria-label="designer"
-              variant={'outline'}
-              colorScheme="gray"
-              maxW="3xs"
+              variant={'solid'}
+              maxW="150px"
               rightIcon={
                 <NextImage
                   src={'/myLogo.png'}
@@ -81,12 +79,13 @@ export const Footer = () => {
                   alt="myLogo"
                 />
               }
+              justifyContent="flex-start"
             >
               Designed by
             </CustomButton>
           </CustomChakraNextLink>
         </Stack>
-        <SocialIcons variant="solid" colorScheme="gray" />
+        <SocialIcons variant="solid" />
       </HStack>
     </Box>
   );
