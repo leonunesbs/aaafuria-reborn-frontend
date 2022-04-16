@@ -1,5 +1,5 @@
 import { CustomChakraNextLink, CustomIconButton } from '@/components/atoms';
-import { ButtonGroup, ButtonGroupProps } from '@chakra-ui/react';
+import { Stack, StackProps } from '@chakra-ui/react';
 import React from 'react';
 import {
   AiFillFacebook,
@@ -8,11 +8,13 @@ import {
 } from 'react-icons/ai';
 import { FaTiktok } from 'react-icons/fa';
 
-export type ISocialIcons = ButtonGroupProps;
+export interface ISocialIcons extends StackProps {
+  variant?: string;
+}
 
 export const SocialIcons = ({ variant, ...rest }: ISocialIcons) => {
   return (
-    <ButtonGroup alignSelf="center" {...rest}>
+    <Stack justify="center" direction={'row'} {...rest}>
       <CustomChakraNextLink href="https://facebook.com/aaafuria">
         <CustomIconButton
           aria-label="Facebook"
@@ -41,6 +43,6 @@ export const SocialIcons = ({ variant, ...rest }: ISocialIcons) => {
           icon={<FaTiktok size="35px" />}
         />
       </CustomChakraNextLink>
-    </ButtonGroup>
+    </Stack>
   );
 };

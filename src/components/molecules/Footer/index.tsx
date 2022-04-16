@@ -10,21 +10,21 @@ export const Footer = () => {
   const { green, bg } = useContext(ColorContext);
   const ChakraNextImage = chakra(NextImage);
   return (
-    <Box
-      as="footer"
-      role={'contentinfo'}
-      bg={green}
-      py={12}
-      px={{ base: '4', lg: '8' }}
-      textColor={bg}
-    >
+    <Box as="footer" role={'contentinfo'} bg={green} py={12} textColor={bg}>
       <HStack w={'full'} justify="space-around">
         <Circle size="15px" bgColor={bg} />
         <Circle size="15px" bgColor={bg} />
         <Circle size="15px" bgColor={bg} />
         <Circle size="15px" bgColor={bg} />
       </HStack>
-      <HStack py={4} w="full" justify={'space-between'}>
+      <HStack
+        py={4}
+        w="full"
+        maxW="7xl"
+        mx="auto"
+        justify={'space-between'}
+        px={{ base: '4', lg: '8' }}
+      >
         <Stack>
           <CustomChakraNextLink href="/">
             <Box
@@ -70,7 +70,9 @@ export const Footer = () => {
           >
             <CustomButton
               aria-label="designer"
-              variant={'solid'}
+              variant={'outline'}
+              colorScheme="gray"
+              maxW="3xs"
               rightIcon={
                 <NextImage
                   src={'/myLogo.png'}
