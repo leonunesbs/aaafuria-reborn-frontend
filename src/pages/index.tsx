@@ -378,7 +378,7 @@ function Home({ post }: { post?: FeaturePostData }) {
   );
 }
 
-export async function getStaticProps() {
+export const getStaticProps = async () => {
   const { data } = await client.query({
     query: gql`
       query getFeaturePost {
@@ -398,6 +398,6 @@ export async function getStaticProps() {
     },
     revalidate: 60 * 60 * 1, // Every 1 hour
   };
-}
+};
 
 export default Home;
