@@ -10,6 +10,7 @@ import { ChakraProvider } from '@chakra-ui/provider';
 import { ColorProvider } from '@/contexts/ColorContext';
 import { LoadingProvider } from '@/contexts/LoadingContext';
 import client from '../services/apollo-client';
+import { hotjar } from 'react-hotjar';
 import { theme } from '@/styles/theme';
 import { useRouter } from 'next/router';
 
@@ -37,6 +38,10 @@ export default function MyApp({ Component, pageProps }: AppProps) {
       };
     }
   }, [router.events]);
+
+  useEffect(() => {
+    hotjar.initialize(2942033, 6);
+  }, []);
 
   return (
     <ChakraProvider theme={theme}>
