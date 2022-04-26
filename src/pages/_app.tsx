@@ -40,7 +40,9 @@ export default function MyApp({ Component, pageProps }: AppProps) {
   }, [router.events]);
 
   useEffect(() => {
-    hotjar.initialize(2942033, 6);
+    if (process.env.NODE_ENV == 'production') {
+      hotjar.initialize(2942033, 6);
+    }
   }, []);
 
   return (
