@@ -1,30 +1,31 @@
 import {
+  Box,
+  Center,
+  Circle,
+  HStack,
+  Heading,
+  Stack,
+  Text,
+  chakra,
+  useColorModeValue,
+} from '@chakra-ui/react';
+import { Card, SejaSocioPricing } from '@/components/molecules';
+import {
   CustomButton,
   CustomChakraNextLink,
   CustomIconButton,
   PageHeading,
 } from '@/components/atoms';
-import { Card, SejaSocioPricing } from '@/components/molecules';
-import { Layout } from '@/components/templates/Layout';
+import { FaDrum, FaVolleyballBall } from 'react-icons/fa';
+import { useContext, useRef } from 'react';
+
 import { ColorContext } from '@/contexts/ColorContext';
+import { GiPartyPopper } from 'react-icons/gi';
+import { Layout } from '@/components/templates/Layout';
+import { MdStore } from 'react-icons/md';
+import NextImage from 'next/image';
 import client from '@/services/apollo-client';
 import { gql } from '@apollo/client';
-import {
-  Box,
-  Center,
-  chakra,
-  Circle,
-  Heading,
-  HStack,
-  Stack,
-  Text,
-  useColorModeValue,
-} from '@chakra-ui/react';
-import NextImage from 'next/image';
-import { useContext, useRef } from 'react';
-import { FaDrum, FaVolleyballBall } from 'react-icons/fa';
-import { GiPartyPopper } from 'react-icons/gi';
-import { MdStore } from 'react-icons/md';
 
 type FeaturePostData = {
   id: string;
@@ -341,7 +342,7 @@ function Home({ post }: { post?: FeaturePostData }) {
                 layout="fill"
                 objectFit="cover"
                 src={'/calango-verde.png'}
-                quality={20}
+                quality={40}
                 alt="logo"
                 mx="auto"
                 mb={{ base: '8', md: '12' }}
@@ -372,7 +373,9 @@ function Home({ post }: { post?: FeaturePostData }) {
         <Text fontSize="xl" textColor={bg} textAlign={'center'} mb={10}>
           Escolha abaixo o plano que melhor se adequa a você!
         </Text>
-        <SejaSocioPricing />
+        <Box px={[0, 8]}>
+          <SejaSocioPricing />
+        </Box>
       </Box>
     </Layout>
   );
