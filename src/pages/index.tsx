@@ -20,6 +20,7 @@ import { FaDrum, FaVolleyballBall } from 'react-icons/fa';
 import { useContext, useRef } from 'react';
 
 import { ColorContext } from '@/contexts/ColorContext';
+import CountUp from 'react-countup';
 import { GiPartyPopper } from 'react-icons/gi';
 import { Layout } from '@/components/templates/Layout';
 import { MdStore } from 'react-icons/md';
@@ -121,19 +122,31 @@ function Home({ post }: { post?: FeaturePostData }) {
         >
           <Box textAlign={'center'}>
             <Text fontFamily="AACHENN" fontSize={'5xl'}>
-              150+
+              <CountUp
+                start={0}
+                end={150}
+                suffix="+"
+                delay={1}
+                duration={1.5}
+              />
             </Text>
             <Text>Sócios ativos</Text>
           </Box>
           <Box textAlign={'center'}>
             <Text fontFamily="AACHENN" fontSize={'5xl'}>
-              10+
+              <CountUp start={0} end={10} suffix="+" delay={1.5} duration={1} />
             </Text>
             <Text>Modalidades</Text>
           </Box>
           <Box textAlign={'center'}>
             <Text fontFamily="AACHENN" fontSize={'5xl'}>
-              200+
+              <CountUp
+                start={0}
+                end={200}
+                suffix="+"
+                delay={1.2}
+                duration={2}
+              />
             </Text>
             <Text>Atletas e ritmistas</Text>
           </Box>
