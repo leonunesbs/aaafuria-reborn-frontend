@@ -204,6 +204,7 @@ export default function Entrar() {
                   render={({ field }) => (
                     <HStack>
                       <PinInput
+                        type="number"
                         size="lg"
                         focusBorderColor="green.500"
                         placeholder=""
@@ -247,8 +248,10 @@ export default function Entrar() {
                     render={({ field }) => (
                       <HStack>
                         <PinInput
+                          type="number"
                           size="lg"
                           mask
+                          placeholder=""
                           focusBorderColor="green.500"
                           onComplete={() => handleSubmit(onSubmit)()}
                           {...field}
