@@ -204,7 +204,7 @@ export const AtividadesSocioTableRow = ({
         <Confetti
           onConfettiComplete={() => setConfetti(false)}
           gravity={0.2}
-          numberOfPieces={150}
+          numberOfPieces={100}
           recycle={false}
           drawShape={(ctx) => {
             const drawing = new Image();
