@@ -1,22 +1,23 @@
-import dynamic from 'next/dynamic';
 import { AreaDiretorMenuProps } from './AreaDiretorMenu';
 import { AreaSocioMenuProps } from './AreaSocioMenu';
+import { CartaoCreditoTabPanelProps } from './PagamentoTabs/CartaoCreditoTabPanel';
+import { ClientInfoCardProps } from './ClientInfoCard';
+import { CommentCardProps } from './CommentCard';
+import { CreateCommentProps } from './CreateComment';
+import { EspecieTabPanelProps } from './PagamentoTabs/EspecieTabPanel';
+import { HomeMenuProps } from './HomeMenu';
 import { IAtividadeSocioTable } from './AtividadesSocioTable/IAtividadesSocioTable';
 import { IAuthenticatedHomeMenu } from './AuthenticatedHomeMenu/IAuthenticatedHomeMenu';
 import { ICadastroDrawer } from './CadastroDrawer/ICadastroDrawer';
 import { ICard } from './Card/ICard';
-import { ClientInfoCardProps } from './ClientInfoCard';
-import { CommentCardProps } from './CommentCard';
-import { CreateCommentProps } from './CreateComment';
-import { HomeMenuProps } from './HomeMenu';
+import { ISejaSocioPricing } from './SejaSocioPricing/ISejaSocioPricing';
 import { InputMatriculaPlantaoProps } from './InputMatriculaPlantao';
 import { IssueInfoCardProps } from './IssueInfoCard';
-import { CartaoCreditoTabPanelProps } from './PagamentoTabs/CartaoCreditoTabPanel';
-import { EspecieTabPanelProps } from './PagamentoTabs/EspecieTabPanel';
 import { PixTabPanelProps } from './PagamentoTabs/PIXTabPanel';
 import { ProdutoCardProps } from './ProdutoCard';
 import { ProdutoPlantaoCardProps } from './ProdutoPlantaoCard';
-import { ISejaSocioPricing } from './SejaSocioPricing/ISejaSocioPricing';
+import { RefAttributes } from 'react';
+import dynamic from 'next/dynamic';
 
 export const AreaDiretorMenu = dynamic<AreaDiretorMenuProps>(() =>
   import('./AreaDiretorMenu').then((mod) => mod.AreaDiretorMenu),
@@ -33,7 +34,8 @@ export const AuthenticatedHomeMenu = dynamic<IAuthenticatedHomeMenu>(() =>
 export const CadastroDrawer = dynamic<ICadastroDrawer>(() =>
   import('./CadastroDrawer').then((mod) => mod.CadastroDrawer),
 );
-export const Card = dynamic<ICard>(() =>
+
+export const Card = dynamic<ICard & RefAttributes<HTMLDivElement>>(() =>
   import('./Card').then((mod) => mod.Card),
 );
 export const ClientInfoCard = dynamic<ClientInfoCardProps>(() =>

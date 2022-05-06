@@ -31,6 +31,7 @@ import { gql, useMutation } from '@apollo/client';
 import { AuthContext } from '@/contexts/AuthContext';
 import { Card } from '@/components/molecules';
 import { ColorContext } from '@/contexts/ColorContext';
+import Confetti from 'react-confetti';
 import { FaWhatsapp } from 'react-icons/fa';
 import { IAtividadesSocioTableRow } from './IAtividadesSocioTableRow';
 import { parseCookies } from 'nookies';
@@ -62,6 +63,7 @@ export const AtividadesSocioTableRow = ({
   const toast = useToast();
   const { isAuthenticated } = useContext(AuthContext);
   const { green } = useContext(ColorContext);
+  const [confetti, setConfetti] = useState(false);
 
   const { ['aaafuriaMatricula']: matricula } = parseCookies();
   const [isConfirmed, setIsConfirmed] = useState(
@@ -86,6 +88,10 @@ export const AtividadesSocioTableRow = ({
 
   const { ['aaafuriaToken']: token } = parseCookies();
 
+  const handleConfetti = useCallback(() => {
+    setConfetti(true);
+  }, []);
+
   const handleConfirmarCompetidor = useCallback(
     async (idProgramacao: string) => {
       setIsConfirmed(true);
@@ -108,6 +114,7 @@ export const AtividadesSocioTableRow = ({
             isClosable: true,
             position: 'top-left',
           });
+          handleConfetti();
         })
         .catch(() => {
           toast({
@@ -121,7 +128,7 @@ export const AtividadesSocioTableRow = ({
       handleRefetch();
       setLoading(false);
     },
-    [confirmarCompetidor, handleRefetch, toast, token],
+    [confirmarCompetidor, handleConfetti, handleRefetch, toast, token],
   );
 
   const handleRemoverCompetidor = useCallback(
@@ -189,6 +196,15 @@ export const AtividadesSocioTableRow = ({
       position="relative"
       overflow={'hidden'}
     >
+      {confetti && (
+        <Confetti
+          onConfettiComplete={() => setConfetti(false)}
+          initialVelocityY={20}
+          gravity={0.2}
+          numberOfPieces={600}
+          recycle={false}
+        />
+      )}
       <Stack direction={['column', 'column', 'row']}>
         <Stack w="full" spacing={4}>
           <Heading as="h2" size="md">
