@@ -2,13 +2,13 @@
 
 Plataforma para gestão de sócios, loja, eventos e atividades da [@aaafuria](https://instagram.com/aaafuria).
 
-## Install
+## Quick start
 
-> yarn install
+Clone this repository
 
-## Desenvolvimento
-
-> yarn dev
+```
+   yarn install
+```
 
 ## Tecnologias utilizadas
 
