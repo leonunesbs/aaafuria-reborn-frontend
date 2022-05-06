@@ -60,6 +60,10 @@ export const AtividadesSocioTableRow = ({
   const router = useRouter();
   const bgRow = useColorModeValue('white', 'gray.800');
   const confirmedBgRow = useColorModeValue('green.50', 'green.900');
+  const calangoConfetti = useColorModeValue(
+    '/calango-verde25x25.png',
+    '/calango-verde-325x25.png',
+  );
   const toast = useToast();
   const { isAuthenticated } = useContext(AuthContext);
   const { green } = useContext(ColorContext);
@@ -199,12 +203,17 @@ export const AtividadesSocioTableRow = ({
       {confetti && (
         <Confetti
           onConfettiComplete={() => setConfetti(false)}
-          initialVelocityY={20}
-          gravity={0.2}
+          gravity={0.3}
           numberOfPieces={300}
           recycle={false}
+          drawShape={(ctx) => {
+            const drawing = new Image();
+            drawing.src = calangoConfetti;
+            ctx.drawImage(drawing, 0, 0);
+          }}
         />
       )}
+
       <Stack direction={['column', 'column', 'row']}>
         <Stack w="full" spacing={4}>
           <Heading as="h2" size="md">
