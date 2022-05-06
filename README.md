@@ -4,10 +4,16 @@ Plataforma para gestão de sócios, loja, eventos e atividades da [@aaafuria](ht
 
 ## Quick start
 
-Clone this repository
+Clone this repository, then:
 
 ```
    yarn install
+```
+
+run as development mode:
+
+```
+  yarn dev
 ```
 
 ## Tecnologias utilizadas
