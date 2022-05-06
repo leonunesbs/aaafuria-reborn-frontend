@@ -201,7 +201,7 @@ export const AtividadesSocioTableRow = ({
           onConfettiComplete={() => setConfetti(false)}
           initialVelocityY={20}
           gravity={0.2}
-          numberOfPieces={600}
+          numberOfPieces={300}
           recycle={false}
         />
       )}
