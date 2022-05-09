@@ -288,7 +288,7 @@ function Eventos() {
                           R$ {node.precoSocio.toString().replace('.', ',')}
                         </Text>
                       </Box>
-                      {!isSocio && (
+                      {!node.evento.exclusivoSocios && (
                         <Box>
                           <Text>NÃO SÓCIO</Text>
                           <Text
