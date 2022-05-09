@@ -127,10 +127,10 @@ function Eventos() {
               description: (
                 <Box mx="auto">
                   <Text>
-                    Faça um PIX para <strong>mccvo14@gmail.com</strong>.
+                    Faça um PIX para <strong>pix@aaafuria.site</strong>.
                   </Text>
                   <Text textAlign={'center'} fontSize="sm">
-                    <em>Maria Clara e Vasconcelos Oliveira</em>
+                    <em>Albérico S S A Gonçalves</em>
                   </Text>
                   <CustomButton
                     colorScheme={'green'}
