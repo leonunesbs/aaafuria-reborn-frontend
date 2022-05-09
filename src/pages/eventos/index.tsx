@@ -138,7 +138,7 @@ function Eventos() {
                     leftIcon={<FaWhatsapp size="25px" />}
                     shadow="base"
                     onClick={() =>
-                      window.open('https://wa.me/558694282438', '_blank')
+                      window.open('https://wa.me/558699619656', '_blank')
                     }
                   >
                     Enviar comprovante
@@ -349,7 +349,8 @@ function Eventos() {
                   <em>
                     *Este ingresso, após a compra, é pessoal e intransferível. O
                     acesso ao evento é restrito ao titular do ingresso com a
-                    devida apresentação do mesmo na portaria.
+                    devida apresentação do mesmo na portaria, junto ao documento
+                    oficial com foto.
                   </em>
                 </Text>
               </Box>
