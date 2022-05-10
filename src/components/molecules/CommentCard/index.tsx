@@ -25,9 +25,7 @@ export const CommentCard = ({ comment }: CommentCardProps) => {
       <Box mt={4}>
         <Text textAlign={'right'} fontSize="sm">
           <CustomChakraNextLink
-            href={
-              'https://diretoria.aaafuria.site/admin/core/socio/?q=18107053'
-            }
+            href={`${process.env.DIRETORIA_DOMAIN}/admin/core/socio/?q=18107053`}
             chakraLinkProps={{
               color: green,
               fontWeight: 'bold',

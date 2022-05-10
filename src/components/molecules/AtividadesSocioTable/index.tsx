@@ -7,7 +7,7 @@ import { useCallback } from 'react';
 
 const QUERY_PROGRAMACAO = gql`
   query getProgramacao($categoria: String!) {
-    allProgramacao(modalidade_Categoria: $categoria) {
+    allProgramacao(modalidade_Categoria: $categoria, first: 50) {
       edges {
         node {
           id
@@ -32,6 +32,10 @@ const QUERY_PROGRAMACAO = gql`
           local
           finalizado
         }
+      }
+      pageInfo {
+        hasNextPage
+        endCursor
       }
     }
   }

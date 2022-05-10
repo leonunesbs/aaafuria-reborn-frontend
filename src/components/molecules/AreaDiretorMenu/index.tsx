@@ -1,8 +1,9 @@
 import { CustomButton, CustomChakraNextLink } from '@/components/atoms';
-import { VoltarButton } from '@/components/atoms/VoltarButton';
 import { Divider, Stack, StackProps } from '@chakra-ui/react';
-import { AiFillSetting } from 'react-icons/ai';
 import { MdGroups, MdHelpCenter, MdStore } from 'react-icons/md';
+
+import { AiFillSetting } from 'react-icons/ai';
+import { VoltarButton } from '@/components/atoms/VoltarButton';
 
 export type AreaDiretorMenuProps = StackProps;
 
@@ -26,7 +27,7 @@ export const AreaDiretorMenu = ({ ...rest }: AreaDiretorMenuProps) => {
         chakraLinkProps={{
           target: '_blank',
         }}
-        href="https://diretoria.aaafuria.site/admin"
+        href={`${process.env.DIRETORIA_DOMAIN}/admin`}
       >
         <CustomButton
           leftIcon={<AiFillSetting size="20px" />}
