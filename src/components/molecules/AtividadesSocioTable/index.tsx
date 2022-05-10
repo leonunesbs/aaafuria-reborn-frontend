@@ -1,12 +1,13 @@
-import { AtividadesSocioTableRow } from '@/components/atoms';
-import { gql, useQuery } from '@apollo/client';
-import { SimpleGrid, Skeleton } from '@chakra-ui/react';
-import { useCallback } from 'react';
 import { IAtividadeSocioTable, ProgramacaoData } from './IAtividadesSocioTable';
+import { SimpleGrid, Skeleton } from '@chakra-ui/react';
+import { gql, useQuery } from '@apollo/client';
+
+import { AtividadesSocioTableRow } from '@/components/atoms';
+import { useCallback } from 'react';
 
 const QUERY_PROGRAMACAO = gql`
   query getProgramacao($categoria: String!) {
-    allProgramacao(modalidade_Categoria: $categoria, orderBy: "data_hora") {
+    allProgramacao(modalidade_Categoria: $categoria) {
       edges {
         node {
           id
