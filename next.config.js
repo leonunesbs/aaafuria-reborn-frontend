@@ -16,8 +16,8 @@ module.exports = withPWA({
     ],
   },
   env: {
-    BACKEND_DOMAIN: 'https://aaafuria-reborn.herokuapp.com',
-    DIRETORIA_DOMAIN: 'https://aaafuria-reborn.herokuapp.com',
+    BACKEND_DOMAIN: 'http://aaafuria-reborn.herokuapp.com',
+    DIRETORIA_DOMAIN: 'http://aaafuria-reborn.herokuapp.com',
     NEXT_PUBLIC_GA_ID: 'G-K5LPGWWJL1',
     PUBLIC_AWS_URI: 'https://aaafuria-reborn.s3.sa-east-1.amazonaws.com/public',
     ANALYZE: false,
