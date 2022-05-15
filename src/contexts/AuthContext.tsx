@@ -1,8 +1,9 @@
+import { createContext, useCallback, useMemo, useState } from 'react';
+import { destroyCookie, parseCookies, setCookie } from 'nookies';
+
 import client from '@/services/apollo-client';
 import { gql } from '@apollo/client';
 import { useRouter } from 'next/router';
-import { destroyCookie, parseCookies, setCookie } from 'nookies';
-import { createContext, useCallback, useMemo, useState } from 'react';
 
 const SIGN_IN = gql`
   mutation getToken($matricula: String!, $pin: String!) {
