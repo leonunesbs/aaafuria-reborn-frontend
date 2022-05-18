@@ -71,8 +71,6 @@ function Carteirinha({ token }: CarteirinhaProps) {
 
   const cardBg = useColorModeValue('green.50', 'green.900');
 
-  console.log(data.socioAutenticado);
-
   return (
     <Layout title="Carteirinha">
       <Box maxW="2xl" mx="auto">
