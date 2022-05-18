@@ -214,6 +214,7 @@ function Carteirinha({ token }: CarteirinhaProps) {
                       isReadOnly
                       value={data?.socioAutenticado?.cpf}
                       bgColor="green.100"
+                      color="green.900"
                     />
                   </FormControl>
                   <FormControl>
