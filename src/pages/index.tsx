@@ -1,35 +1,33 @@
-import 'react-responsive-carousel/lib/styles/carousel.min.css';
-
-import {
-  Box,
-  Center,
-  Circle,
-  HStack,
-  Heading,
-  Stack,
-  Text,
-  chakra,
-  useColorModeValue,
-} from '@chakra-ui/react';
-import { Card, SejaSocioPricing } from '@/components/molecules';
 import {
   CustomButton,
   CustomChakraNextLink,
   CustomIconButton,
   PageHeading,
 } from '@/components/atoms';
-import { FaDrum, FaVolleyballBall } from 'react-icons/fa';
-import { useContext, useRef } from 'react';
-
-import { Carousel } from 'react-responsive-carousel';
-import { ColorContext } from '@/contexts/ColorContext';
-import CountUp from 'react-countup';
-import { GiPartyPopper } from 'react-icons/gi';
+import { Card, SejaSocioPricing } from '@/components/molecules';
 import { Layout } from '@/components/templates/Layout';
-import { MdStore } from 'react-icons/md';
-import NextImage from 'next/image';
+import { ColorContext } from '@/contexts/ColorContext';
 import client from '@/services/apollo-client';
 import { gql } from '@apollo/client';
+import {
+  Box,
+  Center,
+  chakra,
+  Circle,
+  Heading,
+  HStack,
+  Stack,
+  Text,
+  useColorModeValue,
+} from '@chakra-ui/react';
+import NextImage from 'next/image';
+import { useContext, useRef } from 'react';
+import CountUp from 'react-countup';
+import { FaDrum, FaVolleyballBall } from 'react-icons/fa';
+import { GiPartyPopper } from 'react-icons/gi';
+import { MdStore } from 'react-icons/md';
+import { Carousel } from 'react-responsive-carousel';
+import 'react-responsive-carousel/lib/styles/carousel.min.css';
 
 type FeaturePostData = {
   id: string;
@@ -413,59 +411,60 @@ function Home({ post, partnerships }: HomeProps) {
           <SejaSocioPricing />
         </Box>
       </Box>
-
-      <Box ref={partnershipsDiv} bgColor={bg} py={2} px={2}>
-        <Box maxW="7xl" mx="auto">
-          <Carousel
-            autoPlay
-            stopOnHover
-            infiniteLoop
-            useKeyboardArrows
-            showStatus={false}
-            showArrows={false}
-            showIndicators={false}
-            showThumbs={false}
-            dynamicHeight={false}
-            ariaLabel="Partnerships"
-          >
-            {partnerships.map(({ node: partnership }) => (
-              <Card key={partnership.id} m={2} maxW="lg" mx="auto">
-                <HStack>
-                  <Center>
-                    <Box boxSize="100px" position="relative">
-                      <ChakraNextImage
-                        src={
-                          partnership.logo !== null
-                            ? partnership.logo
-                            : '/calango-verde.png'
-                        }
-                        placeholder="blur"
-                        blurDataURL={
-                          partnership.logo !== null
-                            ? partnership.logo
-                            : '/calango-verde.png'
-                        }
-                        layout="fill"
-                        objectFit="cover"
-                        quality={10}
-                        alt={partnership.name}
-                        mx="auto"
-                        mb={{ base: '8', md: '12' }}
-                        draggable={false}
-                      />
-                    </Box>
-                  </Center>
-                  <Stack textAlign={'left'}>
-                    <Heading size="lg">
-                      {partnership.name.toUpperCase()}
-                    </Heading>
-                  </Stack>
-                </HStack>
-              </Card>
-            ))}
-          </Carousel>
+      {partnerships.length > 0 && (
+        <Box ref={partnershipsDiv} bgColor={bg} py={2} px={2}>
+          <Box maxW="7xl" mx="auto">
+            <Carousel
+              autoPlay
+              stopOnHover
+              infiniteLoop
+              useKeyboardArrows
+              showStatus={false}
+              showArrows={false}
+              showIndicators={false}
+              showThumbs={false}
+              dynamicHeight={false}
+              ariaLabel="Partnerships"
+            >
+              {partnerships.map(({ node: partnership }) => (
+                <Card key={partnership.id} m={2} maxW="lg" mx="auto">
+                  <HStack>
+                    <Center>
+                      <Box boxSize="100px" position="relative">
+                        <ChakraNextImage
+                          src={
+                            partnership.logo !== null
+                              ? partnership.logo
+                              : '/calango-verde.png'
+                          }
+                          placeholder="blur"
+                          blurDataURL={
+                            partnership.logo !== null
+                              ? partnership.logo
+                              : '/calango-verde.png'
+                          }
+                          layout="fill"
+                          objectFit="cover"
+                          quality={10}
+                          alt={partnership.name}
+                          mx="auto"
+                          mb={{ base: '8', md: '12' }}
+                          draggable={false}
+                        />
+                      </Box>
+                    </Center>
+                    <Stack textAlign={'left'}>
+                      <Heading size="lg">
+                        {partnership.name.toUpperCase()}
+                      </Heading>
+                    </Stack>
+                  </HStack>
+                </Card>
+              ))}
+            </Carousel>
+          </Box>
         </Box>
-      </Box>
+      )}
     </Layout>
   );
 }
