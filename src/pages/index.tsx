@@ -1,32 +1,33 @@
 import {
-  Box,
-  Center,
-  Circle,
-  HStack,
-  Heading,
-  Stack,
-  Text,
-  chakra,
-  useColorModeValue,
-} from '@chakra-ui/react';
-import { Card, SejaSocioPricing } from '@/components/molecules';
-import {
   CustomButton,
   CustomChakraNextLink,
   CustomIconButton,
   PageHeading,
 } from '@/components/atoms';
-import { FaDrum, FaVolleyballBall } from 'react-icons/fa';
-import { useContext, useRef } from 'react';
-
-import { ColorContext } from '@/contexts/ColorContext';
-import CountUp from 'react-countup';
-import { GiPartyPopper } from 'react-icons/gi';
+import { Card, SejaSocioPricing } from '@/components/molecules';
 import { Layout } from '@/components/templates/Layout';
-import { MdStore } from 'react-icons/md';
-import NextImage from 'next/image';
+import { ColorContext } from '@/contexts/ColorContext';
 import client from '@/services/apollo-client';
 import { gql } from '@apollo/client';
+import {
+  Box,
+  Center,
+  chakra,
+  Circle,
+  Heading,
+  HStack,
+  Stack,
+  Text,
+  useColorModeValue,
+} from '@chakra-ui/react';
+import NextImage from 'next/image';
+import { useContext, useRef } from 'react';
+import CountUp from 'react-countup';
+import { FaDrum, FaVolleyballBall } from 'react-icons/fa';
+import { GiPartyPopper } from 'react-icons/gi';
+import { MdStore } from 'react-icons/md';
+import { Carousel } from 'react-responsive-carousel';
+import 'react-responsive-carousel/lib/styles/carousel.min.css';
 
 type FeaturePostData = {
   id: string;
@@ -36,13 +37,29 @@ type FeaturePostData = {
   buttonTarget: string;
 };
 
-function Home({ post }: { post?: FeaturePostData }) {
+type PartnershipsData = {
+  id: string;
+  name: string;
+  socioBenefits: string;
+  logo: string;
+};
+interface HomeProps {
+  post: FeaturePostData;
+  partnerships: {
+    node: PartnershipsData;
+  }[];
+}
+
+function Home({ post, partnerships }: HomeProps) {
   const sejaSocioDiv = useRef<HTMLDivElement>(null);
   const postDiv = useRef<HTMLDivElement>(null);
   const featuresDiv = useRef<HTMLDivElement>(null);
+  const partnershipsDiv = useRef<HTMLDivElement>(null);
   const { bg, green } = useContext(ColorContext);
   const ctaLogo = useColorModeValue('/logo-cinza.png', '/logo-branco.png');
   const ChakraNextImage = chakra(NextImage);
+
+  console.log(post);
   return (
     <Layout title="Início" px={0} py={0}>
       <Box py="12" px={{ base: '4', lg: '8' }}>
@@ -207,9 +224,13 @@ function Home({ post }: { post?: FeaturePostData }) {
                   >
                     Seja sócio
                   </CustomButton>
-                  <CustomChakraNextLink href={post.buttonTarget}>
-                    <CustomButton variant={'outline'}>Saiba mais</CustomButton>
-                  </CustomChakraNextLink>
+                  {post.buttonTarget && (
+                    <CustomChakraNextLink href={post.buttonTarget}>
+                      <CustomButton variant={'outline'}>
+                        Saiba mais
+                      </CustomButton>
+                    </CustomChakraNextLink>
+                  )}
                 </Stack>
               </Stack>
             </Stack>
@@ -386,18 +407,72 @@ function Home({ post }: { post?: FeaturePostData }) {
         <Text fontSize="xl" textColor={bg} textAlign={'center'} mb={10}>
           Escolha abaixo o plano que melhor se adequa a você!
         </Text>
-        <Box px={[0, 8]}>
+        <Box px={[0, 0, 8]}>
           <SejaSocioPricing />
         </Box>
       </Box>
+      {partnerships.length > 0 && (
+        <Box ref={partnershipsDiv} bgColor={bg} py={2} px={2}>
+          <Box maxW="7xl" mx="auto">
+            <Carousel
+              autoPlay
+              stopOnHover
+              infiniteLoop
+              useKeyboardArrows
+              showStatus={false}
+              showArrows={false}
+              showIndicators={false}
+              showThumbs={false}
+              dynamicHeight={false}
+              ariaLabel="Partnerships"
+            >
+              {partnerships.map(({ node: partnership }) => (
+                <Card key={partnership.id} m={2} maxW="lg" mx="auto">
+                  <HStack>
+                    <Center>
+                      <Box boxSize="100px" position="relative">
+                        <ChakraNextImage
+                          src={
+                            partnership.logo !== null
+                              ? partnership.logo
+                              : '/calango-verde.png'
+                          }
+                          placeholder="blur"
+                          blurDataURL={
+                            partnership.logo !== null
+                              ? partnership.logo
+                              : '/calango-verde.png'
+                          }
+                          layout="fill"
+                          objectFit="cover"
+                          quality={10}
+                          alt={partnership.name}
+                          mx="auto"
+                          mb={{ base: '8', md: '12' }}
+                          draggable={false}
+                        />
+                      </Box>
+                    </Center>
+                    <Stack textAlign={'left'}>
+                      <Heading size="lg">
+                        {partnership.name.toUpperCase()}
+                      </Heading>
+                    </Stack>
+                  </HStack>
+                </Card>
+              ))}
+            </Carousel>
+          </Box>
+        </Box>
+      )}
     </Layout>
   );
 }
 
 export const getStaticProps = async () => {
-  const { data } = await client.query({
+  const { data: featurePostData } = await client.query({
     query: gql`
-      query getFeaturePost {
+      query {
         featurePost {
           id
           title
@@ -408,9 +483,27 @@ export const getStaticProps = async () => {
       }
     `,
   });
+  const { data: partnershipsData } = await client.query({
+    query: gql`
+      query {
+        allPartnerships {
+          edges {
+            node {
+              id
+              name
+              socioBenefits
+              logo
+            }
+          }
+        }
+      }
+    `,
+  });
+
   return {
     props: {
-      post: data.featurePost,
+      post: featurePostData.featurePost,
+      partnerships: partnershipsData.allPartnerships.edges,
     },
     revalidate: 60 * 60 * 1, // Every 1 hour
   };

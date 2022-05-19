@@ -22,20 +22,24 @@ import {
   PageHeading,
   VoltarButton,
 } from '@/components/atoms';
+import React, { useContext } from 'react';
 import { gql, useQuery } from '@apollo/client';
 
 import { Card } from '@/components/molecules';
+import { ColorContext } from '@/contexts/ColorContext';
 import { GetServerSideProps } from 'next';
 import InputMask from 'react-input-mask';
 import { Layout } from '@/components/templates';
 import { MdRefresh } from 'react-icons/md';
-import React from 'react';
 import { parseCookies } from 'nookies';
 
 const GET_SOCIO = gql`
   query {
     socioAutenticado {
       id
+      user {
+        isStaff
+      }
       matricula
       avatar
       nome
@@ -56,6 +60,7 @@ interface CarteirinhaProps extends BoxProps {
 }
 
 function Carteirinha({ token }: CarteirinhaProps) {
+  const { green, bg } = useContext(ColorContext);
   const { data, refetch, loading } = useQuery(GET_SOCIO, {
     context: {
       headers: {
@@ -76,12 +81,16 @@ function Carteirinha({ token }: CarteirinhaProps) {
           border="1px solid green"
           bgColor={cardBg}
           filter={
-            data?.socioAutenticado?.isSocio ? 'inherit' : 'grayscale(100%)'
+            data?.socioAutenticado?.user.isStaff
+              ? 'inherit'
+              : data?.socioAutenticado?.isSocio
+              ? 'inherit'
+              : 'grayscale(100%)'
           }
         >
           <Flex
             zIndex={1}
-            bg="green"
+            bg={green}
             position="absolute"
             left={-16}
             top={{ base: 8, lg: 12 }}
@@ -96,9 +105,11 @@ function Carteirinha({ token }: CarteirinhaProps) {
               textTransform="uppercase"
               fontWeight="bold"
               letterSpacing="wider"
-              color="gray.100"
+              color={bg}
             >
-              {data?.socioAutenticado?.isSocio
+              {data?.socioAutenticado?.user.isStaff
+                ? 'DIRETOR'
+                : data?.socioAutenticado?.isSocio
                 ? 'SÓCIO ATIVO'
                 : 'SÓCIO INATIVO'}
             </Text>
@@ -203,6 +214,7 @@ function Carteirinha({ token }: CarteirinhaProps) {
                       isReadOnly
                       value={data?.socioAutenticado?.cpf}
                       bgColor="green.100"
+                      color="green.900"
                     />
                   </FormControl>
                   <FormControl>
@@ -224,7 +236,14 @@ function Carteirinha({ token }: CarteirinhaProps) {
             </GridItem>
           </Grid>
         </Card>
-        {data?.socioAutenticado?.isSocio ? (
+
+        {data?.socioAutenticado?.user.isStaff ? (
+          <Center>
+            <Text as="i" textAlign="center" maxW="md" textColor={green}>
+              *Este documento pertence a um Diretor A.A.A. Fúria.
+            </Text>
+          </Center>
+        ) : data?.socioAutenticado?.isSocio ? (
           <Center>
             <Text as="i" textAlign="center" maxW="md">
               *Este documento estará dentro da validade enquanto apresentar o

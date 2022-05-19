@@ -1,14 +1,4 @@
 import {
-  CustomButton,
-  CustomChakraNextLink,
-  PageHeading,
-  VoltarButton,
-} from '@/components/atoms';
-import { Card } from '@/components/molecules';
-import { Layout } from '@/components/templates';
-import { AuthContext } from '@/contexts/AuthContext';
-import { gql, useMutation, useQuery } from '@apollo/client';
-import {
   Badge,
   Box,
   Center,
@@ -24,11 +14,22 @@ import {
   useColorModeValue,
   useToast,
 } from '@chakra-ui/react';
-import { useRouter } from 'next/router';
-import { parseCookies } from 'nookies';
-import { useCallback, useContext, useEffect, useState } from 'react';
+import {
+  CustomButton,
+  CustomChakraNextLink,
+  PageHeading,
+  VoltarButton,
+} from '@/components/atoms';
 import { FaTicketAlt, FaWhatsapp } from 'react-icons/fa';
 import { MdLogin, MdPayment, MdSend } from 'react-icons/md';
+import { gql, useMutation, useQuery } from '@apollo/client';
+import { useCallback, useContext, useEffect, useState } from 'react';
+
+import { AuthContext } from '@/contexts/AuthContext';
+import { Card } from '@/components/molecules';
+import { Layout } from '@/components/templates';
+import { parseCookies } from 'nookies';
+import { useRouter } from 'next/router';
 
 const GET_LOTES = gql`
   query getLotes {
@@ -126,10 +127,10 @@ function Eventos() {
               description: (
                 <Box mx="auto">
                   <Text>
-                    Faça um PIX para <strong>mccvo14@gmail.com</strong>.
+                    Faça um PIX para <strong>pix@aaafuria.site</strong>.
                   </Text>
                   <Text textAlign={'center'} fontSize="sm">
-                    <em>Maria Clara e Vasconcelos Oliveira</em>
+                    <em>Albérico S S A Gonçalves</em>
                   </Text>
                   <CustomButton
                     colorScheme={'green'}
@@ -137,7 +138,7 @@ function Eventos() {
                     leftIcon={<FaWhatsapp size="25px" />}
                     shadow="base"
                     onClick={() =>
-                      window.open('https://wa.me/558694282438', '_blank')
+                      window.open('https://wa.me/558699619656', '_blank')
                     }
                   >
                     Enviar comprovante
@@ -287,16 +288,18 @@ function Eventos() {
                           R$ {node.precoSocio.toString().replace('.', ',')}
                         </Text>
                       </Box>
-                      <Box>
-                        <Text>NÃO SÓCIO</Text>
-                        <Text
-                          fontWeight={'extrabold'}
-                          fontSize={'3xl'}
-                          textShadow="base"
-                        >
-                          R$ {node.preco.toString().replace('.', ',')}
-                        </Text>
-                      </Box>
+                      {!node.evento.exclusivoSocios && (
+                        <Box>
+                          <Text>NÃO SÓCIO</Text>
+                          <Text
+                            fontWeight={'extrabold'}
+                            fontSize={'3xl'}
+                            textShadow="base"
+                          >
+                            R$ {node.preco.toString().replace('.', ',')}
+                          </Text>
+                        </Box>
+                      )}
                     </>
                   )}
                   {!node.evento.fechado && (
@@ -346,7 +349,8 @@ function Eventos() {
                   <em>
                     *Este ingresso, após a compra, é pessoal e intransferível. O
                     acesso ao evento é restrito ao titular do ingresso com a
-                    devida apresentação do mesmo na portaria.
+                    devida apresentação do mesmo na portaria, junto ao documento
+                    oficial com foto.
                   </em>
                 </Text>
               </Box>

@@ -1,3 +1,4 @@
+import { Box, Flex, HStack, Stack, useToast } from '@chakra-ui/react';
 import {
   CustomButton,
   CustomChakraNextLink,
@@ -5,18 +6,18 @@ import {
   PageHeading,
   VoltarButton,
 } from '@/components/atoms';
-import { AtividadesSocioTable } from '@/components/molecules';
-import { Layout } from '@/components/templates';
-import { AuthContext } from '@/contexts/AuthContext';
-import { Box, Flex, HStack, Stack, useToast } from '@chakra-ui/react';
-import { GetServerSideProps } from 'next';
-import { useRouter } from 'next/router';
-import { parseCookies } from 'nookies';
-import { useCallback, useContext, useEffect, useState } from 'react';
-import { AiOutlineCalendar } from 'react-icons/ai';
-import { CgTwilio } from 'react-icons/cg';
 import { FaDrum, FaPlus, FaVolleyballBall } from 'react-icons/fa';
+import { useCallback, useContext, useEffect, useState } from 'react';
+
+import { AiOutlineCalendar } from 'react-icons/ai';
+import { AtividadesSocioTable } from '@/components/molecules';
+import { AuthContext } from '@/contexts/AuthContext';
+import { CgTwilio } from 'react-icons/cg';
+import { GetServerSideProps } from 'next';
+import { Layout } from '@/components/templates';
 import { MdManageAccounts } from 'react-icons/md';
+import { parseCookies } from 'nookies';
+import { useRouter } from 'next/router';
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 interface AtividadesProps {}
@@ -111,7 +112,7 @@ function Atividades({}: AtividadesProps) {
           {isStaff && (
             <>
               <CustomChakraNextLink
-                href="https://diretoria.aaafuria.site/admin/atividades/programacao/add"
+                href={`${process.env.DIRETORIA_DOMAIN}/admin/atividades/programacao/add`}
                 chakraLinkProps={{
                   target: '_blank',
                 }}
@@ -125,7 +126,7 @@ function Atividades({}: AtividadesProps) {
                 </CustomButton>
               </CustomChakraNextLink>
               <CustomChakraNextLink
-                href="https://diretoria.aaafuria.site/admin/atividades/programacao"
+                href={`${process.env.DIRETORIA_DOMAIN}/admin/atividades/programacao`}
                 chakraLinkProps={{
                   target: '_blank',
                 }}

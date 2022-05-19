@@ -204,7 +204,7 @@ export const IssueInfoCard = ({
               <Skeleton isLoaded={!loadingIssueQuery}>
                 <Text textAlign={'right'} fontSize="sm">
                   <CustomChakraNextLink
-                    href={`https://diretoria.aaafuria.site/admin/core/socio/?q=${issue.author.matricula}`}
+                    href={`${process.env.DIRETORIA_DOMAIN}/admin/core/socio/?q=${issue.author.matricula}`}
                     chakraLinkProps={{
                       color: green,
                       fontWeight: 'bold',

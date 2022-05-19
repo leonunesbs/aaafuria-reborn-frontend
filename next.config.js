@@ -17,6 +17,7 @@ module.exports = withPWA({
   },
   env: {
     BACKEND_DOMAIN: 'https://backend.aaafuria.site',
+    DIRETORIA_DOMAIN: 'https://diretoria.aaafuria.site',
     NEXT_PUBLIC_GA_ID: 'G-K5LPGWWJL1',
     PUBLIC_AWS_URI: 'https://aaafuria-reborn.s3.sa-east-1.amazonaws.com/public',
     ANALYZE: false,

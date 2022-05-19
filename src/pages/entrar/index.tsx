@@ -269,7 +269,7 @@ export default function Entrar() {
                 </FormControl>
               </Collapse>
               <CustomChakraNextLink
-                href="https://diretoria.aaafuria.site/accounts/password_reset/"
+                href={`${process.env.DIRETORIA_DOMAIN}/accounts/password_reset/`}
                 chakraLinkProps={{
                   color: 'green',
                   textAlign: 'right',
