@@ -16,6 +16,8 @@ const defaultOptions: DefaultOptions = {
   },
 };
 
+// alterações teste
+
 const httpLink = createHttpLink({
   uri:
     process.env.NODE_ENV == 'development'
