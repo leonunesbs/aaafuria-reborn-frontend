@@ -1,16 +1,7 @@
 import {
-  ColorModeToggle,
-  CustomButton,
-  CustomChakraNextLink,
-  CustomIconButton,
-} from '@/components/atoms';
-import { AuthContext } from '@/contexts/AuthContext';
-import { ColorContext } from '@/contexts/ColorContext';
-import {
   Avatar,
   Box,
   Center,
-  chakra,
   Drawer,
   DrawerBody,
   DrawerCloseButton,
@@ -23,22 +14,33 @@ import {
   Skeleton,
   Stack,
   Text,
+  chakra,
   useDisclosure,
 } from '@chakra-ui/react';
-import Hamburger from 'hamburger-react';
-import NextImage from 'next/image';
-import { useRouter } from 'next/router';
-import { useContext, useEffect, useRef } from 'react';
-import { AiFillHome } from 'react-icons/ai';
-import { FaDrum, FaVolleyballBall } from 'react-icons/fa';
-import { GiPartyPopper } from 'react-icons/gi';
 import {
+  ColorModeToggle,
+  CustomButton,
+  CustomChakraNextLink,
+  CustomIconButton,
+} from '@/components/atoms';
+import { FaDrum, FaVolleyballBall } from 'react-icons/fa';
+import {
+  MdHelpCenter,
   MdLogin,
   MdLogout,
   MdManageAccounts,
   MdPerson,
   MdStore,
 } from 'react-icons/md';
+import { useContext, useEffect, useRef } from 'react';
+
+import { AiFillHome } from 'react-icons/ai';
+import { AuthContext } from '@/contexts/AuthContext';
+import { ColorContext } from '@/contexts/ColorContext';
+import { GiPartyPopper } from 'react-icons/gi';
+import Hamburger from 'hamburger-react';
+import NextImage from 'next/image';
+import { useRouter } from 'next/router';
 
 export const Header = () => {
   const router = useRouter();
@@ -113,6 +115,14 @@ export const Header = () => {
                 isActive={router.asPath == '/eventos'}
               >
                 Eventos
+              </CustomButton>
+            </CustomChakraNextLink>
+            <CustomChakraNextLink href="/ajuda/minhas-solicitacoes">
+              <CustomButton
+                variant={'solid'}
+                isActive={router.asPath == '/ajuda/minhas-solicitacoes'}
+              >
+                Ajuda
               </CustomButton>
             </CustomChakraNextLink>
           </HStack>
@@ -316,6 +326,16 @@ export const Header = () => {
                       </CustomButton>
                     </CustomChakraNextLink>
                   )}
+                  <CustomChakraNextLink href={'/ajuda/minhas-solicitacoes'}>
+                    <CustomButton
+                      isActive={router.asPath == '/ajuda/minhas-solicitacoes'}
+                      variant={'solid'}
+                      justifyContent={'flex-start'}
+                      leftIcon={<MdHelpCenter size="20px" />}
+                    >
+                      Ajuda
+                    </CustomButton>
+                  </CustomChakraNextLink>
                 </Stack>
                 <Box h={'1px'} my={6} bgColor={'rgb(0,0,0,0.5)'} rounded="sm" />
                 <Stack>
