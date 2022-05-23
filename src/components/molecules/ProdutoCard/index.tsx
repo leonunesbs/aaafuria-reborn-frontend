@@ -228,7 +228,7 @@ export const ProdutoCard = ({ node }: ProdutoCardProps) => {
           >
             {isAuthenticated
               ? node.plantaoOnly
-                ? 'PLANTÃO'
+                ? 'Plantão Only'
                 : 'Adicionar ao carrinho'
               : 'Faça login para comprar'}
           </Button>
