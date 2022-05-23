@@ -1,11 +1,5 @@
-import { PriceTag } from '@/components/atoms';
-import { CustomButton } from '@/components/atoms/CustomButton';
-import { Card } from '@/components/molecules';
-import { AuthContext } from '@/contexts/AuthContext';
-import { ColorContext } from '@/contexts/ColorContext';
-import { ProdutoType } from '@/pages/loja';
-import { gql, useMutation } from '@apollo/client';
-import { Flex, Heading, HStack, Stack } from '@chakra-ui/layout';
+import * as gtag from 'lib/gtag';
+
 import {
   Button,
   FormControl,
@@ -15,11 +9,19 @@ import {
   Text,
   useToast,
 } from '@chakra-ui/react';
-import * as gtag from 'lib/gtag';
-import { useRouter } from 'next/router';
+import { Flex, HStack, Heading, Stack } from '@chakra-ui/layout';
 import React, { useCallback, useContext } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
+import { gql, useMutation } from '@apollo/client';
+
+import { AuthContext } from '@/contexts/AuthContext';
+import { Card } from '@/components/molecules';
+import { ColorContext } from '@/contexts/ColorContext';
+import { CustomButton } from '@/components/atoms/CustomButton';
 import { MdShoppingCart } from 'react-icons/md';
+import { PriceTag } from '@/components/atoms';
+import { ProdutoType } from '@/pages/loja';
+import { useRouter } from 'next/router';
 
 export type ProdutoCardProps = ProdutoType;
 
@@ -222,9 +224,12 @@ export const ProdutoCard = ({ node }: ProdutoCardProps) => {
             colorScheme="green"
             isLoading={isLoading}
             loadingText="Adicionando..."
+            isDisabled={node.plantaoOnly}
           >
             {isAuthenticated
-              ? 'Adicionar ao carrinho'
+              ? node.plantaoOnly
+                ? 'PLANTÃO'
+                : 'Adicionar ao carrinho'
               : 'Faça login para comprar'}
           </Button>
         </Stack>
