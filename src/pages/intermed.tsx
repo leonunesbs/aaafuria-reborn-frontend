@@ -1,12 +1,13 @@
-import { PageHeading } from '@/components/atoms';
-import { Card } from '@/components/molecules';
-import { Layout } from '@/components/templates';
-import { AuthContext } from '@/contexts/AuthContext';
 import { Box, Heading, SimpleGrid, Stack } from '@chakra-ui/react';
-import { GetServerSideProps } from 'next';
-import { useRouter } from 'next/router';
-import { parseCookies } from 'nookies';
 import { useContext, useEffect } from 'react';
+
+import { AuthContext } from '@/contexts/AuthContext';
+import { Card } from '@/components/molecules';
+import { GetServerSideProps } from 'next';
+import { Layout } from '@/components/templates';
+import { PageHeading } from '@/components/atoms';
+import { parseCookies } from 'nookies';
+import { useRouter } from 'next/router';
 
 function Intermed() {
   const router = useRouter();
