@@ -26,7 +26,7 @@ import { parseCookies } from 'nookies';
 
 const PRODUTO_QUERY = gql`
   query getProdutos {
-    allProduto(isHidden: false) {
+    allProduto(isActive: true) {
       edges {
         node {
           id
@@ -35,6 +35,7 @@ const PRODUTO_QUERY = gql`
           preco
           precoSocio
           imagem
+          plantaoOnly
           hasVariations
           variacoes {
             edges {
@@ -66,6 +67,7 @@ export type ProdutoType = {
     precoSocio: number;
     imagem: string;
     hasVariations: boolean;
+    plantaoOnly: boolean;
     variacoes: {
       edges: {
         node: {

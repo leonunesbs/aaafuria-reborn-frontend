@@ -23,7 +23,11 @@ const QUERY_SOCIO = gql`
       avatar
       email
       isSocio
+      isAtleta
       matricula
+      rg
+      cpf
+      dataNascimento
       user {
         isStaff
       }
@@ -64,8 +68,12 @@ type UserData = {
   user: {
     isStaff: string;
   };
+  dataNascimento: string;
+  rg: string;
+  cpf: string;
   avatar: string;
-  isSocio: string;
+  isSocio: boolean;
+  isAtleta: boolean;
   matricula: string;
   conta: {
     calangos: string;

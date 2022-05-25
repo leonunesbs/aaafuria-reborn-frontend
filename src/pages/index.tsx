@@ -1,33 +1,35 @@
+import 'react-responsive-carousel/lib/styles/carousel.min.css';
+
+import {
+  Box,
+  Center,
+  Circle,
+  HStack,
+  Heading,
+  Stack,
+  Text,
+  chakra,
+  useColorModeValue,
+} from '@chakra-ui/react';
+import { Card, SejaSocioPricing } from '@/components/molecules';
 import {
   CustomButton,
   CustomChakraNextLink,
   CustomIconButton,
   PageHeading,
 } from '@/components/atoms';
-import { Card, SejaSocioPricing } from '@/components/molecules';
-import { Layout } from '@/components/templates/Layout';
+import { FaDrum, FaVolleyballBall } from 'react-icons/fa';
+import { useContext, useRef } from 'react';
+
+import { Carousel } from 'react-responsive-carousel';
 import { ColorContext } from '@/contexts/ColorContext';
+import CountUp from 'react-countup';
+import { GiPartyPopper } from 'react-icons/gi';
+import { Layout } from '@/components/templates/Layout';
+import { MdStore } from 'react-icons/md';
+import NextImage from 'next/image';
 import client from '@/services/apollo-client';
 import { gql } from '@apollo/client';
-import {
-  Box,
-  Center,
-  chakra,
-  Circle,
-  Heading,
-  HStack,
-  Stack,
-  Text,
-  useColorModeValue,
-} from '@chakra-ui/react';
-import NextImage from 'next/image';
-import { useContext, useRef } from 'react';
-import CountUp from 'react-countup';
-import { FaDrum, FaVolleyballBall } from 'react-icons/fa';
-import { GiPartyPopper } from 'react-icons/gi';
-import { MdStore } from 'react-icons/md';
-import { Carousel } from 'react-responsive-carousel';
-import 'react-responsive-carousel/lib/styles/carousel.min.css';
 
 type FeaturePostData = {
   id: string;
@@ -59,7 +61,6 @@ function Home({ post, partnerships }: HomeProps) {
   const ctaLogo = useColorModeValue('/logo-cinza.png', '/logo-branco.png');
   const ChakraNextImage = chakra(NextImage);
 
-  console.log(post);
   return (
     <Layout title="Início" px={0} py={0}>
       <Box py="12" px={{ base: '4', lg: '8' }}>

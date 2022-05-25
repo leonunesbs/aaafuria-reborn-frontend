@@ -1,10 +1,11 @@
-import { ProdutoPlantaoCard } from '@/components/molecules';
 import { gql, useQuery } from '@apollo/client';
+
+import { ProdutoPlantaoCard } from '@/components/molecules';
 import { SimpleGrid } from '@chakra-ui/react';
 
 const PRODUTO_QUERY = gql`
   query getProdutos {
-    allProduto {
+    allProduto(isActive: true) {
       edges {
         node {
           id
