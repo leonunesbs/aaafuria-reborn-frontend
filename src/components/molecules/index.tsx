@@ -11,6 +11,7 @@ import { IAuthenticatedHomeMenu } from './AuthenticatedHomeMenu/IAuthenticatedHo
 import { ICadastroDrawer } from './CadastroDrawer/ICadastroDrawer';
 import { ICard } from './Card/ICard';
 import { ISejaSocioPricing } from './SejaSocioPricing/ISejaSocioPricing';
+import { ISejaSocioPricingCard } from './SejaSocioPricingCard/ISejaSocioPricingCard';
 import { InputMatriculaPlantaoProps } from './InputMatriculaPlantao';
 import { IssueInfoCardProps } from './IssueInfoCard';
 import { PixTabPanelProps } from './PagamentoTabs/PIXTabPanel';
@@ -85,6 +86,9 @@ export const ProdutoPlantaoCard = dynamic<ProdutoPlantaoCardProps>(() =>
 );
 export const SejaSocioPricing = dynamic<ISejaSocioPricing>(() =>
   import('./SejaSocioPricing').then((mod) => mod.SejaSocioPricing),
+);
+export const SejaSocioPricingCard = dynamic<ISejaSocioPricingCard>(() =>
+  import('./SejaSocioPricingCard').then((mod) => mod.SejaSocioPricingCard),
 );
 export const SocialIcons = dynamic<any>(() =>
   import('./SocialIcons').then((mod) => mod.SocialIcons),
