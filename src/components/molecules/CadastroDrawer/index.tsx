@@ -26,35 +26,34 @@ import InputMask from 'react-input-mask';
 import { Layout } from '@/components/templates';
 import { useRouter } from 'next/router';
 
-const NOVO_USER = gql`
-  mutation novoUser(
-    $nome: String!
-    $apelido: String!
-    $matricula: String!
-    $turma: String!
-    $pin: String!
-    $email: String!
+const CREATE_ACCOUNT = gql`
+  mutation createAccount(
+    $username: String!
+    $password: String!
+    $name: String!
+    $nickname: String!
+    $birthDate: String!
+    $phone: String!
     $rg: String!
     $cpf: String!
-    $dataNascimento: String!
-    $whatsapp: String!
+    $avatar: Upload!
+    $group: String!
+    $email: String!
   ) {
-    novoUser(
-      nome: $nome
-      apelido: $apelido
-      matricula: $matricula
-      turma: $turma
-      pin: $pin
-      email: $email
+    createAccount(
+      username: $username
+      password: $password
+      name: $name
+      nickname: $nickname
+      birthDate: $birthDate
+      phone: $phone
       rg: $rg
       cpf: $cpf
-      dataNascimento: $dataNascimento
-      whatsapp: $whatsapp
+      avatar: $avatar
+      group: $group
+      email: $email
     ) {
-      socio {
-        nome
-        isSocio
-      }
+      ok
     }
   }
 `;
@@ -77,7 +76,7 @@ export const CadastroDrawer = ({
 
   const { signIn } = useContext(AuthContext);
 
-  const [mutateFunction, { error }] = useMutation(NOVO_USER);
+  const [mutateFunction, { error }] = useMutation(CREATE_ACCOUNT);
 
   useEffect(() => {
     setValue('matricula', matricula);
@@ -120,19 +119,20 @@ export const CadastroDrawer = ({
 
       mutateFunction({
         variables: {
-          matricula: data.matricula,
-          turma: data.turma,
-          email: data.email,
-          nome: data.nome,
-          apelido: data.apelido,
-          dataNascimento: data.dataNascimento,
-          whatsapp: data.whatsapp,
+          username: data.matricula,
+          password: data.pin,
+          name: data.nome,
+          nickname: data.apelido,
+          birthDate: data.dataNascimento,
+          phone: data.whatsapp,
           rg: data.rg,
           cpf: data.cpf,
-          pin: data.pin,
+          avatar: data.avatar[0],
+          group: data.turma,
+          email: data.email,
         },
-      }).then((res) => {
-        if (res.data) {
+      }).then(({ data: { ok } }) => {
+        if (ok) {
           signIn({ matricula: data.matricula, pin: data.pin });
         }
       });
@@ -324,6 +324,16 @@ export const CadastroDrawer = ({
                       required
                     />
                   </FormControl>
+                  <FormControl>
+                    <FormLabel>Foto: </FormLabel>
+                    <Input
+                      pt={1}
+                      type="file"
+                      focusBorderColor="green.500"
+                      {...register('avatar')}
+                      required
+                    />
+                  </FormControl>
 
                   <FormControl>
                     <FormLabel>PIN: </FormLabel>
@@ -399,6 +409,7 @@ export const CadastroDrawer = ({
                       )}
                     />
                   </FormControl>
+
                   <Text textAlign="center" fontSize="sm" color="red.500">
                     {error && error.message}
                   </Text>
