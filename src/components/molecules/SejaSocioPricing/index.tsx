@@ -20,7 +20,7 @@ import {
   useColorModeValue,
 } from '@chakra-ui/react';
 import { gql, useMutation } from '@apollo/client';
-import { useCallback, useContext, useEffect } from 'react';
+import { useCallback, useContext } from 'react';
 
 import { AuthContext } from '@/contexts/AuthContext';
 import { BsCurrencyDollar } from 'react-icons/bs';
@@ -31,21 +31,26 @@ import { ISejaSocioPricing } from './ISejaSocioPricing';
 import { MdLogin } from 'react-icons/md';
 import { useRouter } from 'next/router';
 
-const NOVO_PAGAMENTO = gql`
-  mutation novoPagamento($tipoPlano: String!) {
-    novoPagamento(tipoPlano: $tipoPlano) {
-      pagamento {
-        checkoutUrl
-      }
+const CHECKOUT_MEMBERSHIP = gql`
+  mutation checkoutMembership($membershipId: ID!, $method: String!) {
+    checkoutMembership(membershipId: $membershipId, method: $method) {
+      checkoutUrl
     }
   }
 `;
+
+type CheckoutMembership = {
+  checkoutMembership: {
+    checkoutUrl: string;
+  };
+};
 
 export const SejaSocioPricing = ({}: ISejaSocioPricing) => {
   const router = useRouter();
   const { green, bg } = useContext(ColorContext);
   const { isAuthenticated, token } = useContext(AuthContext);
-  const [mutateFunction, { loading, data }] = useMutation(NOVO_PAGAMENTO);
+  const [mutateFunction, { loading }] =
+    useMutation<CheckoutMembership>(CHECKOUT_MEMBERSHIP);
   const color = useColorModeValue('black', 'white');
   const planos = [
     {
@@ -60,6 +65,7 @@ export const SejaSocioPricing = ({}: ISejaSocioPricing) => {
         'Acumule Calangos para desconto no INTERMED!',
         'Desconto no BONDE DO AHAM',
       ],
+      membershipId: 'TWVtYmVyc2hpcFBsYW5Ob2RlOjE=',
     },
     {
       slug: 'Semestral',
@@ -78,6 +84,7 @@ export const SejaSocioPricing = ({}: ISejaSocioPricing) => {
         'Desconto no INTERMED!',
         'Desconto no BONDE DO AHAM',
       ],
+      membershipId: 'TWVtYmVyc2hpcFBsYW5Ob2RlOjE=',
     },
     {
       slug: 'Anual',
@@ -93,28 +100,27 @@ export const SejaSocioPricing = ({}: ISejaSocioPricing) => {
         'Desconto no INTERMED',
         'Desconto no BONDE DO AHAM',
       ],
+      membershipId: 'TWVtYmVyc2hpcFBsYW5Ob2RlOjE=',
     },
   ];
 
-  useEffect(() => {
-    if (data) {
-      router.push(data.novoPagamento.pagamento.checkoutUrl);
-    }
-  }, [data, router]);
   const handlePagar = useCallback(
-    (tipoPlano: string) => {
+    async (membershipId: string) => {
       mutateFunction({
         variables: {
-          tipoPlano: tipoPlano,
+          membershipId,
+          method: 'ST',
         },
         context: {
           headers: {
-            authorization: `JWT ${token || ' '}`,
+            authorization: `JWT ${token}`,
           },
         },
+      }).then(({ data }) => {
+        router.push(data?.checkoutMembership.checkoutUrl as string);
       });
     },
-    [mutateFunction, token],
+    [mutateFunction, router, token],
   );
   return (
     <SimpleGrid
@@ -250,7 +256,7 @@ export const SejaSocioPricing = ({}: ISejaSocioPricing) => {
                             colorScheme="green"
                             leftIcon={<BsCurrencyDollar />}
                             isDisabled={!isAuthenticated}
-                            onClick={() => handlePagar(plano.slug)}
+                            onClick={() => handlePagar(plano.membershipId)}
                             isLoading={loading}
                           >
                             Pagar

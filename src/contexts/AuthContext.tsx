@@ -119,9 +119,9 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
       setUser(response.data.socioByMatricula);
 
-      if (response.data.socioByMatricula === null) {
-        return signOut();
-      }
+      // if (response.data.socioByMatricula === null) {
+      //   return signOut();
+      // }
       setCookie(
         null,
         'aaafuriaIsSocio',
@@ -152,7 +152,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
       return response?.data.socioByMatricula?.isSocio;
     }
-  }, [isAuthenticated, matricula, signOut]);
+  }, [isAuthenticated, matricula]);
 
   const signIn = useCallback(
     async ({ matricula, pin, redirectUrl }: SignInData) => {
