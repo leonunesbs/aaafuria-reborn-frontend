@@ -42,7 +42,7 @@ type FeaturePostData = {
 type PartnershipsData = {
   id: string;
   name: string;
-  socioBenefits: string;
+  benefits: string;
   logo: string;
 };
 interface HomeProps {
@@ -487,12 +487,12 @@ export const getStaticProps = async () => {
   const { data: partnershipsData } = await client.query({
     query: gql`
       query {
-        allPartnerships {
+        allPartners {
           edges {
             node {
               id
               name
-              socioBenefits
+              benefits
               logo
             }
           }
@@ -504,7 +504,7 @@ export const getStaticProps = async () => {
   return {
     props: {
       post: featurePostData.featurePost,
-      partnerships: partnershipsData.allPartnerships.edges,
+      partnerships: partnershipsData.allPartners.edges,
     },
     revalidate: 60 * 60 * 1, // Every 1 hour
   };
