@@ -17,4 +17,5 @@ export type CadastroInputsType = {
   dataNascimento: string;
   rg: string;
   cpf: string;
+  avatar: string;
 };
