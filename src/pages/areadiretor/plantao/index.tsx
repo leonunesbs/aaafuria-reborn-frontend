@@ -18,14 +18,14 @@ import { parseCookies } from 'nookies';
 import { useRouter } from 'next/router';
 
 function Plantao() {
-  const { isStaff } = useContext(AuthContext);
+  const { user } = useContext(AuthContext);
   const router = useRouter();
 
   const [socioData, setSocioData] = useState<any | null>(null);
 
   useEffect(() => {
-    isStaff === false && router.replace('/');
-  }, [isStaff, router]);
+    user?.isStaff === false && router.replace('/');
+  }, [user, router]);
 
   return (
     <Layout title="Plantão de vendas" position={'relative'}>
