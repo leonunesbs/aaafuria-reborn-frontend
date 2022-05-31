@@ -137,22 +137,21 @@ function Intermed() {
 
   return (
     <Layout title="Intermed">
-      <Box maxW="7xl" mx="auto">
+      <Box maxW="4xl" mx="auto">
         <PageHeading>VI Intermed Nordeste</PageHeading>
-        <SimpleGrid columns={[1, 2]} spacing={2}>
+        <SimpleGrid columns={1} spacing={2}>
           <Card>
             <Stack>
               <Heading size="md" as="h2">
                 1. Cadastre-se do VI INTERMED NORDESTE e reserve seu LOTE
               </Heading>
-              <Box
-                as="iframe"
-                src="/intermed.html"
-                w="full"
-                minH="2xl"
-                rounded="md"
-                p={0}
-              />
+              <CustomButton
+                onClick={() =>
+                  window.open('http://intermednordeste.com/login', '_blank')
+                }
+              >
+                Cadastre-se no INTERMED
+              </CustomButton>
             </Stack>
           </Card>
 
