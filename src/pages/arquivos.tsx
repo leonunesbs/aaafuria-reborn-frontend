@@ -1,13 +1,4 @@
 import {
-  CustomChakraNextLink,
-  PageHeading,
-  VoltarButton,
-} from '@/components/atoms';
-import { Card } from '@/components/molecules';
-import { Layout } from '@/components/templates';
-import { AuthContext } from '@/contexts/AuthContext';
-import { gql, useQuery } from '@apollo/client';
-import {
   Box,
   Center,
   Spinner,
@@ -20,9 +11,19 @@ import {
   Tr,
   useColorModeValue,
 } from '@chakra-ui/react';
+import {
+  CustomChakraNextLink,
+  PageHeading,
+  VoltarButton,
+} from '@/components/atoms';
+import { gql, useQuery } from '@apollo/client';
+
+import { AuthContext } from '@/contexts/AuthContext';
+import { Card } from '@/components/molecules';
 import { GetServerSideProps } from 'next';
+import { Layout } from '@/components/templates';
 import { parseCookies } from 'nookies';
-import { useContext, useEffect } from 'react';
+import { useContext } from 'react';
 
 type AllFilesProps = {
   allFiles: {
@@ -60,7 +61,7 @@ const GET_ALL_FILES = gql`
 
 function Arquivos() {
   const green = useColorModeValue('green.600', 'green.200');
-  const { token, matricula, checkCredentials } = useContext(AuthContext);
+  const { token, user } = useContext(AuthContext);
 
   const { data, loading } = useQuery<AllFilesProps>(GET_ALL_FILES, {
     context: {
@@ -69,10 +70,6 @@ function Arquivos() {
       },
     },
   });
-
-  useEffect(() => {
-    checkCredentials();
-  }, [checkCredentials]);
 
   if (loading) {
     return (
@@ -104,7 +101,8 @@ function Arquivos() {
                       key={file.id}
                       fontWeight={
                         file.viewers.edges.find(
-                          (node) => node.node.matricula === matricula,
+                          (node) =>
+                            node.node.matricula === user?.member.registration,
                         )
                           ? 'normal'
                           : 'extrabold'
