@@ -88,12 +88,14 @@ function Intermed() {
     async (data) => {
       const { attachments } = data;
 
-      const amount = user?.member.hasActiveMembership
-        ? user.member.firstTeamer
-          ? price.atletaOuRitmista
-          : new Date(
-              user.member.activeMembership?.currentEndDate as string,
-            ).getMonth() == 11 && price.socioAnual
+      const amount = user?.member.firstTeamer
+        ? price.atletaOuRitmista
+        : user?.member.hasActiveMembership
+        ? new Date(
+            user.member.activeMembership?.currentEndDate as string,
+          ).getMonth() == 11
+          ? price.socioAnual
+          : price.naoSocio
         : price.naoSocio;
 
       await createPayment({
