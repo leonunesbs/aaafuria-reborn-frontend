@@ -179,9 +179,9 @@ export const SejaSocioPricing = ({}: ISejaSocioPricing) => {
                     Assine agora e aproveite 5% de desconto na{' '}
                     <strong>primeira associação</strong>!
                   </Text>
-                  <Text textAlign="center" fontSize="sm">
+                  {/* <Text textAlign="center" fontSize="sm">
                     {plano.descricao}
-                  </Text>
+                  </Text> */}
                   <PopoverTrigger>
                     <Button
                       colorScheme="green"
