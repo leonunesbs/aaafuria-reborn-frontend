@@ -54,20 +54,6 @@ export const SejaSocioPricing = ({}: ISejaSocioPricing) => {
   const color = useColorModeValue('black', 'white');
   const planos = [
     {
-      slug: 'Mensal',
-      nome: 'PLANO MENSAL',
-      valor: '24,90',
-      features: [
-        '1 mês de acesso com renovação automática',
-        'Participe dos treinos de todas as modalidades',
-        'Participe dos ensaios da Carabina',
-        'Ganhe desconto em produtos e eventos',
-        'Acumule Calangos para desconto no INTERMED!',
-        'Desconto no BONDE DO AHAM',
-      ],
-      membershipId: 'TWVtYmVyc2hpcFBsYW5Ob2RlOjE=',
-    },
-    {
       slug: 'Semestral',
       nome: 'PACOTE SEMESTRAL',
       descricao: `Associação válida até (${
@@ -124,7 +110,7 @@ export const SejaSocioPricing = ({}: ISejaSocioPricing) => {
   );
   return (
     <SimpleGrid
-      columns={{ base: 1, lg: 3 }}
+      columns={{ base: 1, lg: 2 }}
       spacing={{ base: '8', lg: '2' }}
       maxW="7xl"
       mx="auto"
@@ -172,15 +158,6 @@ export const SejaSocioPricing = ({}: ISejaSocioPricing) => {
 
                 <Text fontSize="2xl" fontWeight="extrabold" color={green}>
                   R${plano.valor}
-                  <Text fontSize="lg" fontWeight="light" as="i" color={color}>
-                    {plano.slug === 'Mensal' && '/mês'}
-                    {plano.slug === 'Semestral' &&
-                      `/${new Date().getFullYear()}.${
-                        new Date().getMonth() > 6 ? '2' : '1'
-                      }`}
-                    {plano.slug === 'Anual' &&
-                      `/${new Date().getFullYear()}.1 + ${new Date().getFullYear()}.2`}
-                  </Text>
                 </Text>
                 <List spacing="4" mx="auto">
                   {plano.features.map((feature, index) => (

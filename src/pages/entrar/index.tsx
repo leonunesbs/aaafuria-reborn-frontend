@@ -109,13 +109,19 @@ export default function Entrar() {
       if (!login) {
         return checkMatricula(matricula);
       }
-
       await signIn({
         matricula,
         pin,
         redirectUrl: after,
       })
-        .then(() => {
+        .then(({ tokenAuth }) => {
+          toast({
+            description: `Olá ${tokenAuth.user.member.nickname}, bem vind@ de volta!`,
+            status: 'success',
+            duration: 2500,
+            isClosable: true,
+            position: 'top-left',
+          });
           gtag.event({
             action: 'login',
             category: 'engagement',
@@ -127,7 +133,7 @@ export default function Entrar() {
           setError('matricula', { message });
         });
     },
-    [after, checkMatricula, login, setError, signIn],
+    [after, checkMatricula, login, setError, signIn, toast],
   );
 
   useEffect(() => {

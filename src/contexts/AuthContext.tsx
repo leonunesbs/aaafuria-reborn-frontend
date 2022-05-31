@@ -24,7 +24,8 @@ const SIGN_IN = gql`
           rg
           cpf
           hasActiveMembership
-          membership {
+          firstTeamer
+          activeMembership {
             startDate
             currentEndDate
           }
@@ -37,7 +38,13 @@ const SIGN_IN = gql`
 interface AuthContextProps {
   isAuthenticated: boolean;
   token: string;
-  signIn: (data: SignInData) => Promise<void>;
+  signIn: (data: SignInData) => Promise<{
+    tokenAuth: {
+      token: string;
+      payload: string;
+      user: UserData;
+    };
+  }>;
   signOut: () => void;
   checkAuth: () => Promise<void>;
   user: UserData | null;
@@ -67,7 +74,8 @@ type UserData = {
     rg: string;
     cpf: string;
     hasActiveMembership: boolean;
-    membership: {
+    firstTeamer: boolean;
+    activeMembership: {
       startDate: string;
       currentEndDate: string;
     } | null;
@@ -88,7 +96,9 @@ export function AuthProvider({ children }: AuthProviderProps) {
   const signOut = useCallback(() => {
     destroyCookie(null, 'aaafuriaToken');
     setUser(null);
-  }, []);
+
+    router.reload();
+  }, [router]);
 
   const checkAuth = useCallback(async () => {
     if (isAuthenticated) {
@@ -109,7 +119,8 @@ export function AuthProvider({ children }: AuthProviderProps) {
                 rg
                 cpf
                 hasActiveMembership
-                membership {
+                firstTeamer
+                activeMembership {
                   startDate
                   currentEndDate
                 }

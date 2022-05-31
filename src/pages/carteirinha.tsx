@@ -182,14 +182,14 @@ function Carteirinha({}: CarteirinhaProps) {
                     <FormLabel>Valido até:</FormLabel>
                     <CarteirinhaInput
                       type="date"
-                      value={user?.member.membership?.currentEndDate}
+                      value={user?.member.activeMembership?.currentEndDate}
                     />
                   </FormControl>
                   <FormControl>
                     <FormLabel>Sócio desde:</FormLabel>
                     <CarteirinhaInput
                       type="date"
-                      value={user?.member.membership?.startDate}
+                      value={user?.member.activeMembership?.startDate}
                     />
                   </FormControl>
                 </SimpleGrid>
