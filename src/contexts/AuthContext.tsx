@@ -88,9 +88,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
   const signOut = useCallback(() => {
     destroyCookie(null, 'aaafuriaToken');
     setUser(null);
-
-    router.reload();
-  }, [router]);
+  }, []);
 
   const checkAuth = useCallback(async () => {
     if (isAuthenticated) {
