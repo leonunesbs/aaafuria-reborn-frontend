@@ -147,7 +147,7 @@ function Intermed() {
               </Heading>
               <Box
                 as="iframe"
-                sandbox="allow-same-origin allow-scripts allow-popups allow-forms"
+                sandbox="allow-top-navigation allow-scripts allow-forms"
                 src="/intermed.html"
                 w="full"
                 h="4xl"
