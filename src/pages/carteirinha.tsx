@@ -23,8 +23,8 @@ import {
   VoltarButton,
 } from '@/components/atoms';
 import React, { useContext } from 'react';
-import { gql, useQuery } from '@apollo/client';
 
+import { AuthContext } from '@/contexts/AuthContext';
 import { Card } from '@/components/molecules';
 import { ColorContext } from '@/contexts/ColorContext';
 import { GetServerSideProps } from 'next';
@@ -33,42 +33,11 @@ import { Layout } from '@/components/templates';
 import { MdRefresh } from 'react-icons/md';
 import { parseCookies } from 'nookies';
 
-const GET_SOCIO = gql`
-  query {
-    socioAutenticado {
-      id
-      user {
-        isStaff
-      }
-      matricula
-      avatar
-      nome
-      email
-      apelido
-      dataNascimento
-      cpf
-      rg
-      isSocio
-      dataInicio
-      dataFim
-    }
-  }
-`;
+type CarteirinhaProps = BoxProps;
 
-interface CarteirinhaProps extends BoxProps {
-  token: string;
-}
-
-function Carteirinha({ token }: CarteirinhaProps) {
+function Carteirinha({}: CarteirinhaProps) {
   const { green, bg } = useContext(ColorContext);
-  const { data, refetch, loading } = useQuery(GET_SOCIO, {
-    context: {
-      headers: {
-        authorization: `JWT ${token || ' '}`,
-      },
-    },
-  });
-
+  const { user, checkAuth } = useContext(AuthContext);
   const cardBg = useColorModeValue('green.50', 'green.900');
 
   return (
@@ -81,9 +50,9 @@ function Carteirinha({ token }: CarteirinhaProps) {
           border="1px solid green"
           bgColor={cardBg}
           filter={
-            data?.socioAutenticado?.user.isStaff
+            user?.isStaff
               ? 'inherit'
-              : data?.socioAutenticado?.isSocio
+              : user?.member.hasActiveMembership
               ? 'inherit'
               : 'grayscale(100%)'
           }
@@ -107,9 +76,9 @@ function Carteirinha({ token }: CarteirinhaProps) {
               letterSpacing="wider"
               color={bg}
             >
-              {data?.socioAutenticado?.user.isStaff
+              {user?.isStaff
                 ? 'DIRETOR'
-                : data?.socioAutenticado?.isSocio
+                : user?.member.hasActiveMembership
                 ? 'SÓCIO ATIVO'
                 : 'SÓCIO INATIVO'}
             </Text>
@@ -141,11 +110,11 @@ function Carteirinha({ token }: CarteirinhaProps) {
             <GridItem d="flex" alignItems="center" justifyContent="center">
               <Avatar
                 size="2xl"
-                name={data?.socioAutenticado?.nome}
-                src={data?.socioAutenticado?.avatar}
+                name={user?.member.name}
+                src={user?.member.avatar}
                 m={4}
                 border={
-                  data?.socioAutenticado?.isSocio
+                  user?.member.hasActiveMembership
                     ? '5px solid green'
                     : '5px solid gray'
                 }
@@ -160,17 +129,14 @@ function Carteirinha({ token }: CarteirinhaProps) {
                   rounded={{ base: 'md', sm: 'lg' }}
                 >
                   <Text fontSize="2xl" fontWeight="extrabold" color="green.800">
-                    {data?.socioAutenticado?.nome}
+                    {user?.member.name}
                   </Text>
                 </Box>
                 <Divider height="15px" colorScheme="green" variant="solid" />
 
                 <FormControl>
                   <FormLabel>Email:</FormLabel>
-                  <CarteirinhaInput
-                    value={data?.socioAutenticado?.email}
-                    type="email"
-                  />
+                  <CarteirinhaInput value={user?.member.email} type="email" />
                 </FormControl>
                 <SimpleGrid
                   columns={{ base: 1, lg: 2 }}
@@ -180,15 +146,13 @@ function Carteirinha({ token }: CarteirinhaProps) {
                 >
                   <FormControl>
                     <FormLabel>Matrícula:</FormLabel>
-                    <CarteirinhaInput
-                      value={data?.socioAutenticado?.matricula}
-                    />
+                    <CarteirinhaInput value={user?.member.registration} />
                   </FormControl>
                   <FormControl>
                     <FormLabel>Data de nascimento:</FormLabel>
                     <CarteirinhaInput
                       type="date"
-                      value={data?.socioAutenticado?.dataNascimento}
+                      value={user?.member.birthDate}
                     />
                   </FormControl>
                 </SimpleGrid>
@@ -200,10 +164,7 @@ function Carteirinha({ token }: CarteirinhaProps) {
                 >
                   <FormControl>
                     <FormLabel>RG:</FormLabel>
-                    <CarteirinhaInput
-                      type="number"
-                      value={data?.socioAutenticado?.rg}
-                    />
+                    <CarteirinhaInput type="number" value={user?.member.rg} />
                   </FormControl>
                   <FormControl>
                     <FormLabel>CPF:</FormLabel>
@@ -212,7 +173,7 @@ function Carteirinha({ token }: CarteirinhaProps) {
                       mask="999.999.999-99"
                       variant="fluxed"
                       isReadOnly
-                      value={data?.socioAutenticado?.cpf}
+                      value={user?.member.cpf}
                       bgColor="green.100"
                       color="green.900"
                     />
@@ -221,14 +182,14 @@ function Carteirinha({ token }: CarteirinhaProps) {
                     <FormLabel>Valido até:</FormLabel>
                     <CarteirinhaInput
                       type="date"
-                      value={data?.socioAutenticado?.dataFim}
+                      value={user?.member.membership?.currentEndDate}
                     />
                   </FormControl>
                   <FormControl>
                     <FormLabel>Sócio desde:</FormLabel>
                     <CarteirinhaInput
                       type="date"
-                      value={data?.socioAutenticado?.dataInicio}
+                      value={user?.member.membership?.startDate}
                     />
                   </FormControl>
                 </SimpleGrid>
@@ -237,13 +198,13 @@ function Carteirinha({ token }: CarteirinhaProps) {
           </Grid>
         </Card>
 
-        {data?.socioAutenticado?.user.isStaff ? (
+        {user?.isStaff ? (
           <Center>
             <Text as="i" textAlign="center" maxW="md" textColor={green}>
               *Este documento pertence a um Diretor A.A.A. Fúria.
             </Text>
           </Center>
-        ) : data?.socioAutenticado?.isSocio ? (
+        ) : user?.member.hasActiveMembership ? (
           <Center>
             <Text as="i" textAlign="center" maxW="md">
               *Este documento estará dentro da validade enquanto apresentar o
@@ -269,8 +230,7 @@ function Carteirinha({ token }: CarteirinhaProps) {
             variant="ghost"
             maxW="md"
             w="100%"
-            isLoading={loading}
-            onClick={() => refetch()}
+            onClick={checkAuth}
           >
             Atualizar
           </Button>

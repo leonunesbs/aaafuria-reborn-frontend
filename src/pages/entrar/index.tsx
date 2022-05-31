@@ -94,12 +94,14 @@ export default function Entrar() {
             isClosable: true,
             position: 'top-left',
           });
-          router.push(`/entrar?cadastro=${matricula}`);
+          router.push(
+            `/entrar?cadastro=${matricula}${after ? `&after=${after}` : ''}`,
+          );
           cadastroDisclosure.onOpen();
         }
       });
     },
-    [cadastroDisclosure, refetch, router, toast],
+    [after, cadastroDisclosure, refetch, router, toast],
   );
 
   const onSubmit: SubmitHandler<Inputs> = useCallback(

@@ -45,7 +45,7 @@ const ADD_TO_CART = gql`
 
 export const ProdutoCard = ({ node }: ProdutoCardProps) => {
   const router = useRouter();
-  const { isAuthenticated, isSocio, token } = useContext(AuthContext);
+  const { isAuthenticated, user, token } = useContext(AuthContext);
   const { register, handleSubmit } = useForm<any>();
   const { green, bg } = useContext(ColorContext);
 
@@ -136,7 +136,7 @@ export const ProdutoCard = ({ node }: ProdutoCardProps) => {
         px="0"
         py="0"
       >
-        {isSocio && (
+        {user?.member.hasActiveMembership && (
           <Flex
             d="none"
             zIndex={1}

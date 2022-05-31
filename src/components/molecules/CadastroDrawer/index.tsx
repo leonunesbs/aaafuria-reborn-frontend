@@ -66,7 +66,8 @@ export const CadastroDrawer = ({
   ...rest
 }: ICadastroDrawer) => {
   const router = useRouter();
-  const { cadastro }: { cadastro?: string } = router.query;
+  const { cadastro, after }: { cadastro?: string; after?: string } =
+    router.query;
   const { control, register, handleSubmit, setValue } =
     useForm<CadastroInputsType>({
       defaultValues: {
@@ -135,17 +136,21 @@ export const CadastroDrawer = ({
         },
       }).then((res) => {
         if (res.data) {
-          signIn({ matricula: data.matricula, pin: data.pin });
+          signIn({
+            matricula: data.matricula,
+            pin: data.pin,
+            redirectUrl: after,
+          });
         }
       });
     },
-    [mutateFunction, signIn, toast],
+    [after, mutateFunction, signIn, toast],
   );
 
   const handleClose = useCallback(() => {
     onClose();
-    router.replace('/entrar');
-  }, [onClose, router]);
+    router.replace(`/entrar${after ? `?after=${after}` : ''}`);
+  }, [after, onClose, router]);
 
   return (
     <Drawer
