@@ -12,17 +12,15 @@ import {
   PageHeading,
   VoltarButton,
 } from '@/components/atoms';
-import React, { useContext, useEffect } from 'react';
 import { gql, useQuery } from '@apollo/client';
 
 import { AiOutlineUnorderedList } from 'react-icons/ai';
-import { AuthContext } from '@/contexts/AuthContext';
 import { GetStaticProps } from 'next';
 import { Layout } from '@/components/templates';
 import { MdShoppingCart } from 'react-icons/md';
 import { ProdutoCard } from '@/components/molecules';
+import React from 'react';
 import client from '@/services/apollo-client';
-import { parseCookies } from 'nookies';
 
 const PRODUTO_QUERY = gql`
   query getProdutos {
@@ -82,16 +80,6 @@ export type ProdutoType = {
 
 function Loja() {
   const { data: produtos, loading } = useQuery<QueryData>(PRODUTO_QUERY);
-  const { checkCredentials } = useContext(AuthContext);
-  const [isSocio, setIsSocio] = React.useState(false);
-
-  useEffect(() => {
-    checkCredentials();
-
-    if (parseCookies()['aaafuriaIsSocio'] === 'true') {
-      setIsSocio(true);
-    }
-  }, [isSocio, checkCredentials]);
 
   return (
     <Layout title="Loja">

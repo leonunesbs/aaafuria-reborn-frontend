@@ -1,8 +1,9 @@
+import { HStack, Text } from '@chakra-ui/react';
+
 import { AuthContext } from '@/contexts/AuthContext';
 import { ColorContext } from '@/contexts/ColorContext';
-import { HStack, Text } from '@chakra-ui/react';
-import { useContext } from 'react';
 import { IPriceTag } from './IPriceTag';
+import { useContext } from 'react';
 
 export const PriceTag = ({
   price,
@@ -10,7 +11,7 @@ export const PriceTag = ({
   quantity = 1,
   ...rest
 }: IPriceTag) => {
-  const { isSocio } = useContext(AuthContext);
+  const { user } = useContext(AuthContext);
   const { green } = useContext(ColorContext);
   const subPrice = price * quantity;
   const subDiscountedPrice = discountedPrice && discountedPrice * quantity;
@@ -22,7 +23,7 @@ export const PriceTag = ({
 
   return (
     <HStack {...rest}>
-      {isSocio && discountedPrice ? (
+      {user?.member.hasActiveMembership && discountedPrice ? (
         <>
           <Text as="s" fontWeight={'light'}>
             {priceText}

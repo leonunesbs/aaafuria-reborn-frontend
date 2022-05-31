@@ -25,7 +25,6 @@ const QUERY_SOCIO = gql`
       matricula
       turma
       email
-
       isSocio
       user {
         isStaff

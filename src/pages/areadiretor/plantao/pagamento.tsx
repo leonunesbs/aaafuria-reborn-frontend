@@ -84,7 +84,7 @@ export type CarrinhoData = {
 };
 
 function Pagamento() {
-  const { isStaff } = useContext(AuthContext);
+  const { user } = useContext(AuthContext);
 
   const router = useRouter();
   const { id = '' }: any = router.query;
@@ -103,8 +103,8 @@ function Pagamento() {
   }, [id]);
 
   useEffect(() => {
-    isStaff === false && router.replace('/');
-  }, [isStaff, router]);
+    user?.isStaff === false && router.replace('/');
+  }, [user, router]);
 
   return (
     <Layout title="Pagamento plantão">

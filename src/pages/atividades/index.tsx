@@ -24,8 +24,7 @@ interface AtividadesProps {}
 
 function Atividades({}: AtividadesProps) {
   const toast = useToast();
-  const { isStaff, isSocio, checkCredentials, isAuthenticated } =
-    useContext(AuthContext);
+  const { isAuthenticated, user } = useContext(AuthContext);
   const [categoria, setCategoria] = useState('Esporte');
   const router = useRouter();
 
@@ -38,13 +37,11 @@ function Atividades({}: AtividadesProps) {
   );
 
   useEffect(() => {
-    checkCredentials();
-
     if (!isAuthenticated) {
       router.push(`/entrar?after=${router.asPath}`);
     }
 
-    if (isStaff === false && isSocio === false) {
+    if (user?.isStaff === false && user.member.hasActiveMembership === false) {
       toast({
         title: 'Que pena! Você não é sócio...',
         description: 'Mas nossa associação está aberta, Seja Sócio!',
@@ -55,7 +52,7 @@ function Atividades({}: AtividadesProps) {
       });
       router.push('/#seja-socio');
     }
-  }, [checkCredentials, isAuthenticated, isSocio, isStaff, router, toast]);
+  }, [isAuthenticated, router, toast, user]);
 
   useEffect(() => {
     const query = router.query.categoria;
@@ -81,7 +78,7 @@ function Atividades({}: AtividadesProps) {
             onClick={() => handleCategoria('Bateria')}
             isActive={categoria === 'Bateria'}
           />
-          {isStaff && (
+          {user?.isStaff && (
             <CustomIconButton
               aria-label="Diretoria"
               icon={<MdManageAccounts size="25px" />}
@@ -109,7 +106,7 @@ function Atividades({}: AtividadesProps) {
           </CustomChakraNextLink>
         </Flex>
         <Stack mt={6}>
-          {isStaff && (
+          {user?.isStaff && (
             <>
               <CustomChakraNextLink
                 href={`${process.env.DIRETORIA_DOMAIN}/admin/atividades/programacao/add`}

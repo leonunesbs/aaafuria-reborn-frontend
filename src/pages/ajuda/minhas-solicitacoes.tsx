@@ -1,16 +1,4 @@
 import {
-  CustomButton,
-  CustomChakraNextLink,
-  CustomIconButton,
-  PageHeading,
-  VoltarButton,
-} from '@/components/atoms';
-import { Card } from '@/components/molecules';
-import { Layout } from '@/components/templates';
-import { AuthContext } from '@/contexts/AuthContext';
-import { ColorContext } from '@/contexts/ColorContext';
-import { gql, useMutation, useQuery } from '@apollo/client';
-import {
   Badge,
   Drawer,
   DrawerBody,
@@ -37,14 +25,27 @@ import {
   useDisclosure,
   useToast,
 } from '@chakra-ui/react';
-import { GetServerSideProps } from 'next';
-import router from 'next/router';
-import { parseCookies } from 'nookies';
-import { useCallback, useContext, useEffect, useRef } from 'react';
-import { SubmitHandler, useForm } from 'react-hook-form';
-import { FaEye } from 'react-icons/fa';
+import {
+  CustomButton,
+  CustomChakraNextLink,
+  CustomIconButton,
+  PageHeading,
+  VoltarButton,
+} from '@/components/atoms';
 import { MdAdd, MdHelpCenter, MdSend } from 'react-icons/md';
+import { SubmitHandler, useForm } from 'react-hook-form';
+import { gql, useMutation, useQuery } from '@apollo/client';
+import { useCallback, useContext, useEffect, useRef } from 'react';
+
+import { AuthContext } from '@/contexts/AuthContext';
+import { Card } from '@/components/molecules';
+import { ColorContext } from '@/contexts/ColorContext';
+import { FaEye } from 'react-icons/fa';
+import { GetServerSideProps } from 'next';
 import { IIssueType } from './IIssueType';
+import { Layout } from '@/components/templates';
+import { parseCookies } from 'nookies';
+import router from 'next/router';
 
 type Inputs = {
   title: string;
@@ -105,8 +106,7 @@ function Solicitacoes() {
   const createIssueDisclosure = useDisclosure();
   const { register, handleSubmit, reset } = useForm<Inputs>();
   const { green, bg } = useContext(ColorContext);
-  const { token, isStaff, checkCredentials, isAuthenticated } =
-    useContext(AuthContext);
+  const { token, user, isAuthenticated } = useContext(AuthContext);
 
   const { data, refetch } = useQuery<QueryData>(GET_ISSUES, {
     context: {
@@ -126,11 +126,10 @@ function Solicitacoes() {
 
   useEffect(() => {
     refetch();
-    checkCredentials();
     if (!isAuthenticated) {
       router.push(`/entrar?after=${router.asPath}`);
     }
-  }, [checkCredentials, isAuthenticated, refetch]);
+  }, [isAuthenticated, refetch]);
 
   const onSubmit: SubmitHandler<Inputs> = useCallback(
     async ({ title, description, priority, category }: Inputs) => {
@@ -264,7 +263,7 @@ function Solicitacoes() {
           >
             Nova solicitação
           </CustomButton>
-          {isStaff && (
+          {user?.isStaff && (
             <CustomChakraNextLink href={'/ajuda/gerenciar-solicitacoes'}>
               <CustomButton
                 leftIcon={<MdHelpCenter size="25px" />}

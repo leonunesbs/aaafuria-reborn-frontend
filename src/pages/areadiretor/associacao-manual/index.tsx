@@ -1,8 +1,3 @@
-import { CustomButton, PageHeading, VoltarButton } from '@/components/atoms';
-import { Card } from '@/components/molecules';
-import { Layout } from '@/components/templates';
-import { AuthContext } from '@/contexts/AuthContext';
-import { gql, useMutation, useQuery } from '@apollo/client';
 import {
   Box,
   Collapse,
@@ -16,10 +11,16 @@ import {
   useDisclosure,
   useToast,
 } from '@chakra-ui/react';
-import { useRouter } from 'next/router';
-import { useCallback, useContext, useEffect, useState } from 'react';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
+import { CustomButton, PageHeading, VoltarButton } from '@/components/atoms';
 import { MdCheck, MdRefresh } from 'react-icons/md';
+import { gql, useMutation, useQuery } from '@apollo/client';
+import { useCallback, useContext, useEffect, useState } from 'react';
+
+import { AuthContext } from '@/contexts/AuthContext';
+import { Card } from '@/components/molecules';
+import { Layout } from '@/components/templates';
+import { useRouter } from 'next/router';
 
 const QUERY_SOCIO = gql`
   query socioByMatricula($matricula: String) {
@@ -54,7 +55,7 @@ type Inputs = {
 };
 
 function AssociacaoManual() {
-  const { token, isStaff, checkCredentials } = useContext(AuthContext);
+  const { token, user } = useContext(AuthContext);
   const { data, refetch } = useQuery(QUERY_SOCIO);
   const toast = useToast();
   const router = useRouter();
@@ -120,9 +121,7 @@ function AssociacaoManual() {
   );
 
   useEffect(() => {
-    checkCredentials();
-
-    if (isStaff === false) {
+    if (user?.isStaff === false) {
       toast({
         title: 'Restrito.',
         description: 'Você não tem permissão para acessar esta área.',
@@ -133,7 +132,7 @@ function AssociacaoManual() {
       });
       router.push('/');
     }
-  }, [checkCredentials, isStaff, router, toast]);
+  }, [router, toast, user?.isStaff]);
 
   return (
     <Layout title="Associação manual">

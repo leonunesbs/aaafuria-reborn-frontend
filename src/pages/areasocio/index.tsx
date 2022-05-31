@@ -11,13 +11,11 @@ import { useRouter } from 'next/router';
 
 function AreaSocio() {
   const router = useRouter();
-  const { isSocio, checkCredentials } = useContext(AuthContext);
+  const { user } = useContext(AuthContext);
   const toast = useToast();
 
   useEffect(() => {
-    checkCredentials();
-
-    if (isSocio === false) {
+    if (user?.member.hasActiveMembership === false) {
       toast({
         title: 'Que pena! Você não é sócio...',
         description: 'Mas nossa associação está aberta, Seja Sócio!',
@@ -28,7 +26,7 @@ function AreaSocio() {
       });
       router.push('/#seja-socio');
     }
-  }, [checkCredentials, isSocio, router, toast]);
+  }, [router, toast, user?.member.hasActiveMembership]);
 
   return (
     <Layout title="Área do Socio">

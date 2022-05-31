@@ -86,11 +86,11 @@ function Carteira() {
   const [totalReais, setTotalReais] = useState(0.0);
   const router = useRouter();
   const toast = useToast();
-  const { isSocio, checkCredentials } = useContext(AuthContext);
-  const { data, refetch } = useQuery<BankData>(GET_BANK_DATA, {
+  const { user, token } = useContext(AuthContext);
+  const { data } = useQuery<BankData>(GET_BANK_DATA, {
     context: {
       headers: {
-        authorization: `JWT ${parseCookies()['aaafuriaToken']}`,
+        authorization: `JWT ${token}`,
       },
     },
   });
@@ -101,12 +101,7 @@ function Carteira() {
   );
 
   useEffect(() => {
-    refetch();
-    checkCredentials();
-  }, [checkCredentials, refetch]);
-
-  useEffect(() => {
-    if (isSocio === false) {
+    if (user?.member.hasActiveMembership === false) {
       toast({
         title: 'Que pena! Você não é sócio...',
         description: 'Mas nossa associação está aberta, Seja Sócio!',
@@ -117,7 +112,7 @@ function Carteira() {
       });
       router.push('/#seja-socio');
     }
-  }, [isSocio, router, toast]);
+  }, [router, toast, user?.member.hasActiveMembership]);
 
   useEffect(() => {
     if (movimentacoes) {

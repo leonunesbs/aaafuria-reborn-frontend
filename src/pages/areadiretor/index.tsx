@@ -1,21 +1,21 @@
-import { PageHeading } from '@/components/atoms';
 import { AreaDiretorMenu, Card } from '@/components/molecules';
-import { Layout } from '@/components/templates';
-import { AuthContext } from '@/contexts/AuthContext';
 import { Box, useToast } from '@chakra-ui/react';
-import { GetServerSideProps } from 'next';
-import { useRouter } from 'next/router';
-import { parseCookies } from 'nookies';
 import React, { useContext, useEffect } from 'react';
+
+import { AuthContext } from '@/contexts/AuthContext';
+import { GetServerSideProps } from 'next';
+import { Layout } from '@/components/templates';
+import { PageHeading } from '@/components/atoms';
+import { parseCookies } from 'nookies';
+import { useRouter } from 'next/router';
 
 function AreaDiretor() {
   const router = useRouter();
   const toast = useToast();
-  const { checkCredentials, isStaff } = useContext(AuthContext);
+  const { user } = useContext(AuthContext);
 
   useEffect(() => {
-    checkCredentials();
-    if (isStaff === false) {
+    if (user?.isStaff === false) {
       toast({
         title: 'Restrito.',
         description: 'Você não tem permissão para acessar esta área.',
@@ -26,7 +26,7 @@ function AreaDiretor() {
       });
       router.push('/');
     }
-  }, [checkCredentials, isStaff, router, toast]);
+  }, [router, toast, user?.isStaff]);
 
   return (
     <Layout title="Área do Diretor">

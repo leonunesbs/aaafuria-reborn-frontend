@@ -64,8 +64,7 @@ interface QueryData {
 function GerenciarSolicitacoes() {
   const router = useRouter();
   const [statusFilter, setStatusFilter] = useState('');
-  const { token, isStaff, checkCredentials, isAuthenticated } =
-    useContext(AuthContext);
+  const { token, user, isAuthenticated } = useContext(AuthContext);
   const { green } = useContext(ColorContext);
   const { data, refetch } = useQuery<QueryData>(GET_ISSUES, {
     context: {
@@ -92,11 +91,10 @@ function GerenciarSolicitacoes() {
 
   useEffect(() => {
     refetch();
-    checkCredentials();
-    if (isStaff === false) {
+    if (user?.isStaff === false) {
       router.push(`/entrar?after=${router.asPath}`);
     }
-  }, [checkCredentials, isAuthenticated, isStaff, refetch, router]);
+  }, [user, isAuthenticated, refetch, router]);
   return (
     <Layout title="Gerenciar solicitações">
       <Box maxW="7xl" mx="auto">

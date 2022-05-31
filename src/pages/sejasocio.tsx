@@ -13,14 +13,10 @@ function SejaSocio() {
   const { green } = useContext(ColorContext);
   const toast = useToast();
 
-  const { checkCredentials, isSocio } = useContext(AuthContext);
+  const { user } = useContext(AuthContext);
 
   useEffect(() => {
-    checkCredentials();
-  }, [checkCredentials]);
-
-  useEffect(() => {
-    if (isSocio) {
+    if (user?.member.hasActiveMembership) {
       toast({
         title: 'Você já é um sócio!',
         status: 'info',
@@ -30,7 +26,7 @@ function SejaSocio() {
       });
       router.push('/areasocio');
     }
-  }, [isSocio, router, toast]);
+  }, [router, toast, user?.member.hasActiveMembership]);
 
   return (
     <Layout

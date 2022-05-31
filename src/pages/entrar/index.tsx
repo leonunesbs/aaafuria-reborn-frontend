@@ -41,11 +41,9 @@ import NextImage from 'next/image';
 import { parseCookies } from 'nookies';
 import { useRouter } from 'next/router';
 
-const GET_SOCIO = gql`
-  query getSocio($matricula: String) {
-    socioByMatricula(matricula: $matricula) {
-      apelido
-    }
+const CHECK_MEMBER = gql`
+  query checkMember($matricula: String!) {
+    checkMember(registration: $matricula)
   }
 `;
 
@@ -55,9 +53,7 @@ type Inputs = {
 };
 
 type GetSocioData = {
-  socioByMatricula: {
-    apelido: string;
-  };
+  checkMember: boolean;
 };
 
 export default function Entrar() {
@@ -68,7 +64,7 @@ export default function Entrar() {
   const [login, setLogin] = useState(false);
   const pinInputFieldRef = useRef<HTMLInputElement>(null);
 
-  const { data, refetch } = useQuery<GetSocioData>(GET_SOCIO, {
+  const { refetch } = useQuery<GetSocioData>(CHECK_MEMBER, {
     fetchPolicy: 'no-cache',
   });
   const cadastroDisclosure = useDisclosure();
@@ -85,12 +81,12 @@ export default function Entrar() {
   const ChakraNextImage = useMemo(() => chakra(NextImage), []);
 
   const checkMatricula = useCallback(
-    (matricula: string) => {
-      refetch({ matricula }).then(({ data }) => {
-        if (data.socioByMatricula) {
+    async (matricula: string) => {
+      await refetch({ matricula }).then(({ data: { checkMember } }) => {
+        if (checkMember) {
           setLogin(true);
-          pinInputFieldRef.current?.focus();
-        } else if (matricula) {
+          return pinInputFieldRef.current?.focus();
+        } else {
           toast({
             description: 'Matrícula não encontrada. Cadastre-se!',
             status: 'info',
@@ -98,53 +94,46 @@ export default function Entrar() {
             isClosable: true,
             position: 'top-left',
           });
-          router.push(`/entrar?cadastro=${matricula}`);
+          router.push(
+            `/entrar?cadastro=${matricula}${after ? `&after=${after}` : ''}`,
+          );
           cadastroDisclosure.onOpen();
         }
       });
     },
-    [cadastroDisclosure, refetch, router, toast],
+    [after, cadastroDisclosure, refetch, router, toast],
   );
 
   const onSubmit: SubmitHandler<Inputs> = useCallback(
     async ({ matricula, pin }) => {
       if (!login) {
-        checkMatricula(matricula);
-      } else {
-        await signIn({
-          matricula,
-          pin,
-          redirectUrl: after,
-        })
-          .then(() => {
-            toast({
-              description: `Olá ${data?.socioByMatricula.apelido}, bem vind@ de volta!`,
-              status: 'success',
-              duration: 2500,
-              isClosable: true,
-              position: 'top-left',
-            });
-            gtag.event({
-              action: 'login',
-              category: 'engagement',
-              label: matricula,
-              value: 1,
-            });
-          })
-          .catch(({ message }) => {
-            setError('matricula', { message });
-          });
+        return checkMatricula(matricula);
       }
+      await signIn({
+        matricula,
+        pin,
+        redirectUrl: after,
+      })
+        .then(({ tokenAuth }) => {
+          toast({
+            description: `Olá ${tokenAuth.user.member.nickname}, bem vind@ de volta!`,
+            status: 'success',
+            duration: 2500,
+            isClosable: true,
+            position: 'top-left',
+          });
+          gtag.event({
+            action: 'login',
+            category: 'engagement',
+            label: matricula,
+            value: 1,
+          });
+        })
+        .catch(({ message }) => {
+          setError('matricula', { message });
+        });
     },
-    [
-      after,
-      checkMatricula,
-      data?.socioByMatricula?.apelido,
-      login,
-      setError,
-      signIn,
-      toast,
-    ],
+    [after, checkMatricula, login, setError, signIn, toast],
   );
 
   useEffect(() => {
