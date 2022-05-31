@@ -176,13 +176,13 @@ function Intermed() {
                     <HStack justify={'space-between'}>
                       <Text>Categoria: </Text>
                       <Text textAlign={'right'}>
-                        {user?.member.hasActiveMembership ? (
-                          user.member.firstTeamer ? (
-                            'Atleta / Ritmista'
-                          ) : new Date(
-                              user.member.activeMembership
-                                ?.currentEndDate as string,
-                            ).getMonth() == 11 ? (
+                        {user?.member.firstTeamer ? (
+                          'Atleta / Ritmista'
+                        ) : user?.member.hasActiveMembership ? (
+                          new Date(
+                            user.member.activeMembership
+                              ?.currentEndDate as string,
+                          ).getMonth() == 11 ? (
                             'Sócio 2022.2'
                           ) : (
                             <Stack align={'flex-end'}>
@@ -220,13 +220,13 @@ function Intermed() {
                         textAlign={'right'}
                       >
                         R$
-                        {user?.member.hasActiveMembership
-                          ? user.member.firstTeamer
-                            ? price.atletaOuRitmista
-                            : new Date(
-                                user.member.activeMembership
-                                  ?.currentEndDate as string,
-                              ).getMonth() == 11
+                        {user?.member.firstTeamer
+                          ? price.atletaOuRitmista
+                          : user?.member.hasActiveMembership
+                          ? new Date(
+                              user.member.activeMembership
+                                ?.currentEndDate as string,
+                            ).getMonth() == 11
                             ? price.socioAnual
                             : price.naoSocio
                           : price.naoSocio}
