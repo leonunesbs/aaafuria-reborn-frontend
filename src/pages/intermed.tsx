@@ -147,7 +147,7 @@ function Intermed() {
               </Heading>
               <Box
                 as="iframe"
-                src="/intermed.html"
+                src="/intermed-nordeste"
                 w="full"
                 h="4xl"
                 rounded="md"
