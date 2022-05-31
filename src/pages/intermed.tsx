@@ -147,11 +147,11 @@ function Intermed() {
               </Heading>
               <Box
                 as="iframe"
-                sandbox=""
                 src="/intermed.html"
                 w="full"
-                h="4xl"
+                minH="2xl"
                 rounded="md"
+                p={0}
               />
             </Stack>
           </Card>
