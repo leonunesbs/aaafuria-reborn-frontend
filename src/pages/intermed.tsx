@@ -187,7 +187,7 @@ function Intermed() {
                             >
                               Seja sócio
                             </CustomButton>
-                            <Text>Não sócio / Sócio mensal / Sócio 2022.1</Text>
+                            <Text>Não sócio / Sócio mensal</Text>
                           </Stack>
                         )}
                       </Text>
