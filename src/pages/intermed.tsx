@@ -63,7 +63,7 @@ function Intermed() {
   const price = useMemo(() => {
     return {
       atletaOuRitmista: 190,
-      socioAnual: 210,
+      socio: 210,
       naoSocio: 260,
     };
   }, []);
@@ -91,11 +91,7 @@ function Intermed() {
       const amount = user?.member.firstTeamer
         ? price.atletaOuRitmista
         : user?.member.hasActiveMembership
-        ? new Date(
-            user.member.activeMembership?.currentEndDate as string,
-          ).getMonth() == 11
-          ? price.socioAnual
-          : price.naoSocio
+        ? price.socio
         : price.naoSocio;
 
       await createPayment({
@@ -181,25 +177,7 @@ function Intermed() {
                         {user?.member.firstTeamer ? (
                           'Atleta / Ritmista'
                         ) : user?.member.hasActiveMembership ? (
-                          new Date(
-                            user.member.activeMembership
-                              ?.currentEndDate as string,
-                          ).getMonth() == 11 ? (
-                            'Sócio 2022.2'
-                          ) : (
-                            <Stack align={'flex-end'}>
-                              <CustomButton
-                                size="sm"
-                                maxW="80px"
-                                onClick={() => router.push('/sejasocio')}
-                              >
-                                Seja sócio
-                              </CustomButton>
-                              <Text>
-                                Não sócio / Sócio mensal / Sócio 2022.1
-                              </Text>
-                            </Stack>
-                          )
+                          'Sócio'
                         ) : (
                           <Stack align={'flex-end'}>
                             <CustomButton
@@ -225,12 +203,7 @@ function Intermed() {
                         {user?.member.firstTeamer
                           ? price.atletaOuRitmista
                           : user?.member.hasActiveMembership
-                          ? new Date(
-                              user.member.activeMembership
-                                ?.currentEndDate as string,
-                            ).getMonth() == 11
-                            ? price.socioAnual
-                            : price.naoSocio
+                          ? price.socio
                           : price.naoSocio}
                       </Text>
                     </HStack>
