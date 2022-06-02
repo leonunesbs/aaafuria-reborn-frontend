@@ -65,14 +65,13 @@ export const AtividadesSocioTableRow = ({
     '/calango-verde-325x25.png',
   );
   const toast = useToast();
-  const { isAuthenticated } = useContext(AuthContext);
+  const { isAuthenticated, user } = useContext(AuthContext);
   const { green } = useContext(ColorContext);
   const [confetti, setConfetti] = useState(false);
 
-  const { ['aaafuriaMatricula']: matricula } = parseCookies();
   const [isConfirmed, setIsConfirmed] = useState(
     node.competidoresConfirmados.edges.find(
-      ({ node: { socio } }) => socio.matricula === matricula,
+      ({ node: { socio } }) => socio.matricula === user?.member.registration,
     ) !== undefined,
   );
   const [loading, setLoading] = useState(false);
