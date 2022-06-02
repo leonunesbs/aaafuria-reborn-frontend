@@ -90,7 +90,8 @@ function Intermed() {
 
       const amount = user?.member.firstTeamer
         ? price.atletaOuRitmista
-        : user?.member.hasActiveMembership
+        : user?.member.hasActiveMembership &&
+          user.member.activeMembership?.membershipPlan.title !== 'MENSAL'
         ? price.socio
         : price.naoSocio;
 
@@ -176,7 +177,9 @@ function Intermed() {
                       <Text textAlign={'right'}>
                         {user?.member.firstTeamer ? (
                           'Atleta / Ritmista'
-                        ) : user?.member.hasActiveMembership ? (
+                        ) : user?.member.hasActiveMembership &&
+                          user.member.activeMembership?.membershipPlan.title !==
+                            'MENSAL' ? (
                           'Sócio'
                         ) : (
                           <Stack align={'flex-end'}>
@@ -202,7 +205,9 @@ function Intermed() {
                         R$
                         {user?.member.firstTeamer
                           ? price.atletaOuRitmista
-                          : user?.member.hasActiveMembership
+                          : user?.member.hasActiveMembership &&
+                            user.member.activeMembership?.membershipPlan
+                              .title !== 'MENSAL'
                           ? price.socio
                           : price.naoSocio}
                       </Text>

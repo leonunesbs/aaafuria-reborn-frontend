@@ -26,6 +26,9 @@ const SIGN_IN = gql`
           hasActiveMembership
           firstTeamer
           activeMembership {
+            membershipPlan {
+              title
+            }
             startDate
             currentEndDate
           }
@@ -76,6 +79,9 @@ type UserData = {
     hasActiveMembership: boolean;
     firstTeamer: boolean;
     activeMembership: {
+      membershipPlan: {
+        title: string;
+      };
       startDate: string;
       currentEndDate: string;
     } | null;
@@ -121,6 +127,9 @@ export function AuthProvider({ children }: AuthProviderProps) {
                 hasActiveMembership
                 firstTeamer
                 activeMembership {
+                  membershipPlan {
+                    title
+                  }
                   startDate
                   currentEndDate
                 }
