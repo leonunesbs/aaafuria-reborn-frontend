@@ -23,6 +23,11 @@ export const AreaDiretorMenu = ({ ...rest }: AreaDiretorMenuProps) => {
           Gerenciar solicitações
         </CustomButton>
       </CustomChakraNextLink>
+      <CustomChakraNextLink href="/bank/payments">
+        <CustomButton leftIcon={<MdHelpCenter size="25px" />}>
+          Gerenciar pagamentos
+        </CustomButton>
+      </CustomChakraNextLink>
       <CustomChakraNextLink
         chakraLinkProps={{
           target: '_blank',
