@@ -317,7 +317,7 @@ export const Header = () => {
                       Área do Sócio
                     </CustomButton>
                   </CustomChakraNextLink>
-                  {user?.member.hasActiveMembership && (
+                  {user?.isStaff && (
                     <CustomChakraNextLink href={'/areadiretor'}>
                       <CustomButton
                         isActive={router.asPath == '/areadiretor'}
