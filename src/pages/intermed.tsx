@@ -135,7 +135,10 @@ function Intermed() {
   }, [isAuthenticated, router]);
 
   return (
-    <Layout title="Intermed">
+    <Layout
+      title="VI INTERMED NE"
+      desc="Inscreva-se agora no melhor evento do ano. Vamos invadir Fortal!"
+    >
       <Box maxW="4xl" mx="auto">
         <PageHeading>VI Intermed Nordeste</PageHeading>
         <SimpleGrid columns={1} spacing={2}>
