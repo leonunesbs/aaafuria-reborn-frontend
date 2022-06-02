@@ -336,7 +336,7 @@ function Payment() {
                     Validar pagamento
                   </CustomButton>
                 )}
-                {!data?.payment.expired && (
+                {!data?.payment.paid && !data?.payment.expired && (
                   <CustomButton
                     variant={'solid'}
                     colorScheme="red"
