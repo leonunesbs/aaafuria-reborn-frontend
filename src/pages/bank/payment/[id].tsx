@@ -325,7 +325,10 @@ function Payment() {
                           paymentId: data?.payment.id,
                           description: 'Pagamento confirmado manualmente.',
                         },
-                      }).then(() => {
+                      }).then(({ errors }) => {
+                        if (errors) {
+                          return alert(errors[0].message);
+                        }
                         refetch();
                       });
                     }}
