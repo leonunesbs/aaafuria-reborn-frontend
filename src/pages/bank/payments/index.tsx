@@ -13,6 +13,7 @@ import {
   CustomChakraNextLink,
   CustomIconButton,
   PageHeading,
+  VoltarButton,
 } from '@/components/atoms';
 import { gql, useQuery } from '@apollo/client';
 
@@ -120,6 +121,7 @@ function Payments() {
             </Tbody>
           </Table>
         </Card>
+        <VoltarButton href="/areadiretor" />
       </Box>
     </Layout>
   );
