@@ -31,6 +31,11 @@ const ALL_PAYMENTS = gql`
       edges {
         node {
           id
+          user {
+            member {
+              name
+            }
+          }
           amount
           currency
           description
@@ -47,6 +52,11 @@ type PaymentsData = {
     edges: {
       node: {
         id: string;
+        user: {
+          member: {
+            name: string;
+          };
+        };
         amount: number;
         currency: string;
         description: string;
@@ -75,6 +85,7 @@ function Payments() {
           <Table size={'sm'}>
             <Thead>
               <Tr>
+                <Th>Membro</Th>
                 <Th>Descrição</Th>
                 <Th>Valor</Th>
                 <Th>Criado em</Th>
@@ -85,6 +96,7 @@ function Payments() {
             <Tbody>
               {data?.allPayments?.edges?.map(({ node }) => (
                 <Tr key={node.id}>
+                  <Td>{node.user.member.name}</Td>
                   <Td>{node.description}</Td>
                   <Td>
                     {node.amount} {node.currency}
