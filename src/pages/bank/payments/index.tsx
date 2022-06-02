@@ -1,14 +1,4 @@
-import {
-  Badge,
-  Box,
-  Table,
-  Tbody,
-  Td,
-  Text,
-  Th,
-  Thead,
-  Tr,
-} from '@chakra-ui/react';
+import { Box, Table, Tbody, Td, Text, Th, Thead, Tr } from '@chakra-ui/react';
 import {
   CustomChakraNextLink,
   CustomIconButton,
@@ -81,7 +71,7 @@ function Payments() {
 
   return (
     <Layout title="Gerenciar pagamentos">
-      <Box maxW="5xl" mx="auto">
+      <Box maxW="8xl" mx="auto">
         <PageHeading>Gerenciar pagamentos</PageHeading>
         <Card overflowX="auto">
           <Table size={'sm'}>
@@ -90,7 +80,6 @@ function Payments() {
                 <Th>Membro</Th>
                 <Th>Descrição</Th>
                 <Th>Valor</Th>
-                <Th>Criado em</Th>
                 <Th>Atualizado em</Th>
                 <Th>Status</Th>
                 <Th />
@@ -120,16 +109,6 @@ function Payments() {
                         dateStyle: 'short',
                         timeZone: 'America/Sao_Paulo',
                       })}
-                    </Text>
-                  </Td>
-                  <Td>
-                    <Text>
-                      <Badge
-                        variant={'solid'}
-                        colorScheme={node.status === 'PAGO' ? 'green' : 'gray'}
-                      >
-                        {node.status}
-                      </Badge>
                     </Text>
                   </Td>
                   <Td>
