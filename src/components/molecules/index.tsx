@@ -1,5 +1,5 @@
 import { AreaDiretorMenuProps } from './AreaDiretorMenu';
-import { AreaSocioMenuProps } from './AreaSocioMenu';
+import { AreaMembroMenuProps } from './AreaSocioMenu';
 import { CartaoCreditoTabPanelProps } from './PagamentoTabs/CartaoCreditoTabPanel';
 import { ClientInfoCardProps } from './ClientInfoCard';
 import { CommentCardProps } from './CommentCard';
@@ -22,8 +22,8 @@ import dynamic from 'next/dynamic';
 export const AreaDiretorMenu = dynamic<AreaDiretorMenuProps>(() =>
   import('./AreaDiretorMenu').then((mod) => mod.AreaDiretorMenu),
 );
-export const AreaSocioMenu = dynamic<AreaSocioMenuProps>(() =>
-  import('./AreaSocioMenu').then((mod) => mod.AreaSocioMenu),
+export const AreaSocioMenu = dynamic<AreaMembroMenuProps>(() =>
+  import('./AreaSocioMenu').then((mod) => mod.AreaMembroMenu),
 );
 export const AtividadesSocioTable = dynamic<IAtividadeSocioTable>(() =>
   import('./AtividadesSocioTable').then((mod) => mod.AtividadesSocioTable),

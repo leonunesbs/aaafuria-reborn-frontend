@@ -24,7 +24,7 @@ function SejaSocio() {
         isClosable: true,
         position: 'top-left',
       });
-      router.push('/areasocio');
+      router.push('/areamembro');
     }
   }, [router, toast, user?.member.hasActiveMembership]);
 

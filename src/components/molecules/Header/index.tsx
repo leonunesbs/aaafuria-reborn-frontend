@@ -307,14 +307,14 @@ export const Header = () => {
             {isAuthenticated ? (
               <Box w="full">
                 <Stack>
-                  <CustomChakraNextLink href={'/areasocio'}>
+                  <CustomChakraNextLink href={'/areamembro'}>
                     <CustomButton
-                      isActive={router.asPath == '/areasocio'}
+                      isActive={router.asPath == '/areamembro'}
                       variant={'solid'}
                       justifyContent={'flex-start'}
                       leftIcon={<MdPerson size="20px" />}
                     >
-                      Área do Sócio
+                      Área do Membro
                     </CustomButton>
                   </CustomChakraNextLink>
                   {user?.isStaff && (

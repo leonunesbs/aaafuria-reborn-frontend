@@ -234,7 +234,7 @@ function Carteirinha({}: CarteirinhaProps) {
           >
             Atualizar
           </Button>
-          <VoltarButton href="/areasocio" />
+          <VoltarButton href="/areamembro" />
         </Stack>
       </Box>
     </Layout>

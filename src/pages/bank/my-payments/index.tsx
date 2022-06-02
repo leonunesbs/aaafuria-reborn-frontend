@@ -13,6 +13,7 @@ import {
   CustomChakraNextLink,
   CustomIconButton,
   PageHeading,
+  VoltarButton,
 } from '@/components/atoms';
 import { gql, useQuery } from '@apollo/client';
 
@@ -24,9 +25,9 @@ import { MdMoreHoriz } from 'react-icons/md';
 import { parseCookies } from 'nookies';
 import { useContext } from 'react';
 
-const ALL_PAYMENTS = gql`
-  query allPayments {
-    allPayments {
+const MY_PAYMENTS = gql`
+  query MyPayments {
+    myPayments {
       edges {
         node {
           id
@@ -41,8 +42,8 @@ const ALL_PAYMENTS = gql`
   }
 `;
 
-type PaymentsData = {
-  allPayments: {
+type MyPaymentsData = {
+  myPayments: {
     edges: {
       node: {
         id: string;
@@ -56,9 +57,9 @@ type PaymentsData = {
   };
 };
 
-function Payments() {
+function MyPayments() {
   const { token } = useContext(AuthContext);
-  const { data } = useQuery<PaymentsData>(ALL_PAYMENTS, {
+  const { data } = useQuery<MyPaymentsData>(MY_PAYMENTS, {
     context: {
       headers: {
         Authorization: `JWT ${token}`,
@@ -67,9 +68,9 @@ function Payments() {
   });
 
   return (
-    <Layout title="Gerenciar pagamentos">
+    <Layout title="Meus pagamentos">
       <Box maxW="5xl" mx="auto">
-        <PageHeading>Gerenciar pagamentos</PageHeading>
+        <PageHeading>Meus pagamentos</PageHeading>
         <Card overflowX="auto">
           <Table size={'sm'}>
             <Thead>
@@ -82,7 +83,7 @@ function Payments() {
               </Tr>
             </Thead>
             <Tbody>
-              {data?.allPayments?.edges?.map(({ node }) => (
+              {data?.myPayments?.edges?.map(({ node }) => (
                 <Tr key={node.id}>
                   <Td>{node.description}</Td>
                   <Td>
@@ -120,6 +121,7 @@ function Payments() {
             </Tbody>
           </Table>
         </Card>
+        <VoltarButton href="/areamembro" />
       </Box>
     </Layout>
   );
@@ -144,4 +146,4 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
   };
 };
 
-export default Payments;
+export default MyPayments;

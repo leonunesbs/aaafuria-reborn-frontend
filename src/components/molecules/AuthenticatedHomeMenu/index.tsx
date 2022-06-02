@@ -18,7 +18,7 @@ export const AuthenticatedHomeMenu = ({}: IAuthenticatedHomeMenu) => {
 
   const onClickAreaSocio = useCallback(() => {
     setLoading(true);
-    router.push('/areasocio');
+    router.push('/areamembro');
   }, [router, setLoading]);
 
   const onClickSignOut = useCallback(() => {
@@ -28,13 +28,13 @@ export const AuthenticatedHomeMenu = ({}: IAuthenticatedHomeMenu) => {
 
   return (
     <>
-      <CustomChakraNextLink href="/areasocio">
+      <CustomChakraNextLink href="/areamembro">
         <CustomButton
           name="area-socio"
           leftIcon={<MdPerson size="20px" />}
           onClick={onClickAreaSocio}
         >
-          Área do Sócio
+          Área do Membro
         </CustomButton>
       </CustomChakraNextLink>
       <AreaDiretorButton />

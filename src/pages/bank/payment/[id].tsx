@@ -9,7 +9,11 @@ import {
   Thead,
   Tr,
 } from '@chakra-ui/react';
-import { CustomButton, PageHeading } from '@/components/atoms';
+import {
+  CustomButton,
+  CustomChakraNextLink,
+  PageHeading,
+} from '@/components/atoms';
 import { gql, useMutation, useQuery } from '@apollo/client';
 
 import { AuthContext } from '@/contexts/AuthContext';
@@ -23,6 +27,14 @@ const GET_PAYMENT = gql`
   query getPayment($id: ID) {
     payment(id: $id) {
       id
+      user {
+        member {
+          name
+          registration
+          group
+          hasActiveMembership
+        }
+      }
       amount
       currency
       method
@@ -66,6 +78,14 @@ const CANCEL_PAYMENT = gql`
 type PaymentData = {
   payment: {
     id: string;
+    user: {
+      member: {
+        name: string;
+        registration: string;
+        group: string;
+        hasActiveMembership: boolean;
+      };
+    };
     amount: number;
     currency: number;
     method: string;
@@ -132,14 +152,8 @@ function Payment() {
         <Card>
           <Stack spacing={10}>
             <Box>
-              <Text>Detalhes:</Text>
+              <Text>Detalhes do pagamento:</Text>
               <Table>
-                <Thead>
-                  <Tr>
-                    <Th />
-                    <Th />
-                  </Tr>
-                </Thead>
                 <Tbody>
                   <Tr>
                     <Td>
@@ -221,6 +235,47 @@ function Payment() {
               </Table>
             </Box>
             <Box>
+              <Text>Dados do cliente:</Text>
+              <Table>
+                <Tbody>
+                  <Tr>
+                    <Td>
+                      <Text>Nome:</Text>
+                    </Td>
+                    <Td textAlign={'right'}>
+                      <Text>{data?.payment.user.member.name}</Text>
+                    </Td>
+                  </Tr>
+                  <Tr>
+                    <Td>
+                      <Text>Matrícula:</Text>
+                    </Td>
+                    <Td textAlign={'right'}>
+                      <Text>{data?.payment.user.member.registration}</Text>
+                    </Td>
+                  </Tr>
+                  <Tr>
+                    <Td>
+                      <Text>Turma:</Text>
+                    </Td>
+                    <Td textAlign={'right'}>
+                      <Text>{data?.payment.user.member.group}</Text>
+                    </Td>
+                  </Tr>
+                  <Tr>
+                    <Td>
+                      <Text>Associação:</Text>
+                    </Td>
+                    <Td textAlign={'right'}>
+                      <Text>
+                        {data?.payment.user.member.hasActiveMembership}
+                      </Text>
+                    </Td>
+                  </Tr>
+                </Tbody>
+              </Table>
+            </Box>
+            <Box>
               <Text>Anexos: </Text>
               <Table>
                 <Thead>
@@ -253,43 +308,56 @@ function Payment() {
                 </Tbody>
               </Table>
             </Box>
-            {user?.isStaff && !data?.payment.expired && (
+            <Stack>
+              <CustomChakraNextLink href={'/bank/my-payments'}>
+                <CustomButton>Meus pagamentos</CustomButton>
+              </CustomChakraNextLink>
+            </Stack>
+            {user?.isStaff && (
               <Stack>
-                {!data?.payment.paid && (
+                {!data?.payment.paid ||
+                  (!data.payment.expired && (
+                    <CustomButton
+                      variant={'solid'}
+                      isLoading={confirmPaymentLoading}
+                      onClick={async () => {
+                        await confirmPayment({
+                          variables: {
+                            paymentId: data?.payment.id,
+                            description: 'Pagamento confirmado manualmente.',
+                          },
+                        }).then(() => {
+                          refetch();
+                        });
+                      }}
+                    >
+                      Validar pagamento
+                    </CustomButton>
+                  ))}
+                {!data?.payment.expired && (
                   <CustomButton
                     variant={'solid'}
-                    isLoading={confirmPaymentLoading}
+                    colorScheme="red"
+                    isLoading={cancelPaymentLoading}
                     onClick={async () => {
-                      await confirmPayment({
+                      await cancelPayment({
                         variables: {
                           paymentId: data?.payment.id,
-                          description: `Pagamento confirmado manualmente por: ${user?.member.registration}`,
+                          description: 'Pagamento cancelado manualmente.',
                         },
                       }).then(() => {
                         refetch();
                       });
                     }}
                   >
-                    Validar pagamento
+                    Invalidar pagamento
                   </CustomButton>
                 )}
-                <CustomButton
-                  variant={'solid'}
-                  colorScheme="red"
-                  isLoading={cancelPaymentLoading}
-                  onClick={async () => {
-                    await cancelPayment({
-                      variables: {
-                        paymentId: data?.payment.id,
-                        description: `Pagamento cancelado manualmente por: ${user?.member.registration}`,
-                      },
-                    }).then(() => {
-                      refetch();
-                    });
-                  }}
-                >
-                  Invalidar pagamento
-                </CustomButton>
+                <CustomChakraNextLink href={'/bank/payments'}>
+                  <CustomButton colorScheme="yellow">
+                    Gerenciar pagamentos
+                  </CustomButton>
+                </CustomChakraNextLink>
               </Stack>
             )}
           </Stack>

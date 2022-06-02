@@ -5,33 +5,48 @@ import {
   VoltarButton,
 } from '@/components/atoms';
 import { FaDrum, FaVolleyballBall, FaWallet } from 'react-icons/fa';
-import React, { useContext } from 'react';
-import { gql, useQuery } from '@apollo/client';
+import React, { useCallback, useContext, useState } from 'react';
 
 import { AiFillIdcard } from 'react-icons/ai';
 import { AuthContext } from '@/contexts/AuthContext';
 import { MdManageAccounts } from 'react-icons/md';
+import client from '@/services/apollo-client';
+import { gql } from '@apollo/client';
+import { useRouter } from 'next/router';
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
-export interface AreaSocioMenuProps extends StackProps {}
+export interface AreaMembroMenuProps extends StackProps {}
 
-const QUERY_PORTAL = gql`
-  query portalUrl {
-    queryStripePortalUrl {
-      stripePortalUrl
-    }
-  }
-`;
-
-export const AreaSocioMenu = ({ ...rest }: AreaSocioMenuProps) => {
+export const AreaMembroMenu = ({ ...rest }: AreaMembroMenuProps) => {
+  const router = useRouter();
+  const [billingPortalLoading, setBillingPortalLoading] = useState(false);
   const { token } = useContext(AuthContext);
-  const { data } = useQuery(QUERY_PORTAL, {
-    context: {
-      headers: {
-        authorization: `JWT ${token || ' '}`,
+
+  const handleBillingPortal = useCallback(async () => {
+    setBillingPortalLoading(true);
+    const { data, errors, loading } = await client.query({
+      query: gql`
+        query getUser {
+          user {
+            member {
+              billingPortalUrl
+            }
+          }
+        }
+      `,
+      context: {
+        headers: {
+          Authorization: `JWT ${token}`,
+        },
       },
-    },
-  });
+    });
+    if (errors) {
+      setBillingPortalLoading(loading);
+      throw errors;
+    }
+    setBillingPortalLoading(loading);
+    router.push(data.user.member.billingPortalUrl);
+  }, [router, token]);
 
   return (
     <Stack {...rest}>
@@ -50,30 +65,26 @@ export const AreaSocioMenu = ({ ...rest }: AreaSocioMenuProps) => {
       </CustomChakraNextLink>
       <CustomChakraNextLink href="/carteirinha">
         <CustomButton leftIcon={<AiFillIdcard size="20px" />}>
-          Carteirinha de sócio
+          Carteirinha
         </CustomButton>
       </CustomChakraNextLink>
 
       <Divider height="15px" />
-      <CustomChakraNextLink href="/areasocio/carteira">
+      <CustomChakraNextLink href="/bank/my-payments">
         <CustomButton leftIcon={<FaWallet size="20px" />}>
-          Carteira
+          Pagamentos
         </CustomButton>
       </CustomChakraNextLink>
-      <CustomChakraNextLink
-        chakraLinkProps={{
-          target: '_blank',
-        }}
-        href={`${data?.queryStripePortalUrl?.stripePortalUrl}`}
+
+      <CustomButton
+        leftIcon={<MdManageAccounts size="20px" />}
+        hasExternalIcon
+        colorScheme="yellow"
+        isLoading={billingPortalLoading}
+        onClick={handleBillingPortal}
       >
-        <CustomButton
-          leftIcon={<MdManageAccounts size="20px" />}
-          hasExternalIcon
-          colorScheme="yellow"
-        >
-          Gerenciar associação
-        </CustomButton>
-      </CustomChakraNextLink>
+        Gerenciar associação
+      </CustomButton>
       <VoltarButton href="/" />
     </Stack>
   );

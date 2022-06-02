@@ -257,7 +257,7 @@ function Carteira() {
           </Box>
         </Card>
         <Stack mt={4} align="center">
-          <VoltarButton href="/areasocio" />
+          <VoltarButton href="/areamembro" />
         </Stack>
       </Stack>
     </Layout>
