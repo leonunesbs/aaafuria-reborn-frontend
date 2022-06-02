@@ -315,25 +315,24 @@ function Payment() {
             </Stack>
             {user?.isStaff && (
               <Stack>
-                {!data?.payment.paid ||
-                  (!data.payment.expired && (
-                    <CustomButton
-                      variant={'solid'}
-                      isLoading={confirmPaymentLoading}
-                      onClick={async () => {
-                        await confirmPayment({
-                          variables: {
-                            paymentId: data?.payment.id,
-                            description: 'Pagamento confirmado manualmente.',
-                          },
-                        }).then(() => {
-                          refetch();
-                        });
-                      }}
-                    >
-                      Validar pagamento
-                    </CustomButton>
-                  ))}
+                {!data?.payment.paid && !data?.payment.expired && (
+                  <CustomButton
+                    variant={'solid'}
+                    isLoading={confirmPaymentLoading}
+                    onClick={async () => {
+                      await confirmPayment({
+                        variables: {
+                          paymentId: data?.payment.id,
+                          description: 'Pagamento confirmado manualmente.',
+                        },
+                      }).then(() => {
+                        refetch();
+                      });
+                    }}
+                  >
+                    Validar pagamento
+                  </CustomButton>
+                )}
                 {!data?.payment.expired && (
                   <CustomButton
                     variant={'solid'}
