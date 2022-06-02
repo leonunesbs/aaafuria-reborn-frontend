@@ -40,6 +40,7 @@ const ALL_PAYMENTS = gql`
           currency
           description
           createdAt
+          updatedAt
           status
         }
       }
@@ -61,6 +62,7 @@ type PaymentsData = {
         currency: string;
         description: string;
         createdAt: string;
+        updatedAt: string;
         status: string;
       };
     }[];
@@ -89,6 +91,7 @@ function Payments() {
                 <Th>Descrição</Th>
                 <Th>Valor</Th>
                 <Th>Criado em</Th>
+                <Th>Atualizado em</Th>
                 <Th>Status</Th>
                 <Th />
               </Tr>
@@ -103,6 +106,15 @@ function Payments() {
                   </Td>
                   <Td>
                     <Text as={'time'} dateTime={node.createdAt}>
+                      {new Date(node.createdAt).toLocaleString('pt-BR', {
+                        timeStyle: 'short',
+                        dateStyle: 'short',
+                        timeZone: 'America/Sao_Paulo',
+                      })}
+                    </Text>
+                  </Td>
+                  <Td>
+                    <Text as={'time'} dateTime={node.updatedAt}>
                       {new Date(node.createdAt).toLocaleString('pt-BR', {
                         timeStyle: 'short',
                         dateStyle: 'short',
