@@ -1,38 +1,52 @@
-import { Box, Table, Tbody, Td, Text, Th, Thead, Tr } from '@chakra-ui/react';
+import {
+  Badge,
+  Box,
+  HStack,
+  Table,
+  Tbody,
+  Td,
+  Text,
+  Th,
+  Thead,
+  Tr,
+} from '@chakra-ui/react';
 import {
   CustomChakraNextLink,
   CustomIconButton,
   PageHeading,
   VoltarButton,
 } from '@/components/atoms';
+import { MdMoreHoriz, MdNavigateBefore, MdNavigateNext } from 'react-icons/md';
 import { gql, useQuery } from '@apollo/client';
 
 import { AuthContext } from '@/contexts/AuthContext';
 import { Card } from '@/components/molecules';
+import { ColorContext } from '@/contexts/ColorContext';
 import { GetServerSideProps } from 'next';
 import { Layout } from '@/components/templates/Layout';
-import { MdMoreHoriz } from 'react-icons/md';
 import { parseCookies } from 'nookies';
 import { useContext } from 'react';
 
 const ALL_PAYMENTS = gql`
-  query allPayments {
-    allPayments {
-      edges {
-        node {
-          id
-          user {
-            member {
-              name
-            }
+  query allPayments($page: Int = 1, $status: String) {
+    allPayments(page: $page, status: $status) {
+      page
+      pages
+      hasNext
+      hasPrev
+      objects {
+        id
+        user {
+          member {
+            name
           }
-          amount
-          currency
-          description
-          createdAt
-          updatedAt
-          status
         }
+        amount
+        currency
+        description
+        createdAt
+        updatedAt
+        status
       }
     }
   }
@@ -40,35 +54,54 @@ const ALL_PAYMENTS = gql`
 
 type PaymentsData = {
   allPayments: {
-    edges: {
-      node: {
-        id: string;
-        user: {
-          member: {
-            name: string;
-          };
+    page: number;
+    pages: number;
+    hasNext: boolean;
+    hasPrev: boolean;
+    objects: {
+      id: string;
+      user: {
+        member: {
+          name: string;
         };
-        amount: number;
-        currency: string;
-        description: string;
-        createdAt: string;
-        updatedAt: string;
-        status: string;
       };
+      amount: number;
+      currency: string;
+      description: string;
+      createdAt: string;
+      updatedAt: string;
+      status: string;
     }[];
   };
 };
 
 function Payments() {
   const { token } = useContext(AuthContext);
-  const { data } = useQuery<PaymentsData>(ALL_PAYMENTS, {
+  const { green } = useContext(ColorContext);
+  const { data, loading, refetch } = useQuery<PaymentsData>(ALL_PAYMENTS, {
     context: {
       headers: {
         Authorization: `JWT ${token}`,
       },
     },
+    fetchPolicy: 'no-cache',
   });
 
+  const handleNextPage = () => {
+    if (data?.allPayments.hasNext) {
+      refetch({
+        page: data.allPayments.page + 1,
+      });
+    }
+  };
+
+  const handlePreviousPage = () => {
+    if (data?.allPayments.hasPrev) {
+      refetch({
+        page: data.allPayments.page - 1,
+      });
+    }
+  };
   return (
     <Layout title="Gerenciar pagamentos">
       <Box maxW="8xl" mx="auto">
@@ -76,25 +109,35 @@ function Payments() {
         <Card overflowX="auto">
           <Table size={'sm'}>
             <Thead>
-              <Tr>
-                <Th>Membro</Th>
-                <Th>Descrição</Th>
-                <Th>Valor</Th>
-                <Th>Atualizado em</Th>
-                <Th>Status</Th>
-                <Th />
-              </Tr>
+              {data?.allPayments?.objects.length === 0 ? (
+                <Tr>
+                  <Td colSpan={6}>
+                    <Text textAlign="center">Nenhum pagamento encontrado</Text>
+                  </Td>
+                </Tr>
+              ) : (
+                <Tr>
+                  <Th>Membro</Th>
+                  <Th>Descrição</Th>
+                  <Th>Valor</Th>
+                  <Th>Atualizado em</Th>
+                  <Th>Status</Th>
+                  <Th />
+                </Tr>
+              )}
             </Thead>
             <Tbody>
-              {data?.allPayments?.edges?.map(({ node }) => (
+              {data?.allPayments?.objects?.map((node) => (
                 <Tr key={node.id}>
                   <Td>{node.user.member.name}</Td>
                   <Td>{node.description}</Td>
+
                   <Td>
                     {node.amount} {node.currency}
                   </Td>
+
                   <Td>
-                    <Text as={'time'} dateTime={node.createdAt}>
+                    <Text as={'time'} dateTime={node.updatedAt}>
                       {new Date(node.createdAt).toLocaleString('pt-BR', {
                         timeStyle: 'short',
                         dateStyle: 'short',
@@ -103,12 +146,18 @@ function Payments() {
                     </Text>
                   </Td>
                   <Td>
-                    <Text as={'time'} dateTime={node.updatedAt}>
-                      {new Date(node.createdAt).toLocaleString('pt-BR', {
-                        timeStyle: 'short',
-                        dateStyle: 'short',
-                        timeZone: 'America/Sao_Paulo',
-                      })}
+                    <Text>
+                      <Badge
+                        colorScheme={
+                          node.status === 'PAGO'
+                            ? 'green'
+                            : node.status === 'PENDENTE'
+                            ? 'yellow'
+                            : 'gray'
+                        }
+                      >
+                        {node.status}
+                      </Badge>
                     </Text>
                   </Td>
                   <Td>
@@ -123,6 +172,29 @@ function Payments() {
               ))}
             </Tbody>
           </Table>
+          <HStack w="full" justify={'center'}>
+            {data?.allPayments?.hasPrev && (
+              <CustomIconButton
+                aria-label="prev-page"
+                icon={<MdNavigateBefore size="20px" />}
+                onClick={handlePreviousPage}
+                colorScheme="gray"
+                isLoading={loading}
+              />
+            )}
+            <Text fontFamily={'AACHENN'} textColor={green}>
+              {data?.allPayments.page} de {data?.allPayments.pages}
+            </Text>
+            {data?.allPayments?.hasNext && (
+              <CustomIconButton
+                aria-label="next-page"
+                icon={<MdNavigateNext size="20px" />}
+                onClick={handleNextPage}
+                colorScheme="gray"
+                isLoading={loading}
+              />
+            )}
+          </HStack>
         </Card>
         <VoltarButton href="/areadiretor" />
       </Box>
