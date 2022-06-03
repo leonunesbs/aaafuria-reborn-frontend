@@ -1,6 +1,8 @@
-import { CadastroInputsType, ICadastroDrawer } from './ICadastroDrawer';
-import { Controller, useForm } from 'react-hook-form';
 import { CustomButton, PageHeading } from '@/components/atoms';
+import { Card } from '@/components/molecules';
+import { Layout } from '@/components/templates';
+import { AuthContext } from '@/contexts/AuthContext';
+import { gql, useMutation } from '@apollo/client';
 import {
   Drawer,
   DrawerBody,
@@ -17,14 +19,11 @@ import {
   Text,
   useToast,
 } from '@chakra-ui/react';
-import React, { useCallback, useContext, useEffect } from 'react';
-import { gql, useMutation } from '@apollo/client';
-
-import { AuthContext } from '@/contexts/AuthContext';
-import { Card } from '@/components/molecules';
-import InputMask from 'react-input-mask';
-import { Layout } from '@/components/templates';
 import { useRouter } from 'next/router';
+import React, { useCallback, useContext, useEffect } from 'react';
+import { Controller, useForm } from 'react-hook-form';
+import InputMask from 'react-input-mask';
+import { CadastroInputsType, ICadastroDrawer } from './ICadastroDrawer';
 
 const CREATE_ACCOUNT = gql`
   mutation createAccount(
@@ -79,7 +78,7 @@ export const CadastroDrawer = ({
 
   const { signIn } = useContext(AuthContext);
 
-  const [mutateFunction, { error }] = useMutation(CREATE_ACCOUNT);
+  const [mutateFunction, { loading, error }] = useMutation(CREATE_ACCOUNT);
 
   useEffect(() => {
     setValue('matricula', matricula);
@@ -421,7 +420,9 @@ export const CadastroDrawer = ({
                   </Text>
                 </Stack>
                 <Stack mt={8}>
-                  <CustomButton type="submit">Cadastrar</CustomButton>
+                  <CustomButton type="submit" isLoading={loading}>
+                    Cadastrar
+                  </CustomButton>
                   <CustomButton colorScheme="gray" onClick={handleClose}>
                     Fechar
                   </CustomButton>
