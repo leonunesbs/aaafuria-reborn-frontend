@@ -1,8 +1,17 @@
 import {
+  CustomButton,
+  CustomChakraNextLink,
+  CustomIconButton,
+} from '@/components/atoms';
+import { Card } from '@/components/molecules';
+import { AuthContext } from '@/contexts/AuthContext';
+import { ColorContext } from '@/contexts/ColorContext';
+import { gql, useMutation } from '@apollo/client';
+import {
   Badge,
   Box,
-  HStack,
   Heading,
+  HStack,
   Icon,
   Progress,
   Spinner,
@@ -12,6 +21,8 @@ import {
   useColorModeValue,
   useToast,
 } from '@chakra-ui/react';
+import { useRouter } from 'next/router';
+import { parseCookies } from 'nookies';
 import {
   ChangeEvent,
   useCallback,
@@ -20,22 +31,10 @@ import {
   useMemo,
   useState,
 } from 'react';
-import {
-  CustomButton,
-  CustomChakraNextLink,
-  CustomIconButton,
-} from '@/components/atoms';
-import { MdCalendarToday, MdLogin } from 'react-icons/md';
-import { gql, useMutation } from '@apollo/client';
-
-import { AuthContext } from '@/contexts/AuthContext';
-import { Card } from '@/components/molecules';
-import { ColorContext } from '@/contexts/ColorContext';
 import Confetti from 'react-confetti';
 import { FaWhatsapp } from 'react-icons/fa';
+import { MdCalendarToday, MdLogin } from 'react-icons/md';
 import { IAtividadesSocioTableRow } from './IAtividadesSocioTableRow';
-import { parseCookies } from 'nookies';
-import { useRouter } from 'next/router';
 
 const MUTATION_REMOVER_COMPETIDOR = gql`
   mutation removerCompetidor($id: ID!) {
@@ -186,10 +185,10 @@ export const AtividadesSocioTableRow = ({
   useEffect(() => {
     setIsConfirmed(
       node.competidoresConfirmados.edges.find(
-        ({ node: { socio } }) => socio.matricula === matricula,
+        ({ node: { socio } }) => socio.matricula === user?.member.registration,
       ) !== undefined,
     );
-  }, [matricula, node.competidoresConfirmados.edges, toast]);
+  }, [node.competidoresConfirmados.edges, toast, user?.member.registration]);
 
   return (
     <Card
