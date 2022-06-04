@@ -2,6 +2,7 @@ import {
   Badge,
   Box,
   HStack,
+  Select,
   Table,
   Tbody,
   Td,
@@ -9,6 +10,7 @@ import {
   Th,
   Thead,
   Tr,
+  useToast,
 } from '@chakra-ui/react';
 import {
   CustomChakraNextLink,
@@ -18,6 +20,7 @@ import {
 } from '@/components/atoms';
 import { MdMoreHoriz, MdNavigateBefore, MdNavigateNext } from 'react-icons/md';
 import { gql, useQuery } from '@apollo/client';
+import { useContext, useEffect } from 'react';
 
 import { AuthContext } from '@/contexts/AuthContext';
 import { Card } from '@/components/molecules';
@@ -25,7 +28,7 @@ import { ColorContext } from '@/contexts/ColorContext';
 import { GetServerSideProps } from 'next';
 import { Layout } from '@/components/templates/Layout';
 import { parseCookies } from 'nookies';
-import { useContext } from 'react';
+import { useRouter } from 'next/router';
 
 const ALL_PAYMENTS = gql`
   query allPayments($page: Int = 1, $status: String) {
@@ -76,7 +79,9 @@ type PaymentsData = {
 };
 
 function Payments() {
-  const { token } = useContext(AuthContext);
+  const toast = useToast();
+  const router = useRouter();
+  const { token, user } = useContext(AuthContext);
   const { green } = useContext(ColorContext);
   const { data, loading, refetch } = useQuery<PaymentsData>(ALL_PAYMENTS, {
     context: {
@@ -102,10 +107,45 @@ function Payments() {
       });
     }
   };
+
+  useEffect(() => {
+    if (user?.isStaff === false) {
+      toast({
+        title: 'Área restrita',
+        description: 'Você não tem permissão para acessar esta área.',
+        status: 'warning',
+        duration: 2500,
+        isClosable: true,
+        position: 'top-left',
+      });
+      router.push('/');
+    }
+  }, [router, toast, user?.isStaff]);
   return (
     <Layout title="Gerenciar pagamentos">
       <Box maxW="8xl" mx="auto">
         <PageHeading>Gerenciar pagamentos</PageHeading>
+        <HStack my={6}>
+          <Text>Filtrar por:</Text>
+          <HStack>
+            <Select
+              size={'sm'}
+              rounded="md"
+              defaultValue=""
+              focusBorderColor={green}
+              onChange={(e) => {
+                refetch({
+                  status: e.target.value,
+                });
+              }}
+            >
+              <option value="">Status</option>
+              <option value="PENDENTE">Pendentes</option>
+              <option value="PAGO">Pagos</option>
+              <option value="EXPIRADO">Expirados</option>
+            </Select>
+          </HStack>
+        </HStack>
         <Card overflowX="auto">
           <Table size={'sm'}>
             <Thead>
@@ -183,7 +223,7 @@ function Payments() {
               />
             )}
             <Text fontFamily={'AACHENN'} textColor={green}>
-              {data?.allPayments.page} de {data?.allPayments.pages}
+              {data?.allPayments?.page} de {data?.allPayments?.pages}
             </Text>
             {data?.allPayments?.hasNext && (
               <CustomIconButton

@@ -1,5 +1,7 @@
 import {
+  Badge,
   Box,
+  Heading,
   Stack,
   Table,
   Tbody,
@@ -147,13 +149,15 @@ function Payment() {
 
   return (
     <Layout title={data?.payment.description as string}>
-      <Box maxW="4xl" mx="auto">
+      <Box maxW="3xl" mx="auto">
         <PageHeading>Pagamento</PageHeading>
         <Card>
           <Stack spacing={10}>
             <Box>
-              <Text>Detalhes do pagamento:</Text>
-              <Table>
+              <Heading size="md" my={4}>
+                DETALHES DO PAGAMENTO
+              </Heading>
+              <Table size="sm">
                 <Tbody>
                   <Tr>
                     <Td>
@@ -168,10 +172,15 @@ function Payment() {
                       <Text>Valor:</Text>
                     </Td>
                     <Td textAlign={'right'}>
-                      <Text>
-                        {data?.payment.amount}
-                        {data?.payment.currency}
-                      </Text>
+                      <Text>{data?.payment.amount}</Text>
+                    </Td>
+                  </Tr>
+                  <Tr>
+                    <Td>
+                      <Text>Moeda:</Text>
+                    </Td>
+                    <Td textAlign={'right'}>
+                      <Text>{data?.payment.currency}</Text>
                     </Td>
                   </Tr>
 
@@ -235,8 +244,10 @@ function Payment() {
               </Table>
             </Box>
             <Box>
-              <Text>Dados do cliente:</Text>
-              <Table>
+              <Heading size="md" my={4}>
+                DADOS DO CLIENTE
+              </Heading>
+              <Table size="sm">
                 <Tbody>
                   <Tr>
                     <Td>
@@ -268,7 +279,11 @@ function Payment() {
                     </Td>
                     <Td textAlign={'right'}>
                       <Text>
-                        {data?.payment.user.member.hasActiveMembership}
+                        {data?.payment.user.member.hasActiveMembership ? (
+                          <Badge colorScheme="green">Sócio Ativo</Badge>
+                        ) : (
+                          <Badge colorScheme="red">Sócio Inativo</Badge>
+                        )}
                       </Text>
                     </Td>
                   </Tr>
@@ -276,8 +291,10 @@ function Payment() {
               </Table>
             </Box>
             <Box>
-              <Text>Anexos: </Text>
-              <Table>
+              <Heading size="md" my={4}>
+                ANEXOS
+              </Heading>
+              <Table size="sm">
                 <Thead>
                   <Tr>
                     <Th />

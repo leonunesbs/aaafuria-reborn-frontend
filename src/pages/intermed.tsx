@@ -1,21 +1,11 @@
 import {
-  CustomButton,
-  CustomIconButton,
-  PageHeading,
-} from '@/components/atoms';
-import { Card } from '@/components/molecules';
-import { Layout } from '@/components/templates';
-import { AuthContext } from '@/contexts/AuthContext';
-import { ColorContext } from '@/contexts/ColorContext';
-import { gql, useMutation } from '@apollo/client';
-import {
   Box,
   Center,
   FormControl,
   FormHelperText,
   FormLabel,
-  Heading,
   HStack,
+  Heading,
   Input,
   ListItem,
   SimpleGrid,
@@ -25,13 +15,24 @@ import {
   useClipboard,
   useToast,
 } from '@chakra-ui/react';
+import {
+  CustomButton,
+  CustomIconButton,
+  PageHeading,
+} from '@/components/atoms';
+import { MdCheck, MdFileCopy, MdSend } from 'react-icons/md';
+import { SubmitHandler, useForm } from 'react-hook-form';
+import { gql, useMutation } from '@apollo/client';
+import { useCallback, useContext, useEffect, useMemo, useState } from 'react';
+
+import { AuthContext } from '@/contexts/AuthContext';
+import { Card } from '@/components/molecules';
+import { ColorContext } from '@/contexts/ColorContext';
 import { GetServerSideProps } from 'next';
 import Image from 'next/image';
-import { useRouter } from 'next/router';
+import { Layout } from '@/components/templates';
 import { parseCookies } from 'nookies';
-import { useCallback, useContext, useEffect, useMemo, useState } from 'react';
-import { SubmitHandler, useForm } from 'react-hook-form';
-import { MdCheck, MdFileCopy, MdSend } from 'react-icons/md';
+import { useRouter } from 'next/router';
 
 const CREATE_INTERMED_PROFILE = gql`
   mutation createIntermedProfile(
@@ -202,8 +203,8 @@ function Intermed() {
         <SimpleGrid columns={1} spacing={2}>
           <Card>
             <Stack>
-              <Heading size="md" as="h2">
-                1. Complete sua inscrição no VI INTERMED NORDESTE.
+              <Heading size="md" as="h2" my={4}>
+                COMPLETE A SUA INSCRIÇÃO
               </Heading>
               <form
                 onSubmit={step1Form.handleSubmit(handleCreateIntermedProfile)}
@@ -287,8 +288,8 @@ function Intermed() {
           </Card>
 
           <Card>
-            <Heading size="md" as="h2" mb={10}>
-              2. Efetue o pagamento
+            <Heading size="md" as="h2" my={4} mb={10}>
+              EFETUE O PAGAMENTO
             </Heading>
             <Center mb={4}>
               <Box rounded="md" overflow={'hidden'}>

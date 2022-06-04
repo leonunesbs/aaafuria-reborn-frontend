@@ -123,7 +123,7 @@ function AssociacaoManual() {
   useEffect(() => {
     if (user?.isStaff === false) {
       toast({
-        title: 'Restrito.',
+        title: 'Área restrita',
         description: 'Você não tem permissão para acessar esta área.',
         status: 'warning',
         duration: 2500,
