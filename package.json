@@ -58,7 +58,7 @@
     "@types/apollo-upload-client": "17.0.0",
     "@types/cookie": "0.4.1",
     "@types/gtag.js": "0.0.10",
-    "@types/node": "16.11.33",
+    "@types/node": "16.11.38",
     "@types/nookies": "2.0.3",
     "@types/react": "17.0.45",
     "@types/react-countup": "4.3.1",
