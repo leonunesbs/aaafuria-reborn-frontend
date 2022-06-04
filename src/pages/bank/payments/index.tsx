@@ -131,7 +131,7 @@ function Payments() {
             <Select
               size={'sm'}
               rounded="md"
-              defaultValue=""
+              placeholder="Status"
               focusBorderColor={green}
               onChange={(e) => {
                 refetch({
@@ -139,7 +139,7 @@ function Payments() {
                 });
               }}
             >
-              <option value="">Status</option>
+              <option value="">Todos</option>
               <option value="PAGO">Pagos</option>
               <option value="PENDENTE">Pendentes</option>
             </Select>
