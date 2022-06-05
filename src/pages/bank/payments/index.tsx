@@ -1,4 +1,15 @@
 import {
+  CustomChakraNextLink,
+  CustomIconButton,
+  PageHeading,
+  VoltarButton,
+} from '@/components/atoms';
+import { Card } from '@/components/molecules';
+import { Layout } from '@/components/templates/Layout';
+import { AuthContext } from '@/contexts/AuthContext';
+import { ColorContext } from '@/contexts/ColorContext';
+import { gql, useQuery } from '@apollo/client';
+import {
   Badge,
   Box,
   HStack,
@@ -12,23 +23,11 @@ import {
   Tr,
   useToast,
 } from '@chakra-ui/react';
-import {
-  CustomChakraNextLink,
-  CustomIconButton,
-  PageHeading,
-  VoltarButton,
-} from '@/components/atoms';
-import { MdMoreHoriz, MdNavigateBefore, MdNavigateNext } from 'react-icons/md';
-import { gql, useQuery } from '@apollo/client';
-import { useContext, useEffect } from 'react';
-
-import { AuthContext } from '@/contexts/AuthContext';
-import { Card } from '@/components/molecules';
-import { ColorContext } from '@/contexts/ColorContext';
 import { GetServerSideProps } from 'next';
-import { Layout } from '@/components/templates/Layout';
-import { parseCookies } from 'nookies';
 import { useRouter } from 'next/router';
+import { parseCookies } from 'nookies';
+import { useContext, useEffect } from 'react';
+import { MdMoreHoriz, MdNavigateBefore, MdNavigateNext } from 'react-icons/md';
 
 const ALL_PAYMENTS = gql`
   query allPayments($page: Int = 1, $status: String) {
@@ -141,6 +140,7 @@ function Payments() {
             >
               <option value="PAGO">Pagos</option>
               <option value="PENDENTE">Pendentes</option>
+              <option value="EXPIRADO">Expirados</option>
             </Select>
           </HStack>
         </HStack>
