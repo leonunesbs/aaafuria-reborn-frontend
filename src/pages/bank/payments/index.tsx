@@ -139,7 +139,6 @@ function Payments() {
                 });
               }}
             >
-              <option value="">Todos</option>
               <option value="PAGO">Pagos</option>
               <option value="PENDENTE">Pendentes</option>
             </Select>
@@ -212,27 +211,25 @@ function Payments() {
             </Tbody>
           </Table>
           <HStack w="full" justify={'center'}>
-            {data?.allPayments?.hasPrev && (
-              <CustomIconButton
-                aria-label="prev-page"
-                icon={<MdNavigateBefore size="20px" />}
-                onClick={handlePreviousPage}
-                colorScheme="gray"
-                isLoading={loading}
-              />
-            )}
+            <CustomIconButton
+              visibility={data?.allPayments?.hasPrev ? 'visible' : 'hidden'}
+              aria-label="prev-page"
+              icon={<MdNavigateBefore size="20px" />}
+              onClick={handlePreviousPage}
+              colorScheme="gray"
+              isLoading={loading}
+            />
             <Text fontFamily={'AACHENN'} textColor={green}>
               {data?.allPayments?.page} de {data?.allPayments?.pages}
             </Text>
-            {data?.allPayments?.hasNext && (
-              <CustomIconButton
-                aria-label="next-page"
-                icon={<MdNavigateNext size="20px" />}
-                onClick={handleNextPage}
-                colorScheme="gray"
-                isLoading={loading}
-              />
-            )}
+            <CustomIconButton
+              visibility={data?.allPayments?.hasNext ? 'visible' : 'hidden'}
+              aria-label="next-page"
+              icon={<MdNavigateNext size="20px" />}
+              onClick={handleNextPage}
+              colorScheme="gray"
+              isLoading={loading}
+            />
           </HStack>
         </Card>
         <VoltarButton href="/areadiretor" />
