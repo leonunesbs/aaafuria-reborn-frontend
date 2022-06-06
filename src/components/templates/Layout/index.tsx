@@ -1,5 +1,5 @@
 import { Box, BoxProps, useColorModeValue } from '@chakra-ui/react';
-import { EmailConfirmation, Footer, Header } from '@/components/molecules';
+import { Footer, Header } from '@/components/molecules';
 import React, { ReactNode } from 'react';
 
 import Head from 'next/head';
@@ -98,7 +98,6 @@ export const Layout = ({
         {children}
       </Box>
       {isFooted && <Footer />}
-      <EmailConfirmation />
     </>
   );
 };

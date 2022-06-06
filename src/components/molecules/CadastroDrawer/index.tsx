@@ -22,6 +22,7 @@ import { gql, useMutation } from '@apollo/client';
 
 import { AuthContext } from '@/contexts/AuthContext';
 import { Card } from '@/components/molecules';
+import { ColorContext } from '@/contexts/ColorContext';
 import InputMask from 'react-input-mask';
 import { Layout } from '@/components/templates';
 import { useRouter } from 'next/router';
@@ -30,30 +31,32 @@ const CREATE_ACCOUNT = gql`
   mutation createAccount(
     $username: String!
     $password: String!
+    $email: String!
     $name: String!
     $nickname: String!
-    $birthDate: String!
     $phone: String!
     $rg: String!
     $cpf: String!
-    $avatar: Upload!
+    $birthDate: String!
     $group: String!
-    $email: String!
+    $avatar: Upload!
   ) {
     createAccount(
       username: $username
       password: $password
+      email: $email
       name: $name
       nickname: $nickname
-      birthDate: $birthDate
       phone: $phone
       rg: $rg
       cpf: $cpf
-      avatar: $avatar
+      birthDate: $birthDate
       group: $group
-      email: $email
+      avatar: $avatar
     ) {
-      ok
+      member {
+        id
+      }
     }
   }
 `;
@@ -63,8 +66,10 @@ export const CadastroDrawer = ({
   onClose,
   ...rest
 }: ICadastroDrawer) => {
+  const { green } = useContext(ColorContext);
   const router = useRouter();
-  const { cadastro }: { cadastro?: string } = router.query;
+  const { cadastro, after }: { cadastro?: string; after?: string } =
+    router.query;
   const { control, register, handleSubmit, setValue } =
     useForm<CadastroInputsType>({
       defaultValues: {
@@ -121,29 +126,33 @@ export const CadastroDrawer = ({
         variables: {
           username: data.matricula,
           password: data.pin,
+          email: data.email,
           name: data.nome,
           nickname: data.apelido,
-          birthDate: data.dataNascimento,
           phone: data.whatsapp,
           rg: data.rg,
           cpf: data.cpf,
-          avatar: data.avatar[0],
+          birthDate: data.dataNascimento,
           group: data.turma,
-          email: data.email,
+          avatar: data.avatar[0],
         },
-      }).then(({ data: { ok } }) => {
-        if (ok) {
-          signIn({ matricula: data.matricula, pin: data.pin });
+      }).then((res) => {
+        if (res.data) {
+          signIn({
+            matricula: data.matricula,
+            pin: data.pin,
+            redirectUrl: after,
+          });
         }
       });
     },
-    [mutateFunction, signIn, toast],
+    [after, mutateFunction, signIn, toast],
   );
 
   const handleClose = useCallback(() => {
     onClose();
-    router.replace('/entrar');
-  }, [onClose, router]);
+    router.replace(`/entrar${after ? `?after=${after}` : ''}`);
+  }, [after, onClose, router]);
 
   return (
     <Drawer
@@ -327,10 +336,10 @@ export const CadastroDrawer = ({
                   <FormControl>
                     <FormLabel>Foto: </FormLabel>
                     <Input
+                      focusBorderColor={green}
+                      {...register('avatar')}
                       pt={1}
                       type="file"
-                      focusBorderColor="green.500"
-                      {...register('avatar')}
                       required
                     />
                   </FormControl>

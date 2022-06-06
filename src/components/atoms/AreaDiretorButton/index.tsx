@@ -1,4 +1,4 @@
-import { useCallback, useContext, useEffect } from 'react';
+import { useCallback, useContext } from 'react';
 
 import { AuthContext } from '@/contexts/AuthContext';
 import { CustomButton } from '@/components/atoms';
@@ -8,12 +8,8 @@ import { MdManageAccounts } from 'react-icons/md';
 import router from 'next/router';
 
 export const AreaDiretorButton = ({}: IAreaDiretorButton) => {
-  const { checkCredentials, isStaff } = useContext(AuthContext);
+  const { user } = useContext(AuthContext);
   const { setLoading, loading } = useContext(LoadingContext);
-
-  useEffect(() => {
-    checkCredentials();
-  }, [checkCredentials]);
 
   const onClickAreaDiretor = useCallback(() => {
     setLoading(true);
@@ -22,7 +18,7 @@ export const AreaDiretorButton = ({}: IAreaDiretorButton) => {
 
   return (
     <CustomButton
-      display={isStaff ? 'flex' : 'none'}
+      display={user?.isStaff ? 'flex' : 'none'}
       leftIcon={<MdManageAccounts size="20px" />}
       colorScheme="yellow"
       isLoading={loading}

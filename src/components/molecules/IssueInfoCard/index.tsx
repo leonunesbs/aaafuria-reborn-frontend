@@ -59,7 +59,7 @@ export const IssueInfoCard = ({
   loadingIssueQuery,
 }: IssueInfoCardProps) => {
   const toast = useToast();
-  const { token, isStaff } = useContext(AuthContext);
+  const { token, user } = useContext(AuthContext);
   const { green } = useContext(ColorContext);
 
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -140,7 +140,7 @@ export const IssueInfoCard = ({
             <CustomIconButton
               aria-label="open-issue"
               icon={<MdCircle size="15px" />}
-              isDisabled={!isStaff}
+              isDisabled={!user?.isStaff}
               onClick={() => handleOpenIssue(issue.id as string)}
             />
             <CustomIconButton

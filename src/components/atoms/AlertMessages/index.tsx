@@ -18,7 +18,7 @@ import { useRouter } from 'next/router';
 
 export const AlertMessages = ({}: IAlertMessages) => {
   const router = useRouter();
-  const { isSocio } = useContext(AuthContext);
+  const { user } = useContext(AuthContext);
   const { onClose, onOpen, isOpen } = useDisclosure();
   const iconSize = useBreakpointValue(['15px', '20px']);
   const whatsappLinkGroup = 'https://chat.whatsapp.com/DPCBq2q3ZjQEt2wFUHDJeP';
@@ -28,14 +28,14 @@ export const AlertMessages = ({}: IAlertMessages) => {
   }, [onClose]);
 
   useEffect(() => {
-    if (isSocio === true) {
+    if (user?.member.hasActiveMembership) {
       if (localStorage.getItem('socioWhatsappAlert') !== 'true') {
         setTimeout(() => {
           onOpen();
         }, 2000);
       }
     }
-  }, [isSocio, onClose, onOpen]);
+  }, [onClose, onOpen, user?.member.hasActiveMembership]);
   return (
     <Collapse in={isOpen}>
       <Alert status="success">

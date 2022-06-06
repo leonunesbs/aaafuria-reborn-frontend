@@ -60,8 +60,7 @@ export interface IssueQueryData {
 function Solicitacao() {
   const router = useRouter();
 
-  const { isAuthenticated, checkCredentials, token, isStaff } =
-    useContext(AuthContext);
+  const { isAuthenticated, user, token } = useContext(AuthContext);
   const { id = '0' } = router.query;
 
   const { data, refetch, loading } = useQuery<IssueQueryData>(GET_ISSUE, {
@@ -75,11 +74,10 @@ function Solicitacao() {
 
   useEffect(() => {
     refetch();
-    checkCredentials();
     if (!isAuthenticated) {
       router.push(`/entrar?after=${router.asPath}`);
     }
-  }, [checkCredentials, isAuthenticated, refetch, router]);
+  }, [isAuthenticated, refetch, router]);
 
   return (
     <Layout title={data?.issue?.title ? data.issue.title : 'Solicitação'}>
@@ -103,7 +101,7 @@ function Solicitacao() {
         )}
         <Stack>
           <CreateComment issueId={id as string} refetchIssue={refetch} />
-          {isStaff && (
+          {user?.isStaff && (
             <CustomChakraNextLink href={'/ajuda/gerenciar-solicitacoes'}>
               <CustomButton
                 leftIcon={<MdHelpCenter size="25px" />}
