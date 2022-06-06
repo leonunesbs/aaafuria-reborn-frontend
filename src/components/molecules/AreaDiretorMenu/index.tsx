@@ -1,6 +1,6 @@
 import { CustomButton, CustomChakraNextLink } from '@/components/atoms';
 import { Divider, Stack, StackProps } from '@chakra-ui/react';
-import { MdGroups, MdHelpCenter, MdStore } from 'react-icons/md';
+import { MdGroups, MdHelpCenter, MdMoney, MdStore } from 'react-icons/md';
 
 import { AiFillSetting } from 'react-icons/ai';
 import { VoltarButton } from '@/components/atoms/VoltarButton';
@@ -21,6 +21,11 @@ export const AreaDiretorMenu = ({ ...rest }: AreaDiretorMenuProps) => {
       <CustomChakraNextLink href="/ajuda/gerenciar-solicitacoes">
         <CustomButton leftIcon={<MdHelpCenter size="25px" />}>
           Gerenciar solicitações
+        </CustomButton>
+      </CustomChakraNextLink>
+      <CustomChakraNextLink href="/bank/payments">
+        <CustomButton leftIcon={<MdMoney size="25px" />}>
+          Gerenciar pagamentos
         </CustomButton>
       </CustomChakraNextLink>
       <CustomChakraNextLink

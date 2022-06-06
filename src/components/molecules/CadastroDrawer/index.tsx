@@ -81,7 +81,7 @@ export const CadastroDrawer = ({
 
   const { signIn } = useContext(AuthContext);
 
-  const [mutateFunction, { error }] = useMutation(CREATE_ACCOUNT);
+  const [mutateFunction, { loading, error }] = useMutation(CREATE_ACCOUNT);
 
   useEffect(() => {
     setValue('matricula', matricula);
@@ -424,7 +424,9 @@ export const CadastroDrawer = ({
                   </Text>
                 </Stack>
                 <Stack mt={8}>
-                  <CustomButton type="submit">Cadastrar</CustomButton>
+                  <CustomButton type="submit" isLoading={loading}>
+                    Cadastrar
+                  </CustomButton>
                   <CustomButton colorScheme="gray" onClick={handleClose}>
                     Fechar
                   </CustomButton>

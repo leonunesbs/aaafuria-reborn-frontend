@@ -20,7 +20,7 @@ import {
   useColorModeValue,
 } from '@chakra-ui/react';
 import { gql, useMutation } from '@apollo/client';
-import { useCallback, useContext } from 'react';
+import { useCallback, useContext, useState } from 'react';
 
 import { AuthContext } from '@/contexts/AuthContext';
 import { BsCurrencyDollar } from 'react-icons/bs';
@@ -29,6 +29,7 @@ import { ColorContext } from '@/contexts/ColorContext';
 import { HiCheckCircle } from 'react-icons/hi';
 import { ISejaSocioPricing } from './ISejaSocioPricing';
 import { MdLogin } from 'react-icons/md';
+import client from '@/services/apollo-client';
 import { useRouter } from 'next/router';
 
 const CHECKOUT_MEMBERSHIP = gql`
@@ -48,7 +49,8 @@ type CheckoutMembership = {
 export const SejaSocioPricing = ({}: ISejaSocioPricing) => {
   const router = useRouter();
   const { green, bg } = useContext(ColorContext);
-  const { isAuthenticated, token } = useContext(AuthContext);
+  const { isAuthenticated, token, user } = useContext(AuthContext);
+  const [billingPortalLoading, setBillingPortalLoading] = useState(false);
   const [mutateFunction, { loading }] =
     useMutation<CheckoutMembership>(CHECKOUT_MEMBERSHIP);
   const color = useColorModeValue('black', 'white');
@@ -70,7 +72,7 @@ export const SejaSocioPricing = ({}: ISejaSocioPricing) => {
         'Desconto no INTERMED!',
         'Desconto no BONDE DO AHAM',
       ],
-      membershipId: 'TWVtYmVyc2hpcFBsYW5Ob2RlOjE=',
+      membershipId: 'TWVtYmVyc2hpcFBsYW5Ob2RlOjc=',
     },
     {
       slug: 'Anual',
@@ -89,6 +91,32 @@ export const SejaSocioPricing = ({}: ISejaSocioPricing) => {
       membershipId: 'TWVtYmVyc2hpcFBsYW5Ob2RlOjE=',
     },
   ];
+
+  const handleBillingPortal = useCallback(async () => {
+    setBillingPortalLoading(true);
+    const { data, errors, loading } = await client.query({
+      query: gql`
+        query getUser {
+          user {
+            member {
+              billingPortalUrl
+            }
+          }
+        }
+      `,
+      context: {
+        headers: {
+          Authorization: `JWT ${token}`,
+        },
+      },
+    });
+    if (errors) {
+      setBillingPortalLoading(loading);
+      throw errors;
+    }
+    setBillingPortalLoading(loading);
+    router.push(data.user.member.billingPortalUrl);
+  }, [router, token]);
 
   const handlePagar = useCallback(
     async (membershipId: string) => {
@@ -179,9 +207,9 @@ export const SejaSocioPricing = ({}: ISejaSocioPricing) => {
                     Assine agora e aproveite 5% de desconto na{' '}
                     <strong>primeira associação</strong>!
                   </Text>
-                  <Text textAlign="center" fontSize="sm">
+                  {/* <Text textAlign="center" fontSize="sm">
                     {plano.descricao}
-                  </Text>
+                  </Text> */}
                   <PopoverTrigger>
                     <Button
                       colorScheme="green"
@@ -227,6 +255,15 @@ export const SejaSocioPricing = ({}: ISejaSocioPricing) => {
                             }
                           >
                             Entrar
+                          </Button>
+                        ) : user?.member.hasActiveMembership ? (
+                          <Button
+                            colorScheme="green"
+                            onClick={handleBillingPortal}
+                            isLoading={billingPortalLoading}
+                            leftIcon={<BsCurrencyDollar />}
+                          >
+                            Gerenciar
                           </Button>
                         ) : (
                           <Button

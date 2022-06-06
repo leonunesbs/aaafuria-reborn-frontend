@@ -225,9 +225,9 @@ export const Header = () => {
                   Loja
                 </CustomButton>
               </CustomChakraNextLink>
-              <CustomChakraNextLink href={'/carrinho'}>
+              <CustomChakraNextLink href={'/cart'}>
                 <CustomButton
-                  isActive={router.asPath == '/carrinho'}
+                  isActive={router.asPath == '/cart'}
                   variant={'solid'}
                   justifyContent={'flex-start'}
                   leftIcon={<Box boxSize={'20px'} />}
@@ -307,17 +307,17 @@ export const Header = () => {
             {isAuthenticated ? (
               <Box w="full">
                 <Stack>
-                  <CustomChakraNextLink href={'/areasocio'}>
+                  <CustomChakraNextLink href={'/areamembro'}>
                     <CustomButton
-                      isActive={router.asPath == '/areasocio'}
+                      isActive={router.asPath == '/areamembro'}
                       variant={'solid'}
                       justifyContent={'flex-start'}
                       leftIcon={<MdPerson size="20px" />}
                     >
-                      Área do Sócio
+                      Área do Membro
                     </CustomButton>
                   </CustomChakraNextLink>
-                  {user?.member.hasActiveMembership && (
+                  {user?.isStaff && (
                     <CustomChakraNextLink href={'/areadiretor'}>
                       <CustomButton
                         isActive={router.asPath == '/areadiretor'}

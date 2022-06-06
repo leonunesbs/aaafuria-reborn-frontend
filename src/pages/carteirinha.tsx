@@ -179,17 +179,17 @@ function Carteirinha({}: CarteirinhaProps) {
                     />
                   </FormControl>
                   <FormControl>
-                    <FormLabel>Valido até:</FormLabel>
-                    <CarteirinhaInput
-                      type="date"
-                      value={user?.member.activeMembership?.currentEndDate}
-                    />
-                  </FormControl>
-                  <FormControl>
                     <FormLabel>Sócio desde:</FormLabel>
                     <CarteirinhaInput
                       type="date"
                       value={user?.member.activeMembership?.startDate}
+                    />
+                  </FormControl>
+                  <FormControl>
+                    <FormLabel>Valido até:</FormLabel>
+                    <CarteirinhaInput
+                      type="date"
+                      value={user?.member.activeMembership?.currentEndDate}
                     />
                   </FormControl>
                 </SimpleGrid>
@@ -234,7 +234,7 @@ function Carteirinha({}: CarteirinhaProps) {
           >
             Atualizar
           </Button>
-          <VoltarButton href="/areasocio" />
+          <VoltarButton href="/areamembro" />
         </Stack>
       </Box>
     </Layout>
