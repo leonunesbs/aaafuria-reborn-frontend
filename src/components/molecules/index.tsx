@@ -14,7 +14,6 @@ import { ISejaSocioPricing } from './SejaSocioPricing/ISejaSocioPricing';
 import { InputMatriculaPlantaoProps } from './InputMatriculaPlantao';
 import { IssueInfoCardProps } from './IssueInfoCard';
 import { PixTabPanelProps } from './PagamentoTabs/PIXTabPanel';
-import { ProdutoCardProps } from './ProdutoCard';
 import { ProdutoPlantaoCardProps } from './ProdutoPlantaoCard';
 import { RefAttributes } from 'react';
 import dynamic from 'next/dynamic';
@@ -77,7 +76,7 @@ export const EspecieTabPanel = dynamic<EspecieTabPanelProps>(() =>
 export const PixTabPanel = dynamic<PixTabPanelProps>(() =>
   import('./PagamentoTabs/PIXTabPanel').then((mod) => mod.PixTabPanel),
 );
-export const ProdutoCard = dynamic<ProdutoCardProps>(() =>
+export const ProdutoCard = dynamic<any>(() =>
   import('./ProdutoCard').then((mod) => mod.ProdutoCard),
 );
 export const ProdutoPlantaoCard = dynamic<ProdutoPlantaoCardProps>(() =>
