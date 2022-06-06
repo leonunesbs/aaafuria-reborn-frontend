@@ -225,9 +225,9 @@ export const Header = () => {
                   Loja
                 </CustomButton>
               </CustomChakraNextLink>
-              <CustomChakraNextLink href={'/carrinho'}>
+              <CustomChakraNextLink href={'/cart'}>
                 <CustomButton
-                  isActive={router.asPath == '/carrinho'}
+                  isActive={router.asPath == '/cart'}
                   variant={'solid'}
                   justifyContent={'flex-start'}
                   leftIcon={<Box boxSize={'20px'} />}

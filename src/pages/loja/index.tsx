@@ -22,64 +22,56 @@ import { ProdutoCard } from '@/components/molecules';
 import React from 'react';
 import client from '@/services/apollo-client';
 
-const PRODUTO_QUERY = gql`
-  query getProdutos {
-    allProduto(isActive: true) {
-      edges {
-        node {
-          id
-          nome
-          descricao
-          preco
-          precoSocio
-          imagem
-          plantaoOnly
-          hasVariations
-          variacoes {
-            edges {
-              node {
-                id
-                nome
-              }
+const DIGITAL_ITEMS = gql`
+  query getDigitalItems {
+    digitalItems {
+      objects {
+        id
+        name
+        price
+        image
+        description
+        membershipPrice
+        staffPrice
+        variations {
+          edges {
+            node {
+              id
+              name
             }
           }
-          hasObservacoes
         }
       }
     }
   }
 `;
 
-interface QueryData {
-  allProduto: {
-    edges: ProdutoType[];
+export type ProductType = {
+  id: string;
+  name: string;
+  price: number;
+  image: string;
+  description: string;
+  membershipPrice: number;
+  staffPrice: number;
+  variations: {
+    edges: {
+      node: {
+        id: string;
+        name: string;
+      };
+    }[];
   };
-}
+};
 
-export type ProdutoType = {
-  node: {
-    id: string;
-    nome: string;
-    descricao: string;
-    preco: number;
-    precoSocio: number;
-    imagem: string;
-    hasVariations: boolean;
-    plantaoOnly: boolean;
-    variacoes: {
-      edges: {
-        node: {
-          id: string;
-          nome: string;
-        };
-      }[];
-    };
-    hasObservacoes: boolean;
+type QueryData = {
+  digitalItems: {
+    objects: ProductType[];
   };
 };
 
 function Loja() {
-  const { data: produtos, loading } = useQuery<QueryData>(PRODUTO_QUERY);
+  const { data: produtos, loading } = useQuery<QueryData>(DIGITAL_ITEMS);
 
   return (
     <Layout title="Loja">
@@ -91,24 +83,20 @@ function Loja() {
           </Center>
         )}
         <SimpleGrid
-          columns={{ base: 1, md: 2, lg: 3 }}
+          columns={{ base: 1, md: 3, lg: 3 }}
           spacing={{ base: '8', lg: '2' }}
-          maxW="7xl"
-          mx="auto"
-          justifyItems="center"
-          alignItems="center"
         >
-          {produtos?.allProduto?.edges?.map(({ node }) => {
-            return <ProdutoCard key={node.id} node={node} />;
+          {produtos?.digitalItems.objects.map((product) => {
+            return <ProdutoCard key={product.id} node={product} />;
           })}
         </SimpleGrid>
-        {produtos?.allProduto?.edges?.length === 0 && (
+        {produtos?.digitalItems.objects.length === 0 && (
           <Text textAlign={'center'}>
             <em>Nenhum produto disponível para compra online no momento.</em>
           </Text>
         )}
         <Stack mt={10}>
-          <CustomChakraNextLink href="/carrinho">
+          <CustomChakraNextLink href="/cart">
             <CustomButton
               colorScheme="gray"
               leftIcon={<MdShoppingCart size="25px" />}
@@ -134,7 +122,7 @@ function Loja() {
 export const getStaticProps: GetStaticProps = async ({}) => {
   return await client
     .query({
-      query: PRODUTO_QUERY,
+      query: DIGITAL_ITEMS,
     })
     .then(({ data }) => {
       return {

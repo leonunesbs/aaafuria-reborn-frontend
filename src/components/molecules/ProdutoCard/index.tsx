@@ -4,12 +4,11 @@ import {
   Button,
   FormControl,
   Image,
-  Input,
   Select,
-  Text,
+  useBreakpointValue,
   useToast,
 } from '@chakra-ui/react';
-import { Flex, HStack, Heading, Stack } from '@chakra-ui/layout';
+import { HStack, Heading, Stack } from '@chakra-ui/layout';
 import React, { useCallback, useContext } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { gql, useMutation } from '@apollo/client';
@@ -20,34 +19,24 @@ import { ColorContext } from '@/contexts/ColorContext';
 import { CustomButton } from '@/components/atoms/CustomButton';
 import { MdShoppingCart } from 'react-icons/md';
 import { PriceTag } from '@/components/atoms';
-import { ProdutoType } from '@/pages/loja';
+import { ProductType } from '@/pages/loja';
 import { useRouter } from 'next/router';
 
-export type ProdutoCardProps = ProdutoType;
-
 const ADD_TO_CART = gql`
-  mutation addToCart(
-    $productId: String!
-    $quantidade: Int!
-    $variacaoId: String
-    $observacoes: String
-  ) {
-    adicionarAoCarrinho(
-      productId: $productId
-      quantidade: $quantidade
-      variacaoId: $variacaoId
-      observacoes: $observacoes
-    ) {
+  mutation addToCart($itemId: ID!, $quantity: Int!, $description: String) {
+    addToCart(itemId: $itemId, quantity: $quantity, description: $description) {
       ok
     }
   }
 `;
 
-export const ProdutoCard = ({ node }: ProdutoCardProps) => {
+export const ProdutoCard = ({ node: product }: { node: ProductType }) => {
   const router = useRouter();
-  const { isAuthenticated, user, token } = useContext(AuthContext);
+  const { green } = useContext(ColorContext);
+  const { isAuthenticated, token } = useContext(AuthContext);
   const { register, handleSubmit } = useForm<any>();
-  const { green, bg } = useContext(ColorContext);
+
+  const fontSize = useBreakpointValue(['xs', 'sm']);
 
   const [addToCart, { loading }] = useMutation(ADD_TO_CART, {
     context: {
@@ -57,39 +46,34 @@ export const ProdutoCard = ({ node }: ProdutoCardProps) => {
     },
   });
 
-  const [isLoading, setIsLoading] = React.useState(loading);
   const toast = useToast();
 
-  // Handle submit
   const onSubmit: SubmitHandler<any> = useCallback(
     (formData) => {
       if (!isAuthenticated) {
         router.push(`entrar?after=${router.asPath}`);
       }
-      const productId = node.id;
+      const productId = formData.variacaoId || product.id;
       const quantidade = 1;
-      const variacaoId = formData.variacaoId;
       const observacoes = formData.observacoes;
 
       addToCart({
         variables: {
-          productId: productId,
-          quantidade: quantidade,
-          variacaoId: variacaoId,
-          observacoes: observacoes,
+          itemId: productId,
+          quantity: quantidade,
+          description: observacoes,
         },
       })
         .then(() => {
-          setIsLoading(false);
           toast({
-            title: `[${node.nome}] adicionado ao carrinho!`,
+            title: `[${product.name}] adicionado ao carrinho!`,
             description: (
               <CustomButton
                 colorScheme={'green'}
                 variant="solid"
                 leftIcon={<MdShoppingCart size="25px" />}
                 shadow="base"
-                onClick={() => router.push('/carrinho')}
+                onClick={() => router.push('/cart')}
               >
                 Ir para o carrinho
               </CustomButton>
@@ -102,13 +86,13 @@ export const ProdutoCard = ({ node }: ProdutoCardProps) => {
           gtag.event({
             action: 'add_to_cart',
             category: 'ecommerce',
-            label: node.nome,
+            label: product.name,
             value: 1,
             items: [
               {
-                id: node.id,
-                price: node.preco,
-                name: node.nome,
+                id: product.id,
+                price: product.price,
+                name: product.name,
                 quantity: 1,
               },
             ],
@@ -123,98 +107,59 @@ export const ProdutoCard = ({ node }: ProdutoCardProps) => {
           });
         });
     },
-    [isAuthenticated, node.id, node.nome, node.preco, addToCart, router, toast],
+    [isAuthenticated, product, addToCart, router, toast],
   );
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <Card
-        key={node.id}
+        key={product.id}
         position="relative"
-        w="100%"
         overflow="hidden"
         px="0"
         py="0"
       >
-        {user?.member.hasActiveMembership && (
-          <Flex
-            d="none"
-            zIndex={1}
-            bg={green}
-            position="absolute"
-            right={-16}
-            top={10}
-            width="250px"
-            transform="rotate(45deg)"
-            py={2}
-            justifyContent="center"
-            alignItems="center"
-            shadow={'base'}
-          >
-            <Text
-              fontSize={{ base: 'lg', lg: 'sm' }}
-              textTransform="uppercase"
-              fontWeight="bold"
-              letterSpacing="wider"
-              color={bg}
-            >
-              {((node.precoSocio / node.preco) * 100 - 100).toPrecision(2)}%
-              OFF!
-            </Text>
-          </Flex>
-        )}
         <Image
           w="full"
           objectFit="cover"
-          src={node.imagem}
+          src={product.image}
           mx="auto"
-          alt={node.nome}
+          alt={product.name}
         />
         <Stack>
           <Stack p={4}>
             <Stack>
-              <Heading as="h3" size="md">
-                {node.nome}
+              <Heading as="h3" size={fontSize}>
+                {product.name.toUpperCase()}
               </Heading>
               <PriceTag
                 as="h4"
-                fontSize={'xl'}
-                price={node.preco as number}
-                discountedPrice={node.precoSocio}
+                fontSize={fontSize}
+                price={product.price as number}
+                discountedPrice={product.membershipPrice}
               />
-              <Text fontSize="md">{node.descricao}</Text>
             </Stack>
             <HStack>
-              {node.hasVariations && (
-                <FormControl>
-                  <Select
-                    required
-                    focusBorderColor="green.500"
-                    placeholder="Selecione o tamanho"
-                    {...register('variacaoId')}
-                  >
-                    {node?.variacoes.edges.map(({ node }) => (
-                      <option key={node.id} value={node.id}>
-                        {node.nome}
-                      </option>
-                    ))}
-                  </Select>
-                </FormControl>
-              )}
-              {node.hasObservacoes && (
-                <FormControl>
-                  <Input
-                    required
-                    focusBorderColor="green.500"
-                    placeholder="Digite algo importante aqui..."
-                    {...register('observacoes', {
-                      required: true,
-                      minLength: 3,
-                      maxLength: 100,
-                    })}
-                  />
-                </FormControl>
-              )}
+              <FormControl
+                visibility={
+                  product?.variations?.edges.length > 0 ? 'visible' : 'hidden'
+                }
+              >
+                <Select
+                  focusBorderColor={green}
+                  placeholder="Selecione o tamanho"
+                  required={
+                    product?.variations?.edges.length > 0 ? true : false
+                  }
+                  {...register('variacaoId')}
+                >
+                  {product.variations.edges.map(({ node }) => (
+                    <option key={node.id} value={node.id}>
+                      {node.name}
+                    </option>
+                  ))}
+                </Select>
+              </FormControl>
             </HStack>
           </Stack>
           <Button
@@ -222,14 +167,11 @@ export const ProdutoCard = ({ node }: ProdutoCardProps) => {
             rounded="0"
             leftIcon={<MdShoppingCart size="20px" />}
             colorScheme="green"
-            isLoading={isLoading}
+            isLoading={loading}
             loadingText="Adicionando..."
-            isDisabled={node.plantaoOnly}
           >
             {isAuthenticated
-              ? node.plantaoOnly
-                ? 'Plantão Only'
-                : 'Adicionar ao carrinho'
+              ? 'Adicionar ao carrinho'
               : 'Faça login para comprar'}
           </Button>
         </Stack>
