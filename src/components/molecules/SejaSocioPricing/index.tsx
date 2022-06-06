@@ -72,7 +72,7 @@ export const SejaSocioPricing = ({}: ISejaSocioPricing) => {
         'Desconto no INTERMED!',
         'Desconto no BONDE DO AHAM',
       ],
-      membershipId: 'TWVtYmVyc2hpcFBsYW5Ob2RlOjI=',
+      membershipId: 'TWVtYmVyc2hpcFBsYW5Ob2RlOjc=',
     },
     {
       slug: 'Anual',
