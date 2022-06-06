@@ -20,7 +20,7 @@ import {
   useColorModeValue,
 } from '@chakra-ui/react';
 import { gql, useMutation } from '@apollo/client';
-import { useCallback, useContext, useEffect } from 'react';
+import { useCallback, useContext, useState } from 'react';
 
 import { AuthContext } from '@/contexts/AuthContext';
 import { BsCurrencyDollar } from 'react-icons/bs';
@@ -29,38 +29,32 @@ import { ColorContext } from '@/contexts/ColorContext';
 import { HiCheckCircle } from 'react-icons/hi';
 import { ISejaSocioPricing } from './ISejaSocioPricing';
 import { MdLogin } from 'react-icons/md';
+import client from '@/services/apollo-client';
 import { useRouter } from 'next/router';
 
-const NOVO_PAGAMENTO = gql`
-  mutation novoPagamento($tipoPlano: String!) {
-    novoPagamento(tipoPlano: $tipoPlano) {
-      pagamento {
-        checkoutUrl
-      }
+const CHECKOUT_MEMBERSHIP = gql`
+  mutation checkoutMembership($membershipId: ID!, $method: String!) {
+    checkoutMembership(membershipId: $membershipId, method: $method) {
+      checkoutUrl
     }
   }
 `;
 
+type CheckoutMembership = {
+  checkoutMembership: {
+    checkoutUrl: string;
+  };
+};
+
 export const SejaSocioPricing = ({}: ISejaSocioPricing) => {
   const router = useRouter();
   const { green, bg } = useContext(ColorContext);
-  const { isAuthenticated, token } = useContext(AuthContext);
-  const [mutateFunction, { loading, data }] = useMutation(NOVO_PAGAMENTO);
+  const { isAuthenticated, token, user } = useContext(AuthContext);
+  const [billingPortalLoading, setBillingPortalLoading] = useState(false);
+  const [mutateFunction, { loading }] =
+    useMutation<CheckoutMembership>(CHECKOUT_MEMBERSHIP);
   const color = useColorModeValue('black', 'white');
   const planos = [
-    {
-      slug: 'Mensal',
-      nome: 'PLANO MENSAL',
-      valor: '24,90',
-      features: [
-        '1 mês de acesso com renovação automática',
-        'Participe dos treinos de todas as modalidades',
-        'Participe dos ensaios da Carabina',
-        'Ganhe desconto em produtos e eventos',
-        'Acumule Calangos para desconto no INTERMED!',
-        'Desconto no BONDE DO AHAM',
-      ],
-    },
     {
       slug: 'Semestral',
       nome: 'PACOTE SEMESTRAL',
@@ -78,6 +72,7 @@ export const SejaSocioPricing = ({}: ISejaSocioPricing) => {
         'Desconto no INTERMED!',
         'Desconto no BONDE DO AHAM',
       ],
+      membershipId: 'TWVtYmVyc2hpcFBsYW5Ob2RlOjc=',
     },
     {
       slug: 'Anual',
@@ -93,32 +88,57 @@ export const SejaSocioPricing = ({}: ISejaSocioPricing) => {
         'Desconto no INTERMED',
         'Desconto no BONDE DO AHAM',
       ],
+      membershipId: 'TWVtYmVyc2hpcFBsYW5Ob2RlOjE=',
     },
   ];
 
-  useEffect(() => {
-    if (data) {
-      router.push(data.novoPagamento.pagamento.checkoutUrl);
+  const handleBillingPortal = useCallback(async () => {
+    setBillingPortalLoading(true);
+    const { data, errors, loading } = await client.query({
+      query: gql`
+        query getUser {
+          user {
+            member {
+              billingPortalUrl
+            }
+          }
+        }
+      `,
+      context: {
+        headers: {
+          Authorization: `JWT ${token}`,
+        },
+      },
+    });
+    if (errors) {
+      setBillingPortalLoading(loading);
+      throw errors;
     }
-  }, [data, router]);
+    setBillingPortalLoading(loading);
+    router.push(data.user.member.billingPortalUrl);
+  }, [router, token]);
+
   const handlePagar = useCallback(
-    (tipoPlano: string) => {
+    async (membershipId: string) => {
       mutateFunction({
         variables: {
-          tipoPlano: tipoPlano,
+          membershipId,
+          method: 'ST',
         },
         context: {
           headers: {
-            authorization: `JWT ${token || ' '}`,
+            authorization: `JWT ${token}`,
           },
         },
+      }).then(({ data }) => {
+        router.push(data?.checkoutMembership.checkoutUrl as string);
       });
     },
-    [mutateFunction, token],
+    [mutateFunction, router, token],
   );
   return (
     <SimpleGrid
-      columns={{ base: 1, lg: 3 }}
+      columns={{ base: 1, lg: 2 }}
       spacing={{ base: '8', lg: '2' }}
       maxW="7xl"
       mx="auto"
@@ -166,15 +186,6 @@ export const SejaSocioPricing = ({}: ISejaSocioPricing) => {
 
                 <Text fontSize="2xl" fontWeight="extrabold" color={green}>
                   R${plano.valor}
-                  <Text fontSize="lg" fontWeight="light" as="i" color={color}>
-                    {plano.slug === 'Mensal' && '/mês'}
-                    {plano.slug === 'Semestral' &&
-                      `/${new Date().getFullYear()}.${
-                        new Date().getMonth() > 6 ? '2' : '1'
-                      }`}
-                    {plano.slug === 'Anual' &&
-                      `/${new Date().getFullYear()}.1 + ${new Date().getFullYear()}.2`}
-                  </Text>
                 </Text>
                 <List spacing="4" mx="auto">
                   {plano.features.map((feature, index) => (
@@ -196,9 +207,9 @@ export const SejaSocioPricing = ({}: ISejaSocioPricing) => {
                     Assine agora e aproveite 5% de desconto na{' '}
                     <strong>primeira associação</strong>!
                   </Text>
-                  <Text textAlign="center" fontSize="sm">
+                  {/* <Text textAlign="center" fontSize="sm">
                     {plano.descricao}
-                  </Text>
+                  </Text> */}
                   <PopoverTrigger>
                     <Button
                       colorScheme="green"
@@ -245,12 +256,21 @@ export const SejaSocioPricing = ({}: ISejaSocioPricing) => {
                           >
                             Entrar
                           </Button>
+                        ) : user?.member.hasActiveMembership ? (
+                          <Button
+                            colorScheme="green"
+                            onClick={handleBillingPortal}
+                            isLoading={billingPortalLoading}
+                            leftIcon={<BsCurrencyDollar />}
+                          >
+                            Gerenciar
+                          </Button>
                         ) : (
                           <Button
                             colorScheme="green"
                             leftIcon={<BsCurrencyDollar />}
                             isDisabled={!isAuthenticated}
-                            onClick={() => handlePagar(plano.slug)}
+                            onClick={() => handlePagar(plano.membershipId)}
                             isLoading={loading}
                           >
                             Pagar

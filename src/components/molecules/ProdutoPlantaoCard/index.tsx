@@ -1,11 +1,8 @@
-import { CustomButton } from '@/components/atoms';
-import { Card } from '@/components/molecules';
-import { gql, useMutation } from '@apollo/client';
 import {
   Button,
   FormControl,
-  Heading,
   HStack,
+  Heading,
   Image,
   Input,
   Select,
@@ -13,12 +10,16 @@ import {
   Text,
   useToast,
 } from '@chakra-ui/react';
-import { useRouter } from 'next/router';
-import { parseCookies } from 'nookies';
-import { useCallback, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
+import { gql, useMutation } from '@apollo/client';
+import { useCallback, useState } from 'react';
+
+import { Card } from '@/components/molecules';
+import { CustomButton } from '@/components/atoms';
 import { MdShoppingCart } from 'react-icons/md';
 import { ProdutoType } from '../../organisms/LojaPlantao';
+import { parseCookies } from 'nookies';
+import { useRouter } from 'next/router';
 
 const ADD_TO_CART_PLANTAO = gql`
   mutation addToCartPlantao(

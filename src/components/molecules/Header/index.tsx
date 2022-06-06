@@ -11,7 +11,6 @@ import {
   DrawerOverlay,
   Flex,
   HStack,
-  Skeleton,
   Stack,
   Text,
   chakra,
@@ -47,12 +46,13 @@ export const Header = () => {
   const btnRef = useRef<HTMLButtonElement>(null);
   const { isOpen, onToggle, onClose } = useDisclosure();
   const { bg, green } = useContext(ColorContext);
-  const { isAuthenticated, signOut, isStaff, user, checkCredentials } =
-    useContext(AuthContext);
+  const { isAuthenticated, signOut, user, checkAuth } = useContext(AuthContext);
   const ChakraNextImage = chakra(NextImage);
+
   useEffect(() => {
-    checkCredentials();
-  }, [checkCredentials]);
+    checkAuth();
+  }, [checkAuth]);
+
   return (
     <>
       <Flex
@@ -133,9 +133,13 @@ export const Header = () => {
             <CustomChakraNextLink href={'/carteirinha'}>
               <Avatar
                 display={['none', 'none', 'flex']}
-                name={user?.nome}
-                src={user?.avatar}
-                border={user?.isSocio ? '2px solid green' : '2px solid gray'}
+                name={user?.member.name}
+                src={user?.member.avatar}
+                border={
+                  user?.member.hasActiveMembership
+                    ? '2px solid green'
+                    : '2px solid gray'
+                }
               />
             </CustomChakraNextLink>
           ) : (
@@ -221,9 +225,9 @@ export const Header = () => {
                   Loja
                 </CustomButton>
               </CustomChakraNextLink>
-              <CustomChakraNextLink href={'/carrinho'}>
+              <CustomChakraNextLink href={'/cart'}>
                 <CustomButton
-                  isActive={router.asPath == '/carrinho'}
+                  isActive={router.asPath == '/cart'}
                   variant={'solid'}
                   justifyContent={'flex-start'}
                   leftIcon={<Box boxSize={'20px'} />}
@@ -303,17 +307,17 @@ export const Header = () => {
             {isAuthenticated ? (
               <Box w="full">
                 <Stack>
-                  <CustomChakraNextLink href={'/areasocio'}>
+                  <CustomChakraNextLink href={'/areamembro'}>
                     <CustomButton
-                      isActive={router.asPath == '/areasocio'}
+                      isActive={router.asPath == '/areamembro'}
                       variant={'solid'}
                       justifyContent={'flex-start'}
                       leftIcon={<MdPerson size="20px" />}
                     >
-                      Área do Sócio
+                      Área do Membro
                     </CustomButton>
                   </CustomChakraNextLink>
-                  {isStaff && (
+                  {user?.isStaff && (
                     <CustomChakraNextLink href={'/areadiretor'}>
                       <CustomButton
                         isActive={router.asPath == '/areadiretor'}
@@ -339,35 +343,35 @@ export const Header = () => {
                 </Stack>
                 <Box h={'1px'} my={6} bgColor={'rgb(0,0,0,0.5)'} rounded="sm" />
                 <Stack>
-                  <Skeleton isLoaded={user ? true : false}>
-                    <HStack w="full" justify={'space-between'}>
-                      <HStack>
-                        <CustomChakraNextLink href={'/carteirinha'}>
-                          <Avatar
-                            name={user?.nome}
-                            src={user?.avatar}
-                            border={
-                              user?.isSocio
-                                ? '2px solid green'
-                                : '2px solid gray'
-                            }
-                          />
-                        </CustomChakraNextLink>
-                        <Stack spacing={0} textColor={bg}>
-                          <Text fontSize={['md']} fontWeight="bold">
-                            {user?.apelido}
-                          </Text>
-                          <Text fontSize={['xs']}>{user?.matricula}</Text>
-                        </Stack>
-                      </HStack>
-                      <CustomIconButton
-                        aria-label="sair"
-                        variant={'solid'}
-                        icon={<MdLogout size="20px" />}
-                        onClick={signOut}
-                      />
+                  <HStack w="full" justify={'space-between'}>
+                    <HStack>
+                      <CustomChakraNextLink href={'/carteirinha'}>
+                        <Avatar
+                          name={user?.member.name}
+                          src={user?.member.avatar}
+                          border={
+                            user?.member.hasActiveMembership
+                              ? '2px solid green'
+                              : '2px solid gray'
+                          }
+                        />
+                      </CustomChakraNextLink>
+                      <Stack spacing={0} textColor={bg}>
+                        <Text fontSize={['md']} fontWeight="bold">
+                          {user?.member.nickname}
+                        </Text>
+                        <Text fontSize={['xs']}>
+                          {user?.member.registration}
+                        </Text>
+                      </Stack>
                     </HStack>
-                  </Skeleton>
+                    <CustomIconButton
+                      aria-label="sair"
+                      variant={'solid'}
+                      icon={<MdLogout size="20px" />}
+                      onClick={signOut}
+                    />
+                  </HStack>
                 </Stack>
               </Box>
             ) : (

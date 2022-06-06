@@ -10,29 +10,29 @@ const SIGN_IN = gql`
     tokenAuth(username: $matricula, password: $pin) {
       token
       payload
-    }
-  }
-`;
-
-const QUERY_SOCIO = gql`
-  query socioByMatricula($matricula: String!) {
-    socioByMatricula(matricula: $matricula) {
-      id
-      apelido
-      nome
-      avatar
-      email
-      isSocio
-      isAtleta
-      matricula
-      rg
-      cpf
-      dataNascimento
       user {
         isStaff
-      }
-      conta {
-        calangos
+        member {
+          id
+          registration
+          name
+          nickname
+          group
+          email
+          avatar
+          birthDate
+          rg
+          cpf
+          hasActiveMembership
+          firstTeamer
+          activeMembership {
+            membershipPlan {
+              title
+            }
+            startDate
+            currentEndDate
+          }
+        }
       }
     }
   }
@@ -41,12 +41,15 @@ const QUERY_SOCIO = gql`
 interface AuthContextProps {
   isAuthenticated: boolean;
   token: string;
-  matricula: string;
-  signIn: (data: SignInData) => Promise<void>;
-  checkCredentials: () => Promise<boolean>;
-  isStaff: boolean | null;
-  isSocio: boolean | null;
+  signIn: (data: SignInData) => Promise<{
+    tokenAuth: {
+      token: string;
+      payload: string;
+      user: UserData;
+    };
+  }>;
   signOut: () => void;
+  checkAuth: () => Promise<void>;
   user: UserData | null;
 }
 
@@ -61,22 +64,27 @@ type SignInData = {
 };
 
 type UserData = {
-  id: string;
-  apelido: string;
-  nome: string;
-  email: string;
-  user: {
-    isStaff: string;
-  };
-  dataNascimento: string;
-  rg: string;
-  cpf: string;
-  avatar: string;
-  isSocio: boolean;
-  isAtleta: boolean;
-  matricula: string;
-  conta: {
-    calangos: string;
+  isStaff: boolean;
+  member: {
+    id: string;
+    registration: string;
+    name: string;
+    nickname: string;
+    group: string;
+    email: string;
+    avatar: string;
+    birthDate: string;
+    rg: string;
+    cpf: string;
+    hasActiveMembership: boolean;
+    firstTeamer: boolean;
+    activeMembership: {
+      membershipPlan: {
+        title: string;
+      };
+      startDate: string;
+      currentEndDate: string;
+    } | null;
   };
 };
 
@@ -84,75 +92,66 @@ export const AuthContext = createContext({} as AuthContextProps);
 
 export function AuthProvider({ children }: AuthProviderProps) {
   const [user, setUser] = useState<UserData | null>(null);
-  const [isStaff, setIsStaff] = useState<boolean | null>(null);
-  const [isSocio, setIsSocio] = useState<boolean | null>(null);
 
   const router = useRouter();
 
   const { ['aaafuriaToken']: token } = parseCookies();
-  const matricula = parseCookies()['aaafuriaMatricula'];
 
   const isAuthenticated = useMemo(() => !!token, [token]);
 
   const signOut = useCallback(() => {
     destroyCookie(null, 'aaafuriaToken');
-    destroyCookie(null, 'aaafuriaMatricula');
-    destroyCookie(null, 'aaafuriaIsSocio');
-    destroyCookie(null, 'aaafuriaIsStaff');
-
     setUser(null);
-    setIsStaff(null);
-    setIsSocio(null);
-  }, []);
 
-  const checkCredentials = useCallback(async () => {
+    router.reload();
+  }, [router]);
+
+  const checkAuth = useCallback(async () => {
     if (isAuthenticated) {
-      if (!matricula) {
-        return false;
-      }
-      const response = await client.query({
-        query: QUERY_SOCIO,
-        variables: {
-          matricula: matricula,
+      const { data, errors } = await client.query({
+        query: gql`
+          query getUser {
+            user {
+              isStaff
+              member {
+                id
+                registration
+                name
+                nickname
+                group
+                email
+                avatar
+                birthDate
+                rg
+                cpf
+                hasActiveMembership
+                firstTeamer
+                activeMembership {
+                  membershipPlan {
+                    title
+                  }
+                  startDate
+                  currentEndDate
+                }
+              }
+            }
+          }
+        `,
+        context: {
+          headers: {
+            Authorization: `JWT ${token}`,
+          },
         },
       });
 
-      setUser(response.data.socioByMatricula);
-
-      if (response.data.socioByMatricula === null) {
-        return signOut();
-      }
-      setCookie(
-        null,
-        'aaafuriaIsSocio',
-        response.data.socioByMatricula?.isSocio,
-        {
-          maxAge: 60 * 60 * 24 * 7,
-          path: '/',
-        },
-      );
-
-      if (response.data.socioByMatricula?.user.isStaff) {
-        setCookie(
-          null,
-          'aaafuriaIsStaff',
-          response.data.socioByMatricula?.user.isStaff,
-          {
-            maxAge: 60 * 60 * 24 * 7,
-            path: '/',
-          },
-        );
+      if (errors) {
+        signOut();
+        throw errors;
       }
 
-      const { ['aaafuriaIsSocio']: aaafuriaIsSocio } = parseCookies();
-      const { ['aaafuriaIsStaff']: aaafuriaIsStaff } = parseCookies();
-
-      setIsSocio(aaafuriaIsSocio === 'true');
-      setIsStaff(aaafuriaIsStaff === 'true');
-
-      return response?.data.socioByMatricula?.isSocio;
+      setUser(data.user);
     }
-  }, [isAuthenticated, matricula, signOut]);
+  }, [isAuthenticated, signOut, token]);
 
   const signIn = useCallback(
     async ({ matricula, pin, redirectUrl }: SignInData) => {
@@ -169,12 +168,8 @@ export function AuthProvider({ children }: AuthProviderProps) {
             maxAge: 60 * 60 * 24 * 7,
             path: '/',
           });
-          setCookie(null, 'aaafuriaMatricula', matricula, {
-            maxAge: 60 * 60 * 24 * 7,
-            path: '/',
-          });
 
-          await checkCredentials();
+          setUser(data.tokenAuth.user);
 
           router.push(redirectUrl || '/');
 
@@ -187,7 +182,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
       return response;
     },
-    [checkCredentials, router],
+    [router],
   );
 
   return (
@@ -195,13 +190,10 @@ export function AuthProvider({ children }: AuthProviderProps) {
       value={{
         user,
         token,
-        matricula,
         isAuthenticated,
         signIn,
         signOut,
-        checkCredentials,
-        isSocio,
-        isStaff,
+        checkAuth,
       }}
     >
       {children}

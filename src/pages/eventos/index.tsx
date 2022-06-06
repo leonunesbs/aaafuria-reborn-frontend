@@ -23,7 +23,7 @@ import {
 import { FaTicketAlt, FaWhatsapp } from 'react-icons/fa';
 import { MdLogin, MdPayment, MdSend } from 'react-icons/md';
 import { gql, useMutation, useQuery } from '@apollo/client';
-import { useCallback, useContext, useEffect, useState } from 'react';
+import { useCallback, useContext, useState } from 'react';
 
 import { AuthContext } from '@/contexts/AuthContext';
 import { Card } from '@/components/molecules';
@@ -90,8 +90,7 @@ export type LoteType = {
 function Eventos() {
   const router = useRouter();
   const toast = useToast();
-  const { isSocio, isAuthenticated, checkCredentials } =
-    useContext(AuthContext);
+  const { user, isAuthenticated } = useContext(AuthContext);
   const green = useColorModeValue('green.600', 'green.200');
   const { data, refetch } = useQuery(GET_LOTES);
   const [loading, setLoading] = useState(false);
@@ -199,10 +198,6 @@ function Eventos() {
     },
     [novoIngresso, toast],
   );
-
-  useEffect(() => {
-    checkCredentials();
-  }, [checkCredentials]);
 
   if (!data) {
     return (
@@ -371,11 +366,15 @@ function Eventos() {
                       ? () => handleParticipar(node.id)
                       : () => handleGoToPayment(node.id, node.presencial)
                   }
-                  isDisabled={node.evento.exclusivoSocios && !isSocio}
+                  isDisabled={
+                    node.evento.exclusivoSocios &&
+                    !user?.member.hasActiveMembership
+                  }
                 >
                   {node.isGratuito
                     ? 'Participar'
-                    : node.evento.exclusivoSocios && !isSocio
+                    : node.evento.exclusivoSocios &&
+                      !user?.member.hasActiveMembership
                     ? 'Exclusivo para Sócios'
                     : node.presencial
                     ? 'Reservar'

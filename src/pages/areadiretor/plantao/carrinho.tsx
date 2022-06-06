@@ -95,7 +95,7 @@ const REMOVE_FROM_PLANTAO_CART = gql`
 
 function Carrinho() {
   const router = useRouter();
-  const { isStaff } = useContext(AuthContext);
+  const { user } = useContext(AuthContext);
 
   const [loading, setLoading] = useState(false);
 
@@ -144,8 +144,8 @@ function Carrinho() {
   };
 
   useEffect(() => {
-    isStaff === false && router.replace('/');
-  }, [isStaff, router]);
+    user?.isStaff === false && router.replace('/');
+  }, [router, user?.isStaff]);
 
   useEffect(() => {
     addParams.loading || (removeParams.loading && setLoading(true));

@@ -1,8 +1,3 @@
-import { CustomButton, PageHeading } from '@/components/atoms';
-import { Card } from '@/components/molecules';
-import { Layout } from '@/components/templates';
-import { AuthContext } from '@/contexts/AuthContext';
-import { gql, useMutation, useQuery } from '@apollo/client';
 import {
   AlertDialog,
   AlertDialogBody,
@@ -18,11 +13,17 @@ import {
   useDisclosure,
   useToast,
 } from '@chakra-ui/react';
-import { GetServerSideProps } from 'next';
-import { useRouter } from 'next/router';
-import { parseCookies } from 'nookies';
+import { CustomButton, PageHeading } from '@/components/atoms';
+import { gql, useMutation, useQuery } from '@apollo/client';
 import { useCallback, useContext, useEffect, useRef } from 'react';
+
+import { AuthContext } from '@/contexts/AuthContext';
+import { Card } from '@/components/molecules';
+import { GetServerSideProps } from 'next';
+import { Layout } from '@/components/templates';
 import { MdCheck } from 'react-icons/md';
+import { parseCookies } from 'nookies';
+import { useRouter } from 'next/router';
 
 const INGRESSO_BY_ID = gql`
   query ingressoById($id: ID!) {
@@ -85,7 +86,7 @@ interface IngressoProps {
 const Ingresso = () => {
   const router = useRouter();
   const { id = '0' } = router.query;
-  const { token, checkCredentials, isStaff } = useContext(AuthContext);
+  const { token, user } = useContext(AuthContext);
   const toast = useToast();
 
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -142,11 +143,9 @@ const Ingresso = () => {
   }, [data, loading, toast]);
 
   useEffect(() => {
-    checkCredentials();
-
-    if (isStaff === false) {
+    if (user?.isStaff === false) {
       toast({
-        title: 'Restrito.',
+        title: 'Área restrita',
         description: 'Você não tem permissão para acessar esta área.',
         status: 'warning',
         duration: 2500,
@@ -155,7 +154,7 @@ const Ingresso = () => {
       });
       router.push('/');
     }
-  }, [checkCredentials, isStaff, router, toast]);
+  }, [router, toast, user?.isStaff]);
 
   return (
     <Layout title="Ingresso">

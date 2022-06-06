@@ -1,6 +1,8 @@
-import { CadastroInputsType, ICadastroDrawer } from './ICadastroDrawer';
-import { Controller, useForm } from 'react-hook-form';
 import { CustomButton, PageHeading } from '@/components/atoms';
+import { Card } from '@/components/molecules';
+import { Layout } from '@/components/templates';
+import { AuthContext } from '@/contexts/AuthContext';
+import { gql, useMutation } from '@apollo/client';
 import {
   Drawer,
   DrawerBody,
@@ -17,43 +19,41 @@ import {
   Text,
   useToast,
 } from '@chakra-ui/react';
-import React, { useCallback, useContext, useEffect } from 'react';
-import { gql, useMutation } from '@apollo/client';
-
-import { AuthContext } from '@/contexts/AuthContext';
-import { Card } from '@/components/molecules';
-import InputMask from 'react-input-mask';
-import { Layout } from '@/components/templates';
 import { useRouter } from 'next/router';
+import React, { useCallback, useContext, useEffect } from 'react';
+import { Controller, useForm } from 'react-hook-form';
+import InputMask from 'react-input-mask';
+import { CadastroInputsType, ICadastroDrawer } from './ICadastroDrawer';
 
-const NOVO_USER = gql`
-  mutation novoUser(
-    $nome: String!
-    $apelido: String!
-    $matricula: String!
-    $turma: String!
-    $pin: String!
+const CREATE_ACCOUNT = gql`
+  mutation createAccount(
+    $username: String!
+    $password: String!
     $email: String!
+    $name: String!
+    $nickname: String!
+    $phone: String!
     $rg: String!
     $cpf: String!
-    $dataNascimento: String!
-    $whatsapp: String!
+    $birthDate: String!
+    $group: String!
+    $avatar: Upload!
   ) {
-    novoUser(
-      nome: $nome
-      apelido: $apelido
-      matricula: $matricula
-      turma: $turma
-      pin: $pin
+    createAccount(
+      username: $username
+      password: $password
       email: $email
+      name: $name
+      nickname: $nickname
+      phone: $phone
       rg: $rg
       cpf: $cpf
-      dataNascimento: $dataNascimento
-      whatsapp: $whatsapp
+      birthDate: $birthDate
+      group: $group
+      avatar: $avatar
     ) {
-      socio {
-        nome
-        isSocio
+      member {
+        id
       }
     }
   }
@@ -65,7 +65,8 @@ export const CadastroDrawer = ({
   ...rest
 }: ICadastroDrawer) => {
   const router = useRouter();
-  const { cadastro }: { cadastro?: string } = router.query;
+  const { cadastro, after }: { cadastro?: string; after?: string } =
+    router.query;
   const { control, register, handleSubmit, setValue } =
     useForm<CadastroInputsType>({
       defaultValues: {
@@ -77,7 +78,7 @@ export const CadastroDrawer = ({
 
   const { signIn } = useContext(AuthContext);
 
-  const [mutateFunction, { error }] = useMutation(NOVO_USER);
+  const [mutateFunction, { loading, error }] = useMutation(CREATE_ACCOUNT);
 
   useEffect(() => {
     setValue('matricula', matricula);
@@ -120,30 +121,35 @@ export const CadastroDrawer = ({
 
       mutateFunction({
         variables: {
-          matricula: data.matricula,
-          turma: data.turma,
+          username: data.matricula,
+          password: data.pin,
           email: data.email,
-          nome: data.nome,
-          apelido: data.apelido,
-          dataNascimento: data.dataNascimento,
-          whatsapp: data.whatsapp,
+          name: data.nome,
+          nickname: data.apelido,
+          phone: data.whatsapp,
           rg: data.rg,
           cpf: data.cpf,
-          pin: data.pin,
+          birthDate: data.dataNascimento,
+          group: data.turma,
+          avatar: data.avatar[0],
         },
       }).then((res) => {
         if (res.data) {
-          signIn({ matricula: data.matricula, pin: data.pin });
+          signIn({
+            matricula: data.matricula,
+            pin: data.pin,
+            redirectUrl: after,
+          });
         }
       });
     },
-    [mutateFunction, signIn, toast],
+    [after, mutateFunction, signIn, toast],
   );
 
   const handleClose = useCallback(() => {
     onClose();
-    router.replace('/entrar');
-  }, [onClose, router]);
+    router.replace(`/entrar${after ? `?after=${after}` : ''}`);
+  }, [after, onClose, router]);
 
   return (
     <Drawer
@@ -324,6 +330,16 @@ export const CadastroDrawer = ({
                       required
                     />
                   </FormControl>
+                  <FormControl>
+                    <FormLabel>Foto: </FormLabel>
+                    <Input
+                      focusBorderColor="green.500"
+                      {...register('avatar')}
+                      pt={1}
+                      type="file"
+                      required
+                    />
+                  </FormControl>
 
                   <FormControl>
                     <FormLabel>PIN: </FormLabel>
@@ -404,7 +420,9 @@ export const CadastroDrawer = ({
                   </Text>
                 </Stack>
                 <Stack mt={8}>
-                  <CustomButton type="submit">Cadastrar</CustomButton>
+                  <CustomButton type="submit" isLoading={loading}>
+                    Cadastrar
+                  </CustomButton>
                   <CustomButton colorScheme="gray" onClick={handleClose}>
                     Fechar
                   </CustomButton>

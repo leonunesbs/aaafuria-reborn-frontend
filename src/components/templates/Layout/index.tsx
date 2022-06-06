@@ -1,5 +1,5 @@
 import { Box, BoxProps, useColorModeValue } from '@chakra-ui/react';
-import { EmailConfirmation, Footer, Header } from '@/components/molecules';
+import { Footer, Header } from '@/components/molecules';
 import React, { ReactNode } from 'react';
 
 import Head from 'next/head';
@@ -41,11 +41,7 @@ export const Layout = ({
         />
         <meta
           name="keywords"
-          content={
-            keywords
-              ? `${keywords}`
-              : 'aaafuria, atlética, fúria, medicina, loja, eventos, intermed'
-          }
+          content={`aaafuria, site, atlética, fúria, medicina, loja, eventos, intermed, ${keywords}`}
         />
         <link rel="canonical" href={`https://aaafuria.site${router.asPath}`} />
 
@@ -98,7 +94,6 @@ export const Layout = ({
         {children}
       </Box>
       {isFooted && <Footer />}
-      <EmailConfirmation />
     </>
   );
 };
