@@ -13,6 +13,7 @@ import { ICard } from './Card/ICard';
 import { ISejaSocioPricing } from './SejaSocioPricing/ISejaSocioPricing';
 import { InputMatriculaPlantaoProps } from './InputMatriculaPlantao';
 import { IssueInfoCardProps } from './IssueInfoCard';
+import { PaymentsTableProps } from './PaymentsTable';
 import { PixTabPanelProps } from './PagamentoTabs/PIXTabPanel';
 import { ProdutoPlantaoCardProps } from './ProdutoPlantaoCard';
 import { RefAttributes } from 'react';
@@ -78,6 +79,9 @@ export const PixTabPanel = dynamic<PixTabPanelProps>(() =>
 );
 export const ProdutoCard = dynamic<any>(() =>
   import('./ProdutoCard').then((mod) => mod.ProdutoCard),
+);
+export const PaymentsTable = dynamic<PaymentsTableProps>(() =>
+  import('./PaymentsTable').then((mod) => mod.default),
 );
 export const ProdutoPlantaoCard = dynamic<ProdutoPlantaoCardProps>(() =>
   import('./ProdutoPlantaoCard').then((mod) => mod.ProdutoPlantaoCard),
