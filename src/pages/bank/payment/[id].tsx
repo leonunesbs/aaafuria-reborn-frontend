@@ -256,7 +256,7 @@ function Payment() {
       <Box maxW="3xl" mx="auto">
         <PageHeading>Pagamento</PageHeading>
         <Card>
-          <Stack>
+          <Stack mb={10}>
             <Box>
               <Heading size="sm" my={4}>
                 DADOS DO CLIENTE
@@ -483,11 +483,12 @@ function Payment() {
                 </Tbody>
               </Table>
             </Box>
-            <Stack>
-              <CustomChakraNextLink href={'/bank/my-payments'}>
-                <CustomButton>Meus pagamentos</CustomButton>
-              </CustomChakraNextLink>
-            </Stack>
+          </Stack>
+
+          <Stack>
+            <CustomChakraNextLink href={'/bank/my-payments'}>
+              <CustomButton>Meus pagamentos</CustomButton>
+            </CustomChakraNextLink>
             {user?.isStaff && (
               <Stack>
                 {!data?.payment.paid && !data?.payment.expired && (
