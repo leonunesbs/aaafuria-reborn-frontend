@@ -1,6 +1,28 @@
-import { AreaDiretorMenu, Card } from '@/components/molecules';
-import { Box, useToast } from '@chakra-ui/react';
+import {
+  AddMembershipDrawer,
+  Card,
+  PaymentsTable,
+} from '@/components/molecules';
+import {
+  Box,
+  Grid,
+  GridItem,
+  HStack,
+  Heading,
+  Stat,
+  StatGroup,
+  StatLabel,
+  StatNumber,
+  Table,
+  Tbody,
+  Td,
+  Th,
+  Thead,
+  Tr,
+  useToast,
+} from '@chakra-ui/react';
 import React, { useContext, useEffect } from 'react';
+import { gql, useQuery } from '@apollo/client';
 
 import { AuthContext } from '@/contexts/AuthContext';
 import { GetServerSideProps } from 'next';
@@ -9,10 +31,39 @@ import { PageHeading } from '@/components/atoms';
 import { parseCookies } from 'nookies';
 import { useRouter } from 'next/router';
 
+const MEMBERSHIP_PLANS = gql`
+  query {
+    allMembershipPlans {
+      edges {
+        node {
+          id
+          name
+          count
+          isActive
+        }
+      }
+    }
+  }
+`;
+type MembershipPlans = {
+  allMembershipPlans: {
+    edges: {
+      node: {
+        id: string;
+        name: string;
+        count: number;
+        isActive: boolean;
+      };
+    }[];
+  };
+};
+
 function AreaDiretor() {
   const router = useRouter();
   const toast = useToast();
   const { user } = useContext(AuthContext);
+
+  const membershipPlans = useQuery<MembershipPlans>(MEMBERSHIP_PLANS);
 
   useEffect(() => {
     if (user?.isStaff === false) {
@@ -30,11 +81,79 @@ function AreaDiretor() {
 
   return (
     <Layout title="Área do Diretor">
-      <Box maxW="xl" mx="auto">
+      <Box maxW="7xl" mx="auto">
         <PageHeading>Área do Diretor</PageHeading>
-        <Card>
-          <AreaDiretorMenu />
-        </Card>
+        <Grid
+          templateAreas={[
+            `"members"
+          "activities"
+          "payments"`,
+            `"members activities"
+          "payments activities"`,
+          ]}
+          gridTemplateRows={['repeat(100%, 3)', '1fr 4fr']}
+          gridTemplateColumns={['100%', '40% 60%']}
+          gap="2"
+        >
+          <GridItem area={'members'}>
+            <Card>
+              <HStack w="full" justify={'space-between'} mb={4}>
+                <Heading size="sm">ASSOCIAÇÕES</Heading>
+                {membershipPlans.data && (
+                  <AddMembershipDrawer
+                    membershipPlans={
+                      membershipPlans.data.allMembershipPlans.edges
+                    }
+                  />
+                )}
+              </HStack>
+              <StatGroup>
+                {membershipPlans.data?.allMembershipPlans.edges.map(
+                  ({ node: { id, name, count } }) => (
+                    <Stat key={id}>
+                      <StatLabel>{name}</StatLabel>
+                      <StatNumber>{count}</StatNumber>
+                    </Stat>
+                  ),
+                )}
+              </StatGroup>
+            </Card>
+          </GridItem>
+          <GridItem area={'activities'}>
+            <Card>
+              <Heading size="sm" mb={4}>
+                ATIVIDADES
+              </Heading>
+              <Box>
+                <Table size="sm">
+                  <Thead>
+                    <Tr>
+                      <Th>Modalidade</Th>
+                      <Th isNumeric>Treinos no ano</Th>
+                      <Th isNumeric>Treinos agendados</Th>
+                      <Th isNumeric>Custo esperado</Th>
+                    </Tr>
+                  </Thead>
+                  <Tbody>
+                    <Tr>
+                      <Td colSpan={4} textAlign="center">
+                        Em construção
+                      </Td>
+                    </Tr>
+                  </Tbody>
+                </Table>
+              </Box>
+            </Card>
+          </GridItem>
+          <GridItem area={'payments'}>
+            <Card>
+              <Heading size="sm" mb={4}>
+                PAGAMENTOS
+              </Heading>
+              <PaymentsTable pageSize={5} />
+            </Card>
+          </GridItem>
+        </Grid>
       </Box>
     </Layout>
   );

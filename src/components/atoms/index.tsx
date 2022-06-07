@@ -8,6 +8,7 @@ import { ICustomButton } from './CustomButton/ICustomButton';
 import { IPriceTag } from './PriceTag/IPriceTag';
 import { NotificationBadgeProps } from './NotificationBadge';
 import { PageHeadingProps } from './PageHeading';
+import { PaymentMethodsProps } from './PaymentMethods';
 import { RefAttributes } from 'react';
 import { SejaSocioButtonProps } from './SejaSocioButton';
 import { VoltarButtonProps } from './VoltarButton';
@@ -61,6 +62,10 @@ export const NotificationBadge = dynamic<NotificationBadgeProps>(() =>
 export const PageHeading = dynamic<PageHeadingProps>(() =>
   import('./PageHeading').then((mod) => mod.PageHeading),
 );
+export const PaymentMethods = dynamic<PaymentMethodsProps>(() =>
+  import('./PaymentMethods').then((mod) => mod.default),
+);
+
 export const PriceTag = dynamic<IPriceTag>(() =>
   import('./PriceTag').then((mod) => mod.PriceTag),
 );

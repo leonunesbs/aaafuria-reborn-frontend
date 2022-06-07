@@ -32,7 +32,9 @@ import { AuthContext } from '@/contexts/AuthContext';
 import { Card } from '@/components/molecules';
 import { ColorContext } from '@/contexts/ColorContext';
 import { CustomIconButton } from '@/components/atoms/CustomIconButton';
+import { GetServerSideProps } from 'next';
 import { Layout } from '@/components/templates';
+import { parseCookies } from 'nookies';
 import { useRouter } from 'next/router';
 
 const GET_PAYMENT = gql`
@@ -541,5 +543,22 @@ function Payment() {
     </Layout>
   );
 }
+
+export const getServerSideProps: GetServerSideProps = async (ctx) => {
+  const { ['aaafuriaToken']: token } = parseCookies(ctx);
+
+  if (!token) {
+    return {
+      redirect: {
+        destination: `/entrar?after=${ctx.resolvedUrl}`,
+        permanent: false,
+      },
+    };
+  }
+
+  return {
+    props: {},
+  };
+};
 
 export default Payment;

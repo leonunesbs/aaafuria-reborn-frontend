@@ -19,13 +19,14 @@ import {
   Text,
   useColorModeValue,
 } from '@chakra-ui/react';
-import { gql, useMutation } from '@apollo/client';
+import { gql, useMutation, useQuery } from '@apollo/client';
 import { useCallback, useContext, useState } from 'react';
 
 import { AuthContext } from '@/contexts/AuthContext';
 import { BsCurrencyDollar } from 'react-icons/bs';
 import { Card } from '..';
 import { ColorContext } from '@/contexts/ColorContext';
+import { CustomButton } from '@/components/atoms';
 import { HiCheckCircle } from 'react-icons/hi';
 import { ISejaSocioPricing } from './ISejaSocioPricing';
 import { MdLogin } from 'react-icons/md';
@@ -33,12 +34,30 @@ import client from '@/services/apollo-client';
 import { useRouter } from 'next/router';
 
 const CHECKOUT_MEMBERSHIP = gql`
-  mutation checkoutMembership($membershipId: ID!, $method: String!) {
-    checkoutMembership(membershipId: $membershipId, method: $method) {
+  mutation checkoutMembership($membershipId: ID!, $methodId: String!) {
+    checkoutMembership(membershipId: $membershipId, methodId: $methodId) {
       checkoutUrl
     }
   }
 `;
+
+const PAYMENT_METHODS = gql`
+  {
+    allPaymentMethods {
+      id
+      title
+      name
+    }
+  }
+`;
+
+type PaymentMethods = {
+  allPaymentMethods: {
+    id: string;
+    title: string;
+    name: string;
+  }[];
+};
 
 type CheckoutMembership = {
   checkoutMembership: {
@@ -54,6 +73,14 @@ export const SejaSocioPricing = ({}: ISejaSocioPricing) => {
   const [mutateFunction, { loading }] =
     useMutation<CheckoutMembership>(CHECKOUT_MEMBERSHIP);
   const color = useColorModeValue('black', 'white');
+
+  const { data } = useQuery<PaymentMethods>(PAYMENT_METHODS, {
+    context: {
+      headers: {
+        authorization: `JWT ${token}`,
+      },
+    },
+  });
   const planos = [
     {
       slug: 'Semestral',
@@ -119,11 +146,11 @@ export const SejaSocioPricing = ({}: ISejaSocioPricing) => {
   }, [router, token]);
 
   const handlePagar = useCallback(
-    async (membershipId: string) => {
+    async (membershipId: string, methodId: string) => {
       mutateFunction({
         variables: {
           membershipId,
-          method: 'ST',
+          methodId,
         },
         context: {
           headers: {
@@ -224,28 +251,27 @@ export const SejaSocioPricing = ({}: ISejaSocioPricing) => {
                   <PopoverContent bg={bg} _focus={{}}>
                     <PopoverArrow />
                     <PopoverHeader>
-                      <Text fontWeight="bold">Associação {plano.nome}</Text>
+                      <Text fontSize="lg" fontWeight="extrabold" mb={2}>
+                        R${plano.valor}
+                        <Text
+                          fontSize="lg"
+                          fontWeight="light"
+                          as="i"
+                          color={color}
+                        >
+                          {plano.slug === 'Mensal' && '/mês'}
+                          {plano.slug === 'Semestral' &&
+                            `/${new Date().getFullYear()}.${
+                              new Date().getMonth() > 6 ? '2' : '1'
+                            }`}
+                          {plano.slug === 'Anual' &&
+                            `/${new Date().getFullYear()}.1 + ${new Date().getFullYear()}.2`}
+                        </Text>
+                      </Text>
                     </PopoverHeader>
                     <PopoverCloseButton />
                     <PopoverBody>
                       <Flex flexGrow={1} justify="space-around" align="center">
-                        <Text fontSize="lg" fontWeight="extrabold" mb={2}>
-                          R${plano.valor}
-                          <Text
-                            fontSize="lg"
-                            fontWeight="light"
-                            as="i"
-                            color={color}
-                          >
-                            {plano.slug === 'Mensal' && '/mês'}
-                            {plano.slug === 'Semestral' &&
-                              `/${new Date().getFullYear()}.${
-                                new Date().getMonth() > 6 ? '2' : '1'
-                              }`}
-                            {plano.slug === 'Anual' &&
-                              `/${new Date().getFullYear()}.1 + ${new Date().getFullYear()}.2`}
-                          </Text>
-                        </Text>
                         {!isAuthenticated ? (
                           <Button
                             colorScheme="green"
@@ -266,15 +292,23 @@ export const SejaSocioPricing = ({}: ISejaSocioPricing) => {
                             Gerenciar
                           </Button>
                         ) : (
-                          <Button
-                            colorScheme="green"
-                            leftIcon={<BsCurrencyDollar />}
-                            isDisabled={!isAuthenticated}
-                            onClick={() => handlePagar(plano.membershipId)}
-                            isLoading={loading}
-                          >
-                            Pagar
-                          </Button>
+                          <Stack>
+                            {data?.allPaymentMethods?.map((method) => (
+                              <CustomButton
+                                key={method.id}
+                                leftIcon={<BsCurrencyDollar />}
+                                isDisabled={!isAuthenticated}
+                                onClick={() =>
+                                  handlePagar(plano.membershipId, method.id)
+                                }
+                                isLoading={loading}
+                              >
+                                {method.title === 'ST'
+                                  ? 'Cartão de crédito'
+                                  : method.name}
+                              </CustomButton>
+                            ))}
+                          </Stack>
                         )}
                       </Flex>
                     </PopoverBody>

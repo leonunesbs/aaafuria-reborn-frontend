@@ -1,5 +1,6 @@
 import {
   Badge,
+  Box,
   HStack,
   Select,
   Table,
@@ -11,7 +12,12 @@ import {
   Tr,
 } from '@chakra-ui/react';
 import { CustomChakraNextLink, CustomIconButton } from '@/components/atoms';
-import { MdMoreHoriz, MdNavigateBefore, MdNavigateNext } from 'react-icons/md';
+import {
+  MdMoreHoriz,
+  MdNavigateBefore,
+  MdNavigateNext,
+  MdRefresh,
+} from 'react-icons/md';
 import { gql, useQuery } from '@apollo/client';
 
 import { AuthContext } from '@/contexts/AuthContext';
@@ -105,91 +111,104 @@ function PaymentsTable({ pageSize = 10 }: PaymentsTableProps) {
 
   return (
     <>
-      <HStack my={6}>
-        <Text>Filtrar por:</Text>
+      <HStack my={6} justify="space-between">
         <HStack>
-          <Select
-            size={'sm'}
-            rounded="md"
-            placeholder="Status"
-            focusBorderColor={green}
-            onChange={(e) => {
-              refetch({
-                status: e.target.value,
-              });
-            }}
-          >
-            <option value="PAGO">Pagos</option>
-            <option value="PENDENTE">Pendentes</option>
-            <option value="EXPIRADO">Expirados</option>
-          </Select>
+          <Text>Filtrar por:</Text>
+          <HStack>
+            <Select
+              size={'sm'}
+              rounded="md"
+              placeholder="Status"
+              focusBorderColor={green}
+              onChange={(e) => {
+                refetch({
+                  status: e.target.value,
+                });
+              }}
+            >
+              <option value="PAGO">Pagos</option>
+              <option value="PENDENTE">Pendentes</option>
+              <option value="EXPIRADO">Expirados</option>
+            </Select>
+          </HStack>
+        </HStack>
+        <HStack pr={1}>
+          <CustomIconButton
+            aria-label="refresh payments"
+            icon={<MdRefresh size="20px" />}
+            size="sm"
+            onClick={() => refetch()}
+            isLoading={loading}
+          />
         </HStack>
       </HStack>
-      <Table size={'sm'}>
-        <Thead>
-          {data?.allPayments.objects.length === 0 ? (
-            <Tr>
-              <Td colSpan={6}>
-                <Text textAlign="center">Nenhum pagamento encontrado</Text>
-              </Td>
-            </Tr>
-          ) : (
-            <Tr>
-              <Th>Membro</Th>
-              <Th>Descrição</Th>
-              <Th>Valor</Th>
-              <Th>Criado em</Th>
-              <Th>Status</Th>
-              <Th />
-            </Tr>
-          )}
-        </Thead>
-        <Tbody>
-          {data?.allPayments.objects.map((node) => (
-            <Tr key={node.id}>
-              <Td>{node.user.member.name}</Td>
-              <Td maxW="32">{node.description}</Td>
+      <Box overflowX={'auto'}>
+        <Table size={'sm'}>
+          <Thead>
+            {data?.allPayments.objects.length === 0 ? (
+              <Tr>
+                <Td colSpan={6}>
+                  <Text textAlign="center">Nenhum pagamento encontrado</Text>
+                </Td>
+              </Tr>
+            ) : (
+              <Tr>
+                <Th>Membro</Th>
+                <Th>Descrição</Th>
+                <Th>Valor</Th>
+                <Th>Criado em</Th>
+                <Th>Status</Th>
+                <Th />
+              </Tr>
+            )}
+          </Thead>
+          <Tbody>
+            {data?.allPayments.objects.map((node) => (
+              <Tr key={node.id}>
+                <Td>{node.user.member.name}</Td>
+                <Td maxW="32">{node.description}</Td>
 
-              <Td>
-                {node.amount} {node.currency}
-              </Td>
+                <Td>
+                  {node.amount} {node.currency}
+                </Td>
 
-              <Td>
-                <Text as={'time'} dateTime={node.createdAt}>
-                  {new Date(node.createdAt).toLocaleString('pt-BR', {
-                    timeStyle: 'short',
-                    dateStyle: 'short',
-                    timeZone: 'America/Sao_Paulo',
-                  })}
-                </Text>
-              </Td>
-              <Td>
-                <Text>
-                  <Badge
-                    colorScheme={
-                      node.status === 'PAGO'
-                        ? 'green'
-                        : node.status === 'PENDENTE'
-                        ? 'yellow'
-                        : 'gray'
-                    }
-                  >
-                    {node.status}
-                  </Badge>
-                </Text>
-              </Td>
-              <Td>
-                <CustomChakraNextLink href={`/bank/payment/${node.id}`}>
-                  <CustomIconButton
-                    icon={<MdMoreHoriz size="20px" />}
-                    aria-label="ver mais"
-                  />
-                </CustomChakraNextLink>
-              </Td>
-            </Tr>
-          ))}
-        </Tbody>
-      </Table>
+                <Td>
+                  <Text as={'time'} dateTime={node.createdAt}>
+                    {new Date(node.createdAt).toLocaleString('pt-BR', {
+                      timeStyle: 'short',
+                      dateStyle: 'short',
+                      timeZone: 'America/Sao_Paulo',
+                    })}
+                  </Text>
+                </Td>
+                <Td>
+                  <Text>
+                    <Badge
+                      colorScheme={
+                        node.status === 'PAGO'
+                          ? 'green'
+                          : node.status === 'PENDENTE'
+                          ? 'yellow'
+                          : 'gray'
+                      }
+                    >
+                      {node.status}
+                    </Badge>
+                  </Text>
+                </Td>
+                <Td>
+                  <CustomChakraNextLink href={`/bank/payment/${node.id}`}>
+                    <CustomIconButton
+                      icon={<MdMoreHoriz size="20px" />}
+                      aria-label="ver mais"
+                    />
+                  </CustomChakraNextLink>
+                </Td>
+              </Tr>
+            ))}
+          </Tbody>
+        </Table>
+      </Box>
       <HStack w="full" justify={'center'}>
         <CustomIconButton
           visibility={data?.allPayments?.hasPrev ? 'visible' : 'hidden'}
