@@ -1,5 +1,6 @@
 import {
   AddMembershipDrawer,
+  AddPaymentDrawer,
   Card,
   PaymentsTable,
 } from '@/components/molecules';
@@ -121,9 +122,7 @@ function AreaDiretor() {
           </GridItem>
           <GridItem area={'activities'}>
             <Card>
-              <Heading size="sm" mb={4}>
-                ATIVIDADES
-              </Heading>
+              <Heading size="sm">ATIVIDADES</Heading>
               <Box>
                 <Table size="sm">
                   <Thead>
@@ -147,9 +146,10 @@ function AreaDiretor() {
           </GridItem>
           <GridItem area={'payments'}>
             <Card>
-              <Heading size="sm" mb={4}>
-                PAGAMENTOS
-              </Heading>
+              <HStack mb={4} w="full" justify={'space-between'}>
+                <Heading size="sm">PAGAMENTOS</Heading>
+                <AddPaymentDrawer />
+              </HStack>
               <PaymentsTable pageSize={5} />
             </Card>
           </GridItem>

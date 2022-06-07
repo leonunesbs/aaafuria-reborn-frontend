@@ -1,4 +1,5 @@
 import { AddMembershipDrawerProps } from './AddMembershipDrawer';
+import { AddPaymentDrawerProps } from './AddPaymentDrawer';
 import { AreaMembroMenuProps } from './AreaSocioMenu';
 import { CartaoCreditoTabPanelProps } from './PagamentoTabs/CartaoCreditoTabPanel';
 import { ClientInfoCardProps } from './ClientInfoCard';
@@ -21,6 +22,9 @@ import dynamic from 'next/dynamic';
 
 export const AddMembershipDrawer = dynamic<AddMembershipDrawerProps>(() =>
   import('./AddMembershipDrawer').then((mod) => mod.default),
+);
+export const AddPaymentDrawer = dynamic<AddPaymentDrawerProps>(() =>
+  import('./AddPaymentDrawer').then((mod) => mod.default),
 );
 export const AreaSocioMenu = dynamic<AreaMembroMenuProps>(() =>
   import('./AreaSocioMenu').then((mod) => mod.AreaMembroMenu),
