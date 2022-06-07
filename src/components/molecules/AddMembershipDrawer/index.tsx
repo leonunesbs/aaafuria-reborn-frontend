@@ -221,43 +221,40 @@ function AddMembershipDrawer({ membershipPlans }: AddMembershipDrawerProps) {
                     </Text>
                   </Card>
                 </Collapse>
-
-                <Controller
-                  name="membersipPlan"
-                  control={control}
-                  rules={{ required: 'Plano obrigatório' }}
-                  render={({ field }) => (
-                    <FormControl isRequired>
-                      <FormLabel>Plano: </FormLabel>
-                      <RadioGroup
-                        {...field}
-                        colorScheme={'green'}
-                        isDisabled={!registrationChecked}
-                      >
-                        <HStack>
-                          {membershipPlans.map(
-                            ({ node }) =>
-                              node.isActive && (
-                                <Radio
-                                  key={node.id}
-                                  value={node.id}
-                                  colorScheme={'green'}
-                                >
-                                  {node.name}
-                                </Radio>
-                              ),
-                          )}
-                        </HStack>
-                      </RadioGroup>
-                    </FormControl>
-                  )}
-                />
-                <Controller
-                  name="method"
-                  control={control}
-                  rules={{ required: 'Método obrigatório' }}
-                  render={({ field }) => <PaymentMethods {...field} />}
-                />
+                <Collapse in={registrationChecked}>
+                  <Controller
+                    name="membersipPlan"
+                    control={control}
+                    rules={{ required: 'Plano obrigatório' }}
+                    render={({ field }) => (
+                      <FormControl isRequired>
+                        <FormLabel>Plano: </FormLabel>
+                        <RadioGroup {...field} colorScheme={'green'}>
+                          <HStack>
+                            {membershipPlans.map(
+                              ({ node }) =>
+                                node.isActive && (
+                                  <Radio
+                                    key={node.id}
+                                    value={node.id}
+                                    colorScheme={'green'}
+                                  >
+                                    {node.name}
+                                  </Radio>
+                                ),
+                            )}
+                          </HStack>
+                        </RadioGroup>
+                      </FormControl>
+                    )}
+                  />
+                  <Controller
+                    name="method"
+                    control={control}
+                    rules={{ required: 'Método obrigatório' }}
+                    render={({ field }) => <PaymentMethods {...field} />}
+                  />
+                </Collapse>
               </Stack>
             </DrawerBody>
 
