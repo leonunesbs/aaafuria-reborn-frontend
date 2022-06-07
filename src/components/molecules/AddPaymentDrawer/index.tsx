@@ -15,8 +15,6 @@ import {
   InputGroup,
   InputLeftAddon,
   InputRightElement,
-  NumberInput,
-  NumberInputField,
   Stack,
   Text,
   useDisclosure,
@@ -230,13 +228,18 @@ function AddPaymentDrawer({}: AddPaymentDrawerProps) {
                       <InputLeftAddon>
                         <Text fontSize="sm">R$</Text>
                       </InputLeftAddon>
-                      <NumberInput
+                      <Input
+                        {...register('amount', {
+                          required: true,
+                          validate: (value) =>
+                            value > 0 ? undefined : 'Valor inválido',
+                        })}
+                        type="number"
+                        step="0.1"
+                        min="0"
+                        required
                         focusBorderColor={green}
-                        precision={2}
-                        w="full"
-                      >
-                        <NumberInputField {...register('amount')} required />
-                      </NumberInput>
+                      />
                     </InputGroup>
                     <FormHelperText>
                       Use . como separador de centavos.
