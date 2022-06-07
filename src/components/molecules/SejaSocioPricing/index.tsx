@@ -18,6 +18,7 @@ import {
   Stack,
   Text,
   useColorModeValue,
+  useToast,
 } from '@chakra-ui/react';
 import { gql, useMutation, useQuery } from '@apollo/client';
 import { useCallback, useContext, useState } from 'react';
@@ -67,6 +68,7 @@ type CheckoutMembership = {
 
 export const SejaSocioPricing = ({}: ISejaSocioPricing) => {
   const router = useRouter();
+  const toast = useToast();
   const { green, bg } = useContext(ColorContext);
   const { isAuthenticated, token, user } = useContext(AuthContext);
   const [billingPortalLoading, setBillingPortalLoading] = useState(false);
@@ -142,8 +144,16 @@ export const SejaSocioPricing = ({}: ISejaSocioPricing) => {
       throw errors;
     }
     setBillingPortalLoading(loading);
+    toast({
+      title: 'Sucesso!',
+      description: 'Solicitação iniciada. Aguardando pagamento!',
+      status: 'success',
+      duration: 2500,
+      isClosable: true,
+      position: 'top-left',
+    });
     router.push(data.user.member.billingPortalUrl);
-  }, [router, token]);
+  }, [router, toast, token]);
 
   const handlePagar = useCallback(
     async (membershipId: string, methodId: string) => {
