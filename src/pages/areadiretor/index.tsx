@@ -122,7 +122,9 @@ function AreaDiretor() {
           </GridItem>
           <GridItem area={'activities'}>
             <Card>
-              <Heading size="sm">ATIVIDADES</Heading>
+              <HStack mb={4} w="full" justify="space-between">
+                <Heading size="sm">ATIVIDADES</Heading>
+              </HStack>
               <Box>
                 <Table size="sm">
                   <Thead>
