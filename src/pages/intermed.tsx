@@ -52,7 +52,7 @@ const CREATE_INTERMED_PROFILE = gql`
 const CREATE_PAYMENT = gql`
   mutation createPayment(
     $amount: Float!
-    $method: String!
+    $method: ID!
     $description: String!
     $atttachmentTitle: String
     $attachment: Upload

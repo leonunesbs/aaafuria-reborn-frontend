@@ -1,13 +1,10 @@
 import {
   Box,
   Divider,
-  FormControl,
   HStack,
   Heading,
   Image,
   Input,
-  Radio,
-  RadioGroup,
   Stack,
   Text,
 } from '@chakra-ui/react';
@@ -16,6 +13,7 @@ import {
   CustomButton,
   CustomIconButton,
   PageHeading,
+  PaymentMethods,
   PriceTag,
 } from '@/components/atoms';
 import { MdAdd, MdArrowLeft, MdDelete, MdRemove } from 'react-icons/md';
@@ -90,8 +88,8 @@ const DELETE_FROM_CART = gql`
 `;
 
 const CHECKOUT_CART = gql`
-  mutation checkoutCart($method: String!) {
-    checkoutCart(method: $method) {
+  mutation checkoutCart($methodId: String!) {
+    checkoutCart(methodId: $methodId) {
       ok
       checkoutUrl
     }
@@ -147,7 +145,6 @@ function Cart() {
   });
 
   const checkoutForm = useForm<CheckoutForm>();
-
   const [addToCart] = useMutation(ADD_TO_CART, {
     context: {
       headers: {
@@ -234,7 +231,7 @@ function Cart() {
     async ({ method }) => {
       await checkoutCart({
         variables: {
-          method: method,
+          methodId: method,
         },
       }).then(async ({ data, errors }) => {
         if (errors) {
@@ -358,16 +355,7 @@ function Cart() {
                       name="method"
                       control={checkoutForm.control}
                       rules={{ required: 'Matrícula obrigatória' }}
-                      render={({ field }) => (
-                        <FormControl isRequired>
-                          <RadioGroup {...field} colorScheme={'green'}>
-                            <HStack>
-                              <Radio value="ST">Cartão de crédito</Radio>
-                              <Radio value="PX">PIX</Radio>
-                            </HStack>
-                          </RadioGroup>
-                        </FormControl>
-                      )}
+                      render={({ field }) => <PaymentMethods {...field} />}
                     />
                     <CustomButton
                       type="submit"

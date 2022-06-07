@@ -1,4 +1,4 @@
-import { AreaDiretorMenuProps } from './AreaDiretorMenu';
+import { AddMembershipDrawerProps } from './AddMembershipDrawer';
 import { AreaMembroMenuProps } from './AreaSocioMenu';
 import { CartaoCreditoTabPanelProps } from './PagamentoTabs/CartaoCreditoTabPanel';
 import { ClientInfoCardProps } from './ClientInfoCard';
@@ -19,8 +19,8 @@ import { ProdutoPlantaoCardProps } from './ProdutoPlantaoCard';
 import { RefAttributes } from 'react';
 import dynamic from 'next/dynamic';
 
-export const AreaDiretorMenu = dynamic<AreaDiretorMenuProps>(() =>
-  import('./AreaDiretorMenu').then((mod) => mod.AreaDiretorMenu),
+export const AddMembershipDrawer = dynamic<AddMembershipDrawerProps>(() =>
+  import('./AddMembershipDrawer').then((mod) => mod.default),
 );
 export const AreaSocioMenu = dynamic<AreaMembroMenuProps>(() =>
   import('./AreaSocioMenu').then((mod) => mod.AreaMembroMenu),

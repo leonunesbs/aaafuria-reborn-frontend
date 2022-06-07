@@ -1,4 +1,8 @@
-import { AreaDiretorMenu, Card, PaymentsTable } from '@/components/molecules';
+import {
+  AddMembershipDrawer,
+  Card,
+  PaymentsTable,
+} from '@/components/molecules';
 import {
   Box,
   Grid,
@@ -17,14 +21,13 @@ import {
   Tr,
   useToast,
 } from '@chakra-ui/react';
-import { CustomIconButton, PageHeading } from '@/components/atoms';
 import React, { useContext, useEffect } from 'react';
 import { gql, useQuery } from '@apollo/client';
 
 import { AuthContext } from '@/contexts/AuthContext';
 import { GetServerSideProps } from 'next';
 import { Layout } from '@/components/templates';
-import { MdAdd } from 'react-icons/md';
+import { PageHeading } from '@/components/atoms';
 import { parseCookies } from 'nookies';
 import { useRouter } from 'next/router';
 
@@ -36,6 +39,7 @@ const MEMBERSHIP_PLANS = gql`
           id
           name
           count
+          isActive
         }
       }
     }
@@ -48,6 +52,7 @@ type MembershipPlans = {
         id: string;
         name: string;
         count: number;
+        isActive: boolean;
       };
     }[];
   };
@@ -94,10 +99,13 @@ function AreaDiretor() {
             <Card>
               <HStack w="full" justify={'space-between'} mb={4}>
                 <Heading size="sm">ASSOCIAÇÕES</Heading>
-                <CustomIconButton
-                  aria-label="adicionar associação"
-                  icon={<MdAdd size="20px" />}
-                />
+                {membershipPlans.data && (
+                  <AddMembershipDrawer
+                    membershipPlans={
+                      membershipPlans.data.allMembershipPlans.edges
+                    }
+                  />
+                )}
               </HStack>
               <StatGroup>
                 {membershipPlans.data?.allMembershipPlans.edges.map(
@@ -112,11 +120,11 @@ function AreaDiretor() {
             </Card>
           </GridItem>
           <GridItem area={'activities'}>
-            <Card overflowX={'auto'} maxH={['default', 'md']}>
+            <Card>
               <Heading size="sm" mb={4}>
                 ATIVIDADES
               </Heading>
-              <Box overflow={'auto'}>
+              <Box>
                 <Table size="sm">
                   <Thead>
                     <Tr>
@@ -128,112 +136,9 @@ function AreaDiretor() {
                   </Thead>
                   <Tbody>
                     <Tr>
-                      <Td>1</Td>
-                      <Td isNumeric>10</Td>
-                      <Td isNumeric>10</Td>
-                      <Td isNumeric>R$ 10</Td>
-                    </Tr>
-                    <Tr>
-                      <Td>2</Td>
-                      <Td isNumeric>10</Td>
-                      <Td isNumeric>10</Td>
-                      <Td isNumeric>R$ 10</Td>
-                    </Tr>
-                    <Tr>
-                      <Td>3</Td>
-                      <Td isNumeric>10</Td>
-                      <Td isNumeric>10</Td>
-                      <Td isNumeric>R$ 10</Td>
-                    </Tr>
-                    <Tr>
-                      <Td>4</Td>
-                      <Td isNumeric>10</Td>
-                      <Td isNumeric>10</Td>
-                      <Td isNumeric>R$ 10</Td>
-                    </Tr>
-                    <Tr>
-                      <Td>5</Td>
-                      <Td isNumeric>10</Td>
-                      <Td isNumeric>10</Td>
-                      <Td isNumeric>R$ 10</Td>
-                    </Tr>
-                    <Tr>
-                      <Td>6</Td>
-                      <Td isNumeric>10</Td>
-                      <Td isNumeric>10</Td>
-                      <Td isNumeric>R$ 10</Td>
-                    </Tr>
-                    <Tr>
-                      <Td>7</Td>
-                      <Td isNumeric>10</Td>
-                      <Td isNumeric>10</Td>
-                      <Td isNumeric>R$ 10</Td>
-                    </Tr>
-                    <Tr>
-                      <Td>7</Td>
-                      <Td isNumeric>10</Td>
-                      <Td isNumeric>10</Td>
-                      <Td isNumeric>R$ 10</Td>
-                    </Tr>
-                    <Tr>
-                      <Td>7</Td>
-                      <Td isNumeric>10</Td>
-                      <Td isNumeric>10</Td>
-                      <Td isNumeric>R$ 10</Td>
-                    </Tr>
-                    <Tr>
-                      <Td>7</Td>
-                      <Td isNumeric>10</Td>
-                      <Td isNumeric>10</Td>
-                      <Td isNumeric>R$ 10</Td>
-                    </Tr>
-                    <Tr>
-                      <Td>7</Td>
-                      <Td isNumeric>10</Td>
-                      <Td isNumeric>10</Td>
-                      <Td isNumeric>R$ 10</Td>
-                    </Tr>
-                    <Tr>
-                      <Td>7</Td>
-                      <Td isNumeric>10</Td>
-                      <Td isNumeric>10</Td>
-                      <Td isNumeric>R$ 10</Td>
-                    </Tr>
-                    <Tr>
-                      <Td>7</Td>
-                      <Td isNumeric>10</Td>
-                      <Td isNumeric>10</Td>
-                      <Td isNumeric>R$ 10</Td>
-                    </Tr>
-                    <Tr>
-                      <Td>7</Td>
-                      <Td isNumeric>10</Td>
-                      <Td isNumeric>10</Td>
-                      <Td isNumeric>R$ 10</Td>
-                    </Tr>
-                    <Tr>
-                      <Td>7</Td>
-                      <Td isNumeric>10</Td>
-                      <Td isNumeric>10</Td>
-                      <Td isNumeric>R$ 10</Td>
-                    </Tr>
-                    <Tr>
-                      <Td>7</Td>
-                      <Td isNumeric>10</Td>
-                      <Td isNumeric>10</Td>
-                      <Td isNumeric>R$ 10</Td>
-                    </Tr>
-                    <Tr>
-                      <Td>7</Td>
-                      <Td isNumeric>10</Td>
-                      <Td isNumeric>10</Td>
-                      <Td isNumeric>R$ 10</Td>
-                    </Tr>
-                    <Tr>
-                      <Td>7</Td>
-                      <Td isNumeric>10</Td>
-                      <Td isNumeric>10</Td>
-                      <Td isNumeric>R$ 10</Td>
+                      <Td colSpan={4} textAlign="center">
+                        Em construção
+                      </Td>
                     </Tr>
                   </Tbody>
                 </Table>
@@ -245,16 +150,10 @@ function AreaDiretor() {
               <Heading size="sm" mb={4}>
                 PAGAMENTOS
               </Heading>
-              <Box overflowX="auto">
-                <PaymentsTable pageSize={5} />
-              </Box>
+              <PaymentsTable pageSize={5} />
             </Card>
           </GridItem>
         </Grid>
-
-        <Card>
-          <AreaDiretorMenu />
-        </Card>
       </Box>
     </Layout>
   );
