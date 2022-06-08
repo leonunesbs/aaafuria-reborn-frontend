@@ -1,8 +1,14 @@
 import {
   Badge,
   Box,
+  Button,
   HStack,
-  Select,
+  Menu,
+  MenuButton,
+  MenuDivider,
+  MenuItemOption,
+  MenuList,
+  MenuOptionGroup,
   Table,
   Tbody,
   Td,
@@ -112,26 +118,29 @@ function PaymentsTable({ pageSize = 10 }: PaymentsTableProps) {
   return (
     <>
       <HStack my={6} justify="space-between">
-        <HStack>
-          <Text>Filtrar por:</Text>
-          <HStack>
-            <Select
-              size={'sm'}
-              rounded="md"
-              placeholder="Status"
-              focusBorderColor={green}
-              onChange={(e) => {
+        <Menu>
+          <MenuButton as={Button} colorScheme="gray" size="xs">
+            Filtro
+          </MenuButton>
+          <MenuList minWidth="240px">
+            <MenuOptionGroup
+              defaultValue={''}
+              title="Status"
+              type="radio"
+              onChange={(value) => {
                 refetch({
-                  status: e.target.value,
+                  status: value,
                 });
               }}
             >
-              <option value="PAGO">Pagos</option>
-              <option value="PENDENTE">Pendentes</option>
-              <option value="EXPIRADO">Expirados</option>
-            </Select>
-          </HStack>
-        </HStack>
+              <MenuItemOption value="">Todos</MenuItemOption>
+              <MenuItemOption value="PAGO">Pagos</MenuItemOption>
+              <MenuItemOption value="PENDENTE">Pendentes</MenuItemOption>
+              <MenuItemOption value="EXPIRADO">Expirados</MenuItemOption>
+            </MenuOptionGroup>
+            <MenuDivider />
+          </MenuList>
+        </Menu>
         <HStack pr={1}>
           <CustomIconButton
             aria-label="refresh payments"

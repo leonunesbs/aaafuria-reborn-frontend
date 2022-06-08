@@ -22,13 +22,14 @@ import {
   Tr,
   useToast,
 } from '@chakra-ui/react';
+import { CustomChakraNextLink, PageHeading } from '@/components/atoms';
 import React, { useContext, useEffect } from 'react';
 import { gql, useQuery } from '@apollo/client';
 
 import { AuthContext } from '@/contexts/AuthContext';
+import { ColorContext } from '@/contexts/ColorContext';
 import { GetServerSideProps } from 'next';
 import { Layout } from '@/components/templates';
-import { PageHeading } from '@/components/atoms';
 import { parseCookies } from 'nookies';
 import { useRouter } from 'next/router';
 
@@ -63,6 +64,7 @@ function AreaDiretor() {
   const router = useRouter();
   const toast = useToast();
   const { user } = useContext(AuthContext);
+  const { green } = useContext(ColorContext);
 
   const membershipPlans = useQuery<MembershipPlans>(MEMBERSHIP_PLANS);
 
@@ -99,7 +101,9 @@ function AreaDiretor() {
           <GridItem area={'members'}>
             <Card>
               <HStack w="full" justify={'space-between'} mb={4}>
-                <Heading size="sm">ASSOCIAÇÕES</Heading>
+                <Heading size="md" color={green}>
+                  ASSOCIAÇÕES
+                </Heading>
                 {membershipPlans.data && (
                   <AddMembershipDrawer
                     membershipPlans={
@@ -123,7 +127,9 @@ function AreaDiretor() {
           <GridItem area={'activities'}>
             <Card>
               <HStack mb={4} w="full" justify="space-between">
-                <Heading size="sm">ATIVIDADES</Heading>
+                <Heading size="md" color={green}>
+                  ATIVIDADES
+                </Heading>
               </HStack>
               <Box>
                 <Table size="sm">
@@ -149,7 +155,11 @@ function AreaDiretor() {
           <GridItem area={'payments'}>
             <Card>
               <HStack mb={4} w="full" justify={'space-between'}>
-                <Heading size="sm">PAGAMENTOS</Heading>
+                <CustomChakraNextLink href={'/bank/payments'}>
+                  <Heading size="md" color={green}>
+                    PAGAMENTOS
+                  </Heading>
+                </CustomChakraNextLink>
                 <AddPaymentDrawer />
               </HStack>
               <PaymentsTable pageSize={5} />
