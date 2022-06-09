@@ -1,4 +1,5 @@
 import { CustomButton, CustomIconButton } from '@/components/atoms';
+import { gql, useMutation, useQuery } from '@apollo/client';
 import {
   Drawer,
   DrawerBody,
@@ -24,10 +25,9 @@ import {
   useDisclosure,
   useToast,
 } from '@chakra-ui/react';
-import { MdAdd, MdSave } from 'react-icons/md';
-import { SubmitHandler, useForm } from 'react-hook-form';
-import { gql, useMutation, useQuery } from '@apollo/client';
 import { useCallback, useContext } from 'react';
+import { SubmitHandler, useForm } from 'react-hook-form';
+import { MdAdd, MdSave } from 'react-icons/md';
 
 import { AuthContext } from '@/contexts/AuthContext';
 import { ColorContext } from '@/contexts/ColorContext';
@@ -256,7 +256,7 @@ function AddScheduleDrawer({ refetch, activityId }: AddScheduleDrawerProps) {
                   </FormControl>
                   <FormControl isRequired>
                     <FormLabel htmlFor="maxParticipants">
-                      Máximo de participantes:
+                      Participantes esperados:
                     </FormLabel>
                     <NumberInput focusBorderColor={green} min={1}>
                       <NumberInputField
@@ -276,7 +276,6 @@ function AddScheduleDrawer({ refetch, activityId }: AddScheduleDrawerProps) {
                     <InputGroup>
                       <InputLeftAddon>R$</InputLeftAddon>
                       <NumberInputField
-                        required
                         borderLeftRadius={0}
                         {...register('cost')}
                       />
