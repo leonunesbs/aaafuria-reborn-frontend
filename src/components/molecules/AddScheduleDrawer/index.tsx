@@ -123,6 +123,7 @@ function AddScheduleDrawer({ refetch, activityId }: AddScheduleDrawerProps) {
           ...data,
           startDate: new Date(data.startDate),
           endDate: data.endDate ? new Date(data.endDate) : null,
+          cost: data.cost ? parseFloat(data.cost.toString()) : null,
         },
       }).then(({ data, errors }) => {
         if (errors) {
