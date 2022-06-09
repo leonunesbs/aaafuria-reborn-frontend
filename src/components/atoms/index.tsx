@@ -1,20 +1,21 @@
+import dynamic from 'next/dynamic';
+import { RefAttributes } from 'react';
 import { ActivityIconProps } from './ActivityIcon';
-import { CustomChakraNextLinkProps } from './CustomChakraNextLink';
-import { CustomIconButtonProps } from './CustomIconButton';
-import { FloatingCarrinhoPlantaoButtonProps } from './FloatingCarrinhoPlantaoButton';
 import { IAreaDiretorButton } from './AreaDiretorButton/IAreaDiretorButton';
 import { IAtividadesSocioTableRow } from './AtividadesSocioTableRow/IAtividadesSocioTableRow';
 import { ICarteirinhaInput } from './CarteirinhaInput/ICarteirinhaInput';
 import { ICustomButton } from './CustomButton/ICustomButton';
-import { IPriceTag } from './PriceTag/IPriceTag';
+import { CustomChakraNextLinkProps } from './CustomChakraNextLink';
+import { CustomIconButtonProps } from './CustomIconButton';
+import { FloatingCarrinhoPlantaoButtonProps } from './FloatingCarrinhoPlantaoButton';
 import { NotificationBadgeProps } from './NotificationBadge';
 import { PageHeadingProps } from './PageHeading';
 import { PaymentMethodsProps } from './PaymentMethods';
-import { RefAttributes } from 'react';
+import { IPriceTag } from './PriceTag/IPriceTag';
+import { QuantityCartItemSelectorProps } from './QuantityCartItemSelector';
 import { ScheduleCardProps } from './ScheduleCard';
 import { SejaSocioButtonProps } from './SejaSocioButton';
 import { VoltarButtonProps } from './VoltarButton';
-import dynamic from 'next/dynamic';
 
 export const ActivityIcon = dynamic<ActivityIconProps>(() =>
   import('./ActivityIcon').then((mod) => mod.default),
@@ -73,6 +74,9 @@ export const PaymentMethods = dynamic<PaymentMethodsProps>(() =>
 
 export const PriceTag = dynamic<IPriceTag>(() =>
   import('./PriceTag').then((mod) => mod.PriceTag),
+);
+export const QuantityCartItemSelector = dynamic<QuantityCartItemSelectorProps>(
+  () => import('./QuantityCartItemSelector').then((mod) => mod.default),
 );
 export const ScheduleCard = dynamic<ScheduleCardProps>(() =>
   import('./ScheduleCard').then((mod) => mod.default),

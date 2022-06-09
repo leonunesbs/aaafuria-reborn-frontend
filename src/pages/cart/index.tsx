@@ -4,6 +4,7 @@ import {
   PageHeading,
   PaymentMethods,
   PriceTag,
+  QuantityCartItemSelector,
 } from '@/components/atoms';
 import { gql, useMutation, useQuery } from '@apollo/client';
 import {
@@ -12,19 +13,16 @@ import {
   Heading,
   HStack,
   Image,
-  Input,
   Stack,
   Text,
-  useToast,
 } from '@chakra-ui/react';
 import { useCallback, useContext } from 'react';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
-import { MdAdd, MdArrowLeft, MdDelete, MdRemove } from 'react-icons/md';
+import { MdArrowLeft, MdDelete } from 'react-icons/md';
 
 import { Card } from '@/components/molecules';
 import { Layout } from '@/components/templates';
 import { AuthContext } from '@/contexts/AuthContext';
-import { ColorContext } from '@/contexts/ColorContext';
 import { GetServerSideProps } from 'next';
 import { useRouter } from 'next/router';
 import { parseCookies } from 'nookies';
@@ -61,22 +59,6 @@ const GET_CART = gql`
           }
         }
       }
-    }
-  }
-`;
-
-const ADD_TO_CART = gql`
-  mutation addToCart($itemId: ID!, $quantity: Int!) {
-    addToCart(itemId: $itemId, quantity: $quantity) {
-      ok
-    }
-  }
-`;
-
-const REMOVE_FROM_CART = gql`
-  mutation removeFromCart($itemId: ID!, $quantity: Int!) {
-    removeFromCart(itemId: $itemId, quantity: $quantity) {
-      ok
     }
   }
 `;
@@ -137,9 +119,7 @@ type CheckoutForm = {
 
 function Cart() {
   const router = useRouter();
-  const toast = useToast();
   const { token } = useContext(AuthContext);
-  const { green } = useContext(ColorContext);
   const { data, refetch } = useQuery<CartData>(GET_CART, {
     context: {
       headers: {
@@ -149,21 +129,6 @@ function Cart() {
   });
 
   const checkoutForm = useForm<CheckoutForm>();
-  const [addToCart] = useMutation(ADD_TO_CART, {
-    context: {
-      headers: {
-        authorization: `JWT ${token}`,
-      },
-    },
-  });
-
-  const [removeFromCart] = useMutation(REMOVE_FROM_CART, {
-    context: {
-      headers: {
-        authorization: `JWT ${token}`,
-      },
-    },
-  });
 
   const [deleteFromCart] = useMutation(DELETE_FROM_CART, {
     context: {
@@ -180,48 +145,6 @@ function Cart() {
       },
     },
   });
-
-  const handleAddToCart = useCallback(
-    async (itemId: string) => {
-      await addToCart({
-        variables: {
-          itemId: itemId,
-          quantity: 1,
-        },
-      })
-        .then(() => {
-          refetch();
-        })
-        .catch((error) => {
-          toast({
-            title: 'Erro',
-            description: error.message,
-            status: 'warning',
-            duration: 2500,
-            isClosable: true,
-            position: 'top-left',
-          });
-        });
-    },
-    [addToCart, refetch, toast],
-  );
-
-  const handleRemoveFromCart = useCallback(
-    async (itemId: string) => {
-      await removeFromCart({
-        variables: {
-          itemId: itemId,
-          quantity: 1,
-        },
-      }).then(async ({ errors }) => {
-        if (errors) {
-          throw errors;
-        }
-        refetch();
-      });
-    },
-    [removeFromCart, refetch],
-  );
 
   const handleDeleteFromCart = useCallback(
     async (itemId: string) => {
@@ -314,26 +237,11 @@ function Cart() {
                           </Box>
                         </HStack>
                         <HStack w="full" justify={'space-between'} px={[0]}>
-                          <HStack>
-                            <CustomIconButton
-                              aria-label="remove_from_cart"
-                              icon={<MdRemove size="15px" />}
-                              onClick={() => handleRemoveFromCart(item.id)}
-                            />
-                            <Input
-                              w="50px"
-                              textAlign={'center'}
-                              value={quantity}
-                              isReadOnly
-                              focusBorderColor={green}
-                              size="xs"
-                            />
-                            <CustomIconButton
-                              aria-label="add_to_cart"
-                              icon={<MdAdd size="15px" />}
-                              onClick={() => handleAddToCart(item.id)}
-                            />
-                          </HStack>
+                          <QuantityCartItemSelector
+                            itemId={item.id}
+                            quantity={quantity}
+                            refetch={refetch}
+                          />
                           <PriceTag
                             price={item.price}
                             discountedPrice={item.membershipPrice}
