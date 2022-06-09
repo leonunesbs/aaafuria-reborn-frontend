@@ -90,9 +90,10 @@ type Inputs = {
 
 export interface AddScheduleDrawerProps {
   refetch: () => void;
+  activityId?: string;
 }
 
-function AddScheduleDrawer({ refetch }: AddScheduleDrawerProps) {
+function AddScheduleDrawer({ refetch, activityId }: AddScheduleDrawerProps) {
   const toast = useToast();
   const { token } = useContext(AuthContext);
   const { bg, green } = useContext(ColorContext);
@@ -175,6 +176,7 @@ function AddScheduleDrawer({ refetch }: AddScheduleDrawerProps) {
                     focusBorderColor={green}
                     required
                     placeholder="Selecione uma atividade"
+                    defaultValue={activityId}
                     {...register('activityId')}
                   >
                     {data?.allActivities.map((activity) => (

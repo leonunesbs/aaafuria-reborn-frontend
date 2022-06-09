@@ -1,4 +1,4 @@
-import { Box, SimpleGrid, Text } from '@chakra-ui/react';
+import { Box, Text, Wrap, WrapItem } from '@chakra-ui/react';
 import { gql, useQuery } from '@apollo/client';
 
 import { ActivityCard } from '@/components/molecules';
@@ -71,22 +71,20 @@ function Activities() {
 
   return (
     <Layout title="Atividades">
-      <Box mx="auto" maxW="7xl">
+      <Box mx="auto" maxW="8xl">
         <Box mb={6}>
           <PageHeading>O MELHOR DA FÚRIA</PageHeading>
           <Text textAlign={'center'} size="lg">
             Junte-se aos nossos times de campeões!
           </Text>
         </Box>
-        <SimpleGrid columns={[1, 2, 3]} spacing={2}>
+        <Wrap spacing={4} justify="center">
           {data?.allActivities.map((activity) => (
-            <ActivityCard
-              key={activity.id}
-              activity={activity}
-              refetch={refetch}
-            />
+            <WrapItem key={activity.id} maxW={['md', 'xs']} w="full">
+              <ActivityCard activity={activity} refetch={refetch} />
+            </WrapItem>
           ))}
-        </SimpleGrid>
+        </Wrap>
       </Box>
     </Layout>
   );

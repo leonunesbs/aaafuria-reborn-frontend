@@ -25,7 +25,7 @@ function ActivityCard({ activity, refetch }: ActivityCardProps) {
           <ActivityIcon activityName={activity.name} />
           <Heading size="sm">{activity.name.toUpperCase()}</Heading>
         </HStack>
-        <AddScheduleDrawer refetch={refetch} />
+        <AddScheduleDrawer refetch={refetch} activityId={activity.id} />
       </HStack>
       <ActivitySchedules
         schedules={activity.schedules.edges}
