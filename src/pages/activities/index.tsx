@@ -68,7 +68,10 @@ function Activities() {
   });
 
   return (
-    <Layout title="Atividades">
+    <Layout
+      title="Atividades"
+      desc="Participe de jogos, apresentações, treinos, ensaios e muito mais. Conheça o melhor da Fúria!"
+    >
       <Box mx="auto" maxW="8xl">
         <Box mb={6}>
           <PageHeading>O MELHOR DA FÚRIA</PageHeading>
