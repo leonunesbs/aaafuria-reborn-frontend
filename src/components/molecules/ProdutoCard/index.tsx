@@ -1,5 +1,7 @@
 import * as gtag from 'lib/gtag';
 
+import { gql, useMutation } from '@apollo/client';
+import { Heading, HStack, Stack } from '@chakra-ui/layout';
 import {
   Button,
   FormControl,
@@ -8,19 +10,17 @@ import {
   useBreakpointValue,
   useToast,
 } from '@chakra-ui/react';
-import { HStack, Heading, Stack } from '@chakra-ui/layout';
-import React, { useCallback, useContext } from 'react';
+import { useCallback, useContext } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { gql, useMutation } from '@apollo/client';
 
-import { AuthContext } from '@/contexts/AuthContext';
-import { Card } from '@/components/molecules';
-import { ColorContext } from '@/contexts/ColorContext';
-import { CustomButton } from '@/components/atoms/CustomButton';
-import { MdShoppingCart } from 'react-icons/md';
 import { PriceTag } from '@/components/atoms';
+import { CustomButton } from '@/components/atoms/CustomButton';
+import { Card } from '@/components/molecules';
+import { AuthContext } from '@/contexts/AuthContext';
+import { ColorContext } from '@/contexts/ColorContext';
 import { ProductType } from '@/pages/loja';
 import { useRouter } from 'next/router';
+import { MdShoppingCart } from 'react-icons/md';
 
 const ADD_TO_CART = gql`
   mutation addToCart($itemId: ID!, $quantity: Int!, $description: String) {
@@ -64,7 +64,18 @@ export const ProdutoCard = ({ node: product }: { node: ProductType }) => {
           description: observacoes,
         },
       })
-        .then(() => {
+        .then(({ errors }) => {
+          if (errors) {
+            toast({
+              title: 'Erro',
+              description: errors[0].message,
+              status: 'warning',
+              duration: 2500,
+              isClosable: true,
+              position: 'top-left',
+            });
+            return;
+          }
           toast({
             title: `[${product.name}] adicionado ao carrinho!`,
             description: (

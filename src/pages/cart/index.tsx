@@ -15,6 +15,7 @@ import {
   Input,
   Stack,
   Text,
+  useToast,
 } from '@chakra-ui/react';
 import { useCallback, useContext } from 'react';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
@@ -136,6 +137,7 @@ type CheckoutForm = {
 
 function Cart() {
   const router = useRouter();
+  const toast = useToast();
   const { token } = useContext(AuthContext);
   const { green } = useContext(ColorContext);
   const { data, refetch } = useQuery<CartData>(GET_CART, {
@@ -188,12 +190,20 @@ function Cart() {
         },
       }).then(async ({ errors }) => {
         if (errors) {
-          throw errors;
+          toast({
+            title: 'Erro',
+            description: errors[0].message,
+            status: 'warning',
+            duration: 2500,
+            isClosable: true,
+            position: 'top-left',
+          });
+          return;
         }
         refetch();
       });
     },
-    [addToCart, refetch],
+    [addToCart, refetch, toast],
   );
 
   const handleRemoveFromCart = useCallback(
