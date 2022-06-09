@@ -1,33 +1,33 @@
 import {
-  Box,
-  Divider,
-  HStack,
-  Heading,
-  Image,
-  Input,
-  Stack,
-  Text,
-} from '@chakra-ui/react';
-import { Controller, SubmitHandler, useForm } from 'react-hook-form';
-import {
   CustomButton,
   CustomIconButton,
   PageHeading,
   PaymentMethods,
   PriceTag,
 } from '@/components/atoms';
-import { MdAdd, MdArrowLeft, MdDelete, MdRemove } from 'react-icons/md';
 import { gql, useMutation, useQuery } from '@apollo/client';
+import {
+  Box,
+  Divider,
+  Heading,
+  HStack,
+  Image,
+  Input,
+  Stack,
+  Text,
+} from '@chakra-ui/react';
 import { useCallback, useContext } from 'react';
+import { Controller, SubmitHandler, useForm } from 'react-hook-form';
+import { MdAdd, MdArrowLeft, MdDelete, MdRemove } from 'react-icons/md';
 
-import { AuthContext } from '@/contexts/AuthContext';
 import { Card } from '@/components/molecules';
+import { Layout } from '@/components/templates';
+import { AuthContext } from '@/contexts/AuthContext';
 import { ColorContext } from '@/contexts/ColorContext';
 import { GetServerSideProps } from 'next';
-import { HiCash } from 'react-icons/hi';
-import { Layout } from '@/components/templates';
-import { parseCookies } from 'nookies';
 import { useRouter } from 'next/router';
+import { parseCookies } from 'nookies';
+import { HiCash } from 'react-icons/hi';
 
 const GET_CART = gql`
   query getCart {
@@ -50,6 +50,7 @@ const GET_CART = gql`
                 image
               }
               name
+              description
               image
               price
               staffPrice
@@ -116,6 +117,7 @@ interface CartData {
               image: string;
             };
             image: string;
+            description: string;
             name: string;
             price: number;
             staffPrice: number;
@@ -291,11 +293,11 @@ function Cart() {
                           <Box>
                             <Heading as="h2" fontSize={'sm'}>
                               {item.refItem
-                                ? item.refItem.name.toUpperCase()
+                                ? `${item.refItem.name.toUpperCase()} - ${item.name.toUpperCase()}`
                                 : item.name.toUpperCase()}
                             </Heading>
                             <Text as="h3" fontSize={'xs'}>
-                              {item.name}
+                              {item.description}
                             </Text>
                           </Box>
                         </HStack>
