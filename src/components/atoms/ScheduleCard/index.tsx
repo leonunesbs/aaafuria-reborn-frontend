@@ -1,3 +1,4 @@
+import { gql, useMutation } from '@apollo/client';
 import {
   Badge,
   Box,
@@ -10,11 +11,10 @@ import {
   useToast,
 } from '@chakra-ui/react';
 import { ChangeEvent, useCallback, useContext } from 'react';
-import { gql, useMutation } from '@apollo/client';
 
-import { Activity } from '@/pages/activities';
 import { AuthContext } from '@/contexts/AuthContext';
 import { ColorContext } from '@/contexts/ColorContext';
+import { Activity } from '@/pages/activities';
 
 const CONFIRM_TO_SCHEDULE = gql`
   mutation confirmToSchedule($scheduleId: ID!) {
