@@ -1,12 +1,10 @@
-import { Box, Text, Wrap, WrapItem } from '@chakra-ui/react';
 import { gql, useQuery } from '@apollo/client';
+import { Box, Text, Wrap, WrapItem } from '@chakra-ui/react';
 
-import { ActivityCard } from '@/components/molecules';
-import { AuthContext } from '@/contexts/AuthContext';
-import { GetServerSideProps } from 'next';
-import { Layout } from '@/components/templates';
 import { PageHeading } from '@/components/atoms';
-import { parseCookies } from 'nookies';
+import { ActivityCard } from '@/components/molecules';
+import { Layout } from '@/components/templates';
+import { AuthContext } from '@/contexts/AuthContext';
 import { useContext } from 'react';
 
 const ALL_ACTIVITIES = gql`
@@ -89,22 +87,5 @@ function Activities() {
     </Layout>
   );
 }
-
-export const getServerSideProps: GetServerSideProps = async (ctx) => {
-  const { ['aaafuriaToken']: token } = parseCookies(ctx);
-
-  if (!token) {
-    return {
-      redirect: {
-        destination: `/entrar?after=${ctx.resolvedUrl}`,
-        permanent: false,
-      },
-    };
-  }
-
-  return {
-    props: {},
-  };
-};
 
 export default Activities;

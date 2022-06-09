@@ -15,6 +15,9 @@ import { ChangeEvent, useCallback, useContext } from 'react';
 import { AuthContext } from '@/contexts/AuthContext';
 import { ColorContext } from '@/contexts/ColorContext';
 import { Activity } from '@/pages/activities';
+import { useRouter } from 'next/router';
+import { MdLogin } from 'react-icons/md';
+import { CustomIconButton } from '..';
 
 const CONFIRM_TO_SCHEDULE = gql`
   mutation confirmToSchedule($scheduleId: ID!) {
@@ -38,8 +41,9 @@ export interface ScheduleCardProps {
 }
 
 export default function ScheduleCard({ schedule, refetch }: ScheduleCardProps) {
+  const router = useRouter();
   const toast = useToast();
-  const { token } = useContext(AuthContext);
+  const { token, isAuthenticated } = useContext(AuthContext);
   const { green } = useContext(ColorContext);
   const [confirmToSchedule, { loading: confirmLoading }] = useMutation(
     CONFIRM_TO_SCHEDULE,
@@ -88,6 +92,15 @@ export default function ScheduleCard({ schedule, refetch }: ScheduleCardProps) {
               isClosable: true,
               position: 'top-left',
             });
+          } else {
+            toast({
+              title: 'Você deve ser Sócio para confirmar sua participação',
+              status: 'warning',
+              duration: 2500,
+              isClosable: true,
+              position: 'top-left',
+            });
+            refetch();
           }
         });
       } else {
@@ -158,11 +171,17 @@ export default function ScheduleCard({ schedule, refetch }: ScheduleCardProps) {
         </Stack>
         {confirmLoading || cancelLoading === true ? (
           <Spinner color={green} />
-        ) : (
+        ) : isAuthenticated ? (
           <Switch
             colorScheme={'green'}
             isChecked={schedule.currentUserConfirmed}
             onChange={(e) => handleSwitch(e, schedule.id)}
+          />
+        ) : (
+          <CustomIconButton
+            aria-label={'login'}
+            icon={<MdLogin size="20px" />}
+            onClick={() => router.push(`/entrar?after=${router.asPath}`)}
           />
         )}
       </HStack>
