@@ -1,9 +1,10 @@
 import { ActivitySchedules, AddScheduleDrawer, Card } from '..';
 import { HStack, Heading } from '@chakra-ui/react';
+import { useContext, useMemo } from 'react';
 
 import { Activity } from '@/pages/activities';
 import { ActivityIcon } from '@/components/atoms';
-import { useMemo } from 'react';
+import { AuthContext } from '@/contexts/AuthContext';
 
 export interface ActivityCardProps {
   activity: {
@@ -19,6 +20,7 @@ export interface ActivityCardProps {
 }
 
 function ActivityCard({ activity, refetch }: ActivityCardProps) {
+  const { user } = useContext(AuthContext);
   const activityName = useMemo(() => activity.name, [activity.name]);
   return (
     <Card w="full" py={6} px={[4, 6]}>
@@ -27,7 +29,9 @@ function ActivityCard({ activity, refetch }: ActivityCardProps) {
           <ActivityIcon activityName={activityName} />
           <Heading size="sm">{activity.name.toUpperCase()}</Heading>
         </HStack>
-        <AddScheduleDrawer refetch={refetch} activityId={activity.id} />
+        {user?.isStaff && (
+          <AddScheduleDrawer refetch={refetch} activityId={activity.id} />
+        )}
       </HStack>
       <ActivitySchedules
         schedules={activity.schedules.edges}
