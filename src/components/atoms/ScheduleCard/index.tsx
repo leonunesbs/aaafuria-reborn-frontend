@@ -72,64 +72,66 @@ export default function ScheduleCard({ schedule, refetch }: ScheduleCardProps) {
           variables: {
             scheduleId,
           },
-        }).then(({ data, errors }) => {
-          if (errors) {
+        })
+          .then(({ data }) => {
+            if (data.confirmToSchedule.ok) {
+              refetch();
+              toast({
+                title: 'Participação confirmada',
+                status: 'success',
+                duration: 2500,
+                isClosable: true,
+                position: 'top-left',
+              });
+            } else {
+              toast({
+                title: 'Você deve ser Sócio para confirmar sua participação',
+                status: 'warning',
+                duration: 2500,
+                isClosable: true,
+                position: 'top-left',
+              });
+              refetch();
+            }
+          })
+          .catch((error) => {
             toast({
               title: 'Erro ao confirmar participação.',
+              description: error.message,
               status: 'error',
               duration: 2500,
               isClosable: true,
               position: 'top-left',
             });
-            throw errors;
-          }
-          if (data.confirmToSchedule.ok) {
-            refetch();
-            toast({
-              title: 'Participação confirmada',
-              status: 'success',
-              duration: 2500,
-              isClosable: true,
-              position: 'top-left',
-            });
-          } else {
-            toast({
-              title: 'Você deve ser Sócio para confirmar sua participação',
-              status: 'warning',
-              duration: 2500,
-              isClosable: true,
-              position: 'top-left',
-            });
-            refetch();
-          }
-        });
+          });
       } else {
         await cancelFromSchedule({
           variables: {
             scheduleId,
           },
-        }).then(({ data, errors }) => {
-          if (errors) {
+        })
+          .then(({ data }) => {
+            if (data.cancelFromSchedule.ok) {
+              refetch();
+              toast({
+                title: 'Participação removida',
+                status: 'info',
+                duration: 2500,
+                isClosable: true,
+                position: 'top-left',
+              });
+            }
+          })
+          .catch((error) => {
             toast({
               title: 'Erro ao remover participação.',
+              description: error.message,
               status: 'error',
               duration: 2500,
               isClosable: true,
               position: 'top-left',
             });
-            throw errors;
-          }
-          if (data.cancelFromSchedule.ok) {
-            refetch();
-            toast({
-              title: 'Participação removida',
-              status: 'info',
-              duration: 2500,
-              isClosable: true,
-              position: 'top-left',
-            });
-          }
-        });
+          });
       }
     },
     [cancelFromSchedule, confirmToSchedule, refetch, toast],

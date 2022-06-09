@@ -125,34 +125,33 @@ function AddScheduleDrawer({ refetch, activityId }: AddScheduleDrawerProps) {
           endDate: data.endDate ? new Date(data.endDate) : null,
           cost: data.cost ? parseFloat(data.cost.toString()) : null,
         },
-      }).then(({ data, errors }) => {
-        if (errors) {
+      })
+        .then(({ data }) => {
+          if (data.createSchedule?.ok) {
+            onClose();
+            refetch();
+            reset();
+
+            toast({
+              title: 'Programação criada',
+              description: 'Nova programação criada com sucesso',
+              status: 'success',
+              duration: 2500,
+              isClosable: true,
+              position: 'top-left',
+            });
+          }
+        })
+        .catch((error) => {
           toast({
             title: 'Error',
-            description: errors[0].message,
+            description: error.message,
             status: 'error',
             duration: 2500,
             isClosable: true,
             position: 'top-left',
           });
-
-          throw errors;
-        }
-        if (data.createSchedule?.ok) {
-          onClose();
-          refetch();
-          reset();
-
-          toast({
-            title: 'Programação criada',
-            description: 'Nova programação criada com sucesso',
-            status: 'success',
-            duration: 2500,
-            isClosable: true,
-            position: 'top-left',
-          });
-        }
-      });
+        });
     },
     [createSchedule, onClose, refetch, reset, toast],
   );

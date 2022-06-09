@@ -64,18 +64,7 @@ export const ProdutoCard = ({ node: product }: { node: ProductType }) => {
           description: observacoes,
         },
       })
-        .then(({ errors }) => {
-          if (errors) {
-            toast({
-              title: 'Erro',
-              description: errors[0].message,
-              status: 'warning',
-              duration: 2500,
-              isClosable: true,
-              position: 'top-left',
-            });
-            return;
-          }
+        .then(() => {
           toast({
             title: `[${product.name}] adicionado ao carrinho!`,
             description: (
@@ -111,11 +100,14 @@ export const ProdutoCard = ({ node: product }: { node: ProductType }) => {
         })
         .catch((error) => {
           toast({
-            title: error.message,
-            status: 'info',
+            title: 'Erro',
+            description: error.message,
+            status: 'warning',
+            duration: 2500,
             isClosable: true,
             position: 'top-left',
           });
+          return;
         });
     },
     [isAuthenticated, product, addToCart, router, toast],

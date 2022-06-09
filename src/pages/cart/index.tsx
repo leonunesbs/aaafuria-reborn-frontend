@@ -188,20 +188,20 @@ function Cart() {
           itemId: itemId,
           quantity: 1,
         },
-      }).then(async ({ errors }) => {
-        if (errors) {
+      })
+        .then(() => {
+          refetch();
+        })
+        .catch((error) => {
           toast({
             title: 'Erro',
-            description: errors[0].message,
+            description: error.message,
             status: 'warning',
             duration: 2500,
             isClosable: true,
             position: 'top-left',
           });
-          return;
-        }
-        refetch();
-      });
+        });
     },
     [addToCart, refetch, toast],
   );
@@ -245,15 +245,16 @@ function Cart() {
         variables: {
           methodId: method,
         },
-      }).then(async ({ data, errors }) => {
-        if (errors) {
-          throw errors;
-        }
-        if (data && data.checkoutCart.ok) {
-          const { checkoutUrl } = data.checkoutCart;
-          router.push(checkoutUrl);
-        }
-      });
+      })
+        .then(async ({ data }) => {
+          if (data && data.checkoutCart.ok) {
+            const { checkoutUrl } = data.checkoutCart;
+            router.push(checkoutUrl);
+          }
+        })
+        .catch((error) => {
+          throw error;
+        });
     },
     [checkoutCart, router],
   );
@@ -290,7 +291,7 @@ function Cart() {
                           />
                         </Box>
                         <HStack spacing={4} mb={4} w="full">
-                          <Box width="130px" height="130px" position="relative">
+                          <Box width="150px">
                             <Image
                               src={
                                 item.refItem ? item.refItem.image : item.image
@@ -298,6 +299,7 @@ function Cart() {
                               alt={item.name}
                               rounded={'md'}
                               draggable={false}
+                              objectFit="contain"
                             />
                           </Box>
                           <Box>
