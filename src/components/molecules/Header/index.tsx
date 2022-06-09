@@ -1,7 +1,14 @@
 import {
+  ColorModeToggle,
+  CustomButton,
+  CustomChakraNextLink,
+  CustomIconButton,
+} from '@/components/atoms';
+import {
   Avatar,
   Box,
   Center,
+  chakra,
   Drawer,
   DrawerBody,
   DrawerCloseButton,
@@ -13,15 +20,9 @@ import {
   HStack,
   Stack,
   Text,
-  chakra,
   useDisclosure,
 } from '@chakra-ui/react';
-import {
-  ColorModeToggle,
-  CustomButton,
-  CustomChakraNextLink,
-  CustomIconButton,
-} from '@/components/atoms';
+import { useContext, useEffect, useRef } from 'react';
 import { FaDrum, FaVolleyballBall } from 'react-icons/fa';
 import {
   MdHelpCenter,
@@ -31,15 +32,14 @@ import {
   MdPerson,
   MdStore,
 } from 'react-icons/md';
-import { useContext, useEffect, useRef } from 'react';
 
-import { AiFillHome } from 'react-icons/ai';
 import { AuthContext } from '@/contexts/AuthContext';
 import { ColorContext } from '@/contexts/ColorContext';
-import { GiPartyPopper } from 'react-icons/gi';
 import Hamburger from 'hamburger-react';
 import NextImage from 'next/image';
 import { useRouter } from 'next/router';
+import { AiFillHome } from 'react-icons/ai';
+import { GiPartyPopper } from 'react-icons/gi';
 
 export const Header = () => {
   const router = useRouter();
@@ -101,10 +101,10 @@ export const Header = () => {
                 Loja
               </CustomButton>
             </CustomChakraNextLink>
-            <CustomChakraNextLink href="/atividades">
+            <CustomChakraNextLink href="/activities">
               <CustomButton
                 variant={'ghost'}
-                isActive={router.asPath == '/atividades'}
+                isActive={router.asPath == '/activities'}
               >
                 Atividades
               </CustomButton>
@@ -245,9 +245,9 @@ export const Header = () => {
                   Meus pedidos
                 </CustomButton>
               </CustomChakraNextLink>
-              <CustomChakraNextLink href={'/atividades'}>
+              <CustomChakraNextLink href={'/activities'}>
                 <CustomButton
-                  isActive={router.asPath == '/atividades'}
+                  isActive={router.asPath == '/activities'}
                   variant={'solid'}
                   justifyContent={'flex-start'}
                   leftIcon={
@@ -260,9 +260,9 @@ export const Header = () => {
                   Atividades
                 </CustomButton>
               </CustomChakraNextLink>
-              <CustomChakraNextLink href={'/atividades?categoria=Esporte'}>
+              <CustomChakraNextLink href={'/activities?categoria=Esporte'}>
                 <CustomButton
-                  isActive={router.asPath == '/atividades?categoria=Esporte'}
+                  isActive={router.asPath == '/activities?categoria=Esporte'}
                   variant={'solid'}
                   justifyContent={'flex-start'}
                   leftIcon={<Box boxSize={'20px'} />}
@@ -270,9 +270,9 @@ export const Header = () => {
                   Esportes
                 </CustomButton>
               </CustomChakraNextLink>
-              <CustomChakraNextLink href={'/atividades?categoria=Bateria'}>
+              <CustomChakraNextLink href={'/activities?categoria=Bateria'}>
                 <CustomButton
-                  isActive={router.asPath == '/atividades?categoria=Bateria'}
+                  isActive={router.asPath == '/activities?categoria=Bateria'}
                   variant={'solid'}
                   justifyContent={'flex-start'}
                   leftIcon={<Box boxSize={'20px'} />}

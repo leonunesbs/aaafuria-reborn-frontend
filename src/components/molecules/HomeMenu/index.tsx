@@ -1,15 +1,15 @@
-import { Box, Stack } from '@chakra-ui/react';
 import {
   CustomButton,
   CustomChakraNextLink,
   SejaSocioButton,
 } from '@/components/atoms';
+import { Box, Stack } from '@chakra-ui/react';
+import { useContext } from 'react';
 import { FaDrum, FaVolleyballBall } from 'react-icons/fa';
 import { MdEmojiEvents, MdStore } from 'react-icons/md';
-import React, { useContext } from 'react';
 
-import { GiPartyPopper } from 'react-icons/gi';
 import { LoadingContext } from '@/contexts/LoadingContext';
+import { GiPartyPopper } from 'react-icons/gi';
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface HomeMenuProps {}
@@ -40,7 +40,7 @@ export const HomeMenu = ({}: HomeMenuProps) => {
           Loja
         </CustomButton>
       </CustomChakraNextLink>
-      <CustomChakraNextLink href="/atividades">
+      <CustomChakraNextLink href="/activities">
         <CustomButton
           leftIcon={
             <>

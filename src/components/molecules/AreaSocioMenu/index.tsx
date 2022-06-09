@@ -1,18 +1,18 @@
-import { Box, Divider, Stack, StackProps } from '@chakra-ui/react';
 import {
   CustomButton,
   CustomChakraNextLink,
   VoltarButton,
 } from '@/components/atoms';
+import { Box, Divider, Stack, StackProps } from '@chakra-ui/react';
+import { useCallback, useContext, useState } from 'react';
 import { FaDrum, FaVolleyballBall, FaWallet } from 'react-icons/fa';
-import React, { useCallback, useContext, useState } from 'react';
 
-import { AiFillIdcard } from 'react-icons/ai';
 import { AuthContext } from '@/contexts/AuthContext';
-import { MdManageAccounts } from 'react-icons/md';
 import client from '@/services/apollo-client';
 import { gql } from '@apollo/client';
 import { useRouter } from 'next/router';
+import { AiFillIdcard } from 'react-icons/ai';
+import { MdManageAccounts } from 'react-icons/md';
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface AreaMembroMenuProps extends StackProps {}
@@ -50,7 +50,7 @@ export const AreaMembroMenu = ({ ...rest }: AreaMembroMenuProps) => {
 
   return (
     <Stack {...rest}>
-      <CustomChakraNextLink href="/atividades">
+      <CustomChakraNextLink href="/activities">
         <CustomButton
           leftIcon={
             <>

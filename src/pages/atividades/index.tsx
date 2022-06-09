@@ -1,4 +1,3 @@
-import { Box, Flex, HStack, Stack, useToast } from '@chakra-ui/react';
 import {
   CustomButton,
   CustomChakraNextLink,
@@ -6,18 +5,19 @@ import {
   PageHeading,
   VoltarButton,
 } from '@/components/atoms';
-import { FaDrum, FaPlus, FaVolleyballBall } from 'react-icons/fa';
+import { Box, Flex, HStack, Stack, useToast } from '@chakra-ui/react';
 import { useCallback, useContext, useEffect, useState } from 'react';
+import { FaDrum, FaPlus, FaVolleyballBall } from 'react-icons/fa';
 
-import { AiOutlineCalendar } from 'react-icons/ai';
 import { AtividadesSocioTable } from '@/components/molecules';
-import { AuthContext } from '@/contexts/AuthContext';
-import { CgTwilio } from 'react-icons/cg';
-import { GetServerSideProps } from 'next';
 import { Layout } from '@/components/templates';
-import { MdManageAccounts } from 'react-icons/md';
-import { parseCookies } from 'nookies';
+import { AuthContext } from '@/contexts/AuthContext';
+import { GetServerSideProps } from 'next';
 import { useRouter } from 'next/router';
+import { parseCookies } from 'nookies';
+import { AiOutlineCalendar } from 'react-icons/ai';
+import { CgTwilio } from 'react-icons/cg';
+import { MdManageAccounts } from 'react-icons/md';
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 interface AtividadesProps {}
@@ -31,7 +31,7 @@ function Atividades({}: AtividadesProps) {
   const handleCategoria = useCallback(
     (categoria: string) => {
       setCategoria(categoria);
-      router.replace(`/atividades?categoria=${categoria}`);
+      router.replace(`/activities?categoria=${categoria}`);
     },
     [router],
   );
@@ -109,7 +109,7 @@ function Atividades({}: AtividadesProps) {
           {user?.isStaff && (
             <>
               <CustomChakraNextLink
-                href={`${process.env.DIRETORIA_DOMAIN}/admin/atividades/programacao/add`}
+                href={`${process.env.DIRETORIA_DOMAIN}/admin/activities/programacao/add`}
                 chakraLinkProps={{
                   target: '_blank',
                 }}
@@ -123,7 +123,7 @@ function Atividades({}: AtividadesProps) {
                 </CustomButton>
               </CustomChakraNextLink>
               <CustomChakraNextLink
-                href={`${process.env.DIRETORIA_DOMAIN}/admin/atividades/programacao`}
+                href={`${process.env.DIRETORIA_DOMAIN}/admin/activities/programacao`}
                 chakraLinkProps={{
                   target: '_blank',
                 }}
