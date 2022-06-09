@@ -62,7 +62,7 @@ function Activities() {
   const { data, refetch } = useQuery<ActivitiesData>(ALL_ACTIVITIES, {
     context: {
       headers: {
-        Authorization: `JWT ${token}`,
+        Authorization: `JWT ${token || ''}`,
       },
     },
   });
