@@ -112,7 +112,7 @@ function Eventos() {
         .then(({ data }) => {
           if (!presencial) {
             toast({
-              title: 'Ingresso reservado, efetue o pagamento em até 1h!',
+              title: 'Ingresso reservado, efetue o pagamento em até 1h',
               status: 'success',
               duration: 2500,
               isClosable: true,
@@ -122,7 +122,7 @@ function Eventos() {
           } else {
             refetch();
             toast({
-              title: 'Ingresso reservado, efetue o pagamento em até 1h!',
+              title: 'Ingresso reservado, efetue o pagamento em até 1h',
               description: (
                 <Box mx="auto">
                   <Text>
@@ -174,7 +174,7 @@ function Eventos() {
         .then(({ data }) => {
           if (data.novoIngresso?.ok) {
             toast({
-              description: 'Participação confirmada!',
+              description: 'Participação confirmada',
               status: 'success',
               duration: 2500,
               isClosable: true,

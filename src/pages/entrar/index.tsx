@@ -88,7 +88,7 @@ export default function Entrar() {
           return pinInputFieldRef.current?.focus();
         } else {
           toast({
-            description: 'Matrícula não encontrada. Cadastre-se!',
+            description: 'Matrícula não encontrada. Cadastre-se',
             status: 'info',
             duration: 2500,
             isClosable: true,

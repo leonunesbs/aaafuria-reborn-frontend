@@ -139,7 +139,7 @@ function Intermed() {
       }).then(({ data: { createPayment } }) => {
         if (createPayment.paymentCreated) {
           toast({
-            title: 'Dados enviados com sucesso!',
+            title: 'Dados enviados com sucesso',
             description: 'Aguarde a confirmação do pagamento.',
             status: 'success',
             duration: 2500,
@@ -148,7 +148,7 @@ function Intermed() {
           });
         } else {
           toast({
-            title: 'Dados já recebidos!',
+            title: 'Dados já recebidos',
             status: 'info',
             duration: 2500,
             isClosable: true,
@@ -173,9 +173,9 @@ function Intermed() {
         }).then(({ data: { createIntermedProfile } }) => {
           if (createIntermedProfile.ok) {
             toast({
-              title: 'Dados salvos com sucesso!',
+              title: 'Dados salvos com sucesso',
               description:
-                'Seus dados foram enviados à organizadora, efetue o pagamento para confirmar sua inscrição!',
+                'Seus dados foram enviados à organizadora, efetue o pagamento para confirmar sua inscrição',
               status: 'success',
               duration: 2500,
               isClosable: true,

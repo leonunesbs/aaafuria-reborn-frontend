@@ -172,7 +172,7 @@ function AddPaymentDrawer({}: AddPaymentDrawerProps) {
         <form onSubmit={handleSubmit(onSubmit)}>
           <DrawerContent bgColor={bg}>
             <DrawerCloseButton color={green} />
-            <DrawerHeader>Novo pagamento</DrawerHeader>
+            <DrawerHeader fontFamily={'AACHENN'}>NOVO PAGAMENTO</DrawerHeader>
             <DrawerBody>
               <Stack>
                 <FormControl isRequired>

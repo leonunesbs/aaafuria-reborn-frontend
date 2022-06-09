@@ -1,72 +1,22 @@
 import {
-  AddMembershipDrawer,
-  AddPaymentDrawer,
-  Card,
-  PaymentsTable,
+  ActivitiesDashboardCard,
+  MembersDashboardCard,
+  PaymentsDashboardCard,
 } from '@/components/molecules';
-import {
-  Box,
-  Grid,
-  GridItem,
-  HStack,
-  Heading,
-  Stat,
-  StatGroup,
-  StatLabel,
-  StatNumber,
-  Table,
-  Tbody,
-  Td,
-  Th,
-  Thead,
-  Tr,
-  useToast,
-} from '@chakra-ui/react';
-import { CustomChakraNextLink, PageHeading } from '@/components/atoms';
+import { Box, Grid, GridItem, useToast } from '@chakra-ui/react';
 import React, { useContext, useEffect } from 'react';
-import { gql, useQuery } from '@apollo/client';
 
 import { AuthContext } from '@/contexts/AuthContext';
-import { ColorContext } from '@/contexts/ColorContext';
 import { GetServerSideProps } from 'next';
 import { Layout } from '@/components/templates';
+import { PageHeading } from '@/components/atoms';
 import { parseCookies } from 'nookies';
 import { useRouter } from 'next/router';
-
-const MEMBERSHIP_PLANS = gql`
-  query {
-    allMembershipPlans {
-      edges {
-        node {
-          id
-          name
-          count
-          isActive
-        }
-      }
-    }
-  }
-`;
-type MembershipPlans = {
-  allMembershipPlans: {
-    edges: {
-      node: {
-        id: string;
-        name: string;
-        count: number;
-        isActive: boolean;
-      };
-    }[];
-  };
-};
 
 function AreaDiretor() {
   const router = useRouter();
   const toast = useToast();
   const { user } = useContext(AuthContext);
-  const { green } = useContext(ColorContext);
-
-  const membershipPlans = useQuery<MembershipPlans>(MEMBERSHIP_PLANS);
 
   useEffect(() => {
     if (user?.isStaff === false) {
@@ -99,71 +49,13 @@ function AreaDiretor() {
           gap="2"
         >
           <GridItem area={'members'}>
-            <Card>
-              <HStack w="full" justify={'space-between'} mb={4}>
-                <Heading size="md" color={green}>
-                  ASSOCIAÇÕES
-                </Heading>
-                {membershipPlans.data && (
-                  <AddMembershipDrawer
-                    membershipPlans={
-                      membershipPlans.data.allMembershipPlans.edges
-                    }
-                  />
-                )}
-              </HStack>
-              <StatGroup>
-                {membershipPlans.data?.allMembershipPlans.edges.map(
-                  ({ node: { id, name, count } }) => (
-                    <Stat key={id}>
-                      <StatLabel>{name}</StatLabel>
-                      <StatNumber>{count}</StatNumber>
-                    </Stat>
-                  ),
-                )}
-              </StatGroup>
-            </Card>
+            <MembersDashboardCard />
           </GridItem>
           <GridItem area={'activities'}>
-            <Card>
-              <HStack mb={4} w="full" justify="space-between">
-                <Heading size="md" color={green}>
-                  ATIVIDADES
-                </Heading>
-              </HStack>
-              <Box>
-                <Table size="sm">
-                  <Thead>
-                    <Tr>
-                      <Th>Modalidade</Th>
-                      <Th isNumeric>Treinos no ano</Th>
-                      <Th isNumeric>Treinos agendados</Th>
-                      <Th isNumeric>Custo esperado</Th>
-                    </Tr>
-                  </Thead>
-                  <Tbody>
-                    <Tr>
-                      <Td colSpan={4} textAlign="center">
-                        Em construção
-                      </Td>
-                    </Tr>
-                  </Tbody>
-                </Table>
-              </Box>
-            </Card>
+            <ActivitiesDashboardCard />
           </GridItem>
           <GridItem area={'payments'}>
-            <Card>
-              <HStack mb={4} w="full" justify={'space-between'}>
-                <CustomChakraNextLink href={'/bank/payments'}>
-                  <Heading size="md" color={green}>
-                    PAGAMENTOS
-                  </Heading>
-                </CustomChakraNextLink>
-                <AddPaymentDrawer />
-              </HStack>
-              <PaymentsTable pageSize={5} />
-            </Card>
+            <PaymentsDashboardCard />
           </GridItem>
         </Grid>
       </Box>

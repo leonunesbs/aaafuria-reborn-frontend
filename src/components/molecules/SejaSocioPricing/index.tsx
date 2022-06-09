@@ -98,7 +98,7 @@ export const SejaSocioPricing = ({}: ISejaSocioPricing) => {
         'Participe dos treinos de todas as modalidades',
         'Participe dos ensaios da Carabina',
         'Ganhe desconto em produtos e eventos',
-        'Desconto no INTERMED!',
+        'Desconto no INTERMED',
         'Desconto no BONDE DO AHAM',
       ],
       membershipId: 'TWVtYmVyc2hpcFBsYW5Ob2RlOjc=',
@@ -145,8 +145,8 @@ export const SejaSocioPricing = ({}: ISejaSocioPricing) => {
     }
     setBillingPortalLoading(loading);
     toast({
-      title: 'Sucesso!',
-      description: 'Solicitação iniciada. Aguardando pagamento!',
+      title: 'Sucesso',
+      description: 'Solicitação iniciada. Aguardando pagamento',
       status: 'success',
       duration: 2500,
       isClosable: true,

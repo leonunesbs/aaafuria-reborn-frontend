@@ -143,7 +143,7 @@ function Solicitacoes() {
       })
         .then(() => {
           toast({
-            title: 'Solicitação criada com sucesso!',
+            title: 'Solicitação criada com sucesso',
             description: 'Um membro da equipe irá responder em breve.',
             status: 'success',
             duration: 2500,

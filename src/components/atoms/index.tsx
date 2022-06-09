@@ -1,3 +1,4 @@
+import { ActivityIconProps } from './ActivityIcon';
 import { CustomChakraNextLinkProps } from './CustomChakraNextLink';
 import { CustomIconButtonProps } from './CustomIconButton';
 import { FloatingCarrinhoPlantaoButtonProps } from './FloatingCarrinhoPlantaoButton';
@@ -10,10 +11,14 @@ import { NotificationBadgeProps } from './NotificationBadge';
 import { PageHeadingProps } from './PageHeading';
 import { PaymentMethodsProps } from './PaymentMethods';
 import { RefAttributes } from 'react';
+import { ScheduleCardProps } from './ScheduleCard';
 import { SejaSocioButtonProps } from './SejaSocioButton';
 import { VoltarButtonProps } from './VoltarButton';
 import dynamic from 'next/dynamic';
 
+export const ActivityIcon = dynamic<ActivityIconProps>(() =>
+  import('./ActivityIcon').then((mod) => mod.default),
+);
 export const AlertMessages = dynamic<IAlertMessages>(() =>
   import('./AlertMessages').then((mod) => mod.AlertMessages),
 );
@@ -68,6 +73,9 @@ export const PaymentMethods = dynamic<PaymentMethodsProps>(() =>
 
 export const PriceTag = dynamic<IPriceTag>(() =>
   import('./PriceTag').then((mod) => mod.PriceTag),
+);
+export const ScheduleCard = dynamic<ScheduleCardProps>(() =>
+  import('./ScheduleCard').then((mod) => mod.default),
 );
 
 export const SejaSocioButton = dynamic<SejaSocioButtonProps>(() =>

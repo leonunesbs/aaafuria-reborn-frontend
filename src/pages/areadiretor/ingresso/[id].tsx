@@ -116,7 +116,7 @@ const Ingresso = () => {
     })
       .then(() => {
         toast({
-          title: 'Ingresso invalidado com sucesso!',
+          title: 'Ingresso invalidado com sucesso',
           status: 'success',
           duration: 5000,
           position: 'top-left',

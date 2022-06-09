@@ -104,7 +104,7 @@ function Carteira() {
     if (user?.member.hasActiveMembership === false) {
       toast({
         title: 'Que pena! Você não é sócio...',
-        description: 'Mas nossa associação está aberta, Seja Sócio!',
+        description: 'Mas nossa associação está aberta, Seja Sócio',
         status: 'info',
         duration: 2500,
         isClosable: true,

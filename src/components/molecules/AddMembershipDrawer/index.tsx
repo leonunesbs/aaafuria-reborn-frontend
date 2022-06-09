@@ -173,7 +173,7 @@ function AddMembershipDrawer({ membershipPlans }: AddMembershipDrawerProps) {
         <form onSubmit={handleSubmit(onSubmit)}>
           <DrawerContent bgColor={bg}>
             <DrawerCloseButton color={green} />
-            <DrawerHeader>Nova associação</DrawerHeader>
+            <DrawerHeader fontFamily={'AACHENN'}>NOVA ASSOCIAÇÃO</DrawerHeader>
             <DrawerBody>
               <Stack>
                 <FormControl isRequired>
