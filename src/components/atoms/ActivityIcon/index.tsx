@@ -8,6 +8,7 @@ import {
 
 import { BiSwim } from 'react-icons/bi';
 import { ColorContext } from '@/contexts/ColorContext';
+import { FaDrum } from 'react-icons/fa';
 import { GiPokerHand } from 'react-icons/gi';
 import { Icon } from '@chakra-ui/react';
 import { RiBilliardsFill } from 'react-icons/ri';
@@ -22,6 +23,8 @@ function ActivityIcon({ activityName }: ActivityIconProps) {
   switch (activityName.toLowerCase()) {
     case 'futsal':
       return <Icon as={MdSportsSoccer} w="10" h="10" color={green} />;
+    case 'carabina':
+      return <Icon as={FaDrum} w="10" h="10" color={green} />;
     case 'society':
       return <Icon as={MdSportsSoccer} w="10" h="10" color={green} />;
     case 'basquete':
