@@ -378,12 +378,14 @@ function Payment() {
                       <Td textAlign={'right'}>
                         <HStack>
                           <Text>{data?.payment.method}</Text>
-                          <CustomIconButton
-                            icon={<MdLink size="20px" />}
-                            aria-label="link"
-                            onClick={handleCheckoutUrl}
-                            isLoading={checkoutUrlLoading}
-                          />
+                          {data?.payment.status === 'PENDENTE' && (
+                            <CustomIconButton
+                              icon={<MdLink size="20px" />}
+                              aria-label="link"
+                              onClick={handleCheckoutUrl}
+                              isLoading={checkoutUrlLoading}
+                            />
+                          )}
                         </HStack>
                       </Td>
                     </Tr>
