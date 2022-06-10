@@ -20,11 +20,7 @@ import {
   useMemo,
   useState,
 } from 'react';
-import {
-  CustomButton,
-  CustomChakraNextLink,
-  CustomIconButton,
-} from '@/components/atoms';
+import { CustomButton, CustomIconButton } from '@/components/atoms';
 import { MdCalendarToday, MdLogin } from 'react-icons/md';
 import { gql, useMutation } from '@apollo/client';
 
@@ -282,15 +278,11 @@ export const AtividadesSocioTableRow = ({
             )}
           </Box>
           {isAuthenticated && node.grupoWhatsappUrl && (
-            <CustomChakraNextLink
-              href={node.grupoWhatsappUrl}
-              chakraLinkProps={{ target: '_blank' }}
-            >
-              <CustomIconButton
-                aria-label={node.modalidade.nome}
-                icon={<FaWhatsapp size="25px" />}
-              />
-            </CustomChakraNextLink>
+            <CustomIconButton
+              aria-label={node.modalidade.nome}
+              icon={<FaWhatsapp size="25px" />}
+              onClick={() => router.push(node.grupoWhatsappUrl)}
+            />
           )}
         </Stack>
       </Stack>

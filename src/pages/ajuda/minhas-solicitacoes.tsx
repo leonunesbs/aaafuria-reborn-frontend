@@ -27,7 +27,6 @@ import {
 } from '@chakra-ui/react';
 import {
   CustomButton,
-  CustomChakraNextLink,
   CustomIconButton,
   PageHeading,
   VoltarButton,
@@ -189,14 +188,13 @@ function Solicitacoes() {
                   <Tr key={issue.node.id}>
                     <Td>
                       <HStack>
-                        <CustomChakraNextLink
-                          href={`/ajuda/solicitacao/${issue.node.id}`}
-                        >
-                          <CustomIconButton
-                            aria-label="view"
-                            icon={<FaEye size="15px" />}
-                          />
-                        </CustomChakraNextLink>
+                        <CustomIconButton
+                          aria-label="view"
+                          icon={<FaEye size="15px" />}
+                          onClick={() =>
+                            router.push(`/ajuda/solicitacao/${issue.node.id}`)
+                          }
+                        />
                       </HStack>
                     </Td>
                     <Td>{issue.node.title}</Td>
@@ -264,14 +262,13 @@ function Solicitacoes() {
             Nova solicitação
           </CustomButton>
           {user?.isStaff && (
-            <CustomChakraNextLink href={'/ajuda/gerenciar-solicitacoes'}>
-              <CustomButton
-                leftIcon={<MdHelpCenter size="25px" />}
-                colorScheme={'yellow'}
-              >
-                Gerenciar solicitações
-              </CustomButton>
-            </CustomChakraNextLink>
+            <CustomButton
+              leftIcon={<MdHelpCenter size="25px" />}
+              colorScheme={'yellow'}
+              onClick={() => router.push('/ajuda/gerenciar-solicitacoes')}
+            >
+              Gerenciar solicitações
+            </CustomButton>
           )}
           <VoltarButton href="/" />
         </Stack>

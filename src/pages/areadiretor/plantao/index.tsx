@@ -1,12 +1,11 @@
 import { Box, Stack } from '@chakra-ui/react';
 import {
   CustomButton,
-  CustomChakraNextLink,
   FloatingCarrinhoPlantaoButton,
   PageHeading,
   VoltarButton,
 } from '@/components/atoms';
-import React, { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 
 import { AuthContext } from '@/contexts/AuthContext';
 import { GetServerSideProps } from 'next';
@@ -30,11 +29,13 @@ function Plantao() {
   return (
     <Layout title="Plantão de vendas" position={'relative'}>
       {socioData && (
-        <CustomChakraNextLink
-          href={`/areadiretor/plantao/carrinho?m=${socioData.matricula}`}
-        >
-          <FloatingCarrinhoPlantaoButton />
-        </CustomChakraNextLink>
+        <FloatingCarrinhoPlantaoButton
+          onClick={() =>
+            router.push(
+              `/areadiretor/plantao/carrinho?m=${socioData.matricula}`,
+            )
+          }
+        />
       )}
       <Box maxW="7xl" mx="auto">
         <PageHeading>Plantão de vendas</PageHeading>
@@ -46,16 +47,17 @@ function Plantao() {
       </Box>
       <Stack mt={10} align="center">
         {socioData && (
-          <CustomChakraNextLink
-            href={`/areadiretor/plantao/carrinho?m=${socioData.matricula}`}
+          <CustomButton
+            colorScheme="gray"
+            leftIcon={<MdShoppingCart size="25px" />}
+            onClick={() =>
+              router.push(
+                `/areadiretor/plantao/carrinho?m=${socioData.matricula}`,
+              )
+            }
           >
-            <CustomButton
-              colorScheme="gray"
-              leftIcon={<MdShoppingCart size="25px" />}
-            >
-              Ir para o carrinho
-            </CustomButton>
-          </CustomChakraNextLink>
+            Ir para o carrinho
+          </CustomButton>
         )}
         <VoltarButton href="/areadiretor" />
       </Stack>

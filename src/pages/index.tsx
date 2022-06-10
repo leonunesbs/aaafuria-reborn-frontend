@@ -1,35 +1,36 @@
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
 
 import {
+  Box,
+  Center,
+  Circle,
+  HStack,
+  Heading,
+  Stack,
+  Text,
+  chakra,
+  useColorModeValue,
+} from '@chakra-ui/react';
+import { Card, SejaSocioPricing } from '@/components/molecules';
+import {
   CustomButton,
   CustomChakraNextLink,
   CustomIconButton,
   PageHeading,
 } from '@/components/atoms';
-import { Card, SejaSocioPricing } from '@/components/molecules';
-import {
-  Box,
-  Center,
-  chakra,
-  Circle,
-  Heading,
-  HStack,
-  Stack,
-  Text,
-  useColorModeValue,
-} from '@chakra-ui/react';
-import { useContext, useRef } from 'react';
 import { FaDrum, FaVolleyballBall } from 'react-icons/fa';
+import { useContext, useRef } from 'react';
 
-import { Layout } from '@/components/templates/Layout';
+import { Carousel } from 'react-responsive-carousel';
 import { ColorContext } from '@/contexts/ColorContext';
-import client from '@/services/apollo-client';
-import { gql } from '@apollo/client';
-import NextImage from 'next/image';
 import CountUp from 'react-countup';
 import { GiPartyPopper } from 'react-icons/gi';
+import { Layout } from '@/components/templates/Layout';
 import { MdStore } from 'react-icons/md';
-import { Carousel } from 'react-responsive-carousel';
+import NextImage from 'next/image';
+import client from '@/services/apollo-client';
+import { gql } from '@apollo/client';
+import { useRouter } from 'next/router';
 
 type FeaturePostData = {
   id: string;
@@ -53,6 +54,7 @@ interface HomeProps {
 }
 
 function Home({ post, partnerships }: HomeProps) {
+  const router = useRouter();
   const sejaSocioDiv = useRef<HTMLDivElement>(null);
   const postDiv = useRef<HTMLDivElement>(null);
   const featuresDiv = useRef<HTMLDivElement>(null);
@@ -226,11 +228,12 @@ function Home({ post, partnerships }: HomeProps) {
                     Seja sócio
                   </CustomButton>
                   {post.buttonTarget && (
-                    <CustomChakraNextLink href={post.buttonTarget}>
-                      <CustomButton variant={'outline'}>
-                        Saiba mais
-                      </CustomButton>
-                    </CustomChakraNextLink>
+                    <CustomButton
+                      variant={'outline'}
+                      onClick={() => router.push(post.buttonTarget)}
+                    >
+                      Saiba mais
+                    </CustomButton>
                   )}
                 </Stack>
               </Stack>
@@ -263,13 +266,12 @@ function Home({ post, partnerships }: HomeProps) {
             <Stack>
               <Card maxW="xl">
                 <HStack align="flex-start">
-                  <CustomChakraNextLink href={'/loja'}>
-                    <CustomIconButton
-                      variant={'solid'}
-                      aria-label="esportes"
-                      icon={<MdStore size="25px" />}
-                    />
-                  </CustomChakraNextLink>
+                  <CustomIconButton
+                    variant={'solid'}
+                    aria-label="esportes"
+                    icon={<MdStore size="25px" />}
+                    onClick={() => router.push('/loja')}
+                  />
                   <Stack p={2}>
                     <CustomChakraNextLink
                       href="/loja"
@@ -293,24 +295,19 @@ function Home({ post, partnerships }: HomeProps) {
               <Card maxW="xl">
                 <HStack align="flex-start">
                   <Stack>
-                    <CustomChakraNextLink
-                      href={'/activities?categoria=Esporte'}
-                    >
-                      <CustomIconButton
-                        variant={'solid'}
-                        aria-label="esportes"
-                        icon={<FaVolleyballBall size="25px" />}
-                      />
-                    </CustomChakraNextLink>
-                    <CustomChakraNextLink
-                      href={'/activities?categoria=Bateria'}
-                    >
-                      <CustomIconButton
-                        variant={'solid'}
-                        aria-label="bateria"
-                        icon={<FaDrum size="25px" />}
-                      />
-                    </CustomChakraNextLink>
+                    <CustomIconButton
+                      variant={'solid'}
+                      aria-label="esportes"
+                      icon={<FaVolleyballBall size="25px" />}
+                      onClick={() => router.push('/activities')}
+                    />
+
+                    <CustomIconButton
+                      variant={'solid'}
+                      aria-label="bateria"
+                      icon={<FaDrum size="25px" />}
+                      onClick={() => router.push('/activities')}
+                    />
                   </Stack>
                   <Stack p={2}>
                     <CustomChakraNextLink
@@ -335,13 +332,12 @@ function Home({ post, partnerships }: HomeProps) {
               </Card>
               <Card maxW="xl">
                 <HStack align="flex-start">
-                  <CustomChakraNextLink href={'/eventos'}>
-                    <CustomIconButton
-                      variant={'solid'}
-                      aria-label="eventos"
-                      icon={<GiPartyPopper size="25px" />}
-                    />
-                  </CustomChakraNextLink>
+                  <CustomIconButton
+                    variant={'solid'}
+                    aria-label="eventos"
+                    icon={<GiPartyPopper size="25px" />}
+                    onClick={() => router.push('/eventos')}
+                  />
                   <Stack p={2}>
                     <CustomChakraNextLink
                       href="/eventos"

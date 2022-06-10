@@ -10,7 +10,6 @@ import {
   Tr,
 } from '@chakra-ui/react';
 import {
-  CustomChakraNextLink,
   CustomIconButton,
   PageHeading,
   VoltarButton,
@@ -24,6 +23,7 @@ import { Layout } from '@/components/templates/Layout';
 import { MdMoreHoriz } from 'react-icons/md';
 import { parseCookies } from 'nookies';
 import { useContext } from 'react';
+import { useRouter } from 'next/router';
 
 const MY_PAYMENTS = gql`
   query MyPayments {
@@ -58,6 +58,7 @@ type MyPaymentsData = {
 };
 
 function MyPayments() {
+  const router = useRouter();
   const { token } = useContext(AuthContext);
   const { data } = useQuery<MyPaymentsData>(MY_PAYMENTS, {
     context: {
@@ -109,12 +110,11 @@ function MyPayments() {
                     </Text>
                   </Td>
                   <Td>
-                    <CustomChakraNextLink href={`/bank/payment/${node.id}`}>
-                      <CustomIconButton
-                        icon={<MdMoreHoriz size="20px" />}
-                        aria-label="ver mais"
-                      />
-                    </CustomChakraNextLink>
+                    <CustomIconButton
+                      icon={<MdMoreHoriz size="20px" />}
+                      aria-label="ver mais"
+                      onClick={() => router.push(`/bank/payment/${node.id}`)}
+                    />
                   </Td>
                 </Tr>
               ))}

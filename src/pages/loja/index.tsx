@@ -1,12 +1,4 @@
 import {
-  CustomButton,
-  CustomChakraNextLink,
-  CustomIconButton,
-  PageHeading,
-  VoltarButton,
-} from '@/components/atoms';
-import { gql, useQuery } from '@apollo/client';
-import {
   Badge,
   Box,
   Center,
@@ -20,17 +12,25 @@ import {
   Stack,
   Text,
 } from '@chakra-ui/react';
-import { useCallback, useContext, useState } from 'react';
-import { SubmitHandler, useForm } from 'react-hook-form';
+import {
+  CustomButton,
+  CustomIconButton,
+  PageHeading,
+  VoltarButton,
+} from '@/components/atoms';
 import { MdSend, MdShoppingCart } from 'react-icons/md';
+import { SubmitHandler, useForm } from 'react-hook-form';
+import { gql, useQuery } from '@apollo/client';
+import { useCallback, useContext, useState } from 'react';
 
-import { ProdutoCard } from '@/components/molecules';
-import { Layout } from '@/components/templates';
+import { AiOutlineUnorderedList } from 'react-icons/ai';
 import { AuthContext } from '@/contexts/AuthContext';
 import { ColorContext } from '@/contexts/ColorContext';
-import client from '@/services/apollo-client';
 import { GetStaticProps } from 'next';
-import { AiOutlineUnorderedList } from 'react-icons/ai';
+import { Layout } from '@/components/templates';
+import { ProdutoCard } from '@/components/molecules';
+import client from '@/services/apollo-client';
+import { useRouter } from 'next/router';
 
 const DIGITAL_ITEMS = gql`
   query getDigitalItems {
@@ -91,6 +91,7 @@ type QueryData = {
 };
 
 function Loja() {
+  const router = useRouter();
   const { data: produtos, loading } = useQuery<QueryData>(DIGITAL_ITEMS);
   const { user, token } = useContext(AuthContext);
   const { green } = useContext(ColorContext);
@@ -138,12 +139,12 @@ function Loja() {
             <Spinner color={green} mx={'auto'} />
           </Center>
         )}
-        <Box maxW="md" mb={4}>
+        <Box mb={4}>
           {user?.isStaff && (
             <FormControl>
               <form onSubmit={handleSubmit(onSubmit)}>
                 <FormLabel htmlFor="registration">
-                  <Text>
+                  <Text fontSize={'xs'}>
                     Cliente: {member?.memberByRegistration?.name}
                     {member?.memberByRegistration?.hasActiveMembership && (
                       <Badge colorScheme={'green'} ml={2}>
@@ -152,10 +153,11 @@ function Loja() {
                     )}
                   </Text>
                 </FormLabel>
-                <InputGroup>
+                <InputGroup maxW="2xs" size={'sm'}>
                   <Input
                     placeholder="Matrícula"
                     focusBorderColor={green}
+                    rounded="md"
                     {...register('registration')}
                   />
                   <InputRightElement>
@@ -191,22 +193,20 @@ function Loja() {
           </Text>
         )}
         <Stack mt={10}>
-          <CustomChakraNextLink href="/cart">
-            <CustomButton
-              colorScheme="gray"
-              leftIcon={<MdShoppingCart size="25px" />}
-            >
-              Carrinho
-            </CustomButton>
-          </CustomChakraNextLink>
-          <CustomChakraNextLink href="/loja/meus-pedidos">
-            <CustomButton
-              colorScheme="gray"
-              leftIcon={<AiOutlineUnorderedList size="25px" />}
-            >
-              Meus pedidos
-            </CustomButton>
-          </CustomChakraNextLink>
+          <CustomButton
+            colorScheme="gray"
+            leftIcon={<MdShoppingCart size="25px" />}
+            onClick={() => router.push('/cart')}
+          >
+            Carrinho
+          </CustomButton>
+          <CustomButton
+            colorScheme="gray"
+            leftIcon={<AiOutlineUnorderedList size="25px" />}
+            onClick={() => router.push('/loja/meus-pedidos')}
+          >
+            Meus pedidos
+          </CustomButton>
           <VoltarButton href="/" />
         </Stack>
       </Box>

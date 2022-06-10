@@ -19,7 +19,6 @@ import {
 import {
   ColorModeToggle,
   CustomButton,
-  CustomChakraNextLink,
   CustomIconButton,
 } from '@/components/atoms';
 import { FaDrum, FaVolleyballBall } from 'react-icons/fa';
@@ -61,98 +60,93 @@ export const Header = () => {
       >
         <HStack spacing={10}>
           <Center>
-            <CustomChakraNextLink href="/">
-              <Box
-                height={['80px', '100px']}
-                width={['130px', '160px']}
-                position="relative"
-              >
-                <ChakraNextImage
-                  placeholder="blur"
-                  layout="fill"
-                  objectFit="cover"
-                  src={'/logo-aaafuria-h.webp'}
-                  blurDataURL={'/logo-aaafuria-h.webp'}
-                  quality={1}
-                  alt="logo"
-                  mx="auto"
-                  mb={{ base: '8', md: '12' }}
-                  draggable={false}
-                  filter="drop-shadow(0.12rem 0.15rem 0.15rem rgba(0, 0, 0, 0.1))"
-                />
-              </Box>
-            </CustomChakraNextLink>
+            <Box
+              height={['80px', '100px']}
+              width={['130px', '160px']}
+              position="relative"
+              onClick={() => router.push('/')}
+            >
+              <ChakraNextImage
+                placeholder="blur"
+                layout="fill"
+                objectFit="cover"
+                src={'/logo-aaafuria-h.webp'}
+                blurDataURL={'/logo-aaafuria-h.webp'}
+                quality={1}
+                alt="logo"
+                mx="auto"
+                mb={{ base: '8', md: '12' }}
+                draggable={false}
+                filter="drop-shadow(0.12rem 0.15rem 0.15rem rgba(0, 0, 0, 0.1))"
+              />
+            </Box>
           </Center>
-          <HStack display={['none', 'none', 'flex']}>
-            <CustomChakraNextLink href="/">
-              <CustomButton variant={'ghost'} isActive={router.asPath == '/'}>
-                Início
-              </CustomButton>
-            </CustomChakraNextLink>
-            <CustomChakraNextLink href="/loja">
-              <CustomButton
-                variant={'ghost'}
-                isActive={router.asPath == '/loja'}
-              >
-                Loja
-              </CustomButton>
-            </CustomChakraNextLink>
-            <CustomChakraNextLink href="/activities">
-              <CustomButton
-                variant={'ghost'}
-                isActive={router.asPath == '/activities'}
-              >
-                Atividades
-              </CustomButton>
-            </CustomChakraNextLink>
-            <CustomChakraNextLink href="/eventos">
-              <CustomButton
-                variant={'ghost'}
-                isActive={router.asPath == '/eventos'}
-                isDisabled
-              >
-                Eventos
-              </CustomButton>
-            </CustomChakraNextLink>
-            <CustomChakraNextLink href="/ajuda/minhas-solicitacoes">
-              <CustomButton
-                variant={'solid'}
-                isActive={router.asPath == '/ajuda/minhas-solicitacoes'}
-              >
-                Ajuda
-              </CustomButton>
-            </CustomChakraNextLink>
+          <HStack display={['none', 'none', 'flex']} spacing={4}>
+            <CustomButton
+              variant={'ghost'}
+              isActive={router.asPath == '/'}
+              onClick={() => router.push('/')}
+            >
+              Início
+            </CustomButton>
+            <CustomButton
+              variant={'ghost'}
+              isActive={router.asPath == '/loja'}
+              onClick={() => router.push('/loja')}
+            >
+              Loja
+            </CustomButton>
+            <CustomButton
+              variant={'ghost'}
+              isActive={router.asPath == '/activities'}
+              onClick={() => router.push('/activities')}
+            >
+              Atividades
+            </CustomButton>
+            <CustomButton
+              variant={'ghost'}
+              isActive={router.asPath == '/eventos'}
+              isDisabled
+              onClick={() => router.push('/eventos')}
+            >
+              Eventos
+            </CustomButton>
+            <CustomButton
+              variant={'solid'}
+              isActive={router.asPath == '/ajuda/minhas-solicitacoes'}
+              onClick={() => router.push('/ajuda/minhas-solicitacoes')}
+            >
+              Ajuda
+            </CustomButton>
           </HStack>
         </HStack>
         <HStack spacing={[2, 2, 4]}>
           <ColorModeToggle />
           {isAuthenticated ? (
-            <CustomChakraNextLink href={'/carteirinha'}>
-              <Avatar
-                display={['none', 'none', 'flex']}
-                name={user?.member.name}
-                src={user?.member.avatar}
-                border={
-                  user?.member.hasActiveMembership
-                    ? '2px solid green'
-                    : '2px solid gray'
-                }
-              />
-            </CustomChakraNextLink>
+            <Avatar
+              display={['none', 'none', 'flex']}
+              name={user?.member.name}
+              src={user?.member.avatar}
+              border={
+                user?.member.hasActiveMembership
+                  ? '2px solid green'
+                  : '2px solid gray'
+              }
+              onClick={() => router.push('/carteirinha')}
+            />
           ) : (
-            <CustomChakraNextLink
-              href={'/entrar'}
-              chakraLinkProps={{
-                display: ['none', 'none', 'flex'],
-              }}
+            <CustomButton
+              display={['none', 'none', 'flex']}
+              onClick={() => router.push('/entrar')}
             >
-              <CustomButton>Entrar</CustomButton>
-            </CustomChakraNextLink>
+              Entrar
+            </CustomButton>
           )}
           <CustomIconButton
             ref={btnRef}
             aria-label="hamburguer-menu"
             onClick={onToggle}
+            variant="link"
             icon={
               <Hamburger
                 toggled={isOpen}
@@ -170,28 +164,29 @@ export const Header = () => {
         <DrawerContent bgColor={green} pr={6}>
           <DrawerCloseButton color={bg} mr={6} />
           <DrawerHeader shadow={'base'} borderBottomRadius={'md'}>
-            <CustomChakraNextLink
-              href="/"
-              chakraLinkProps={{
-                onClick: onClose,
+            <Box
+              height={['100px']}
+              width={['160px']}
+              position="relative"
+              onClick={() => {
+                onClose();
+                router.push('/');
               }}
             >
-              <Box height={['100px']} width={['160px']} position="relative">
-                <ChakraNextImage
-                  placeholder="blur"
-                  layout="fill"
-                  objectFit="cover"
-                  src={'/logo-aaafuria-h.webp'}
-                  blurDataURL={'/logo-aaafuria-h.webp'}
-                  quality={1}
-                  alt="logo"
-                  mx="auto"
-                  mb={{ base: '8', md: '12' }}
-                  draggable={false}
-                  filter="drop-shadow(0.12rem 0.15rem 0.15rem rgba(0, 0, 0, 0.1))"
-                />
-              </Box>
-            </CustomChakraNextLink>
+              <ChakraNextImage
+                placeholder="blur"
+                layout="fill"
+                objectFit="cover"
+                src={'/logo-aaafuria-h.webp'}
+                blurDataURL={'/logo-aaafuria-h.webp'}
+                quality={1}
+                alt="logo"
+                mx="auto"
+                mb={{ base: '8', md: '12' }}
+                draggable={false}
+                filter="drop-shadow(0.12rem 0.15rem 0.15rem rgba(0, 0, 0, 0.1))"
+              />
+            </Box>
           </DrawerHeader>
 
           <DrawerBody

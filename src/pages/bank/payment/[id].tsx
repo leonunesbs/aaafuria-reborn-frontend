@@ -18,11 +18,7 @@ import {
   useDisclosure,
   useToast,
 } from '@chakra-ui/react';
-import {
-  CustomButton,
-  CustomChakraNextLink,
-  PageHeading,
-} from '@/components/atoms';
+import { CustomButton, PageHeading } from '@/components/atoms';
 import { MdAdd, MdDelete, MdLink, MdSave } from 'react-icons/md';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { gql, useMutation, useQuery } from '@apollo/client';
@@ -525,9 +521,9 @@ function Payment() {
           </Stack>
 
           <Stack>
-            <CustomChakraNextLink href={'/bank/my-payments'}>
-              <CustomButton>Meus pagamentos</CustomButton>
-            </CustomChakraNextLink>
+            <CustomButton onClick={() => router.push('/bank/my-payments')}>
+              Meus pagamentos
+            </CustomButton>
             {user?.isStaff && (
               <Stack>
                 {!data?.payment.paid && !data?.payment.expired && (
@@ -570,11 +566,12 @@ function Payment() {
                     Invalidar pagamento
                   </CustomButton>
                 )}
-                <CustomChakraNextLink href={'/bank/payments'}>
-                  <CustomButton colorScheme="yellow">
-                    Gerenciar pagamentos
-                  </CustomButton>
-                </CustomChakraNextLink>
+                <CustomButton
+                  colorScheme="yellow"
+                  onClick={() => router.push('/bank/payments')}
+                >
+                  Gerenciar pagamentos
+                </CustomButton>
               </Stack>
             )}
           </Stack>

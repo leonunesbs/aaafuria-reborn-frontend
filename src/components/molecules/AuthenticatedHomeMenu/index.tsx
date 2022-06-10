@@ -1,10 +1,6 @@
-import {
-  AreaDiretorButton,
-  CustomButton,
-  CustomChakraNextLink,
-} from '@/components/atoms';
+import { AreaDiretorButton, CustomButton } from '@/components/atoms';
 import { MdLogout, MdPerson } from 'react-icons/md';
-import React, { useCallback, useContext } from 'react';
+import { useCallback, useContext } from 'react';
 
 import { AuthContext } from '@/contexts/AuthContext';
 import { IAuthenticatedHomeMenu } from './IAuthenticatedHomeMenu';
@@ -28,15 +24,16 @@ export const AuthenticatedHomeMenu = ({}: IAuthenticatedHomeMenu) => {
 
   return (
     <>
-      <CustomChakraNextLink href="/areamembro">
-        <CustomButton
-          name="area-socio"
-          leftIcon={<MdPerson size="20px" />}
-          onClick={onClickAreaSocio}
-        >
-          Área do Membro
-        </CustomButton>
-      </CustomChakraNextLink>
+      <CustomButton
+        name="area-socio"
+        leftIcon={<MdPerson size="20px" />}
+        onClick={() => {
+          onClickAreaSocio();
+          router.push('/areamembro');
+        }}
+      >
+        Área do Membro
+      </CustomButton>
       <AreaDiretorButton />
       <CustomButton
         name="sair"

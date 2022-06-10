@@ -198,14 +198,13 @@ function GerenciarSolicitacoes() {
                     </Badge>
                   </Td>
                   <Td>
-                    <CustomChakraNextLink
-                      href={`/ajuda/solicitacao/${node.id}`}
-                    >
-                      <CustomIconButton
-                        aria-label="view"
-                        icon={<FaEye size="15px" />}
-                      />
-                    </CustomChakraNextLink>
+                    <CustomIconButton
+                      aria-label="view"
+                      icon={<FaEye size="15px" />}
+                      onClick={() =>
+                        router.push(`/ajuda/solicitacao/${node.id}`)
+                      }
+                    />
                   </Td>
                 </Tr>
               ))}

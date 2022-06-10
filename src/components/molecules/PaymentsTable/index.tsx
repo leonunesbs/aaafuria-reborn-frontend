@@ -17,7 +17,6 @@ import {
   Thead,
   Tr,
 } from '@chakra-ui/react';
-import { CustomChakraNextLink, CustomIconButton } from '@/components/atoms';
 import {
   MdMoreHoriz,
   MdNavigateBefore,
@@ -29,6 +28,7 @@ import { useCallback, useContext, useState } from 'react';
 
 import { AuthContext } from '@/contexts/AuthContext';
 import { ColorContext } from '@/contexts/ColorContext';
+import { CustomIconButton } from '@/components/atoms';
 import { useRouter } from 'next/router';
 
 const ALL_PAYMENTS = gql`
@@ -240,12 +240,11 @@ function PaymentsTable({ pageSize = 10 }: PaymentsTableProps) {
                   </Text>
                 </Td>
                 <Td>
-                  <CustomChakraNextLink href={`/bank/payment/${node.id}`}>
-                    <CustomIconButton
-                      icon={<MdMoreHoriz size="20px" />}
-                      aria-label="ver mais"
-                    />
-                  </CustomChakraNextLink>
+                  <CustomIconButton
+                    icon={<MdMoreHoriz size="20px" />}
+                    aria-label="ver mais"
+                    onClick={() => router.push(`/bank/payment/${node.id}`)}
+                  />
                 </Td>
               </Tr>
             ))}

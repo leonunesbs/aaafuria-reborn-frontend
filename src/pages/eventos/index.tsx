@@ -14,12 +14,7 @@ import {
   useColorModeValue,
   useToast,
 } from '@chakra-ui/react';
-import {
-  CustomButton,
-  CustomChakraNextLink,
-  PageHeading,
-  VoltarButton,
-} from '@/components/atoms';
+import { CustomButton, PageHeading, VoltarButton } from '@/components/atoms';
 import { FaTicketAlt, FaWhatsapp } from 'react-icons/fa';
 import { MdLogin, MdPayment, MdSend } from 'react-icons/md';
 import { gql, useMutation, useQuery } from '@apollo/client';
@@ -401,15 +396,14 @@ function Eventos() {
         </Text>
       )}
       <Stack mt={4} align="center">
-        <CustomChakraNextLink href="/eventos/meus-ingressos">
-          <CustomButton
-            mt={4}
-            colorScheme="gray"
-            leftIcon={<FaTicketAlt size="25px" />}
-          >
-            Meus ingressos
-          </CustomButton>
-        </CustomChakraNextLink>
+        <CustomButton
+          mt={4}
+          colorScheme="gray"
+          leftIcon={<FaTicketAlt size="25px" />}
+          onClick={() => router.push('/eventos/meus-ingressos')}
+        >
+          Meus ingressos
+        </CustomButton>
         <VoltarButton href="/" />
       </Stack>
     </Layout>
