@@ -1,11 +1,17 @@
 import {
+  CustomButton,
+  CustomChakraNextLink,
+  PageHeading,
+} from '@/components/atoms';
+import { gql, useMutation, useQuery } from '@apollo/client';
+import {
   Badge,
   Box,
   Collapse,
   FormControl,
   FormLabel,
-  HStack,
   Heading,
+  HStack,
   Input,
   Stack,
   Table,
@@ -18,24 +24,19 @@ import {
   useDisclosure,
   useToast,
 } from '@chakra-ui/react';
-import {
-  CustomButton,
-  CustomChakraNextLink,
-  PageHeading,
-} from '@/components/atoms';
-import { MdAdd, MdDelete, MdLink, MdSave } from 'react-icons/md';
-import { SubmitHandler, useForm } from 'react-hook-form';
-import { gql, useMutation, useQuery } from '@apollo/client';
 import { useCallback, useContext } from 'react';
+import { SubmitHandler, useForm } from 'react-hook-form';
+import { MdAdd, MdDelete, MdLink, MdSave } from 'react-icons/md';
 
-import { AuthContext } from '@/contexts/AuthContext';
-import { Card } from '@/components/molecules';
-import { ColorContext } from '@/contexts/ColorContext';
 import { CustomIconButton } from '@/components/atoms/CustomIconButton';
-import { GetServerSideProps } from 'next';
+import { Card } from '@/components/molecules';
 import { Layout } from '@/components/templates';
-import { parseCookies } from 'nookies';
+import { AuthContext } from '@/contexts/AuthContext';
+import { ColorContext } from '@/contexts/ColorContext';
+import { GetServerSideProps } from 'next';
 import { useRouter } from 'next/router';
+import { parseCookies } from 'nookies';
+import { Url } from 'url';
 
 const GET_PAYMENT = gql`
   query getPayment($id: ID) {
@@ -74,6 +75,14 @@ const GET_PAYMENT = gql`
   }
 `;
 
+const CHECKOUT_URL = gql`
+  mutation getCheckoutUrl($paymentId: ID!) {
+    checkoutUrl(paymentId: $paymentId) {
+      url
+    }
+  }
+`;
+
 const CONFIRM_PAYMENT = gql`
   mutation confirmPayment($paymentId: ID!, $description: String!) {
     confirmPayment(paymentId: $paymentId, description: $description) {
@@ -81,6 +90,7 @@ const CONFIRM_PAYMENT = gql`
     }
   }
 `;
+
 const CANCEL_PAYMENT = gql`
   mutation cancelPayment($paymentId: ID!, $description: String!) {
     cancelPayment(paymentId: $paymentId, description: $description) {
@@ -147,13 +157,23 @@ type AttachmentForm = {
 
 function Payment() {
   const toast = useToast();
+  const router = useRouter();
   const { token, user } = useContext(AuthContext);
   const { green } = useContext(ColorContext);
   const { onToggle: toggleAttach, isOpen: attachOpen } = useDisclosure();
-  const router = useRouter();
   const { id } = router.query;
 
   const attachmentForm = useForm<AttachmentForm>();
+
+  const [checkoutUrl, { loading: checkoutUrlLoading }] = useMutation<{
+    checkoutUrl: {
+      url: Url;
+    };
+  }>(CHECKOUT_URL, {
+    variables: {
+      paymentId: id,
+    },
+  });
 
   const [cancelPayment, { loading: cancelPaymentLoading }] = useMutation(
     CANCEL_PAYMENT,
@@ -205,6 +225,12 @@ function Payment() {
       },
     },
   });
+
+  const handleCheckoutUrl = useCallback(async () => {
+    checkoutUrl().then(({ data }) => {
+      router.push(data?.checkoutUrl.url as Url);
+    });
+  }, [checkoutUrl, router]);
 
   const handleSaveAttachment: SubmitHandler<AttachmentForm> = useCallback(
     async ({ title, file }) => {
@@ -350,7 +376,15 @@ function Payment() {
                         <Text>Método:</Text>
                       </Td>
                       <Td textAlign={'right'}>
-                        <Text>{data?.payment.method}</Text>
+                        <HStack>
+                          <Text>{data?.payment.method}</Text>
+                          <CustomIconButton
+                            icon={<MdLink size="20px" />}
+                            aria-label="link"
+                            onClick={handleCheckoutUrl}
+                            isLoading={checkoutUrlLoading}
+                          />
+                        </HStack>
                       </Td>
                     </Tr>
                     <Tr>
