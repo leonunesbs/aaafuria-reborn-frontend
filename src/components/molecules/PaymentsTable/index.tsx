@@ -25,10 +25,11 @@ import {
   MdRefresh,
 } from 'react-icons/md';
 import { gql, useQuery } from '@apollo/client';
+import { useCallback, useContext, useState } from 'react';
 
 import { AuthContext } from '@/contexts/AuthContext';
 import { ColorContext } from '@/contexts/ColorContext';
-import { useContext } from 'react';
+import { useRouter } from 'next/router';
 
 const ALL_PAYMENTS = gql`
   query allPayments($page: Int = 1, $status: String, $pageSize: Int) {
@@ -85,6 +86,12 @@ type PaymentsData = {
 };
 
 function PaymentsTable({ pageSize = 10 }: PaymentsTableProps) {
+  const router = useRouter();
+  const { page: initialPage, status: initialStatus } = router.query;
+  const [page, setPage] = useState(
+    initialPage ? parseInt(initialPage as string) : 1,
+  );
+  const [status, setStatus] = useState(initialStatus as string);
   const { green } = useContext(ColorContext);
   const { token } = useContext(AuthContext);
 
@@ -96,24 +103,44 @@ function PaymentsTable({ pageSize = 10 }: PaymentsTableProps) {
     },
     variables: {
       pageSize: pageSize,
+      page: page,
+      status: status,
     },
   });
 
-  const handleNextPage = () => {
+  const handleNextPage = useCallback(async () => {
     if (data?.allPayments.hasNext) {
-      refetch({
+      await refetch({
         page: data.allPayments.page + 1,
+      }).then(() => {
+        setPage(data.allPayments.page + 1);
+        router.push('/bank/payments', {
+          query: {
+            ...router.query,
+            page: data.allPayments.page + 1,
+            status: status,
+          },
+        });
       });
     }
-  };
+  }, [data, refetch, router, status, setPage]);
 
-  const handlePreviousPage = () => {
+  const handlePreviousPage = useCallback(async () => {
     if (data?.allPayments.hasPrev) {
-      refetch({
+      await refetch({
         page: data.allPayments.page - 1,
+      }).then(() => {
+        setPage(data.allPayments.page - 1);
+        router.replace('/bank/payments', {
+          query: {
+            ...router.query,
+            page: data.allPayments.page - 1,
+            status: status,
+          },
+        });
       });
     }
-  };
+  }, [data, refetch, router, status, setPage]);
 
   return (
     <>
@@ -131,6 +158,13 @@ function PaymentsTable({ pageSize = 10 }: PaymentsTableProps) {
                 refetch({
                   status: value,
                 });
+                router.replace('/bank/payments', {
+                  query: {
+                    page,
+                    status: value,
+                  },
+                });
+                setStatus(value as string);
               }}
             >
               <MenuItemOption value="">Todos</MenuItemOption>
