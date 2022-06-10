@@ -51,7 +51,7 @@ export const ProdutoCard = ({ node: product }: { node: ProductType }) => {
   const onSubmit: SubmitHandler<any> = useCallback(
     (formData) => {
       if (!isAuthenticated) {
-        router.push(`entrar?after=${router.asPath}`);
+        router.push(`/entrar?after=${router.asPath}`);
       }
       const productId = formData.variacaoId || product.id;
       const quantidade = 1;

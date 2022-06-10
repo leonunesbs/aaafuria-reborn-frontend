@@ -335,7 +335,7 @@ function Home({ post, partnerships }: HomeProps) {
               </Card>
               <Card maxW="xl">
                 <HStack align="flex-start">
-                  <CustomChakraNextLink href={'eventos'}>
+                  <CustomChakraNextLink href={'/eventos'}>
                     <CustomIconButton
                       variant={'solid'}
                       aria-label="eventos"

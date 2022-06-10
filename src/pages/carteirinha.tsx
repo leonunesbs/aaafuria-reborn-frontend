@@ -1,4 +1,9 @@
 import {
+  CarteirinhaInput,
+  PageHeading,
+  VoltarButton,
+} from '@/components/atoms';
+import {
   Avatar,
   Box,
   BoxProps,
@@ -17,21 +22,16 @@ import {
   Text,
   useColorModeValue,
 } from '@chakra-ui/react';
-import {
-  CarteirinhaInput,
-  PageHeading,
-  VoltarButton,
-} from '@/components/atoms';
-import React, { useContext } from 'react';
+import { useContext } from 'react';
 
-import { AuthContext } from '@/contexts/AuthContext';
 import { Card } from '@/components/molecules';
+import { Layout } from '@/components/templates';
+import { AuthContext } from '@/contexts/AuthContext';
 import { ColorContext } from '@/contexts/ColorContext';
 import { GetServerSideProps } from 'next';
-import InputMask from 'react-input-mask';
-import { Layout } from '@/components/templates';
-import { MdRefresh } from 'react-icons/md';
 import { parseCookies } from 'nookies';
+import { MdRefresh } from 'react-icons/md';
+import InputMask from 'react-input-mask';
 
 type CarteirinhaProps = BoxProps;
 
@@ -107,7 +107,11 @@ function Carteirinha({}: CarteirinhaProps) {
             mx="auto"
             templateColumns={{ base: '1fr', lg: 'repeat(6, 1fr)' }}
           >
-            <GridItem d="flex" alignItems="center" justifyContent="center">
+            <GridItem
+              display="flex"
+              alignItems="center"
+              justifyContent="center"
+            >
               <Avatar
                 size="2xl"
                 name={user?.member.name}

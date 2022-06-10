@@ -144,7 +144,7 @@ export const Header = () => {
             </CustomChakraNextLink>
           ) : (
             <CustomChakraNextLink
-              href={'entrar'}
+              href={'/entrar'}
               chakraLinkProps={{
                 display: ['none', 'none', 'flex'],
               }}
@@ -205,101 +205,44 @@ export const Header = () => {
             px={2}
           >
             <Stack>
-              <CustomChakraNextLink href={'/'}>
-                <CustomButton
-                  isActive={router.asPath == '/'}
-                  variant={'solid'}
-                  justifyContent={'flex-start'}
-                  leftIcon={<AiFillHome size="20px" />}
-                >
-                  Início
-                </CustomButton>
-              </CustomChakraNextLink>
-              <CustomChakraNextLink href={'/loja'}>
-                <CustomButton
-                  isActive={router.asPath == '/loja'}
-                  variant={'solid'}
-                  justifyContent={'flex-start'}
-                  leftIcon={<MdStore size="20px" />}
-                >
-                  Loja
-                </CustomButton>
-              </CustomChakraNextLink>
-              <CustomChakraNextLink href={'/cart'}>
-                <CustomButton
-                  isActive={router.asPath == '/cart'}
-                  variant={'solid'}
-                  justifyContent={'flex-start'}
-                  leftIcon={<Box boxSize={'20px'} />}
-                >
-                  Carrinho
-                </CustomButton>
-              </CustomChakraNextLink>
-              <CustomChakraNextLink href={'/loja/meus-pedidos'}>
-                <CustomButton
-                  isActive={router.asPath == '/loja/meus-pedidos'}
-                  variant={'solid'}
-                  justifyContent={'flex-start'}
-                  leftIcon={<Box boxSize={'20px'} />}
-                >
-                  Meus pedidos
-                </CustomButton>
-              </CustomChakraNextLink>
-              <CustomChakraNextLink href={'/activities'}>
-                <CustomButton
-                  isActive={router.asPath == '/activities'}
-                  variant={'solid'}
-                  justifyContent={'flex-start'}
-                  leftIcon={
-                    <HStack>
-                      <FaVolleyballBall size="20px" />
-                      <FaDrum size="20px" />
-                    </HStack>
-                  }
-                >
-                  Atividades
-                </CustomButton>
-              </CustomChakraNextLink>
-              <CustomChakraNextLink href={'/activities?categoria=Esporte'}>
-                <CustomButton
-                  isActive={router.asPath == '/activities?categoria=Esporte'}
-                  variant={'solid'}
-                  justifyContent={'flex-start'}
-                  leftIcon={<Box boxSize={'20px'} />}
-                >
-                  Esportes
-                </CustomButton>
-              </CustomChakraNextLink>
-              <CustomChakraNextLink href={'/activities?categoria=Bateria'}>
-                <CustomButton
-                  isActive={router.asPath == '/activities?categoria=Bateria'}
-                  variant={'solid'}
-                  justifyContent={'flex-start'}
-                  leftIcon={<Box boxSize={'20px'} />}
-                >
-                  Bateria
-                </CustomButton>
-              </CustomChakraNextLink>
-              <CustomChakraNextLink href={'/eventos'}>
-                <CustomButton
-                  isActive={router.asPath == '/eventos'}
-                  variant={'solid'}
-                  justifyContent={'flex-start'}
-                  leftIcon={<GiPartyPopper size="20px" />}
-                >
-                  Eventos
-                </CustomButton>
-              </CustomChakraNextLink>
-              <CustomChakraNextLink href={'/eventos/meus-ingressos'}>
-                <CustomButton
-                  isActive={router.asPath == '/eventos/meus-ingressos'}
-                  variant={'solid'}
-                  justifyContent={'flex-start'}
-                  leftIcon={<Box boxSize={'20px'} />}
-                >
-                  Meus ingressos
-                </CustomButton>
-              </CustomChakraNextLink>
+              <CustomButton
+                isActive={router.asPath == '/'}
+                variant={'solid'}
+                justifyContent={'flex-start'}
+                leftIcon={<AiFillHome size="20px" />}
+              >
+                Início
+              </CustomButton>
+              <CustomButton
+                isActive={router.asPath == '/loja'}
+                variant={'solid'}
+                justifyContent={'flex-start'}
+                leftIcon={<MdStore size="20px" />}
+              >
+                Loja
+              </CustomButton>
+
+              <CustomButton
+                isActive={router.asPath == '/activities'}
+                variant={'solid'}
+                justifyContent={'flex-start'}
+                leftIcon={
+                  <HStack>
+                    <FaVolleyballBall size="20px" />
+                    <FaDrum size="20px" />
+                  </HStack>
+                }
+              >
+                Atividades
+              </CustomButton>
+              <CustomButton
+                isActive={router.asPath == '/eventos'}
+                variant={'solid'}
+                justifyContent={'flex-start'}
+                leftIcon={<GiPartyPopper size="20px" />}
+              >
+                Eventos
+              </CustomButton>
             </Stack>
           </DrawerBody>
 
@@ -307,39 +250,33 @@ export const Header = () => {
             {isAuthenticated ? (
               <Box w="full">
                 <Stack>
-                  <CustomChakraNextLink href={'/areamembro'}>
-                    <CustomButton
-                      isActive={router.asPath == '/areamembro'}
-                      variant={'solid'}
-                      justifyContent={'flex-start'}
-                      leftIcon={<MdPerson size="20px" />}
-                    >
-                      Área do Membro
-                    </CustomButton>
-                  </CustomChakraNextLink>
+                  <CustomButton
+                    isActive={router.asPath == '/areamembro'}
+                    variant={'solid'}
+                    justifyContent={'flex-start'}
+                    leftIcon={<MdPerson size="20px" />}
+                  >
+                    Área do Membro
+                  </CustomButton>
                   {user?.isStaff && (
-                    <CustomChakraNextLink href={'/areadiretor'}>
-                      <CustomButton
-                        isActive={router.asPath == '/areadiretor'}
-                        variant={'solid'}
-                        colorScheme="yellow"
-                        justifyContent={'flex-start'}
-                        leftIcon={<MdManageAccounts size="20px" />}
-                      >
-                        Área do Diretor
-                      </CustomButton>
-                    </CustomChakraNextLink>
-                  )}
-                  <CustomChakraNextLink href={'/ajuda/minhas-solicitacoes'}>
                     <CustomButton
-                      isActive={router.asPath == '/ajuda/minhas-solicitacoes'}
+                      isActive={router.asPath == '/areadiretor'}
                       variant={'solid'}
+                      colorScheme="yellow"
                       justifyContent={'flex-start'}
-                      leftIcon={<MdHelpCenter size="20px" />}
+                      leftIcon={<MdManageAccounts size="20px" />}
                     >
-                      Ajuda
+                      Área do Diretor
                     </CustomButton>
-                  </CustomChakraNextLink>
+                  )}
+                  <CustomButton
+                    isActive={router.asPath == '/ajuda/minhas-solicitacoes'}
+                    variant={'solid'}
+                    justifyContent={'flex-start'}
+                    leftIcon={<MdHelpCenter size="20px" />}
+                  >
+                    Ajuda
+                  </CustomButton>
                 </Stack>
                 <Box h={'1px'} my={6} bgColor={'rgb(0,0,0,0.5)'} rounded="sm" />
                 <Stack>
@@ -376,16 +313,15 @@ export const Header = () => {
               </Box>
             ) : (
               <Box w="full">
-                <CustomChakraNextLink href={'/entrar'}>
-                  <CustomButton
-                    isActive={router.asPath == '/entrar'}
-                    variant={'solid'}
-                    justifyContent={'flex-start'}
-                    leftIcon={<MdLogin size="20px" />}
-                  >
-                    Entrar
-                  </CustomButton>
-                </CustomChakraNextLink>
+                <CustomButton
+                  isActive={router.asPath == '/entrar'}
+                  variant={'solid'}
+                  justifyContent={'flex-start'}
+                  leftIcon={<MdLogin size="20px" />}
+                  onClick={() => router.push('/entrar')}
+                >
+                  Entrar
+                </CustomButton>
               </Box>
             )}
           </DrawerFooter>

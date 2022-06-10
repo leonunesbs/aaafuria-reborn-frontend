@@ -386,7 +386,7 @@ function Eventos() {
                   borderTopRadius={0}
                   variant="solid"
                   isLoading={loading}
-                  onClick={() => router.push(`entrar?after=${router.asPath}`)}
+                  onClick={() => router.push(`/entrar?after=${router.asPath}`)}
                 >
                   Faça login para participar
                 </CustomButton>
