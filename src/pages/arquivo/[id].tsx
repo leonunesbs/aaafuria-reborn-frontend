@@ -1,4 +1,11 @@
 import {
+  CustomButton,
+  CustomChakraNextLink,
+  PageHeading,
+  VoltarButton,
+} from '@/components/atoms';
+import { gql, useQuery } from '@apollo/client';
+import {
   Box,
   FormControl,
   FormLabel,
@@ -9,22 +16,15 @@ import {
   Textarea,
   useColorModeValue,
 } from '@chakra-ui/react';
-import {
-  CustomButton,
-  CustomChakraNextLink,
-  PageHeading,
-  VoltarButton,
-} from '@/components/atoms';
-import { gql, useQuery } from '@apollo/client';
 
-import { AiOutlineLink } from 'react-icons/ai';
-import { AuthContext } from '@/contexts/AuthContext';
 import { Card } from '@/components/molecules';
-import { GetServerSideProps } from 'next';
 import { Layout } from '@/components/templates';
+import { AuthContext } from '@/contexts/AuthContext';
+import { GetServerSideProps } from 'next';
+import { useRouter } from 'next/router';
 import { parseCookies } from 'nookies';
 import { useContext } from 'react';
-import { useRouter } from 'next/router';
+import { AiOutlineLink } from 'react-icons/ai';
 
 type FileType = {
   file: {
@@ -127,7 +127,7 @@ function Arquivo() {
                 )}
               </HStack>
             </Stack>
-            <Text textAlign={'right'} mt={4} isTruncated>
+            <Text textAlign={'right'} mt={4}>
               <strong>Criado em:</strong>{' '}
               <Text as="time" dateTime={data?.file.postedAt}>
                 {new Date(data?.file.postedAt as string).toLocaleString(
