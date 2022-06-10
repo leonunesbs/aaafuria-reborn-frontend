@@ -1,14 +1,7 @@
 import {
-  ColorModeToggle,
-  CustomButton,
-  CustomChakraNextLink,
-  CustomIconButton,
-} from '@/components/atoms';
-import {
   Avatar,
   Box,
   Center,
-  chakra,
   Drawer,
   DrawerBody,
   DrawerCloseButton,
@@ -20,9 +13,15 @@ import {
   HStack,
   Stack,
   Text,
+  chakra,
   useDisclosure,
 } from '@chakra-ui/react';
-import { useContext, useRef } from 'react';
+import {
+  ColorModeToggle,
+  CustomButton,
+  CustomChakraNextLink,
+  CustomIconButton,
+} from '@/components/atoms';
 import { FaDrum, FaVolleyballBall } from 'react-icons/fa';
 import {
   MdHelpCenter,
@@ -32,14 +31,15 @@ import {
   MdPerson,
   MdStore,
 } from 'react-icons/md';
+import { useContext, useRef } from 'react';
 
+import { AiFillHome } from 'react-icons/ai';
 import { AuthContext } from '@/contexts/AuthContext';
 import { ColorContext } from '@/contexts/ColorContext';
+import { GiPartyPopper } from 'react-icons/gi';
 import Hamburger from 'hamburger-react';
 import NextImage from 'next/image';
 import { useRouter } from 'next/router';
-import { AiFillHome } from 'react-icons/ai';
-import { GiPartyPopper } from 'react-icons/gi';
 
 export const Header = () => {
   const router = useRouter();
@@ -109,6 +109,7 @@ export const Header = () => {
               <CustomButton
                 variant={'ghost'}
                 isActive={router.asPath == '/eventos'}
+                isDisabled
               >
                 Eventos
               </CustomButton>
@@ -240,6 +241,7 @@ export const Header = () => {
                 justifyContent={'flex-start'}
                 leftIcon={<GiPartyPopper size="20px" />}
                 onClick={() => router.push('/eventos')}
+                isDisabled
               >
                 Eventos
               </CustomButton>
