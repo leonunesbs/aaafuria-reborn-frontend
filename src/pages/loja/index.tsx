@@ -1,26 +1,36 @@
 import {
+  CustomButton,
+  CustomChakraNextLink,
+  CustomIconButton,
+  PageHeading,
+  VoltarButton,
+} from '@/components/atoms';
+import { gql, useQuery } from '@apollo/client';
+import {
+  Badge,
   Box,
   Center,
+  FormControl,
+  FormLabel,
+  Input,
+  InputGroup,
+  InputRightElement,
   SimpleGrid,
   Spinner,
   Stack,
   Text,
 } from '@chakra-ui/react';
-import {
-  CustomButton,
-  CustomChakraNextLink,
-  PageHeading,
-  VoltarButton,
-} from '@/components/atoms';
-import { gql, useQuery } from '@apollo/client';
+import { useCallback, useContext, useState } from 'react';
+import { SubmitHandler, useForm } from 'react-hook-form';
+import { MdSend, MdShoppingCart } from 'react-icons/md';
 
-import { AiOutlineUnorderedList } from 'react-icons/ai';
-import { GetStaticProps } from 'next';
-import { Layout } from '@/components/templates';
-import { MdShoppingCart } from 'react-icons/md';
 import { ProdutoCard } from '@/components/molecules';
-import React from 'react';
+import { Layout } from '@/components/templates';
+import { AuthContext } from '@/contexts/AuthContext';
+import { ColorContext } from '@/contexts/ColorContext';
 import client from '@/services/apollo-client';
+import { GetStaticProps } from 'next';
+import { AiOutlineUnorderedList } from 'react-icons/ai';
 
 const DIGITAL_ITEMS = gql`
   query getDigitalItems {
@@ -42,6 +52,16 @@ const DIGITAL_ITEMS = gql`
           }
         }
       }
+    }
+  }
+`;
+
+const GET_MEMBER = gql`
+  query ($registration: String) {
+    memberByRegistration(registration: $registration) {
+      id
+      name
+      hasActiveMembership
     }
   }
 `;
@@ -72,6 +92,42 @@ type QueryData = {
 
 function Loja() {
   const { data: produtos, loading } = useQuery<QueryData>(DIGITAL_ITEMS);
+  const { user, token } = useContext(AuthContext);
+  const { green } = useContext(ColorContext);
+
+  const [clientRegistration, setClientRegistration] = useState<string | null>(
+    null,
+  );
+
+  const { handleSubmit, register } = useForm<{
+    registration: string;
+  }>();
+
+  const {
+    data: member,
+    loading: loadingMember,
+    refetch: refetchMember,
+  } = useQuery<{
+    memberByRegistration: {
+      id: string;
+      name: string;
+      hasActiveMembership: boolean;
+    };
+  }>(GET_MEMBER, {
+    context: {
+      headers: {
+        Authorization: `JWT ${token}`,
+      },
+    },
+  });
+
+  const onSubmit: SubmitHandler<{ registration: string }> = useCallback(
+    (data: { registration: string }) => {
+      refetchMember({ registration: data.registration });
+      setClientRegistration(data.registration);
+    },
+    [refetchMember],
+  );
 
   return (
     <Layout title="Loja">
@@ -79,15 +135,54 @@ function Loja() {
         <PageHeading>Loja</PageHeading>
         {loading && (
           <Center>
-            <Spinner color="green" mx={'auto'} />
+            <Spinner color={green} mx={'auto'} />
           </Center>
         )}
+        <Box maxW="md" mb={4}>
+          {user?.isStaff && (
+            <FormControl>
+              <form onSubmit={handleSubmit(onSubmit)}>
+                <FormLabel htmlFor="registration">
+                  <Text>
+                    Cliente: {member?.memberByRegistration?.name}
+                    {member?.memberByRegistration?.hasActiveMembership && (
+                      <Badge colorScheme={'green'} ml={2}>
+                        Sócio
+                      </Badge>
+                    )}
+                  </Text>
+                </FormLabel>
+                <InputGroup>
+                  <Input
+                    placeholder="Matrícula"
+                    focusBorderColor={green}
+                    {...register('registration')}
+                  />
+                  <InputRightElement>
+                    <CustomIconButton
+                      type="submit"
+                      aria-label="set"
+                      isLoading={loadingMember}
+                      icon={<MdSend size="20px" />}
+                    />
+                  </InputRightElement>
+                </InputGroup>
+              </form>
+            </FormControl>
+          )}
+        </Box>
         <SimpleGrid
-          columns={{ base: 1, md: 3, lg: 3 }}
-          spacing={{ base: '8', lg: '2' }}
+          columns={{ base: user?.isStaff ? 2 : 1, md: 3, lg: 3 }}
+          spacing={2}
         >
           {produtos?.digitalItems.objects.map((product) => {
-            return <ProdutoCard key={product.id} node={product} />;
+            return (
+              <ProdutoCard
+                key={product.id}
+                node={product}
+                clientRegistration={clientRegistration}
+              />
+            );
           })}
         </SimpleGrid>
         {produtos?.digitalItems.objects.length === 0 && (

@@ -3,7 +3,7 @@ import * as gtag from 'lib/gtag';
 import { gql, useMutation } from '@apollo/client';
 import { Heading, HStack, Stack } from '@chakra-ui/layout';
 import {
-  Button,
+  Flex,
   FormControl,
   Image,
   Select,
@@ -23,19 +23,36 @@ import { useRouter } from 'next/router';
 import { MdShoppingCart } from 'react-icons/md';
 
 const ADD_TO_CART = gql`
-  mutation addToCart($itemId: ID!, $quantity: Int!, $description: String) {
-    addToCart(itemId: $itemId, quantity: $quantity, description: $description) {
+  mutation addToCart(
+    $itemId: ID!
+    $quantity: Int!
+    $description: String
+    $userUsername: String
+  ) {
+    addToCart(
+      itemId: $itemId
+      quantity: $quantity
+      description: $description
+      userUsername: $userUsername
+    ) {
       ok
     }
   }
 `;
 
-export const ProdutoCard = ({ node: product }: { node: ProductType }) => {
+export const ProdutoCard = ({
+  node: product,
+  clientRegistration,
+}: {
+  node: ProductType;
+  clientRegistration?: string;
+}) => {
   const router = useRouter();
   const { green } = useContext(ColorContext);
-  const { isAuthenticated, token } = useContext(AuthContext);
+  const { isAuthenticated, token, user } = useContext(AuthContext);
   const { register, handleSubmit } = useForm<any>();
 
+  const addToCartBreakpoint = useBreakpointValue(['', 'Adicionar ao carrinho']);
   const fontSize = useBreakpointValue(['xs', 'sm']);
 
   const [addToCart, { loading }] = useMutation(ADD_TO_CART, {
@@ -49,7 +66,7 @@ export const ProdutoCard = ({ node: product }: { node: ProductType }) => {
   const toast = useToast();
 
   const onSubmit: SubmitHandler<any> = useCallback(
-    (formData) => {
+    async (formData) => {
       if (!isAuthenticated) {
         router.push(`/entrar?after=${router.asPath}`);
       }
@@ -57,16 +74,19 @@ export const ProdutoCard = ({ node: product }: { node: ProductType }) => {
       const quantidade = 1;
       const observacoes = formData.observacoes;
 
-      addToCart({
+      await addToCart({
         variables: {
           itemId: productId,
           quantity: quantidade,
           description: observacoes,
+          userUsername: clientRegistration,
         },
       })
         .then(() => {
           toast({
-            title: `[${product.name}] adicionado ao carrinho!`,
+            title: `[${product.name}] adicionado ao carrinho${
+              clientRegistration && ' de ' + clientRegistration
+            }!`,
             description: (
               <CustomButton
                 colorScheme={'green'}
@@ -110,18 +130,12 @@ export const ProdutoCard = ({ node: product }: { node: ProductType }) => {
           return;
         });
     },
-    [isAuthenticated, product, addToCart, router, toast],
+    [isAuthenticated, product, addToCart, router, toast, clientRegistration],
   );
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      <Card
-        key={product.id}
-        position="relative"
-        overflow="hidden"
-        px="0"
-        py="0"
-      >
+      <Card key={product.id} px="0" py="0" overflow={'hidden'}>
         <Image
           w="full"
           objectFit="cover"
@@ -129,8 +143,14 @@ export const ProdutoCard = ({ node: product }: { node: ProductType }) => {
           mx="auto"
           alt={product.name}
         />
-        <Stack>
-          <Stack p={4}>
+        <Flex
+          flexDir="column"
+          h={[user?.isStaff ? 36 : 32, 32]}
+          justify={'space-between'}
+          px={2}
+          pt={2}
+        >
+          <Stack>
             <Stack>
               <Heading as="h3" size={fontSize}>
                 {product.name.toUpperCase()}
@@ -144,8 +164,8 @@ export const ProdutoCard = ({ node: product }: { node: ProductType }) => {
             </Stack>
             <HStack>
               <FormControl
-                visibility={
-                  product?.variations?.edges.length > 0 ? 'visible' : 'hidden'
+                display={
+                  product?.variations?.edges.length > 0 ? 'default' : 'none'
                 }
               >
                 <Select
@@ -165,19 +185,18 @@ export const ProdutoCard = ({ node: product }: { node: ProductType }) => {
               </FormControl>
             </HStack>
           </Stack>
-          <Button
-            type="submit"
-            rounded="0"
-            leftIcon={<MdShoppingCart size="20px" />}
-            colorScheme="green"
-            isLoading={loading}
-            loadingText="Adicionando..."
-          >
-            {isAuthenticated
-              ? 'Adicionar ao carrinho'
-              : 'Faça login para comprar'}
-          </Button>
-        </Stack>
+        </Flex>
+        <CustomButton
+          w="full"
+          type="submit"
+          rounded="0"
+          leftIcon={<MdShoppingCart size="20px" />}
+          isLoading={loading}
+          loadingText="Adicionando..."
+          variant={'solid'}
+        >
+          {isAuthenticated ? addToCartBreakpoint : 'Faça login para comprar'}
+        </CustomButton>
       </Card>
     </form>
   );
