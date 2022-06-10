@@ -376,7 +376,7 @@ function Payment() {
                         <Text>Método:</Text>
                       </Td>
                       <Td textAlign={'right'}>
-                        <HStack>
+                        <HStack w="full" justify={'flex-end'}>
                           <Text>{data?.payment.method}</Text>
                           {data?.payment.status === 'PENDENTE' && (
                             <CustomIconButton
