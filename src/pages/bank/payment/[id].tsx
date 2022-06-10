@@ -1,17 +1,11 @@
 import {
-  CustomButton,
-  CustomChakraNextLink,
-  PageHeading,
-} from '@/components/atoms';
-import { gql, useMutation, useQuery } from '@apollo/client';
-import {
   Badge,
   Box,
   Collapse,
   FormControl,
   FormLabel,
-  Heading,
   HStack,
+  Heading,
   Input,
   Stack,
   Table,
@@ -24,19 +18,25 @@ import {
   useDisclosure,
   useToast,
 } from '@chakra-ui/react';
-import { useCallback, useContext } from 'react';
-import { SubmitHandler, useForm } from 'react-hook-form';
+import {
+  CustomButton,
+  CustomChakraNextLink,
+  PageHeading,
+} from '@/components/atoms';
 import { MdAdd, MdDelete, MdLink, MdSave } from 'react-icons/md';
+import { SubmitHandler, useForm } from 'react-hook-form';
+import { gql, useMutation, useQuery } from '@apollo/client';
+import { useCallback, useContext } from 'react';
 
-import { CustomIconButton } from '@/components/atoms/CustomIconButton';
-import { Card } from '@/components/molecules';
-import { Layout } from '@/components/templates';
 import { AuthContext } from '@/contexts/AuthContext';
+import { Card } from '@/components/molecules';
 import { ColorContext } from '@/contexts/ColorContext';
+import { CustomIconButton } from '@/components/atoms/CustomIconButton';
 import { GetServerSideProps } from 'next';
-import { useRouter } from 'next/router';
-import { parseCookies } from 'nookies';
+import { Layout } from '@/components/templates';
 import { Url } from 'url';
+import { parseCookies } from 'nookies';
+import { useRouter } from 'next/router';
 
 const GET_PAYMENT = gql`
   query getPayment($id: ID) {
@@ -482,42 +482,45 @@ function Payment() {
                   </Stack>
                 </Collapse>
               </form>
-              <Table size="sm">
-                <Thead>
-                  <Tr>
-                    <Th />
-                    <Th />
-                    <Th />
-                  </Tr>
-                </Thead>
-                <Tbody>
-                  {data?.payment.attachments.edges.map(({ node }) => (
-                    <Tr key={node.id}>
-                      <Td>
-                        <Text>{node.title}</Text>
-                      </Td>
-                      <Td>
-                        <Text>{node.content}</Text>
-                      </Td>
-                      <Td>
-                        <HStack w="full" justify={'flex-end'}>
-                          <CustomIconButton
-                            onClick={() => window.open(node.file, '_blank')}
-                            aria-label={node.title}
-                            icon={<MdLink size="20px" />}
-                          />
-                          <CustomIconButton
-                            onClick={() => handleDeleteAttachment(node.id)}
-                            aria-label={node.title}
-                            colorScheme="red"
-                            icon={<MdDelete size="20px" />}
-                          />
-                        </HStack>
-                      </Td>
+              <Box overflowX="auto">
+                <Table size="sm">
+                  <Thead>
+                    <Tr>
+                      <Th />
+                      <Th />
+                      <Th />
                     </Tr>
-                  ))}
-                </Tbody>
-              </Table>
+                  </Thead>
+                  <Tbody>
+                    {data?.payment.attachments.edges.map(({ node }) => (
+                      <Tr key={node.id}>
+                        <Td>
+                          <Text>{node.title}</Text>
+                        </Td>
+                        <Td>
+                          <Text>{node.content}</Text>
+                        </Td>
+                        <Td>
+                          <HStack w="full" justify={'flex-end'}>
+                            <CustomIconButton
+                              onClick={() => window.open(node.file, '_blank')}
+                              aria-label={node.title}
+                              icon={<MdLink size="20px" />}
+                            />
+                            <CustomIconButton
+                              isDisabled
+                              onClick={() => handleDeleteAttachment(node.id)}
+                              aria-label={node.title}
+                              colorScheme="red"
+                              icon={<MdDelete size="20px" />}
+                            />
+                          </HStack>
+                        </Td>
+                      </Tr>
+                    ))}
+                  </Tbody>
+                </Table>
+              </Box>
             </Box>
           </Stack>
 
