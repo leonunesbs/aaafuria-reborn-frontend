@@ -1,9 +1,5 @@
-import { CustomButton, PageHeading } from '@/components/atoms';
-import { Card } from '@/components/molecules';
-import { Layout } from '@/components/templates';
-import { AuthContext } from '@/contexts/AuthContext';
-import { gql, useMutation } from '@apollo/client';
 import {
+  As,
   Drawer,
   DrawerBody,
   DrawerContent,
@@ -19,11 +15,17 @@ import {
   Text,
   useToast,
 } from '@chakra-ui/react';
-import { useRouter } from 'next/router';
-import React, { useCallback, useContext, useEffect } from 'react';
-import { Controller, useForm } from 'react-hook-form';
-import InputMask from 'react-input-mask';
 import { CadastroInputsType, ICadastroDrawer } from './ICadastroDrawer';
+import { Controller, useForm } from 'react-hook-form';
+import { CustomButton, PageHeading } from '@/components/atoms';
+import React, { useCallback, useContext, useEffect } from 'react';
+import { gql, useMutation } from '@apollo/client';
+
+import { AuthContext } from '@/contexts/AuthContext';
+import { Card } from '@/components/molecules';
+import InputMask from 'react-input-mask';
+import { Layout } from '@/components/templates';
+import { useRouter } from 'next/router';
 
 const CREATE_ACCOUNT = gql`
   mutation createAccount(
@@ -268,7 +270,7 @@ export const CadastroDrawer = ({
                   <FormControl>
                     <FormLabel>Turma: </FormLabel>
                     <Input
-                      as={InputMask}
+                      as={InputMask as As<any>}
                       mask="MED: 99"
                       type="tel"
                       focusBorderColor="green.500"
@@ -304,7 +306,7 @@ export const CadastroDrawer = ({
                   <FormControl>
                     <FormLabel>Whatsapp: </FormLabel>
                     <Input
-                      as={InputMask}
+                      as={InputMask as As<any>}
                       mask="(99) 99999-9999"
                       type="tel"
                       focusBorderColor="green.500"
@@ -315,7 +317,7 @@ export const CadastroDrawer = ({
                   <FormControl>
                     <FormLabel>CPF: </FormLabel>
                     <Input
-                      as={InputMask}
+                      as={InputMask as As<any>}
                       mask="999.999.999-99"
                       focusBorderColor="green.500"
                       {...register('cpf')}

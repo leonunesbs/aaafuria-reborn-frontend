@@ -1,9 +1,5 @@
 import {
-  CarteirinhaInput,
-  PageHeading,
-  VoltarButton,
-} from '@/components/atoms';
-import {
+  As,
   Avatar,
   Box,
   BoxProps,
@@ -22,16 +18,21 @@ import {
   Text,
   useColorModeValue,
 } from '@chakra-ui/react';
-import { useContext } from 'react';
+import {
+  CarteirinhaInput,
+  PageHeading,
+  VoltarButton,
+} from '@/components/atoms';
 
-import { Card } from '@/components/molecules';
-import { Layout } from '@/components/templates';
 import { AuthContext } from '@/contexts/AuthContext';
+import { Card } from '@/components/molecules';
 import { ColorContext } from '@/contexts/ColorContext';
 import { GetServerSideProps } from 'next';
-import { parseCookies } from 'nookies';
-import { MdRefresh } from 'react-icons/md';
 import InputMask from 'react-input-mask';
+import { Layout } from '@/components/templates';
+import { MdRefresh } from 'react-icons/md';
+import { parseCookies } from 'nookies';
+import { useContext } from 'react';
 
 type CarteirinhaProps = BoxProps;
 
@@ -173,7 +174,7 @@ function Carteirinha({}: CarteirinhaProps) {
                   <FormControl>
                     <FormLabel>CPF:</FormLabel>
                     <Input
-                      as={InputMask}
+                      as={InputMask as As<any>}
                       mask="999.999.999-99"
                       variant="fluxed"
                       isReadOnly
