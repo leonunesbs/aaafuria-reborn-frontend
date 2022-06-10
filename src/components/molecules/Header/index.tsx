@@ -210,6 +210,7 @@ export const Header = () => {
                 variant={'solid'}
                 justifyContent={'flex-start'}
                 leftIcon={<AiFillHome size="20px" />}
+                onClick={() => router.push('/')}
               >
                 Início
               </CustomButton>
@@ -218,6 +219,7 @@ export const Header = () => {
                 variant={'solid'}
                 justifyContent={'flex-start'}
                 leftIcon={<MdStore size="20px" />}
+                onClick={() => router.push('/loja')}
               >
                 Loja
               </CustomButton>
@@ -232,6 +234,7 @@ export const Header = () => {
                     <FaDrum size="20px" />
                   </HStack>
                 }
+                onClick={() => router.push('/activities')}
               >
                 Atividades
               </CustomButton>
@@ -240,6 +243,7 @@ export const Header = () => {
                 variant={'solid'}
                 justifyContent={'flex-start'}
                 leftIcon={<GiPartyPopper size="20px" />}
+                onClick={() => router.push('/eventos')}
               >
                 Eventos
               </CustomButton>
@@ -255,6 +259,7 @@ export const Header = () => {
                     variant={'solid'}
                     justifyContent={'flex-start'}
                     leftIcon={<MdPerson size="20px" />}
+                    onClick={() => router.push('/areamembro')}
                   >
                     Área do Membro
                   </CustomButton>
@@ -265,6 +270,7 @@ export const Header = () => {
                       colorScheme="yellow"
                       justifyContent={'flex-start'}
                       leftIcon={<MdManageAccounts size="20px" />}
+                      onClick={() => router.push('/areadiretor')}
                     >
                       Área do Diretor
                     </CustomButton>
@@ -274,6 +280,7 @@ export const Header = () => {
                     variant={'solid'}
                     justifyContent={'flex-start'}
                     leftIcon={<MdHelpCenter size="20px" />}
+                    onClick={() => router.push('/ajuda/minhas-solicitacoes')}
                   >
                     Ajuda
                   </CustomButton>
@@ -282,17 +289,16 @@ export const Header = () => {
                 <Stack>
                   <HStack w="full" justify={'space-between'}>
                     <HStack>
-                      <CustomChakraNextLink href={'/carteirinha'}>
-                        <Avatar
-                          name={user?.member.name}
-                          src={user?.member.avatar}
-                          border={
-                            user?.member.hasActiveMembership
-                              ? '2px solid green'
-                              : '2px solid gray'
-                          }
-                        />
-                      </CustomChakraNextLink>
+                      <Avatar
+                        name={user?.member.name}
+                        src={user?.member.avatar}
+                        border={
+                          user?.member.hasActiveMembership
+                            ? '2px solid green'
+                            : '2px solid gray'
+                        }
+                        onClick={() => router.push('/carteirinha')}
+                      />
                       <Stack spacing={0} textColor={bg}>
                         <Text fontSize={['md']} fontWeight="bold">
                           {user?.member.nickname}
