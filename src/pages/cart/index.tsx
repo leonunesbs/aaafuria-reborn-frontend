@@ -254,7 +254,6 @@ function Cart() {
                   },
                 )}
               </Stack>
-
               <Card w="full" maxW="md">
                 <Heading as="h3" fontSize="md">
                   RESUMO DO PEDIDO

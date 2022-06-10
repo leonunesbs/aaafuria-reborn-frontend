@@ -34,4 +34,7 @@ module.exports = withPWA({
     }
     return config;
   },
+  experimental: {
+    runtime: 'edge',
+  },
 });

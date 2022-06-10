@@ -22,7 +22,7 @@ import {
   Text,
   useDisclosure,
 } from '@chakra-ui/react';
-import { useContext, useEffect, useRef } from 'react';
+import { useContext, useRef } from 'react';
 import { FaDrum, FaVolleyballBall } from 'react-icons/fa';
 import {
   MdHelpCenter,
@@ -46,12 +46,8 @@ export const Header = () => {
   const btnRef = useRef<HTMLButtonElement>(null);
   const { isOpen, onToggle, onClose } = useDisclosure();
   const { bg, green } = useContext(ColorContext);
-  const { isAuthenticated, signOut, user, checkAuth } = useContext(AuthContext);
+  const { isAuthenticated, signOut, user } = useContext(AuthContext);
   const ChakraNextImage = chakra(NextImage);
-
-  useEffect(() => {
-    checkAuth();
-  }, [checkAuth]);
 
   return (
     <>
