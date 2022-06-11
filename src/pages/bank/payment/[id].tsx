@@ -439,6 +439,7 @@ function Payment() {
                   icon={<MdAdd size="20px" />}
                   onClick={toggleAttach}
                   isActive={attachOpen}
+                  isDisabled={data?.payment.status !== 'PENDENTE'}
                 />
               </HStack>
               <form
