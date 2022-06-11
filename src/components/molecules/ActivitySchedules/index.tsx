@@ -1,6 +1,6 @@
 import { Activity } from '@/pages/activities';
 import { Box } from '@chakra-ui/react';
-import { ScheduleCard } from '@/components/atoms';
+import { ScheduleCard } from '..';
 
 export interface ActivitySchedulesProps {
   schedules: { node: Activity }[];

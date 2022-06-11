@@ -1,10 +1,10 @@
-import { gql, useQuery } from '@apollo/client';
 import { Box, Text, Wrap, WrapItem } from '@chakra-ui/react';
+import { gql, useQuery } from '@apollo/client';
 
-import { PageHeading } from '@/components/atoms';
 import { ActivityCard } from '@/components/molecules';
-import { Layout } from '@/components/templates';
 import { AuthContext } from '@/contexts/AuthContext';
+import { Layout } from '@/components/templates';
+import { PageHeading } from '@/components/atoms';
 import { useContext } from 'react';
 
 const ALL_ACTIVITIES = gql`
@@ -12,7 +12,7 @@ const ALL_ACTIVITIES = gql`
     allActivities {
       id
       name
-      schedules {
+      schedules(isActive: true) {
         edges {
           node {
             id

@@ -18,12 +18,14 @@ import { ICard } from './Card/ICard';
 import { ISejaSocioPricing } from './SejaSocioPricing/ISejaSocioPricing';
 import { InputMatriculaPlantaoProps } from './InputMatriculaPlantao';
 import { IssueInfoCardProps } from './IssueInfoCard';
+import { ManageScheduleDrawerProps } from './ManageScheduleDrawer';
 import { MembersDashboardCardProps } from './MembersDashboardCard';
 import { PaymentsDashboardCardProps } from './PaymentsDashboardCard';
 import { PaymentsTableProps } from './PaymentsTable';
 import { PixTabPanelProps } from './PagamentoTabs/PIXTabPanel';
 import { ProdutoPlantaoCardProps } from './ProdutoPlantaoCard';
 import { RefAttributes } from 'react';
+import { ScheduleCardProps } from './ScheduleCard';
 import dynamic from 'next/dynamic';
 
 export const ActivitiesDashboardCard = dynamic<ActivitiesDashboardCardProps>(
@@ -87,6 +89,9 @@ export const InputMatriculaPlantao = dynamic<InputMatriculaPlantaoProps>(() =>
 export const IssueInfoCard = dynamic<IssueInfoCardProps>(() =>
   import('./IssueInfoCard').then((mod) => mod.IssueInfoCard),
 );
+export const ManageScheduleDrawer = dynamic<ManageScheduleDrawerProps>(() =>
+  import('./ManageScheduleDrawer').then((mod) => mod.default),
+);
 export const MembersDashboardCard = dynamic<MembersDashboardCardProps>(() =>
   import('./MembersDashboardCard').then((mod) => mod.default),
 );
@@ -113,6 +118,9 @@ export const PaymentsTable = dynamic<PaymentsTableProps>(() =>
 );
 export const ProdutoPlantaoCard = dynamic<ProdutoPlantaoCardProps>(() =>
   import('./ProdutoPlantaoCard').then((mod) => mod.ProdutoPlantaoCard),
+);
+export const ScheduleCard = dynamic<ScheduleCardProps>(() =>
+  import('./ScheduleCard').then((mod) => mod.default),
 );
 export const SejaSocioPricing = dynamic<ISejaSocioPricing>(() =>
   import('./SejaSocioPricing').then((mod) => mod.SejaSocioPricing),

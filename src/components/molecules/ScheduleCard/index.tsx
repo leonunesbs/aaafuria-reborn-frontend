@@ -23,7 +23,8 @@ import { gql, useMutation } from '@apollo/client';
 import { Activity } from '@/pages/activities';
 import { AuthContext } from '@/contexts/AuthContext';
 import { ColorContext } from '@/contexts/ColorContext';
-import { CustomIconButton } from '..';
+import { CustomIconButton } from '../../atoms';
+import { ManageScheduleDrawer } from '..';
 import { useRouter } from 'next/router';
 
 const CONFIRM_TO_SCHEDULE = gql`
@@ -208,27 +209,23 @@ export default function ScheduleCard({ schedule, refetch }: ScheduleCardProps) {
         </Stack>
       </HStack>
       <Collapse in={isOpen}>
-        <Stack
-          pb={2}
-          px={2}
-          mb={2}
-          fontSize="x-small"
-          spacing={0}
-          fontStyle="italic"
-        >
-          <Text>Mínimo: {schedule.minParticipants}</Text>
-          <Text>Confirmados: {schedule.confirmedCount}</Text>
-          <Text>Status: {schedule.status}</Text>
-          <TableContainer>
-            <Table>
-              <Thead>
-                <Tr>
-                  <Th></Th>
-                </Tr>
-              </Thead>
-            </Table>
-          </TableContainer>
-        </Stack>
+        <HStack w="full" justify={'space-between'} align="center" px={2}>
+          <Stack fontSize="x-small" spacing={0} fontStyle="italic">
+            <Text>Mínimo: {schedule.minParticipants}</Text>
+            <Text>Confirmados: {schedule.confirmedCount}</Text>
+            <Text>Status: {schedule.status}</Text>
+            <TableContainer>
+              <Table>
+                <Thead>
+                  <Tr>
+                    <Th></Th>
+                  </Tr>
+                </Thead>
+              </Table>
+            </TableContainer>
+          </Stack>
+          <ManageScheduleDrawer scheduleId={schedule.id} refetch={refetch} />
+        </HStack>
       </Collapse>
 
       <Progress
