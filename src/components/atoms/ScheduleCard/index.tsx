@@ -218,6 +218,7 @@ export default function ScheduleCard({ schedule, refetch }: ScheduleCardProps) {
         >
           <Text>Mínimo: {schedule.minParticipants}</Text>
           <Text>Confirmados: {schedule.confirmedCount}</Text>
+          <Text>Status: {schedule.status}</Text>
           <TableContainer>
             <Table>
               <Thead>
