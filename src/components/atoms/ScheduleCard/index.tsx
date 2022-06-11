@@ -154,7 +154,7 @@ export default function ScheduleCard({ schedule, refetch }: ScheduleCardProps) {
       rounded={'md'}
       overflow="hidden"
     >
-      <HStack p={2} w="full" justify="space-between">
+      <HStack p={2} w="full" justify="space-between" align={'flex-end'}>
         <Stack>
           <Text fontSize="sm">
             {schedule.location}

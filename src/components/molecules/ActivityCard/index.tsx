@@ -1,5 +1,5 @@
 import { ActivitySchedules, AddScheduleDrawer, Card } from '..';
-import { HStack, Heading } from '@chakra-ui/react';
+import { Box, HStack, Heading } from '@chakra-ui/react';
 import { useContext, useMemo } from 'react';
 
 import { Activity } from '@/pages/activities';
@@ -24,13 +24,15 @@ function ActivityCard({ activity, refetch }: ActivityCardProps) {
   const activityName = useMemo(() => activity.name, [activity.name]);
   return (
     <Card w="full" py={6} px={[4, 6]}>
-      <HStack mb={2} w="full" justify={'space-between'}>
+      <HStack mb={2} w="full" justify={'space-between'} pr={1}>
         <HStack>
           <ActivityIcon activityName={activityName} />
           <Heading size="sm">{activity.name.toUpperCase()}</Heading>
         </HStack>
         {user?.isStaff && (
-          <AddScheduleDrawer refetch={refetch} activityId={activity.id} />
+          <Box>
+            <AddScheduleDrawer refetch={refetch} activityId={activity.id} />
+          </Box>
         )}
       </HStack>
       <ActivitySchedules
