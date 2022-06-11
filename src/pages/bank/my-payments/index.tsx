@@ -2,6 +2,7 @@ import {
   Badge,
   Box,
   Table,
+  TableContainer,
   Tbody,
   Td,
   Text,
@@ -72,54 +73,58 @@ function MyPayments() {
     <Layout title="Meus pagamentos">
       <Box maxW="5xl" mx="auto">
         <PageHeading>Meus pagamentos</PageHeading>
-        <Card overflowX="auto">
-          <Table size={'sm'}>
-            <Thead>
-              <Tr>
-                <Th>Descrição</Th>
-                <Th>Valor</Th>
-                <Th>Criado em</Th>
-                <Th>Status</Th>
-                <Th />
-              </Tr>
-            </Thead>
-            <Tbody>
-              {data?.myPayments?.edges?.map(({ node }) => (
-                <Tr key={node.id}>
-                  <Td>{node.description}</Td>
-                  <Td>
-                    {node.amount} {node.currency}
-                  </Td>
-                  <Td>
-                    <Text as={'time'} dateTime={node.createdAt}>
-                      {new Date(node.createdAt).toLocaleString('pt-BR', {
-                        timeStyle: 'short',
-                        dateStyle: 'short',
-                        timeZone: 'America/Sao_Paulo',
-                      })}
-                    </Text>
-                  </Td>
-                  <Td>
-                    <Text>
-                      <Badge
-                        variant={'solid'}
-                        colorScheme={node.status === 'PAGO' ? 'green' : 'gray'}
-                      >
-                        {node.status}
-                      </Badge>
-                    </Text>
-                  </Td>
-                  <Td>
-                    <CustomIconButton
-                      icon={<MdMoreHoriz size="20px" />}
-                      aria-label="ver mais"
-                      onClick={() => router.push(`/bank/payment/${node.id}`)}
-                    />
-                  </Td>
+        <Card>
+          <TableContainer>
+            <Table size={'sm'}>
+              <Thead>
+                <Tr>
+                  <Th>Descrição</Th>
+                  <Th>Valor</Th>
+                  <Th>Criado em</Th>
+                  <Th>Status</Th>
+                  <Th />
                 </Tr>
-              ))}
-            </Tbody>
-          </Table>
+              </Thead>
+              <Tbody>
+                {data?.myPayments?.edges?.map(({ node }) => (
+                  <Tr key={node.id}>
+                    <Td>{node.description}</Td>
+                    <Td>
+                      {node.amount} {node.currency}
+                    </Td>
+                    <Td>
+                      <Text as={'time'} dateTime={node.createdAt}>
+                        {new Date(node.createdAt).toLocaleString('pt-BR', {
+                          timeStyle: 'short',
+                          dateStyle: 'short',
+                          timeZone: 'America/Sao_Paulo',
+                        })}
+                      </Text>
+                    </Td>
+                    <Td>
+                      <Text>
+                        <Badge
+                          variant={'solid'}
+                          colorScheme={
+                            node.status === 'PAGO' ? 'green' : 'gray'
+                          }
+                        >
+                          {node.status}
+                        </Badge>
+                      </Text>
+                    </Td>
+                    <Td>
+                      <CustomIconButton
+                        icon={<MdMoreHoriz size="20px" />}
+                        aria-label="ver mais"
+                        onClick={() => router.push(`/bank/payment/${node.id}`)}
+                      />
+                    </Td>
+                  </Tr>
+                ))}
+              </Tbody>
+            </Table>
+          </TableContainer>
         </Card>
         <VoltarButton href="/areamembro" />
       </Box>

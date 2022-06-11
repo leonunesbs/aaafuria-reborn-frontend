@@ -1,23 +1,30 @@
-import { gql, useMutation } from '@apollo/client';
 import {
   Badge,
   Box,
+  Collapse,
   HStack,
   Progress,
   Spinner,
   Stack,
   Switch,
+  Table,
+  TableContainer,
   Text,
+  Th,
+  Thead,
+  Tr,
+  useDisclosure,
   useToast,
 } from '@chakra-ui/react';
 import { ChangeEvent, useCallback, useContext } from 'react';
+import { MdLogin, MdMoreVert } from 'react-icons/md';
+import { gql, useMutation } from '@apollo/client';
 
+import { Activity } from '@/pages/activities';
 import { AuthContext } from '@/contexts/AuthContext';
 import { ColorContext } from '@/contexts/ColorContext';
-import { Activity } from '@/pages/activities';
-import { useRouter } from 'next/router';
-import { MdLogin } from 'react-icons/md';
 import { CustomIconButton } from '..';
+import { useRouter } from 'next/router';
 
 const CONFIRM_TO_SCHEDULE = gql`
   mutation confirmToSchedule($scheduleId: ID!) {
@@ -42,9 +49,13 @@ export interface ScheduleCardProps {
 
 export default function ScheduleCard({ schedule, refetch }: ScheduleCardProps) {
   const router = useRouter();
-  const toast = useToast();
+
   const { token, isAuthenticated } = useContext(AuthContext);
   const { green } = useContext(ColorContext);
+
+  const toast = useToast();
+  const { onToggle, isOpen } = useDisclosure();
+
   const [confirmToSchedule, { loading: confirmLoading }] = useMutation(
     CONFIRM_TO_SCHEDULE,
     {
@@ -143,7 +154,7 @@ export default function ScheduleCard({ schedule, refetch }: ScheduleCardProps) {
       rounded={'md'}
       overflow="hidden"
     >
-      <HStack p={2} mb={2} w="full" justify="space-between">
+      <HStack p={2} w="full" justify="space-between">
         <Stack>
           <Text fontSize="sm">
             {schedule.location}
@@ -171,22 +182,54 @@ export default function ScheduleCard({ schedule, refetch }: ScheduleCardProps) {
           </Text>
           <Text fontSize="xs">{schedule.description}</Text>
         </Stack>
-        {confirmLoading || cancelLoading === true ? (
-          <Spinner color={green} />
-        ) : isAuthenticated ? (
-          <Switch
-            colorScheme={'green'}
-            isChecked={schedule.currentUserConfirmed}
-            onChange={(e) => handleSwitch(e, schedule.id)}
-          />
-        ) : (
+        <Stack>
+          {confirmLoading || cancelLoading === true ? (
+            <Spinner color={green} />
+          ) : isAuthenticated ? (
+            <Switch
+              colorScheme={'green'}
+              isChecked={schedule.currentUserConfirmed}
+              onChange={(e) => handleSwitch(e, schedule.id)}
+            />
+          ) : (
+            <CustomIconButton
+              aria-label={'login'}
+              icon={<MdLogin size="20px" />}
+              onClick={() => router.push(`/entrar?after=${router.asPath}`)}
+            />
+          )}
           <CustomIconButton
-            aria-label={'login'}
-            icon={<MdLogin size="20px" />}
-            onClick={() => router.push(`/entrar?after=${router.asPath}`)}
+            size="sm"
+            variant={'ghost'}
+            icon={<MdMoreVert size="15px" />}
+            aria-label="ver mais"
+            onClick={onToggle}
           />
-        )}
+        </Stack>
       </HStack>
+      <Collapse in={isOpen}>
+        <Stack
+          pb={2}
+          px={2}
+          mb={2}
+          fontSize="x-small"
+          spacing={0}
+          fontStyle="italic"
+        >
+          <Text>Mínimo: {schedule.minParticipants}</Text>
+          <Text>Confirmados: {schedule.confirmedCount}</Text>
+          <TableContainer>
+            <Table>
+              <Thead>
+                <Tr>
+                  <Th></Th>
+                </Tr>
+              </Thead>
+            </Table>
+          </TableContainer>
+        </Stack>
+      </Collapse>
+
       <Progress
         position={'absolute'}
         value={(schedule.confirmedCount / schedule.maxParticipants) * 100}

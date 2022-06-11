@@ -1,6 +1,5 @@
 import {
   Badge,
-  Box,
   Button,
   HStack,
   Menu,
@@ -10,6 +9,7 @@ import {
   MenuList,
   MenuOptionGroup,
   Table,
+  TableContainer,
   Tbody,
   Td,
   Text,
@@ -24,7 +24,7 @@ import {
   MdRefresh,
 } from 'react-icons/md';
 import { gql, useQuery } from '@apollo/client';
-import { useCallback, useContext, useState } from 'react';
+import { useCallback, useContext } from 'react';
 
 import { AuthContext } from '@/contexts/AuthContext';
 import { ColorContext } from '@/contexts/ColorContext';
@@ -58,6 +58,7 @@ const ALL_PAYMENTS = gql`
 
 export interface PaymentsTableProps {
   pageSize?: number;
+  shortView?: boolean;
 }
 
 export type Payment = {
@@ -85,13 +86,11 @@ type PaymentsData = {
   };
 };
 
-function PaymentsTable({ pageSize = 10 }: PaymentsTableProps) {
+function PaymentsTable({
+  pageSize = 10,
+  shortView = false,
+}: PaymentsTableProps) {
   const router = useRouter();
-  const { page: initialPage, status: initialStatus } = router.query;
-  const [page, setPage] = useState(
-    initialPage ? parseInt(initialPage as string) : 1,
-  );
-  const [status, setStatus] = useState(initialStatus as string);
   const { green } = useContext(ColorContext);
   const { token } = useContext(AuthContext);
 
@@ -103,8 +102,6 @@ function PaymentsTable({ pageSize = 10 }: PaymentsTableProps) {
     },
     variables: {
       pageSize: pageSize,
-      page: page,
-      status: status,
     },
   });
 
@@ -112,35 +109,17 @@ function PaymentsTable({ pageSize = 10 }: PaymentsTableProps) {
     if (data?.allPayments.hasNext) {
       await refetch({
         page: data.allPayments.page + 1,
-      }).then(() => {
-        setPage(data.allPayments.page + 1);
-        router.push('/bank/payments', {
-          query: {
-            ...router.query,
-            page: data.allPayments.page + 1,
-            status: status,
-          },
-        });
       });
     }
-  }, [data, refetch, router, status, setPage]);
+  }, [data, refetch]);
 
   const handlePreviousPage = useCallback(async () => {
     if (data?.allPayments.hasPrev) {
       await refetch({
         page: data.allPayments.page - 1,
-      }).then(() => {
-        setPage(data.allPayments.page - 1);
-        router.replace('/bank/payments', {
-          query: {
-            ...router.query,
-            page: data.allPayments.page - 1,
-            status: status,
-          },
-        });
       });
     }
-  }, [data, refetch, router, status, setPage]);
+  }, [data, refetch]);
 
   return (
     <>
@@ -158,13 +137,6 @@ function PaymentsTable({ pageSize = 10 }: PaymentsTableProps) {
                 refetch({
                   status: value,
                 });
-                router.replace('/bank/payments', {
-                  query: {
-                    page,
-                    status: value,
-                  },
-                });
-                setStatus(value as string);
               }}
             >
               <MenuItemOption value="">Todos</MenuItemOption>
@@ -185,7 +157,7 @@ function PaymentsTable({ pageSize = 10 }: PaymentsTableProps) {
           />
         </HStack>
       </HStack>
-      <Box overflowX={'auto'}>
+      <TableContainer>
         <Table size={'sm'}>
           <Thead>
             {data?.allPayments.objects.length === 0 ? (
@@ -209,7 +181,7 @@ function PaymentsTable({ pageSize = 10 }: PaymentsTableProps) {
             {data?.allPayments.objects.map((node) => (
               <Tr key={node.id}>
                 <Td>{node.user.member.name}</Td>
-                <Td maxW="32">{node.description}</Td>
+                <Td>{node.description}</Td>
 
                 <Td>
                   {node.amount} {node.currency}
@@ -250,8 +222,8 @@ function PaymentsTable({ pageSize = 10 }: PaymentsTableProps) {
             ))}
           </Tbody>
         </Table>
-      </Box>
-      <HStack w="full" justify={'center'}>
+      </TableContainer>
+      <HStack w="full" justify={'center'} display={shortView ? 'none' : 'flex'}>
         <CustomIconButton
           visibility={data?.allPayments?.hasPrev ? 'visible' : 'hidden'}
           aria-label="prev-page"

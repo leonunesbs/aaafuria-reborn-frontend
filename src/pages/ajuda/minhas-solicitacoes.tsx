@@ -15,6 +15,7 @@ import {
   Skeleton,
   Stack,
   Table,
+  TableContainer,
   Tbody,
   Td,
   Text,
@@ -162,96 +163,98 @@ function Solicitacoes() {
       <Stack maxW="7xl" mx="auto" spacing={4}>
         <PageHeading>Minhas solicitações</PageHeading>
         <Skeleton isLoaded={!loading}>
-          <Card overflowX="auto">
-            <Table>
-              <Thead>
-                <Tr>
-                  <Th></Th>
-                  <Th>Título</Th>
-                  <Th>Atualizado em</Th>
-                  <Th>Iniciado em</Th>
-                  <Th>Status</Th>
-                  <Th>Prioridade</Th>
-                </Tr>
-              </Thead>
-              <Tbody>
-                {data?.socioIssues && data.socioIssues.edges.length < 1 && (
+          <Card>
+            <TableContainer>
+              <Table>
+                <Thead>
                   <Tr>
-                    <Td colSpan={6}>
-                      <Text textAlign={'center'}>
-                        <em>Você ainda não possui nenhuma solicitação.</em>
-                      </Text>
-                    </Td>
+                    <Th></Th>
+                    <Th>Título</Th>
+                    <Th>Atualizado em</Th>
+                    <Th>Iniciado em</Th>
+                    <Th>Status</Th>
+                    <Th>Prioridade</Th>
                   </Tr>
-                )}
-                {data?.socioIssues?.edges.map((issue) => (
-                  <Tr key={issue.node.id}>
-                    <Td>
-                      <HStack>
-                        <CustomIconButton
-                          aria-label="view"
-                          icon={<FaEye size="15px" />}
-                          onClick={() =>
-                            router.push(`/ajuda/solicitacao/${issue.node.id}`)
+                </Thead>
+                <Tbody>
+                  {data?.socioIssues && data.socioIssues.edges.length < 1 && (
+                    <Tr>
+                      <Td colSpan={6}>
+                        <Text textAlign={'center'}>
+                          <em>Você ainda não possui nenhuma solicitação.</em>
+                        </Text>
+                      </Td>
+                    </Tr>
+                  )}
+                  {data?.socioIssues?.edges.map((issue) => (
+                    <Tr key={issue.node.id}>
+                      <Td>
+                        <HStack>
+                          <CustomIconButton
+                            aria-label="view"
+                            icon={<FaEye size="15px" />}
+                            onClick={() =>
+                              router.push(`/ajuda/solicitacao/${issue.node.id}`)
+                            }
+                          />
+                        </HStack>
+                      </Td>
+                      <Td>{issue.node.title}</Td>
+                      <Td>
+                        <Text as="time" dateTime={issue.node.updatedAt}>
+                          {new Date(issue.node.updatedAt).toLocaleString(
+                            'pt-BR',
+                            {
+                              dateStyle: 'short',
+                              timeStyle: 'short',
+                              timeZone: 'America/Sao_Paulo',
+                            },
+                          )}
+                        </Text>
+                      </Td>
+                      <Td>
+                        <Text as="time" dateTime={issue.node.createdAt}>
+                          {new Date(issue.node.createdAt).toLocaleString(
+                            'pt-BR',
+                            {
+                              dateStyle: 'short',
+                              timeStyle: 'short',
+                              timeZone: 'America/Sao_Paulo',
+                            },
+                          )}
+                        </Text>
+                      </Td>
+                      <Td>
+                        <Badge
+                          colorScheme={
+                            issue.node.status === 'OPEN'
+                              ? 'green'
+                              : issue.node.status === 'IN_PROGRESS'
+                              ? 'yellow'
+                              : 'red'
                           }
-                        />
-                      </HStack>
-                    </Td>
-                    <Td>{issue.node.title}</Td>
-                    <Td>
-                      <Text as="time" dateTime={issue.node.updatedAt}>
-                        {new Date(issue.node.updatedAt).toLocaleString(
-                          'pt-BR',
-                          {
-                            dateStyle: 'short',
-                            timeStyle: 'short',
-                            timeZone: 'America/Sao_Paulo',
-                          },
-                        )}
-                      </Text>
-                    </Td>
-                    <Td>
-                      <Text as="time" dateTime={issue.node.createdAt}>
-                        {new Date(issue.node.createdAt).toLocaleString(
-                          'pt-BR',
-                          {
-                            dateStyle: 'short',
-                            timeStyle: 'short',
-                            timeZone: 'America/Sao_Paulo',
-                          },
-                        )}
-                      </Text>
-                    </Td>
-                    <Td>
-                      <Badge
-                        colorScheme={
-                          issue.node.status === 'OPEN'
-                            ? 'green'
-                            : issue.node.status === 'IN_PROGRESS'
-                            ? 'yellow'
-                            : 'red'
-                        }
-                      >
-                        {issue.node.getStatusDisplay}
-                      </Badge>
-                    </Td>
-                    <Td>
-                      <Badge
-                        colorScheme={
-                          issue.node.priority === 'LOW'
-                            ? 'blue'
-                            : issue.node.priority === 'MEDIUM'
-                            ? 'yellow'
-                            : 'red'
-                        }
-                      >
-                        {issue.node.getPriorityDisplay}
-                      </Badge>
-                    </Td>
-                  </Tr>
-                ))}
-              </Tbody>
-            </Table>
+                        >
+                          {issue.node.getStatusDisplay}
+                        </Badge>
+                      </Td>
+                      <Td>
+                        <Badge
+                          colorScheme={
+                            issue.node.priority === 'LOW'
+                              ? 'blue'
+                              : issue.node.priority === 'MEDIUM'
+                              ? 'yellow'
+                              : 'red'
+                          }
+                        >
+                          {issue.node.getPriorityDisplay}
+                        </Badge>
+                      </Td>
+                    </Tr>
+                  ))}
+                </Tbody>
+              </Table>
+            </TableContainer>
           </Card>
         </Skeleton>
         <Stack>

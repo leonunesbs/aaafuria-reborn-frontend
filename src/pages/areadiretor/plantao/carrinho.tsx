@@ -4,6 +4,7 @@ import {
   IconButton,
   Spinner,
   Table,
+  TableContainer,
   Tbody,
   Td,
   Text,
@@ -155,140 +156,144 @@ function Carrinho() {
     <Layout title="Carrinho Plantão">
       <Box maxW="6xl" mx="auto">
         <PageHeading>Carrinho plantão</PageHeading>
-        <Card mt={10} overflowX="auto">
-          <Table size="sm">
-            <Thead>
-              <Tr>
-                <Th>Produto</Th>
-                <Th>Variação</Th>
-                <Th>Observações</Th>
-                <Th maxW="sm">Quantidade</Th>
-                <Th isNumeric>Valor unitário</Th>
-                <Th isNumeric>Total unitário</Th>
-                <Th>Ação</Th>
-              </Tr>
-            </Thead>
-            <Tbody>
-              {data?.plantaoCarrinho?.produtos?.edges?.map(
-                ({
-                  node: {
-                    id,
-                    produto,
-                    variacao,
-                    observacoes,
-                    quantidade,
-                    preco,
-                    precoSocio,
-                  },
-                }: {
-                  node: {
-                    id: string;
-                    user: {
-                      socio: {
-                        isSocio: boolean;
+        <Card mt={10}>
+          <TableContainer>
+            <Table size="sm">
+              <Thead>
+                <Tr>
+                  <Th>Produto</Th>
+                  <Th>Variação</Th>
+                  <Th>Observações</Th>
+                  <Th maxW="sm">Quantidade</Th>
+                  <Th isNumeric>Valor unitário</Th>
+                  <Th isNumeric>Total unitário</Th>
+                  <Th>Ação</Th>
+                </Tr>
+              </Thead>
+              <Tbody>
+                {data?.plantaoCarrinho?.produtos?.edges?.map(
+                  ({
+                    node: {
+                      id,
+                      produto,
+                      variacao,
+                      observacoes,
+                      quantidade,
+                      preco,
+                      precoSocio,
+                    },
+                  }: {
+                    node: {
+                      id: string;
+                      user: {
+                        socio: {
+                          isSocio: boolean;
+                        };
                       };
+                      produto: { nome: string; id: string };
+                      variacao: { nome: string; id: string } | null;
+                      observacoes: string;
+                      quantidade: number;
+                      preco: any;
+                      precoSocio: any;
                     };
-                    produto: { nome: string; id: string };
-                    variacao: { nome: string; id: string } | null;
-                    observacoes: string;
-                    quantidade: number;
-                    preco: any;
-                    precoSocio: any;
-                  };
-                }) => (
-                  <Tr key={`${produto.id}-${quantidade}`}>
-                    <Td>{produto.nome}</Td>
-                    <Td>{variacao?.nome}</Td>
-                    <Td>{observacoes}</Td>
-                    <Td>
-                      <HStack>
-                        <CustomIconButton
-                          isDisabled={loading}
-                          aria-label="remove_from_cart"
-                          icon={<FaMinus size="15px" />}
+                  }) => (
+                    <Tr key={`${produto.id}-${quantidade}`}>
+                      <Td>{produto.nome}</Td>
+                      <Td>{variacao?.nome}</Td>
+                      <Td>{observacoes}</Td>
+                      <Td>
+                        <HStack>
+                          <CustomIconButton
+                            isDisabled={loading}
+                            aria-label="remove_from_cart"
+                            icon={<FaMinus size="15px" />}
+                            onClick={() => {
+                              setLoading(true);
+                              removeFromPlantaoCart({
+                                variables: {
+                                  produtoPedidoId: id,
+                                  matriculaSocio,
+                                },
+                              }).then(() =>
+                                refetch().then(() => setLoading(false)),
+                              );
+                            }}
+                          />
+                          {loading ? (
+                            <Spinner color="green" size="sm" />
+                          ) : (
+                            <Text>{quantidade}</Text>
+                          )}
+                          <CustomIconButton
+                            isDisabled={loading}
+                            aria-label="add_to_cart"
+                            icon={<FaPlus size="15px" />}
+                            onClick={() => {
+                              setLoading(true);
+                              addToCartPlantao({
+                                variables: {
+                                  matriculaSocio,
+                                  productId: produto.id,
+                                  quantidade: 1,
+                                  variacaoId: variacao?.id,
+                                },
+                              }).then(() => {
+                                refetch().then(() => setLoading(false));
+                              });
+                            }}
+                          />
+                        </HStack>
+                      </Td>
+                      <Td isNumeric>
+                        {data?.plantaoCarrinho.user.socio.isSocio
+                          ? precoSocio.replace('.', ',')
+                          : preco.replace('.', ',')}
+                      </Td>
+                      <Td isNumeric>
+                        {data?.plantaoCarrinho.user.socio.isSocio
+                          ? (precoSocio * quantidade)
+                              .toFixed(2)
+                              .replace('.', ',')
+                          : (preco * quantidade).toFixed(2).replace('.', ',')}
+                      </Td>
+                      <Td>
+                        <IconButton
+                          aria-label="remover"
+                          colorScheme="red"
+                          variant="ghost"
+                          size="sm"
+                          icon={<MdDelete size="25px" />}
                           onClick={() => {
                             setLoading(true);
                             removeFromPlantaoCart({
                               variables: {
                                 produtoPedidoId: id,
                                 matriculaSocio,
+                                remove: true,
                               },
                             }).then(() =>
                               refetch().then(() => setLoading(false)),
                             );
                           }}
                         />
-                        {loading ? (
-                          <Spinner color="green" size="sm" />
-                        ) : (
-                          <Text>{quantidade}</Text>
-                        )}
-                        <CustomIconButton
-                          isDisabled={loading}
-                          aria-label="add_to_cart"
-                          icon={<FaPlus size="15px" />}
-                          onClick={() => {
-                            setLoading(true);
-                            addToCartPlantao({
-                              variables: {
-                                matriculaSocio,
-                                productId: produto.id,
-                                quantidade: 1,
-                                variacaoId: variacao?.id,
-                              },
-                            }).then(() => {
-                              refetch().then(() => setLoading(false));
-                            });
-                          }}
-                        />
-                      </HStack>
-                    </Td>
-                    <Td isNumeric>
-                      {data?.plantaoCarrinho.user.socio.isSocio
-                        ? precoSocio.replace('.', ',')
-                        : preco.replace('.', ',')}
-                    </Td>
-                    <Td isNumeric>
-                      {data?.plantaoCarrinho.user.socio.isSocio
-                        ? (precoSocio * quantidade).toFixed(2).replace('.', ',')
-                        : (preco * quantidade).toFixed(2).replace('.', ',')}
-                    </Td>
-                    <Td>
-                      <IconButton
-                        aria-label="remover"
-                        colorScheme="red"
-                        variant="ghost"
-                        size="sm"
-                        icon={<MdDelete size="25px" />}
-                        onClick={() => {
-                          setLoading(true);
-                          removeFromPlantaoCart({
-                            variables: {
-                              produtoPedidoId: id,
-                              matriculaSocio,
-                              remove: true,
-                            },
-                          }).then(() =>
-                            refetch().then(() => setLoading(false)),
-                          );
-                        }}
-                      />
-                    </Td>
-                  </Tr>
-                ),
-              )}
-            </Tbody>
-            <Tfoot>
-              <Tr>
-                <Th />
-                <Th />
-                <Th isNumeric>TOTAL</Th>
-                <Th isNumeric>
-                  {data?.plantaoCarrinho.total.replace('.', ',')}
-                </Th>
-              </Tr>
-            </Tfoot>
-          </Table>
+                      </Td>
+                    </Tr>
+                  ),
+                )}
+              </Tbody>
+              <Tfoot>
+                <Tr>
+                  <Th />
+                  <Th />
+                  <Th isNumeric>TOTAL</Th>
+                  <Th isNumeric>
+                    {data?.plantaoCarrinho.total.replace('.', ',')}
+                  </Th>
+                </Tr>
+              </Tfoot>
+            </Table>
+          </TableContainer>
         </Card>
         <HStack flexDir="row-reverse" mt={4}>
           <CustomButton

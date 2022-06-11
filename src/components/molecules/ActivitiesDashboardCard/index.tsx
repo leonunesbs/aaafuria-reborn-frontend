@@ -3,6 +3,7 @@ import {
   HStack,
   Heading,
   Table,
+  TableContainer,
   Tbody,
   Td,
   Tfoot,
@@ -59,7 +60,7 @@ function ActivitiesDashboardCard({}: ActivitiesDashboardCardProps) {
           ATIVIDADES
         </Heading>
       </HStack>
-      <Box overflowX="auto">
+      <TableContainer>
         <Table size="sm">
           <Thead>
             <Tr>
@@ -94,7 +95,7 @@ function ActivitiesDashboardCard({}: ActivitiesDashboardCardProps) {
             </Tr>
           </Tfoot>
         </Table>
-      </Box>
+      </TableContainer>
     </Card>
   );
 }

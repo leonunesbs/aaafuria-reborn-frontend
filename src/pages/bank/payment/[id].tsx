@@ -9,6 +9,7 @@ import {
   Input,
   Stack,
   Table,
+  TableContainer,
   Tbody,
   Td,
   Text,
@@ -283,55 +284,57 @@ function Payment() {
               <Heading size="sm" my={4}>
                 DADOS DO CLIENTE
               </Heading>
-              <Table size="sm">
-                <Tbody>
-                  <Tr>
-                    <Td>
-                      <Text>Nome:</Text>
-                    </Td>
-                    <Td textAlign={'right'}>
-                      <Text>{data?.payment.user.member.name}</Text>
-                    </Td>
-                  </Tr>
-                  <Tr>
-                    <Td>
-                      <Text>Matrícula:</Text>
-                    </Td>
-                    <Td textAlign={'right'}>
-                      <Text>{data?.payment.user.member.registration}</Text>
-                    </Td>
-                  </Tr>
-                  <Tr>
-                    <Td>
-                      <Text>Turma:</Text>
-                    </Td>
-                    <Td textAlign={'right'}>
-                      <Text>{data?.payment.user.member.group}</Text>
-                    </Td>
-                  </Tr>
-                  <Tr>
-                    <Td>
-                      <Text>Associação:</Text>
-                    </Td>
-                    <Td textAlign={'right'}>
-                      <Text>
-                        {data?.payment.user.member.hasActiveMembership ? (
-                          <Badge colorScheme="green">Sócio Ativo</Badge>
-                        ) : (
-                          <Badge colorScheme="red">Sócio Inativo</Badge>
-                        )}
-                      </Text>
-                    </Td>
-                  </Tr>
-                </Tbody>
-              </Table>
+              <TableContainer>
+                <Table size="sm">
+                  <Tbody>
+                    <Tr>
+                      <Td>
+                        <Text>Nome:</Text>
+                      </Td>
+                      <Td textAlign={'right'}>
+                        <Text>{data?.payment.user.member.name}</Text>
+                      </Td>
+                    </Tr>
+                    <Tr>
+                      <Td>
+                        <Text>Matrícula:</Text>
+                      </Td>
+                      <Td textAlign={'right'}>
+                        <Text>{data?.payment.user.member.registration}</Text>
+                      </Td>
+                    </Tr>
+                    <Tr>
+                      <Td>
+                        <Text>Turma:</Text>
+                      </Td>
+                      <Td textAlign={'right'}>
+                        <Text>{data?.payment.user.member.group}</Text>
+                      </Td>
+                    </Tr>
+                    <Tr>
+                      <Td>
+                        <Text>Associação:</Text>
+                      </Td>
+                      <Td textAlign={'right'}>
+                        <Text>
+                          {data?.payment.user.member.hasActiveMembership ? (
+                            <Badge colorScheme="green">Sócio Ativo</Badge>
+                          ) : (
+                            <Badge colorScheme="red">Sócio Inativo</Badge>
+                          )}
+                        </Text>
+                      </Td>
+                    </Tr>
+                  </Tbody>
+                </Table>
+              </TableContainer>
             </Box>
 
             <Box>
               <Heading size="sm" my={4}>
                 DETALHES DO PAGAMENTO
               </Heading>
-              <Box overflowX="auto">
+              <TableContainer>
                 <Table size="sm">
                   <Tbody>
                     <Tr>
@@ -427,7 +430,7 @@ function Payment() {
                     </Tr>
                   </Tbody>
                 </Table>
-              </Box>
+              </TableContainer>
             </Box>
             <Box>
               <HStack w="full" justify={'space-between'}>
@@ -479,7 +482,7 @@ function Payment() {
                   </Stack>
                 </Collapse>
               </form>
-              <Box overflowX="auto">
+              <TableContainer>
                 <Table size="sm">
                   <Thead>
                     <Tr>
@@ -517,7 +520,7 @@ function Payment() {
                     ))}
                   </Tbody>
                 </Table>
-              </Box>
+              </TableContainer>
             </Box>
           </Stack>
 

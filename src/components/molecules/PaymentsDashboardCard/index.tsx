@@ -15,12 +15,12 @@ function PaymentsDashboardCard({}: PaymentsDashboardCardProps) {
       <HStack mb={4} w="full" justify={'space-between'}>
         <CustomChakraNextLink href={'/bank/payments'}>
           <Heading size="md" color={green}>
-            PAGAMENTOS
+            ÚLTIMOS PAGAMENTOS
           </Heading>
         </CustomChakraNextLink>
         <AddPaymentDrawer />
       </HStack>
-      <PaymentsTable pageSize={5} />
+      <PaymentsTable pageSize={5} shortView />
     </Card>
   );
 }
