@@ -130,7 +130,7 @@ function PaymentsTable({
           </MenuButton>
           <MenuList minWidth="240px">
             <MenuOptionGroup
-              defaultValue={''}
+              defaultValue={'PENDENTE'}
               title="Status"
               type="radio"
               onChange={(value) => {
@@ -142,7 +142,6 @@ function PaymentsTable({
               <MenuItemOption value="">Todos</MenuItemOption>
               <MenuItemOption value="PAGO">Pagos</MenuItemOption>
               <MenuItemOption value="PENDENTE">Pendentes</MenuItemOption>
-              <MenuItemOption value="EXPIRADO">Expirados</MenuItemOption>
             </MenuOptionGroup>
             <MenuDivider />
           </MenuList>
