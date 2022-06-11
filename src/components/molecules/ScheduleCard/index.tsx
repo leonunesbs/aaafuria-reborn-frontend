@@ -51,7 +51,7 @@ export interface ScheduleCardProps {
 export default function ScheduleCard({ schedule, refetch }: ScheduleCardProps) {
   const router = useRouter();
 
-  const { token, isAuthenticated } = useContext(AuthContext);
+  const { token, user, isAuthenticated } = useContext(AuthContext);
   const { green } = useContext(ColorContext);
 
   const toast = useToast();
@@ -224,7 +224,9 @@ export default function ScheduleCard({ schedule, refetch }: ScheduleCardProps) {
               </Table>
             </TableContainer>
           </Stack>
-          <ManageScheduleDrawer scheduleId={schedule.id} refetch={refetch} />
+          {user?.isStaff && (
+            <ManageScheduleDrawer scheduleId={schedule.id} refetch={refetch} />
+          )}
         </HStack>
       </Collapse>
 
