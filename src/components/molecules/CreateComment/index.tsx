@@ -67,7 +67,7 @@ export const CreateComment = ({
       })
         .then(() => {
           toast({
-            description: 'Comentário adicionado!',
+            description: 'Comentário adicionado',
             status: 'info',
             duration: 2500,
             isClosable: true,

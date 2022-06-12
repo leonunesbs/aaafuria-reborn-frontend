@@ -90,7 +90,7 @@ export const IssueInfoCard = ({
       })
         .then(() => {
           toast({
-            description: 'Solicitação aberta com sucesso!',
+            description: 'Solicitação aberta com sucesso',
             status: 'success',
             duration: 2500,
             isClosable: true,
@@ -113,7 +113,7 @@ export const IssueInfoCard = ({
       })
         .then(() => {
           toast({
-            description: 'Solicitação fechada com sucesso!',
+            description: 'Solicitação fechada com sucesso',
             status: 'info',
             duration: 2500,
             isClosable: true,

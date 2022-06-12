@@ -1,7 +1,8 @@
-import { Box, BoxProps, useColorModeValue } from '@chakra-ui/react';
 import { Footer, Header } from '@/components/molecules';
-import React, { ReactNode } from 'react';
+import { Box, BoxProps, useColorModeValue } from '@chakra-ui/react';
+import { ReactNode, useContext, useEffect } from 'react';
 
+import { AuthContext } from '@/contexts/AuthContext';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 
@@ -25,6 +26,11 @@ export const Layout = ({
 }: LayoutProps) => {
   const bg = useColorModeValue('gray.50', 'gray.900');
   const router = useRouter();
+  const { checkAuth } = useContext(AuthContext);
+
+  useEffect(() => {
+    checkAuth();
+  }, [checkAuth]);
 
   return (
     <>

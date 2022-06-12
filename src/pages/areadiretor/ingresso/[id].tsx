@@ -7,6 +7,7 @@ import {
   AlertDialogOverlay,
   Box,
   Table,
+  TableContainer,
   Td,
   Text,
   Tr,
@@ -116,7 +117,7 @@ const Ingresso = () => {
     })
       .then(() => {
         toast({
-          title: 'Ingresso invalidado com sucesso!',
+          title: 'Ingresso invalidado com sucesso',
           status: 'success',
           duration: 5000,
           position: 'top-left',
@@ -168,82 +169,84 @@ const Ingresso = () => {
             'default'
           }
         >
-          <Table mb={4}>
-            <Tr>
-              <Td>
-                <b>Evento: </b>
-              </Td>
-              <Td>{ingresso?.lote?.evento?.nome}</Td>
-            </Tr>
-            <Tr>
-              <Td>
-                <b>Lote: </b>
-              </Td>
-              <Td>{ingresso?.lote?.nome}</Td>
-            </Tr>
-            <Tr>
-              <Td>
-                <b>Status: </b>
-              </Td>
-              <Td>{ingresso?.status}</Td>
-            </Tr>
-            <Tr>
-              <Td>
-                <b>Data da Compra: </b>
-              </Td>
-              <Td>
-                <Text as="time" dateTime={ingresso?.dataCompra}>
-                  {new Date(ingresso?.dataCompra).toLocaleString('pt-BR', {
-                    dateStyle: 'short',
-                    timeStyle: 'short',
-                    timeZone: 'America/Sao_Paulo',
-                  })}
-                </Text>
-              </Td>
-            </Tr>
-            <Tr>
-              <Td>
-                <b>Nome: </b>
-              </Td>
-              <Td>{ingresso?.participante?.nome}</Td>
-            </Tr>
-            <Tr>
-              <Td>
-                <b>Matrícula: </b>
-              </Td>
-              <Td>{ingresso?.participante?.socio?.matricula}</Td>
-            </Tr>
-            <Tr>
-              <Td>
-                <b>Turma: </b>
-              </Td>
-              <Td>{ingresso?.participante?.socio?.turma}</Td>
-            </Tr>
-            <Tr>
-              <Td>
-                <b>Categoria: </b>
-              </Td>
-              <Td>{ingresso?.participante?.categoria}</Td>
-            </Tr>
-            <Tr>
-              <Td>
-                <b>RG: </b>
-              </Td>
-              <Td>{ingresso?.participante?.rg}</Td>
-            </Tr>
-            <Tr>
-              <Td>
-                <b>CPF: </b>
-              </Td>
-              <Td>{ingresso?.participante?.cpf}</Td>
-            </Tr>
-            <Tr>
-              <Td>
-                <b>Data de Nascimento: </b>
-              </Td>
-              <Td>{ingresso?.participante?.dataNascimento}</Td>
-            </Tr>
-          </Table>
+          <TableContainer>
+            <Table mb={4}>
+              <Tr>
+                <Td>
+                  <b>Evento: </b>
+                </Td>
+                <Td>{ingresso?.lote?.evento?.nome}</Td>
+              </Tr>
+              <Tr>
+                <Td>
+                  <b>Lote: </b>
+                </Td>
+                <Td>{ingresso?.lote?.nome}</Td>
+              </Tr>
+              <Tr>
+                <Td>
+                  <b>Status: </b>
+                </Td>
+                <Td>{ingresso?.status}</Td>
+              </Tr>
+              <Tr>
+                <Td>
+                  <b>Data da Compra: </b>
+                </Td>
+                <Td>
+                  <Text as="time" dateTime={ingresso?.dataCompra}>
+                    {new Date(ingresso?.dataCompra).toLocaleString('pt-BR', {
+                      dateStyle: 'short',
+                      timeStyle: 'short',
+                      timeZone: 'America/Sao_Paulo',
+                    })}
+                  </Text>
+                </Td>
+              </Tr>
+              <Tr>
+                <Td>
+                  <b>Nome: </b>
+                </Td>
+                <Td>{ingresso?.participante?.nome}</Td>
+              </Tr>
+              <Tr>
+                <Td>
+                  <b>Matrícula: </b>
+                </Td>
+                <Td>{ingresso?.participante?.socio?.matricula}</Td>
+              </Tr>
+              <Tr>
+                <Td>
+                  <b>Turma: </b>
+                </Td>
+                <Td>{ingresso?.participante?.socio?.turma}</Td>
+              </Tr>
+              <Tr>
+                <Td>
+                  <b>Categoria: </b>
+                </Td>
+                <Td>{ingresso?.participante?.categoria}</Td>
+              </Tr>
+              <Tr>
+                <Td>
+                  <b>RG: </b>
+                </Td>
+                <Td>{ingresso?.participante?.rg}</Td>
+              </Tr>
+              <Tr>
+                <Td>
+                  <b>CPF: </b>
+                </Td>
+                <Td>{ingresso?.participante?.cpf}</Td>
+              </Tr>
+              <Tr>
+                <Td>
+                  <b>Data de Nascimento: </b>
+                </Td>
+                <Td>{ingresso?.participante?.dataNascimento}</Td>
+              </Tr>
+            </Table>
+          </TableContainer>
           {ingresso?.status == 'PAGO' && (
             <CustomButton onClick={onOpen}>Invalidar ingresso</CustomButton>
           )}

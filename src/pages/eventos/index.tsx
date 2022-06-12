@@ -14,12 +14,7 @@ import {
   useColorModeValue,
   useToast,
 } from '@chakra-ui/react';
-import {
-  CustomButton,
-  CustomChakraNextLink,
-  PageHeading,
-  VoltarButton,
-} from '@/components/atoms';
+import { CustomButton, PageHeading, VoltarButton } from '@/components/atoms';
 import { FaTicketAlt, FaWhatsapp } from 'react-icons/fa';
 import { MdLogin, MdPayment, MdSend } from 'react-icons/md';
 import { gql, useMutation, useQuery } from '@apollo/client';
@@ -112,7 +107,7 @@ function Eventos() {
         .then(({ data }) => {
           if (!presencial) {
             toast({
-              title: 'Ingresso reservado, efetue o pagamento em até 1h!',
+              title: 'Ingresso reservado, efetue o pagamento em até 1h',
               status: 'success',
               duration: 2500,
               isClosable: true,
@@ -122,7 +117,7 @@ function Eventos() {
           } else {
             refetch();
             toast({
-              title: 'Ingresso reservado, efetue o pagamento em até 1h!',
+              title: 'Ingresso reservado, efetue o pagamento em até 1h',
               description: (
                 <Box mx="auto">
                   <Text>
@@ -174,7 +169,7 @@ function Eventos() {
         .then(({ data }) => {
           if (data.novoIngresso?.ok) {
             toast({
-              description: 'Participação confirmada!',
+              description: 'Participação confirmada',
               status: 'success',
               duration: 2500,
               isClosable: true,
@@ -386,7 +381,7 @@ function Eventos() {
                   borderTopRadius={0}
                   variant="solid"
                   isLoading={loading}
-                  onClick={() => router.push(`entrar?after=${router.asPath}`)}
+                  onClick={() => router.push(`/entrar?after=${router.asPath}`)}
                 >
                   Faça login para participar
                 </CustomButton>
@@ -401,15 +396,14 @@ function Eventos() {
         </Text>
       )}
       <Stack mt={4} align="center">
-        <CustomChakraNextLink href="/eventos/meus-ingressos">
-          <CustomButton
-            mt={4}
-            colorScheme="gray"
-            leftIcon={<FaTicketAlt size="25px" />}
-          >
-            Meus ingressos
-          </CustomButton>
-        </CustomChakraNextLink>
+        <CustomButton
+          mt={4}
+          colorScheme="gray"
+          leftIcon={<FaTicketAlt size="25px" />}
+          onClick={() => router.push('/eventos/meus-ingressos')}
+        >
+          Meus ingressos
+        </CustomButton>
         <VoltarButton href="/" />
       </Stack>
     </Layout>

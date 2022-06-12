@@ -1,7 +1,7 @@
 import * as gtag from 'lib/gtag';
 
 import { Analytics, Fonts } from '@/components/atoms';
-import React, { useEffect } from 'react';
+import { ReactNode, useEffect } from 'react';
 
 import { ApolloProvider } from '@apollo/client';
 import { AppProps } from 'next/app';
@@ -14,7 +14,7 @@ import { hotjar } from 'react-hotjar';
 import { theme } from '@/styles/theme';
 import { useRouter } from 'next/router';
 
-const ContextProviders: React.FC = ({ children }) => {
+const ContextProviders = ({ children }: { children: ReactNode }) => {
   return (
     <LoadingProvider>
       <ColorProvider>
@@ -46,14 +46,16 @@ export default function MyApp({ Component, pageProps }: AppProps) {
   }, []);
 
   return (
-    <ChakraProvider theme={theme}>
-      <Fonts />
-      <ApolloProvider client={client}>
-        <ContextProviders>
-          <Component {...pageProps} />
-          <Analytics />
-        </ContextProviders>
-      </ApolloProvider>
-    </ChakraProvider>
+    <>
+      <ChakraProvider theme={theme}>
+        <Fonts />
+        <ApolloProvider client={client}>
+          <ContextProviders>
+            <Component {...pageProps} />
+            <Analytics />
+          </ContextProviders>
+        </ApolloProvider>
+      </ChakraProvider>
+    </>
   );
 }

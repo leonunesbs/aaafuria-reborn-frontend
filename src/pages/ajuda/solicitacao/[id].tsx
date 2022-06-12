@@ -4,11 +4,7 @@ import {
   CreateComment,
   IssueInfoCard,
 } from '@/components/molecules';
-import {
-  CustomChakraNextLink,
-  PageHeading,
-  VoltarButton,
-} from '@/components/atoms';
+import { PageHeading, VoltarButton } from '@/components/atoms';
 import { gql, useQuery } from '@apollo/client';
 import { useContext, useEffect } from 'react';
 
@@ -102,14 +98,13 @@ function Solicitacao() {
         <Stack>
           <CreateComment issueId={id as string} refetchIssue={refetch} />
           {user?.isStaff && (
-            <CustomChakraNextLink href={'/ajuda/gerenciar-solicitacoes'}>
-              <CustomButton
-                leftIcon={<MdHelpCenter size="25px" />}
-                colorScheme={'yellow'}
-              >
-                Gerenciar solicitações
-              </CustomButton>
-            </CustomChakraNextLink>
+            <CustomButton
+              leftIcon={<MdHelpCenter size="25px" />}
+              colorScheme={'yellow'}
+              onClick={() => router.push('/ajuda/gerenciar-solicitacoes')}
+            >
+              Gerenciar solicitações
+            </CustomButton>
           )}
           <VoltarButton href={'/ajuda/minhas-solicitacoes'} />
         </Stack>

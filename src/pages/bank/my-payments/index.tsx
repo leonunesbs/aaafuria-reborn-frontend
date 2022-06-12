@@ -2,6 +2,7 @@ import {
   Badge,
   Box,
   Table,
+  TableContainer,
   Tbody,
   Td,
   Text,
@@ -10,7 +11,6 @@ import {
   Tr,
 } from '@chakra-ui/react';
 import {
-  CustomChakraNextLink,
   CustomIconButton,
   PageHeading,
   VoltarButton,
@@ -24,6 +24,7 @@ import { Layout } from '@/components/templates/Layout';
 import { MdMoreHoriz } from 'react-icons/md';
 import { parseCookies } from 'nookies';
 import { useContext } from 'react';
+import { useRouter } from 'next/router';
 
 const MY_PAYMENTS = gql`
   query MyPayments {
@@ -58,6 +59,7 @@ type MyPaymentsData = {
 };
 
 function MyPayments() {
+  const router = useRouter();
   const { token } = useContext(AuthContext);
   const { data } = useQuery<MyPaymentsData>(MY_PAYMENTS, {
     context: {
@@ -71,55 +73,58 @@ function MyPayments() {
     <Layout title="Meus pagamentos">
       <Box maxW="5xl" mx="auto">
         <PageHeading>Meus pagamentos</PageHeading>
-        <Card overflowX="auto">
-          <Table size={'sm'}>
-            <Thead>
-              <Tr>
-                <Th>Descrição</Th>
-                <Th>Valor</Th>
-                <Th>Criado em</Th>
-                <Th>Status</Th>
-                <Th />
-              </Tr>
-            </Thead>
-            <Tbody>
-              {data?.myPayments?.edges?.map(({ node }) => (
-                <Tr key={node.id}>
-                  <Td>{node.description}</Td>
-                  <Td>
-                    {node.amount} {node.currency}
-                  </Td>
-                  <Td>
-                    <Text as={'time'} dateTime={node.createdAt}>
-                      {new Date(node.createdAt).toLocaleString('pt-BR', {
-                        timeStyle: 'short',
-                        dateStyle: 'short',
-                        timeZone: 'America/Sao_Paulo',
-                      })}
-                    </Text>
-                  </Td>
-                  <Td>
-                    <Text>
-                      <Badge
-                        variant={'solid'}
-                        colorScheme={node.status === 'PAGO' ? 'green' : 'gray'}
-                      >
-                        {node.status}
-                      </Badge>
-                    </Text>
-                  </Td>
-                  <Td>
-                    <CustomChakraNextLink href={`/bank/payment/${node.id}`}>
+        <Card>
+          <TableContainer>
+            <Table size={'sm'}>
+              <Thead>
+                <Tr>
+                  <Th>Descrição</Th>
+                  <Th>Valor</Th>
+                  <Th>Criado em</Th>
+                  <Th>Status</Th>
+                  <Th />
+                </Tr>
+              </Thead>
+              <Tbody>
+                {data?.myPayments?.edges?.map(({ node }) => (
+                  <Tr key={node.id}>
+                    <Td>{node.description}</Td>
+                    <Td>
+                      {node.amount} {node.currency}
+                    </Td>
+                    <Td>
+                      <Text as={'time'} dateTime={node.createdAt}>
+                        {new Date(node.createdAt).toLocaleString('pt-BR', {
+                          timeStyle: 'short',
+                          dateStyle: 'short',
+                          timeZone: 'America/Sao_Paulo',
+                        })}
+                      </Text>
+                    </Td>
+                    <Td>
+                      <Text>
+                        <Badge
+                          variant={'solid'}
+                          colorScheme={
+                            node.status === 'PAGO' ? 'green' : 'gray'
+                          }
+                        >
+                          {node.status}
+                        </Badge>
+                      </Text>
+                    </Td>
+                    <Td>
                       <CustomIconButton
                         icon={<MdMoreHoriz size="20px" />}
                         aria-label="ver mais"
+                        onClick={() => router.push(`/bank/payment/${node.id}`)}
                       />
-                    </CustomChakraNextLink>
-                  </Td>
-                </Tr>
-              ))}
-            </Tbody>
-          </Table>
+                    </Td>
+                  </Tr>
+                ))}
+              </Tbody>
+            </Table>
+          </TableContainer>
         </Card>
         <VoltarButton href="/areamembro" />
       </Box>

@@ -1,11 +1,7 @@
 import { Box, Divider, Stack, StackProps } from '@chakra-ui/react';
-import {
-  CustomButton,
-  CustomChakraNextLink,
-  VoltarButton,
-} from '@/components/atoms';
+import { CustomButton, VoltarButton } from '@/components/atoms';
 import { FaDrum, FaVolleyballBall, FaWallet } from 'react-icons/fa';
-import React, { useCallback, useContext, useState } from 'react';
+import { useCallback, useContext, useState } from 'react';
 
 import { AiFillIdcard } from 'react-icons/ai';
 import { AuthContext } from '@/contexts/AuthContext';
@@ -50,31 +46,32 @@ export const AreaMembroMenu = ({ ...rest }: AreaMembroMenuProps) => {
 
   return (
     <Stack {...rest}>
-      <CustomChakraNextLink href="/atividades">
-        <CustomButton
-          leftIcon={
-            <>
-              <FaVolleyballBall size="20px" />
-              <Box ml={2} />
-              <FaDrum size="20px" />
-            </>
-          }
-        >
-          Atividades
-        </CustomButton>
-      </CustomChakraNextLink>
-      <CustomChakraNextLink href="/carteirinha">
-        <CustomButton leftIcon={<AiFillIdcard size="20px" />}>
-          Carteirinha
-        </CustomButton>
-      </CustomChakraNextLink>
+      <CustomButton
+        leftIcon={
+          <>
+            <FaVolleyballBall size="20px" />
+            <Box ml={2} />
+            <FaDrum size="20px" />
+          </>
+        }
+        onClick={() => router.push('/activities')}
+      >
+        Atividades
+      </CustomButton>
+      <CustomButton
+        onClick={() => router.push('/carteirinha')}
+        leftIcon={<AiFillIdcard size="20px" />}
+      >
+        Carteirinha
+      </CustomButton>
 
       <Divider height="15px" />
-      <CustomChakraNextLink href="/bank/my-payments">
-        <CustomButton leftIcon={<FaWallet size="20px" />}>
-          Pagamentos
-        </CustomButton>
-      </CustomChakraNextLink>
+      <CustomButton
+        leftIcon={<FaWallet size="20px" />}
+        onClick={() => router.push('/bank/my-payments')}
+      >
+        Pagamentos
+      </CustomButton>
 
       <CustomButton
         leftIcon={<MdManageAccounts size="20px" />}

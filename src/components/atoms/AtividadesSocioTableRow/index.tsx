@@ -1,17 +1,8 @@
 import {
-  CustomButton,
-  CustomChakraNextLink,
-  CustomIconButton,
-} from '@/components/atoms';
-import { Card } from '@/components/molecules';
-import { AuthContext } from '@/contexts/AuthContext';
-import { ColorContext } from '@/contexts/ColorContext';
-import { gql, useMutation } from '@apollo/client';
-import {
   Badge,
   Box,
-  Heading,
   HStack,
+  Heading,
   Icon,
   Progress,
   Spinner,
@@ -21,8 +12,6 @@ import {
   useColorModeValue,
   useToast,
 } from '@chakra-ui/react';
-import { useRouter } from 'next/router';
-import { parseCookies } from 'nookies';
 import {
   ChangeEvent,
   useCallback,
@@ -31,10 +20,18 @@ import {
   useMemo,
   useState,
 } from 'react';
+import { CustomButton, CustomIconButton } from '@/components/atoms';
+import { MdCalendarToday, MdLogin } from 'react-icons/md';
+import { gql, useMutation } from '@apollo/client';
+
+import { AuthContext } from '@/contexts/AuthContext';
+import { Card } from '@/components/molecules';
+import { ColorContext } from '@/contexts/ColorContext';
 import Confetti from 'react-confetti';
 import { FaWhatsapp } from 'react-icons/fa';
-import { MdCalendarToday, MdLogin } from 'react-icons/md';
 import { IAtividadesSocioTableRow } from './IAtividadesSocioTableRow';
+import { parseCookies } from 'nookies';
+import { useRouter } from 'next/router';
 
 const MUTATION_REMOVER_COMPETIDOR = gql`
   mutation removerCompetidor($id: ID!) {
@@ -110,7 +107,7 @@ export const AtividadesSocioTableRow = ({
       })
         .then(() => {
           toast({
-            title: 'Participação confirmada!',
+            title: 'Participação confirmada',
             status: 'success',
             duration: 2500,
             isClosable: true,
@@ -149,7 +146,7 @@ export const AtividadesSocioTableRow = ({
       })
         .then(() => {
           toast({
-            title: 'Participação removida!',
+            title: 'Participação removida',
             status: 'info',
             duration: 2500,
             isClosable: true,
@@ -281,15 +278,11 @@ export const AtividadesSocioTableRow = ({
             )}
           </Box>
           {isAuthenticated && node.grupoWhatsappUrl && (
-            <CustomChakraNextLink
-              href={node.grupoWhatsappUrl}
-              chakraLinkProps={{ target: '_blank' }}
-            >
-              <CustomIconButton
-                aria-label={node.modalidade.nome}
-                icon={<FaWhatsapp size="25px" />}
-              />
-            </CustomChakraNextLink>
+            <CustomIconButton
+              aria-label={node.modalidade.nome}
+              icon={<FaWhatsapp size="25px" />}
+              onClick={() => router.push(node.grupoWhatsappUrl)}
+            />
           )}
         </Stack>
       </Stack>

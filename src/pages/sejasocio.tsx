@@ -18,7 +18,7 @@ function SejaSocio() {
   useEffect(() => {
     if (user?.member.hasActiveMembership) {
       toast({
-        title: 'Você já é um sócio!',
+        title: 'Você já é um sócio',
         status: 'info',
         duration: 2500,
         isClosable: true,

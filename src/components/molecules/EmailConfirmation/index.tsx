@@ -88,7 +88,7 @@ export const EmailConfirmation = ({ ...rest }: IEmailConfirmation) => {
       }).then(() => {
         onClose();
         toast({
-          description: 'Email confirmado com sucesso!',
+          description: 'Email confirmado com sucesso',
           position: 'top-left',
           status: 'success',
           duration: 2500,

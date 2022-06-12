@@ -9,6 +9,7 @@ import {
   Input,
   Stack,
   Table,
+  TableContainer,
   Tbody,
   Td,
   Text,
@@ -18,11 +19,7 @@ import {
   useDisclosure,
   useToast,
 } from '@chakra-ui/react';
-import {
-  CustomButton,
-  CustomChakraNextLink,
-  PageHeading,
-} from '@/components/atoms';
+import { CustomButton, PageHeading } from '@/components/atoms';
 import { MdAdd, MdDelete, MdLink, MdSave } from 'react-icons/md';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { gql, useMutation, useQuery } from '@apollo/client';
@@ -32,7 +29,10 @@ import { AuthContext } from '@/contexts/AuthContext';
 import { Card } from '@/components/molecules';
 import { ColorContext } from '@/contexts/ColorContext';
 import { CustomIconButton } from '@/components/atoms/CustomIconButton';
+import { GetServerSideProps } from 'next';
 import { Layout } from '@/components/templates';
+import { Url } from 'url';
+import { parseCookies } from 'nookies';
 import { useRouter } from 'next/router';
 
 const GET_PAYMENT = gql`
@@ -72,6 +72,14 @@ const GET_PAYMENT = gql`
   }
 `;
 
+const CHECKOUT_URL = gql`
+  mutation getCheckoutUrl($paymentId: ID!) {
+    checkoutUrl(paymentId: $paymentId) {
+      url
+    }
+  }
+`;
+
 const CONFIRM_PAYMENT = gql`
   mutation confirmPayment($paymentId: ID!, $description: String!) {
     confirmPayment(paymentId: $paymentId, description: $description) {
@@ -79,6 +87,7 @@ const CONFIRM_PAYMENT = gql`
     }
   }
 `;
+
 const CANCEL_PAYMENT = gql`
   mutation cancelPayment($paymentId: ID!, $description: String!) {
     cancelPayment(paymentId: $paymentId, description: $description) {
@@ -145,13 +154,23 @@ type AttachmentForm = {
 
 function Payment() {
   const toast = useToast();
+  const router = useRouter();
   const { token, user } = useContext(AuthContext);
   const { green } = useContext(ColorContext);
   const { onToggle: toggleAttach, isOpen: attachOpen } = useDisclosure();
-  const router = useRouter();
   const { id } = router.query;
 
   const attachmentForm = useForm<AttachmentForm>();
+
+  const [checkoutUrl, { loading: checkoutUrlLoading }] = useMutation<{
+    checkoutUrl: {
+      url: Url;
+    };
+  }>(CHECKOUT_URL, {
+    variables: {
+      paymentId: id,
+    },
+  });
 
   const [cancelPayment, { loading: cancelPaymentLoading }] = useMutation(
     CANCEL_PAYMENT,
@@ -204,6 +223,12 @@ function Payment() {
     },
   });
 
+  const handleCheckoutUrl = useCallback(async () => {
+    checkoutUrl().then(({ data }) => {
+      router.push(data?.checkoutUrl.url as Url);
+    });
+  }, [checkoutUrl, router]);
+
   const handleSaveAttachment: SubmitHandler<AttachmentForm> = useCallback(
     async ({ title, file }) => {
       await createAttachment({
@@ -254,60 +279,62 @@ function Payment() {
       <Box maxW="3xl" mx="auto">
         <PageHeading>Pagamento</PageHeading>
         <Card>
-          <Stack>
+          <Stack mb={10}>
             <Box>
               <Heading size="sm" my={4}>
                 DADOS DO CLIENTE
               </Heading>
-              <Table size="sm">
-                <Tbody>
-                  <Tr>
-                    <Td>
-                      <Text>Nome:</Text>
-                    </Td>
-                    <Td textAlign={'right'}>
-                      <Text>{data?.payment.user.member.name}</Text>
-                    </Td>
-                  </Tr>
-                  <Tr>
-                    <Td>
-                      <Text>Matrícula:</Text>
-                    </Td>
-                    <Td textAlign={'right'}>
-                      <Text>{data?.payment.user.member.registration}</Text>
-                    </Td>
-                  </Tr>
-                  <Tr>
-                    <Td>
-                      <Text>Turma:</Text>
-                    </Td>
-                    <Td textAlign={'right'}>
-                      <Text>{data?.payment.user.member.group}</Text>
-                    </Td>
-                  </Tr>
-                  <Tr>
-                    <Td>
-                      <Text>Associação:</Text>
-                    </Td>
-                    <Td textAlign={'right'}>
-                      <Text>
-                        {data?.payment.user.member.hasActiveMembership ? (
-                          <Badge colorScheme="green">Sócio Ativo</Badge>
-                        ) : (
-                          <Badge colorScheme="red">Sócio Inativo</Badge>
-                        )}
-                      </Text>
-                    </Td>
-                  </Tr>
-                </Tbody>
-              </Table>
+              <TableContainer>
+                <Table size="sm">
+                  <Tbody>
+                    <Tr>
+                      <Td>
+                        <Text>Nome:</Text>
+                      </Td>
+                      <Td textAlign={'right'}>
+                        <Text>{data?.payment.user.member.name}</Text>
+                      </Td>
+                    </Tr>
+                    <Tr>
+                      <Td>
+                        <Text>Matrícula:</Text>
+                      </Td>
+                      <Td textAlign={'right'}>
+                        <Text>{data?.payment.user.member.registration}</Text>
+                      </Td>
+                    </Tr>
+                    <Tr>
+                      <Td>
+                        <Text>Turma:</Text>
+                      </Td>
+                      <Td textAlign={'right'}>
+                        <Text>{data?.payment.user.member.group}</Text>
+                      </Td>
+                    </Tr>
+                    <Tr>
+                      <Td>
+                        <Text>Associação:</Text>
+                      </Td>
+                      <Td textAlign={'right'}>
+                        <Text>
+                          {data?.payment.user.member.hasActiveMembership ? (
+                            <Badge colorScheme="green">Sócio Ativo</Badge>
+                          ) : (
+                            <Badge colorScheme="red">Sócio Inativo</Badge>
+                          )}
+                        </Text>
+                      </Td>
+                    </Tr>
+                  </Tbody>
+                </Table>
+              </TableContainer>
             </Box>
 
             <Box>
               <Heading size="sm" my={4}>
                 DETALHES DO PAGAMENTO
               </Heading>
-              <Box overflowX="auto">
+              <TableContainer>
                 <Table size="sm">
                   <Tbody>
                     <Tr>
@@ -348,7 +375,17 @@ function Payment() {
                         <Text>Método:</Text>
                       </Td>
                       <Td textAlign={'right'}>
-                        <Text>{data?.payment.method}</Text>
+                        <HStack w="full" justify={'flex-end'}>
+                          <Text>{data?.payment.method}</Text>
+                          {data?.payment.status === 'PENDENTE' && (
+                            <CustomIconButton
+                              icon={<MdLink size="20px" />}
+                              aria-label="link"
+                              onClick={handleCheckoutUrl}
+                              isLoading={checkoutUrlLoading}
+                            />
+                          )}
+                        </HStack>
                       </Td>
                     </Tr>
                     <Tr>
@@ -393,7 +430,7 @@ function Payment() {
                     </Tr>
                   </Tbody>
                 </Table>
-              </Box>
+              </TableContainer>
             </Box>
             <Box>
               <HStack w="full" justify={'space-between'}>
@@ -405,6 +442,7 @@ function Payment() {
                   icon={<MdAdd size="20px" />}
                   onClick={toggleAttach}
                   isActive={attachOpen}
+                  isDisabled={data?.payment.status !== 'PENDENTE'}
                 />
               </HStack>
               <form
@@ -444,48 +482,52 @@ function Payment() {
                   </Stack>
                 </Collapse>
               </form>
-              <Table size="sm">
-                <Thead>
-                  <Tr>
-                    <Th />
-                    <Th />
-                    <Th />
-                  </Tr>
-                </Thead>
-                <Tbody>
-                  {data?.payment.attachments.edges.map(({ node }) => (
-                    <Tr key={node.id}>
-                      <Td>
-                        <Text>{node.title}</Text>
-                      </Td>
-                      <Td>
-                        <Text>{node.content}</Text>
-                      </Td>
-                      <Td>
-                        <HStack w="full" justify={'flex-end'}>
-                          <CustomIconButton
-                            onClick={() => window.open(node.file, '_blank')}
-                            aria-label={node.title}
-                            icon={<MdLink size="20px" />}
-                          />
-                          <CustomIconButton
-                            onClick={() => handleDeleteAttachment(node.id)}
-                            aria-label={node.title}
-                            colorScheme="red"
-                            icon={<MdDelete size="20px" />}
-                          />
-                        </HStack>
-                      </Td>
+              <TableContainer>
+                <Table size="sm">
+                  <Thead>
+                    <Tr>
+                      <Th />
+                      <Th />
+                      <Th />
                     </Tr>
-                  ))}
-                </Tbody>
-              </Table>
+                  </Thead>
+                  <Tbody>
+                    {data?.payment.attachments.edges.map(({ node }) => (
+                      <Tr key={node.id}>
+                        <Td>
+                          <Text>{node.title}</Text>
+                        </Td>
+                        <Td>
+                          <Text>{node.content}</Text>
+                        </Td>
+                        <Td>
+                          <HStack w="full" justify={'flex-end'}>
+                            <CustomIconButton
+                              onClick={() => window.open(node.file, '_blank')}
+                              aria-label={node.title}
+                              icon={<MdLink size="20px" />}
+                            />
+                            <CustomIconButton
+                              isDisabled
+                              onClick={() => handleDeleteAttachment(node.id)}
+                              aria-label={node.title}
+                              colorScheme="red"
+                              icon={<MdDelete size="20px" />}
+                            />
+                          </HStack>
+                        </Td>
+                      </Tr>
+                    ))}
+                  </Tbody>
+                </Table>
+              </TableContainer>
             </Box>
-            <Stack>
-              <CustomChakraNextLink href={'/bank/my-payments'}>
-                <CustomButton>Meus pagamentos</CustomButton>
-              </CustomChakraNextLink>
-            </Stack>
+          </Stack>
+
+          <Stack>
+            <CustomButton onClick={() => router.push('/bank/my-payments')}>
+              Meus pagamentos
+            </CustomButton>
             {user?.isStaff && (
               <Stack>
                 {!data?.payment.paid && !data?.payment.expired && (
@@ -528,11 +570,12 @@ function Payment() {
                     Invalidar pagamento
                   </CustomButton>
                 )}
-                <CustomChakraNextLink href={'/bank/payments'}>
-                  <CustomButton colorScheme="yellow">
-                    Gerenciar pagamentos
-                  </CustomButton>
-                </CustomChakraNextLink>
+                <CustomButton
+                  colorScheme="yellow"
+                  onClick={() => router.push('/bank/payments')}
+                >
+                  Gerenciar pagamentos
+                </CustomButton>
               </Stack>
             )}
           </Stack>
@@ -541,5 +584,22 @@ function Payment() {
     </Layout>
   );
 }
+
+export const getServerSideProps: GetServerSideProps = async (ctx) => {
+  const { ['aaafuriaToken']: token } = parseCookies(ctx);
+
+  if (!token) {
+    return {
+      redirect: {
+        destination: `/entrar?after=${ctx.resolvedUrl}`,
+        permanent: false,
+      },
+    };
+  }
+
+  return {
+    props: {},
+  };
+};
 
 export default Payment;

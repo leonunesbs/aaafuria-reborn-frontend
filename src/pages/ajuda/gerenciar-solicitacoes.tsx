@@ -3,6 +3,7 @@ import {
   Box,
   HStack,
   Table,
+  TableContainer,
   Tbody,
   Td,
   Text,
@@ -122,95 +123,96 @@ function GerenciarSolicitacoes() {
               onClick={() => handleStatusFilter('CLOSED')}
             />
           </HStack>
-          <Table>
-            <Thead>
-              <Tr>
-                <Th colSpan={2}>Título</Th>
-                <Th>Categoria</Th>
-                <Th>Autor</Th>
-                <Th>Data da solicitação</Th>
-                <Th>Prioridade</Th>
-                <Th>Status</Th>
-                <Th></Th>
-              </Tr>
-            </Thead>
-            <Tbody>
-              {data?.allIssues && data.allIssues.edges.length < 1 && (
+          <TableContainer>
+            <Table>
+              <Thead>
                 <Tr>
-                  <Td colSpan={10}>
-                    <Text textAlign="center">
-                      <em>Nenhuma solicitação encontrada.</em>
-                    </Text>
-                  </Td>
+                  <Th colSpan={2}>Título</Th>
+                  <Th>Categoria</Th>
+                  <Th>Autor</Th>
+                  <Th>Data da solicitação</Th>
+                  <Th>Prioridade</Th>
+                  <Th>Status</Th>
+                  <Th></Th>
                 </Tr>
-              )}
-              {data?.allIssues?.edges?.map(({ node }) => (
-                <Tr key={node.id}>
-                  <Td>
-                    <CustomChakraNextLink
-                      href={`/ajuda/solicitacao/${node.id}`}
-                      chakraLinkProps={{
-                        color: green,
-                        _hover: {
-                          textDecoration: 'underline',
-                        },
-                      }}
-                    >
-                      {node.title}
-                    </CustomChakraNextLink>
-                  </Td>
-                  <Td />
-                  <Td>{node.getCategoryDisplay}</Td>
-                  <Td>{node.author.apelido}</Td>
-                  <Td>
-                    <Text as="time" dateTime={node.createdAt}>
-                      {new Date(node.createdAt).toLocaleString('pt-BR', {
-                        dateStyle: 'short',
-                        timeStyle: 'short',
-                        timeZone: 'America/Sao_Paulo',
-                      })}
-                    </Text>
-                  </Td>
-                  <Td>
-                    <Badge
-                      colorScheme={
-                        node.priority === 'LOW'
-                          ? 'blue'
-                          : node.priority === 'MEDIUM'
-                          ? 'yellow'
-                          : 'red'
-                      }
-                    >
-                      {node.getPriorityDisplay}
-                    </Badge>
-                  </Td>
-                  <Td>
-                    <Badge
-                      colorScheme={
-                        node.status === 'OPEN'
-                          ? 'green'
-                          : node.status === 'IN_PROGRESS'
-                          ? 'yellow'
-                          : 'red'
-                      }
-                    >
-                      {node.getStatusDisplay}
-                    </Badge>
-                  </Td>
-                  <Td>
-                    <CustomChakraNextLink
-                      href={`/ajuda/solicitacao/${node.id}`}
-                    >
+              </Thead>
+              <Tbody>
+                {data?.allIssues && data.allIssues.edges.length < 1 && (
+                  <Tr>
+                    <Td colSpan={10}>
+                      <Text textAlign="center">
+                        <em>Nenhuma solicitação encontrada.</em>
+                      </Text>
+                    </Td>
+                  </Tr>
+                )}
+                {data?.allIssues?.edges?.map(({ node }) => (
+                  <Tr key={node.id}>
+                    <Td>
+                      <CustomChakraNextLink
+                        href={`/ajuda/solicitacao/${node.id}`}
+                        chakraLinkProps={{
+                          color: green,
+                          _hover: {
+                            textDecoration: 'underline',
+                          },
+                        }}
+                      >
+                        {node.title}
+                      </CustomChakraNextLink>
+                    </Td>
+                    <Td />
+                    <Td>{node.getCategoryDisplay}</Td>
+                    <Td>{node.author.apelido}</Td>
+                    <Td>
+                      <Text as="time" dateTime={node.createdAt}>
+                        {new Date(node.createdAt).toLocaleString('pt-BR', {
+                          dateStyle: 'short',
+                          timeStyle: 'short',
+                          timeZone: 'America/Sao_Paulo',
+                        })}
+                      </Text>
+                    </Td>
+                    <Td>
+                      <Badge
+                        colorScheme={
+                          node.priority === 'LOW'
+                            ? 'blue'
+                            : node.priority === 'MEDIUM'
+                            ? 'yellow'
+                            : 'red'
+                        }
+                      >
+                        {node.getPriorityDisplay}
+                      </Badge>
+                    </Td>
+                    <Td>
+                      <Badge
+                        colorScheme={
+                          node.status === 'OPEN'
+                            ? 'green'
+                            : node.status === 'IN_PROGRESS'
+                            ? 'yellow'
+                            : 'red'
+                        }
+                      >
+                        {node.getStatusDisplay}
+                      </Badge>
+                    </Td>
+                    <Td>
                       <CustomIconButton
                         aria-label="view"
                         icon={<FaEye size="15px" />}
+                        onClick={() =>
+                          router.push(`/ajuda/solicitacao/${node.id}`)
+                        }
                       />
-                    </CustomChakraNextLink>
-                  </Td>
-                </Tr>
-              ))}
-            </Tbody>
-          </Table>
+                    </Td>
+                  </Tr>
+                ))}
+              </Tbody>
+            </Table>
+          </TableContainer>
         </Card>
         <VoltarButton href="/areadiretor" />
       </Box>

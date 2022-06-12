@@ -1,4 +1,5 @@
 import {
+  As,
   Avatar,
   Box,
   BoxProps,
@@ -22,7 +23,6 @@ import {
   PageHeading,
   VoltarButton,
 } from '@/components/atoms';
-import React, { useContext } from 'react';
 
 import { AuthContext } from '@/contexts/AuthContext';
 import { Card } from '@/components/molecules';
@@ -32,6 +32,7 @@ import InputMask from 'react-input-mask';
 import { Layout } from '@/components/templates';
 import { MdRefresh } from 'react-icons/md';
 import { parseCookies } from 'nookies';
+import { useContext } from 'react';
 
 type CarteirinhaProps = BoxProps;
 
@@ -107,7 +108,11 @@ function Carteirinha({}: CarteirinhaProps) {
             mx="auto"
             templateColumns={{ base: '1fr', lg: 'repeat(6, 1fr)' }}
           >
-            <GridItem d="flex" alignItems="center" justifyContent="center">
+            <GridItem
+              display="flex"
+              alignItems="center"
+              justifyContent="center"
+            >
               <Avatar
                 size="2xl"
                 name={user?.member.name}
@@ -169,7 +174,7 @@ function Carteirinha({}: CarteirinhaProps) {
                   <FormControl>
                     <FormLabel>CPF:</FormLabel>
                     <Input
-                      as={InputMask}
+                      as={InputMask as As<any>}
                       mask="999.999.999-99"
                       variant="fluxed"
                       isReadOnly

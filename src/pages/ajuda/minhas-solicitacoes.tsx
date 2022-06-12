@@ -15,6 +15,7 @@ import {
   Skeleton,
   Stack,
   Table,
+  TableContainer,
   Tbody,
   Td,
   Text,
@@ -27,7 +28,6 @@ import {
 } from '@chakra-ui/react';
 import {
   CustomButton,
-  CustomChakraNextLink,
   CustomIconButton,
   PageHeading,
   VoltarButton,
@@ -143,7 +143,7 @@ function Solicitacoes() {
       })
         .then(() => {
           toast({
-            title: 'Solicitação criada com sucesso!',
+            title: 'Solicitação criada com sucesso',
             description: 'Um membro da equipe irá responder em breve.',
             status: 'success',
             duration: 2500,
@@ -163,97 +163,98 @@ function Solicitacoes() {
       <Stack maxW="7xl" mx="auto" spacing={4}>
         <PageHeading>Minhas solicitações</PageHeading>
         <Skeleton isLoaded={!loading}>
-          <Card overflowX="auto">
-            <Table>
-              <Thead>
-                <Tr>
-                  <Th></Th>
-                  <Th>Título</Th>
-                  <Th>Atualizado em</Th>
-                  <Th>Iniciado em</Th>
-                  <Th>Status</Th>
-                  <Th>Prioridade</Th>
-                </Tr>
-              </Thead>
-              <Tbody>
-                {data?.socioIssues && data.socioIssues.edges.length < 1 && (
+          <Card>
+            <TableContainer>
+              <Table>
+                <Thead>
                   <Tr>
-                    <Td colSpan={6}>
-                      <Text textAlign={'center'}>
-                        <em>Você ainda não possui nenhuma solicitação.</em>
-                      </Text>
-                    </Td>
+                    <Th></Th>
+                    <Th>Título</Th>
+                    <Th>Atualizado em</Th>
+                    <Th>Iniciado em</Th>
+                    <Th>Status</Th>
+                    <Th>Prioridade</Th>
                   </Tr>
-                )}
-                {data?.socioIssues?.edges.map((issue) => (
-                  <Tr key={issue.node.id}>
-                    <Td>
-                      <HStack>
-                        <CustomChakraNextLink
-                          href={`/ajuda/solicitacao/${issue.node.id}`}
-                        >
+                </Thead>
+                <Tbody>
+                  {data?.socioIssues && data.socioIssues.edges.length < 1 && (
+                    <Tr>
+                      <Td colSpan={6}>
+                        <Text textAlign={'center'}>
+                          <em>Você ainda não possui nenhuma solicitação.</em>
+                        </Text>
+                      </Td>
+                    </Tr>
+                  )}
+                  {data?.socioIssues?.edges.map((issue) => (
+                    <Tr key={issue.node.id}>
+                      <Td>
+                        <HStack>
                           <CustomIconButton
                             aria-label="view"
                             icon={<FaEye size="15px" />}
+                            onClick={() =>
+                              router.push(`/ajuda/solicitacao/${issue.node.id}`)
+                            }
                           />
-                        </CustomChakraNextLink>
-                      </HStack>
-                    </Td>
-                    <Td>{issue.node.title}</Td>
-                    <Td>
-                      <Text as="time" dateTime={issue.node.updatedAt}>
-                        {new Date(issue.node.updatedAt).toLocaleString(
-                          'pt-BR',
-                          {
-                            dateStyle: 'short',
-                            timeStyle: 'short',
-                            timeZone: 'America/Sao_Paulo',
-                          },
-                        )}
-                      </Text>
-                    </Td>
-                    <Td>
-                      <Text as="time" dateTime={issue.node.createdAt}>
-                        {new Date(issue.node.createdAt).toLocaleString(
-                          'pt-BR',
-                          {
-                            dateStyle: 'short',
-                            timeStyle: 'short',
-                            timeZone: 'America/Sao_Paulo',
-                          },
-                        )}
-                      </Text>
-                    </Td>
-                    <Td>
-                      <Badge
-                        colorScheme={
-                          issue.node.status === 'OPEN'
-                            ? 'green'
-                            : issue.node.status === 'IN_PROGRESS'
-                            ? 'yellow'
-                            : 'red'
-                        }
-                      >
-                        {issue.node.getStatusDisplay}
-                      </Badge>
-                    </Td>
-                    <Td>
-                      <Badge
-                        colorScheme={
-                          issue.node.priority === 'LOW'
-                            ? 'blue'
-                            : issue.node.priority === 'MEDIUM'
-                            ? 'yellow'
-                            : 'red'
-                        }
-                      >
-                        {issue.node.getPriorityDisplay}
-                      </Badge>
-                    </Td>
-                  </Tr>
-                ))}
-              </Tbody>
-            </Table>
+                        </HStack>
+                      </Td>
+                      <Td>{issue.node.title}</Td>
+                      <Td>
+                        <Text as="time" dateTime={issue.node.updatedAt}>
+                          {new Date(issue.node.updatedAt).toLocaleString(
+                            'pt-BR',
+                            {
+                              dateStyle: 'short',
+                              timeStyle: 'short',
+                              timeZone: 'America/Sao_Paulo',
+                            },
+                          )}
+                        </Text>
+                      </Td>
+                      <Td>
+                        <Text as="time" dateTime={issue.node.createdAt}>
+                          {new Date(issue.node.createdAt).toLocaleString(
+                            'pt-BR',
+                            {
+                              dateStyle: 'short',
+                              timeStyle: 'short',
+                              timeZone: 'America/Sao_Paulo',
+                            },
+                          )}
+                        </Text>
+                      </Td>
+                      <Td>
+                        <Badge
+                          colorScheme={
+                            issue.node.status === 'OPEN'
+                              ? 'green'
+                              : issue.node.status === 'IN_PROGRESS'
+                              ? 'yellow'
+                              : 'red'
+                          }
+                        >
+                          {issue.node.getStatusDisplay}
+                        </Badge>
+                      </Td>
+                      <Td>
+                        <Badge
+                          colorScheme={
+                            issue.node.priority === 'LOW'
+                              ? 'blue'
+                              : issue.node.priority === 'MEDIUM'
+                              ? 'yellow'
+                              : 'red'
+                          }
+                        >
+                          {issue.node.getPriorityDisplay}
+                        </Badge>
+                      </Td>
+                    </Tr>
+                  ))}
+                </Tbody>
+              </Table>
+            </TableContainer>
           </Card>
         </Skeleton>
         <Stack>
@@ -264,14 +265,13 @@ function Solicitacoes() {
             Nova solicitação
           </CustomButton>
           {user?.isStaff && (
-            <CustomChakraNextLink href={'/ajuda/gerenciar-solicitacoes'}>
-              <CustomButton
-                leftIcon={<MdHelpCenter size="25px" />}
-                colorScheme={'yellow'}
-              >
-                Gerenciar solicitações
-              </CustomButton>
-            </CustomChakraNextLink>
+            <CustomButton
+              leftIcon={<MdHelpCenter size="25px" />}
+              colorScheme={'yellow'}
+              onClick={() => router.push('/ajuda/gerenciar-solicitacoes')}
+            >
+              Gerenciar solicitações
+            </CustomButton>
           )}
           <VoltarButton href="/" />
         </Stack>

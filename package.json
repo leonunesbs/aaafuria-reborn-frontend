@@ -3,7 +3,7 @@
   "description": "A TypeScript starter for Next.js that includes all you need to build amazing projects",
   "version": "1.0.0",
   "private": true,
-  "author": "João Pedro Schmitz <hey@joaopedro.dev> (@jpedroschmitz)",
+  "author": "Leonardo Nunes <leonunesbs@gmail.com> (@leonunesbs)",
   "license": "MIT",
   "keywords": [
     "nextjs",
@@ -37,7 +37,7 @@
     "graphql": "16.5.0",
     "hamburger-react": "2.5.0",
     "next": "12.1.6",
-    "next-pwa": "5.5.2",
+    "next-pwa": "5.5.4",
     "nookies": "2.5.2",
     "pix-react": "1.0.3",
     "react": "17.0.2",
@@ -50,7 +50,7 @@
     "react-input-mask": "2.0.4",
     "react-qr-code": "2.0.7",
     "react-responsive-carousel": "3.2.23",
-    "sharp": "0.30.5"
+    "sharp": "0.30.6"
   },
   "devDependencies": {
     "@commitlint/cli": "17.0.2",

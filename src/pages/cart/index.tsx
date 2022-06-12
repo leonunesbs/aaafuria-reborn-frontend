@@ -1,35 +1,32 @@
 import {
-  Box,
-  Divider,
-  FormControl,
-  HStack,
-  Heading,
-  Image,
-  Input,
-  Radio,
-  RadioGroup,
-  Stack,
-  Text,
-} from '@chakra-ui/react';
-import { Controller, SubmitHandler, useForm } from 'react-hook-form';
-import {
   CustomButton,
   CustomIconButton,
   PageHeading,
+  PaymentMethods,
   PriceTag,
+  QuantityCartItemSelector,
 } from '@/components/atoms';
-import { MdAdd, MdArrowLeft, MdDelete, MdRemove } from 'react-icons/md';
 import { gql, useMutation, useQuery } from '@apollo/client';
+import {
+  Box,
+  Divider,
+  Heading,
+  HStack,
+  Image,
+  Stack,
+  Text,
+} from '@chakra-ui/react';
 import { useCallback, useContext } from 'react';
+import { Controller, SubmitHandler, useForm } from 'react-hook-form';
+import { MdArrowLeft, MdDelete } from 'react-icons/md';
 
-import { AuthContext } from '@/contexts/AuthContext';
 import { Card } from '@/components/molecules';
-import { ColorContext } from '@/contexts/ColorContext';
-import { GetServerSideProps } from 'next';
-import { HiCash } from 'react-icons/hi';
 import { Layout } from '@/components/templates';
-import { parseCookies } from 'nookies';
+import { AuthContext } from '@/contexts/AuthContext';
+import { GetServerSideProps } from 'next';
 import { useRouter } from 'next/router';
+import { parseCookies } from 'nookies';
+import { HiCash } from 'react-icons/hi';
 
 const GET_CART = gql`
   query getCart {
@@ -52,6 +49,7 @@ const GET_CART = gql`
                 image
               }
               name
+              description
               image
               price
               staffPrice
@@ -65,22 +63,6 @@ const GET_CART = gql`
   }
 `;
 
-const ADD_TO_CART = gql`
-  mutation addToCart($itemId: ID!, $quantity: Int!) {
-    addToCart(itemId: $itemId, quantity: $quantity) {
-      ok
-    }
-  }
-`;
-
-const REMOVE_FROM_CART = gql`
-  mutation removeFromCart($itemId: ID!, $quantity: Int!) {
-    removeFromCart(itemId: $itemId, quantity: $quantity) {
-      ok
-    }
-  }
-`;
-
 const DELETE_FROM_CART = gql`
   mutation deleteFromCart($itemId: ID!) {
     deleteFromCart(itemId: $itemId) {
@@ -90,8 +72,8 @@ const DELETE_FROM_CART = gql`
 `;
 
 const CHECKOUT_CART = gql`
-  mutation checkoutCart($method: String!) {
-    checkoutCart(method: $method) {
+  mutation checkoutCart($methodId: String!) {
+    checkoutCart(methodId: $methodId) {
       ok
       checkoutUrl
     }
@@ -118,6 +100,7 @@ interface CartData {
               image: string;
             };
             image: string;
+            description: string;
             name: string;
             price: number;
             staffPrice: number;
@@ -137,7 +120,6 @@ type CheckoutForm = {
 function Cart() {
   const router = useRouter();
   const { token } = useContext(AuthContext);
-  const { green } = useContext(ColorContext);
   const { data, refetch } = useQuery<CartData>(GET_CART, {
     context: {
       headers: {
@@ -147,22 +129,6 @@ function Cart() {
   });
 
   const checkoutForm = useForm<CheckoutForm>();
-
-  const [addToCart] = useMutation(ADD_TO_CART, {
-    context: {
-      headers: {
-        authorization: `JWT ${token}`,
-      },
-    },
-  });
-
-  const [removeFromCart] = useMutation(REMOVE_FROM_CART, {
-    context: {
-      headers: {
-        authorization: `JWT ${token}`,
-      },
-    },
-  });
 
   const [deleteFromCart] = useMutation(DELETE_FROM_CART, {
     context: {
@@ -179,40 +145,6 @@ function Cart() {
       },
     },
   });
-
-  const handleAddToCart = useCallback(
-    async (itemId: string) => {
-      await addToCart({
-        variables: {
-          itemId: itemId,
-          quantity: 1,
-        },
-      }).then(async ({ errors }) => {
-        if (errors) {
-          throw errors;
-        }
-        refetch();
-      });
-    },
-    [addToCart, refetch],
-  );
-
-  const handleRemoveFromCart = useCallback(
-    async (itemId: string) => {
-      await removeFromCart({
-        variables: {
-          itemId: itemId,
-          quantity: 1,
-        },
-      }).then(async ({ errors }) => {
-        if (errors) {
-          throw errors;
-        }
-        refetch();
-      });
-    },
-    [removeFromCart, refetch],
-  );
 
   const handleDeleteFromCart = useCallback(
     async (itemId: string) => {
@@ -234,17 +166,18 @@ function Cart() {
     async ({ method }) => {
       await checkoutCart({
         variables: {
-          method: method,
+          methodId: method,
         },
-      }).then(async ({ data, errors }) => {
-        if (errors) {
-          throw errors;
-        }
-        if (data && data.checkoutCart.ok) {
-          const { checkoutUrl } = data.checkoutCart;
-          router.push(checkoutUrl);
-        }
-      });
+      })
+        .then(async ({ data }) => {
+          if (data && data.checkoutCart.ok) {
+            const { checkoutUrl } = data.checkoutCart;
+            router.push(checkoutUrl);
+          }
+        })
+        .catch((error) => {
+          throw error;
+        });
     },
     [checkoutCart, router],
   );
@@ -281,7 +214,7 @@ function Cart() {
                           />
                         </Box>
                         <HStack spacing={4} mb={4} w="full">
-                          <Box width="130px" height="130px" position="relative">
+                          <Box width="150px">
                             <Image
                               src={
                                 item.refItem ? item.refItem.image : item.image
@@ -289,40 +222,26 @@ function Cart() {
                               alt={item.name}
                               rounded={'md'}
                               draggable={false}
+                              objectFit="contain"
                             />
                           </Box>
                           <Box>
                             <Heading as="h2" fontSize={'sm'}>
                               {item.refItem
-                                ? item.refItem.name.toUpperCase()
+                                ? `${item.refItem.name.toUpperCase()} - ${item.name.toUpperCase()}`
                                 : item.name.toUpperCase()}
                             </Heading>
                             <Text as="h3" fontSize={'xs'}>
-                              {item.name}
+                              {item.description}
                             </Text>
                           </Box>
                         </HStack>
                         <HStack w="full" justify={'space-between'} px={[0]}>
-                          <HStack>
-                            <CustomIconButton
-                              aria-label="remove_from_cart"
-                              icon={<MdRemove size="15px" />}
-                              onClick={() => handleRemoveFromCart(item.id)}
-                            />
-                            <Input
-                              w="50px"
-                              textAlign={'center'}
-                              value={quantity}
-                              isReadOnly
-                              focusBorderColor={green}
-                              size="xs"
-                            />
-                            <CustomIconButton
-                              aria-label="add_to_cart"
-                              icon={<MdAdd size="15px" />}
-                              onClick={() => handleAddToCart(item.id)}
-                            />
-                          </HStack>
+                          <QuantityCartItemSelector
+                            itemId={item.id}
+                            quantity={quantity}
+                            refetch={refetch}
+                          />
                           <PriceTag
                             price={item.price}
                             discountedPrice={item.membershipPrice}
@@ -335,7 +254,6 @@ function Cart() {
                   },
                 )}
               </Stack>
-
               <Card w="full" maxW="md">
                 <Heading as="h3" fontSize="md">
                   RESUMO DO PEDIDO
@@ -358,16 +276,7 @@ function Cart() {
                       name="method"
                       control={checkoutForm.control}
                       rules={{ required: 'Matrícula obrigatória' }}
-                      render={({ field }) => (
-                        <FormControl isRequired>
-                          <RadioGroup {...field} colorScheme={'green'}>
-                            <HStack>
-                              <Radio value="ST">Cartão de crédito</Radio>
-                              <Radio value="PX">PIX</Radio>
-                            </HStack>
-                          </RadioGroup>
-                        </FormControl>
-                      )}
+                      render={({ field }) => <PaymentMethods {...field} />}
                     />
                     <CustomButton
                       type="submit"
