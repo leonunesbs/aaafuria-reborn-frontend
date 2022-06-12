@@ -1,11 +1,13 @@
 import { AddMembershipDrawer, Card } from '..';
 import {
+  Box,
   HStack,
   Heading,
   Stat,
   StatGroup,
   StatLabel,
   StatNumber,
+  Text,
 } from '@chakra-ui/react';
 import { gql, useQuery } from '@apollo/client';
 
@@ -49,9 +51,12 @@ function MembersDashboardCard({}: MembersDashboardCardProps) {
   return (
     <Card>
       <HStack w="full" justify={'space-between'} mb={4}>
-        <Heading size="md" color={green}>
-          ASSOCIAÇÕES
-        </Heading>
+        <Box>
+          <Heading size="md" color={green}>
+            ASSOCIAÇÕES
+          </Heading>
+          <Text>Ativas</Text>
+        </Box>
         {membershipPlans.data && (
           <AddMembershipDrawer
             membershipPlans={membershipPlans.data.allMembershipPlans.edges}
