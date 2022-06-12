@@ -1,4 +1,14 @@
 import {
+  Box,
+  Divider,
+  HStack,
+  Heading,
+  Image,
+  Stack,
+  Text,
+} from '@chakra-ui/react';
+import { Controller, SubmitHandler, useForm } from 'react-hook-form';
+import {
   CustomButton,
   CustomIconButton,
   PageHeading,
@@ -6,27 +16,17 @@ import {
   PriceTag,
   QuantityCartItemSelector,
 } from '@/components/atoms';
-import { gql, useMutation, useQuery } from '@apollo/client';
-import {
-  Box,
-  Divider,
-  Heading,
-  HStack,
-  Image,
-  Stack,
-  Text,
-} from '@chakra-ui/react';
-import { useCallback, useContext } from 'react';
-import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { MdArrowLeft, MdDelete } from 'react-icons/md';
+import { gql, useMutation, useQuery } from '@apollo/client';
+import { useCallback, useContext } from 'react';
 
-import { Card } from '@/components/molecules';
-import { Layout } from '@/components/templates';
 import { AuthContext } from '@/contexts/AuthContext';
+import { Card } from '@/components/molecules';
 import { GetServerSideProps } from 'next';
-import { useRouter } from 'next/router';
-import { parseCookies } from 'nookies';
 import { HiCash } from 'react-icons/hi';
+import { Layout } from '@/components/templates';
+import { parseCookies } from 'nookies';
+import { useRouter } from 'next/router';
 
 const GET_CART = gql`
   query getCart {
@@ -152,12 +152,13 @@ function Cart() {
         variables: {
           itemId: itemId,
         },
-      }).then(async ({ errors }) => {
-        if (errors) {
-          throw errors;
-        }
-        refetch();
-      });
+      })
+        .then(() => {
+          refetch();
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     },
     [deleteFromCart, refetch],
   );
@@ -172,6 +173,7 @@ function Cart() {
         .then(async ({ data }) => {
           if (data && data.checkoutCart.ok) {
             const { checkoutUrl } = data.checkoutCart;
+
             router.push(checkoutUrl);
           }
         })

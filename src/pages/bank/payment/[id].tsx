@@ -1,4 +1,6 @@
 import {
+  Alert,
+  AlertIcon,
   Badge,
   Box,
   Collapse,
@@ -276,6 +278,18 @@ function Payment() {
 
   return (
     <Layout title={data?.payment?.description as string}>
+      {data?.payment.method === 'PIX' && !data?.payment.paid && (
+        <Alert status="success">
+          <AlertIcon />
+          Chave PIX: <strong>pix@aaafuria.site</strong>
+        </Alert>
+      )}
+      {data?.payment.method === 'PIX' && !data?.payment.paid && (
+        <Alert status="info">
+          <AlertIcon />
+          Adicione o comprovante de pagamento aos anexos abaixo.
+        </Alert>
+      )}
       <Box maxW="3xl" mx="auto">
         <PageHeading>Pagamento</PageHeading>
         <Card>
