@@ -1,4 +1,5 @@
 import { ActivityIconProps } from './ActivityIcon';
+import { CartsTableProps } from './CartsTable';
 import { CustomChakraNextLinkProps } from './CustomChakraNextLink';
 import { CustomIconButtonProps } from './CustomIconButton';
 import { FloatingCarrinhoPlantaoButtonProps } from './FloatingCarrinhoPlantaoButton';
@@ -38,6 +39,9 @@ export const AtividadesSocioTableRow = dynamic<IAtividadesSocioTableRow>(() =>
 );
 export const CarteirinhaInput = dynamic<ICarteirinhaInput>(() =>
   import('./CarteirinhaInput').then((mod) => mod.CarteirinhaInput),
+);
+export const CartsTable = dynamic<CartsTableProps>(() =>
+  import('./CartsTable').then((mod) => mod.default),
 );
 export const CustomButton = dynamic<
   ICustomButton & RefAttributes<HTMLButtonElement>
