@@ -1,7 +1,7 @@
 import { Box, HStack, Heading, Text } from '@chakra-ui/react';
-import { CartsTable, CustomChakraNextLink } from '@/components/atoms';
 
 import { Card } from '..';
+import { CartsTable } from '@/components/atoms';
 import { ColorContext } from '@/contexts/ColorContext';
 import { useContext } from 'react';
 
@@ -13,14 +13,12 @@ function CartsDashboardCard({}: CartsDashboardCardProps) {
   return (
     <Card>
       <HStack mb={4} w="full" justify={'space-between'}>
-        <CustomChakraNextLink href={'/bank/payments'}>
-          <Box>
-            <Heading size="md" color={green}>
-              PEDIDOS
-            </Heading>
-            <Text textStyle="italic">Aguardando entrega</Text>
-          </Box>
-        </CustomChakraNextLink>
+        <Box>
+          <Heading size="md" color={green}>
+            PEDIDOS
+          </Heading>
+          <Text textStyle="italic">Aguardando entrega</Text>
+        </Box>
       </HStack>
       <CartsTable pageSize={5} />
     </Card>
