@@ -158,7 +158,7 @@ function PaymentsTable({
       <TableContainer>
         <Table size={'sm'}>
           <Thead>
-            {data?.allPayments.objects.length === 0 ? (
+            {data?.allPayments?.objects.length === 0 ? (
               <Tr>
                 <Td colSpan={6}>
                   <Text textAlign="center">Nenhum pagamento encontrado</Text>
@@ -176,7 +176,7 @@ function PaymentsTable({
             )}
           </Thead>
           <Tbody>
-            {data?.allPayments.objects.map((node) => (
+            {data?.allPayments?.objects.map((node) => (
               <Tr key={node.id}>
                 <Td>{node.user.member.name}</Td>
                 <Td>{node.description}</Td>
