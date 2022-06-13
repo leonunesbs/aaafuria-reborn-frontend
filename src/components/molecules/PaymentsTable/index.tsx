@@ -8,6 +8,7 @@ import {
   MenuItemOption,
   MenuList,
   MenuOptionGroup,
+  Skeleton,
   Table,
   TableContainer,
   Tbody,
@@ -240,8 +241,8 @@ function PaymentsTable({
         </HStack>
       </HStack>
       <TableContainer>
-        <Table size={'sm'}>
-          <Thead {...getTableProps()}>
+        <Table {...getTableProps()} size={'sm'}>
+          <Thead>
             {headerGroups.map((headerGroup) => (
               <Tr {...headerGroup.getHeaderGroupProps()} key={headerGroup.id}>
                 {headerGroup.headers.map((column) => (
@@ -288,6 +289,16 @@ function PaymentsTable({
                 </Tr>
               );
             })}
+            {loading &&
+              [...Array(5)].map((_, i) => (
+                <Tr key={i}>
+                  {tableColumns.map((column) => (
+                    <Td key={column.id}>
+                      <Skeleton height="40px" width="100%" rounded={'md'} />
+                    </Td>
+                  ))}
+                </Tr>
+              ))}
           </Tbody>
         </Table>
       </TableContainer>
