@@ -119,7 +119,7 @@ function PaymentInstructions({ payment }: PaymentInstructionsProps) {
               overflowWrap="anywhere"
               rounded={'md'}
               position="relative"
-              maxW="md"
+              maxW={['xs', 'lg']}
             >
               {pix?.toBRCode()}
               <CustomIconButton
