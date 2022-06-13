@@ -21,7 +21,11 @@ import {
   useDisclosure,
   useToast,
 } from '@chakra-ui/react';
-import { CustomButton, PageHeading } from '@/components/atoms';
+import {
+  CustomButton,
+  PageHeading,
+  PaymentInstructions,
+} from '@/components/atoms';
 import { MdAdd, MdDelete, MdLink, MdSave } from 'react-icons/md';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { gql, useMutation, useQuery } from '@apollo/client';
@@ -33,7 +37,6 @@ import { ColorContext } from '@/contexts/ColorContext';
 import { CustomIconButton } from '@/components/atoms/CustomIconButton';
 import { GetServerSideProps } from 'next';
 import { Layout } from '@/components/templates';
-import { Url } from 'url';
 import { parseCookies } from 'nookies';
 import { useRouter } from 'next/router';
 
@@ -70,14 +73,6 @@ const GET_PAYMENT = gql`
           }
         }
       }
-    }
-  }
-`;
-
-const CHECKOUT_URL = gql`
-  mutation getCheckoutUrl($paymentId: ID!) {
-    checkoutUrl(paymentId: $paymentId) {
-      url
     }
   }
 `;
@@ -125,7 +120,7 @@ type PaymentData = {
         hasActiveMembership: boolean;
       };
     };
-    amount: number;
+    amount: string;
     currency: number;
     method: string;
     description: string;
@@ -164,13 +159,14 @@ function Payment() {
 
   const attachmentForm = useForm<AttachmentForm>();
 
-  const [checkoutUrl, { loading: checkoutUrlLoading }] = useMutation<{
-    checkoutUrl: {
-      url: Url;
-    };
-  }>(CHECKOUT_URL, {
+  const { data, refetch } = useQuery<PaymentData>(GET_PAYMENT, {
     variables: {
-      paymentId: id,
+      id: id as string,
+    },
+    context: {
+      headers: {
+        authorization: `JWT ${token}`,
+      },
     },
   });
 
@@ -213,23 +209,6 @@ function Payment() {
       },
     },
   });
-
-  const { data, refetch } = useQuery<PaymentData>(GET_PAYMENT, {
-    variables: {
-      id: id as string,
-    },
-    context: {
-      headers: {
-        authorization: `JWT ${token}`,
-      },
-    },
-  });
-
-  const handleCheckoutUrl = useCallback(async () => {
-    checkoutUrl().then(({ data }) => {
-      router.push(data?.checkoutUrl.url as Url);
-    });
-  }, [checkoutUrl, router]);
 
   const handleSaveAttachment: SubmitHandler<AttachmentForm> = useCallback(
     async ({ title, file }) => {
@@ -278,21 +257,21 @@ function Payment() {
 
   return (
     <Layout title={data?.payment?.description as string}>
-      {data?.payment.method === 'PIX' && !data?.payment.paid && (
-        <Alert status="success">
-          <AlertIcon />
-          Chave PIX: <strong>pix@aaafuria.site</strong>
-        </Alert>
-      )}
-      {data?.payment.method === 'PIX' && !data?.payment.paid && (
-        <Alert status="info">
-          <AlertIcon />
-          Adicione o comprovante de pagamento aos anexos abaixo.
-        </Alert>
-      )}
       <Box maxW="3xl" mx="auto">
         <PageHeading>Pagamento</PageHeading>
         <Card>
+          {data?.payment.status === 'PENDENTE' && !data?.payment?.paid && (
+            <Box>
+              <PaymentInstructions
+                payment={{
+                  id: data?.payment?.id,
+                  amount: data?.payment?.amount,
+                  method: data?.payment?.method,
+                }}
+              />
+            </Box>
+          )}
+
           <Stack mb={10}>
             <Box>
               <Heading size="sm" my={4}>
@@ -306,7 +285,7 @@ function Payment() {
                         <Text>Nome:</Text>
                       </Td>
                       <Td textAlign={'right'}>
-                        <Text>{data?.payment.user.member.name}</Text>
+                        <Text>{data?.payment?.user.member.name}</Text>
                       </Td>
                     </Tr>
                     <Tr>
@@ -314,7 +293,7 @@ function Payment() {
                         <Text>Matrícula:</Text>
                       </Td>
                       <Td textAlign={'right'}>
-                        <Text>{data?.payment.user.member.registration}</Text>
+                        <Text>{data?.payment?.user.member.registration}</Text>
                       </Td>
                     </Tr>
                     <Tr>
@@ -322,7 +301,7 @@ function Payment() {
                         <Text>Turma:</Text>
                       </Td>
                       <Td textAlign={'right'}>
-                        <Text>{data?.payment.user.member.group}</Text>
+                        <Text>{data?.payment?.user.member.group}</Text>
                       </Td>
                     </Tr>
                     <Tr>
@@ -331,7 +310,7 @@ function Payment() {
                       </Td>
                       <Td textAlign={'right'}>
                         <Text>
-                          {data?.payment.user.member.hasActiveMembership ? (
+                          {data?.payment?.user.member.hasActiveMembership ? (
                             <Badge colorScheme="green">Sócio Ativo</Badge>
                           ) : (
                             <Badge colorScheme="red">Sócio Inativo</Badge>
@@ -356,15 +335,15 @@ function Payment() {
                         <Text>Identificador:</Text>
                       </Td>
                       <Td textAlign={'right'}>
-                        <Text>{data?.payment.id}</Text>
+                        <Text>{data?.payment?.id}</Text>
                       </Td>
                     </Tr>
                     <Tr>
                       <Td>
                         <Text>Valor:</Text>
                       </Td>
-                      <Td textAlign={'right'}>
-                        <Text>{data?.payment.amount}</Text>
+                      <Td textAlign={'right'} isNumeric>
+                        <Text>{data?.payment?.amount}</Text>
                       </Td>
                     </Tr>
                     <Tr>
@@ -372,7 +351,7 @@ function Payment() {
                         <Text>Moeda:</Text>
                       </Td>
                       <Td textAlign={'right'}>
-                        <Text>{data?.payment.currency}</Text>
+                        <Text>{data?.payment?.currency}</Text>
                       </Td>
                     </Tr>
 
@@ -381,7 +360,7 @@ function Payment() {
                         <Text>Descrição:</Text>
                       </Td>
                       <Td textAlign={'right'}>
-                        <Text>{data?.payment.description}</Text>
+                        <Text>{data?.payment?.description}</Text>
                       </Td>
                     </Tr>
                     <Tr>
@@ -390,15 +369,7 @@ function Payment() {
                       </Td>
                       <Td textAlign={'right'}>
                         <HStack w="full" justify={'flex-end'}>
-                          <Text>{data?.payment.method}</Text>
-                          {data?.payment.status === 'PENDENTE' && (
-                            <CustomIconButton
-                              icon={<MdLink size="20px" />}
-                              aria-label="link"
-                              onClick={handleCheckoutUrl}
-                              isLoading={checkoutUrlLoading}
-                            />
-                          )}
+                          <Text>{data?.payment?.method}</Text>
                         </HStack>
                       </Td>
                     </Tr>
@@ -407,7 +378,7 @@ function Payment() {
                         <Text>Status:</Text>
                       </Td>
                       <Td textAlign={'right'}>
-                        <Text>{data?.payment.status}</Text>
+                        <Text>{data?.payment?.status}</Text>
                       </Td>
                     </Tr>
                     <Tr>
@@ -417,7 +388,7 @@ function Payment() {
                       <Td textAlign={'right'}>
                         <Text>
                           {new Date(
-                            data?.payment.createdAt as string,
+                            data?.payment?.createdAt as string,
                           ).toLocaleString('pt-BR', {
                             timeStyle: 'short',
                             dateStyle: 'short',
@@ -433,7 +404,7 @@ function Payment() {
                       <Td textAlign={'right'}>
                         <Text>
                           {new Date(
-                            data?.payment.updatedAt as string,
+                            data?.payment?.updatedAt as string,
                           ).toLocaleString('pt-BR', {
                             timeStyle: 'short',
                             dateStyle: 'short',
@@ -446,7 +417,14 @@ function Payment() {
                 </Table>
               </TableContainer>
             </Box>
+
             <Box>
+              {data?.payment?.method === 'PIX' && !data?.payment?.paid && (
+                <Alert status="info" rounded={'md'}>
+                  <AlertIcon />
+                  Adicione o comprovante de pagamento aos anexos abaixo.
+                </Alert>
+              )}
               <HStack w="full" justify={'space-between'}>
                 <Heading size="sm" my={4}>
                   ANEXOS
@@ -456,7 +434,7 @@ function Payment() {
                   icon={<MdAdd size="20px" />}
                   onClick={toggleAttach}
                   isActive={attachOpen}
-                  isDisabled={data?.payment.status !== 'PENDENTE'}
+                  isDisabled={data?.payment?.status !== 'PENDENTE'}
                 />
               </HStack>
               <form
@@ -506,7 +484,7 @@ function Payment() {
                     </Tr>
                   </Thead>
                   <Tbody>
-                    {data?.payment.attachments.edges.map(({ node }) => (
+                    {data?.payment?.attachments.edges.map(({ node }) => (
                       <Tr key={node.id}>
                         <Td>
                           <Text>{node.title}</Text>
@@ -544,14 +522,14 @@ function Payment() {
             </CustomButton>
             {user?.isStaff && (
               <Stack>
-                {!data?.payment.paid && !data?.payment.expired && (
+                {!data?.payment?.paid && !data?.payment?.expired && (
                   <CustomButton
                     variant={'solid'}
                     isLoading={confirmPaymentLoading}
                     onClick={async () => {
                       await confirmPayment({
                         variables: {
-                          paymentId: data?.payment.id,
+                          paymentId: data?.payment?.id,
                           description: 'Pagamento confirmado manualmente.',
                         },
                       }).then(({ errors }) => {
@@ -565,7 +543,7 @@ function Payment() {
                     Validar pagamento
                   </CustomButton>
                 )}
-                {!data?.payment.paid && !data?.payment.expired && (
+                {!data?.payment?.paid && !data?.payment?.expired && (
                   <CustomButton
                     variant={'solid'}
                     colorScheme="red"
@@ -573,7 +551,7 @@ function Payment() {
                     onClick={async () => {
                       await cancelPayment({
                         variables: {
-                          paymentId: data?.payment.id,
+                          paymentId: data?.payment?.id,
                           description: 'Pagamento cancelado manualmente.',
                         },
                       }).then(() => {
