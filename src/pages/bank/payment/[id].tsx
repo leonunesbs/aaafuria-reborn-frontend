@@ -260,29 +260,32 @@ function Payment() {
       <Box maxW="3xl" mx="auto">
         <PageHeading>Pagamento</PageHeading>
         <Card>
-          {data?.payment.status === 'PENDENTE' &&
-          data?.payment.method === 'PIX' ? (
-            data?.payment?.attachments.edges.length === 0 && (
-              <Box>
-                <PaymentInstructions
-                  payment={{
-                    id: data?.payment?.id,
-                    amount: data?.payment?.amount,
-                    method: data?.payment?.method,
-                  }}
-                />
-              </Box>
-            )
-          ) : (
-            <Box>
-              <PaymentInstructions
-                payment={{
-                  id: data?.payment?.id,
-                  amount: data?.payment?.amount,
-                  method: data?.payment?.method,
-                }}
-              />
-            </Box>
+          {data?.payment.status === 'PENDENTE' && (
+            <>
+              {data?.payment.method === 'PIX' ? (
+                data.payment.attachments.edges.length === 0 && (
+                  <Box>
+                    <PaymentInstructions
+                      payment={{
+                        id: data?.payment?.id,
+                        amount: data?.payment?.amount,
+                        method: data?.payment?.method,
+                      }}
+                    />
+                  </Box>
+                )
+              ) : (
+                <Box>
+                  <PaymentInstructions
+                    payment={{
+                      id: data?.payment?.id,
+                      amount: data?.payment?.amount,
+                      method: data?.payment?.method,
+                    }}
+                  />
+                </Box>
+              )}
+            </>
           )}
 
           <Stack mb={10}>
@@ -432,14 +435,18 @@ function Payment() {
             </Box>
 
             <Box>
-              {data?.payment?.method === 'PIX' &&
-                data.payment.attachments.edges.length === 0 && (
-                  <Alert status="info" rounded={'md'}>
-                    <AlertIcon />
-                    Adicione o comprovante de pagamento aos anexos abaixo e
-                    aguarde a confirmação do pagamento.
-                  </Alert>
-                )}
+              {data?.payment.status === 'PENDENTE' && (
+                <>
+                  {data?.payment.method === 'PIX' &&
+                    data.payment.attachments.edges.length === 0 && (
+                      <Alert status="info" rounded={'md'}>
+                        <AlertIcon />
+                        Adicione o comprovante de pagamento aos anexos abaixo e
+                        aguarde a confirmação do pagamento.
+                      </Alert>
+                    )}
+                </>
+              )}
               <HStack w="full" justify={'space-between'}>
                 <Heading size="sm" my={4}>
                   ANEXOS
@@ -515,7 +522,7 @@ function Payment() {
                               icon={<MdLink size="20px" />}
                             />
                             <CustomIconButton
-                              isDisabled
+                              isDisabled={!user?.isStaff}
                               onClick={() => handleDeleteAttachment(node.id)}
                               aria-label={node.title}
                               colorScheme="red"
