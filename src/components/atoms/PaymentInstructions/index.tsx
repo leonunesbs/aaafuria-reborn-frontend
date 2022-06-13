@@ -43,7 +43,8 @@ function PaymentInstructions({ payment }: PaymentInstructionsProps) {
         merchantCity: 'Teresina',
         pixKey: 'pix@aaafuria.site',
         infoAdicional: payment.id ?? '',
-        transactionAmount: parseFloat(payment.amount as string) ?? 1,
+        transactionAmount:
+          parseFloat(payment.amount?.replace('=', '') as string) ?? 1,
         txid: '',
       }) as PixStaticObject;
     }
