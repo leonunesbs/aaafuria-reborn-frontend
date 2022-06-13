@@ -260,7 +260,20 @@ function Payment() {
       <Box maxW="3xl" mx="auto">
         <PageHeading>Pagamento</PageHeading>
         <Card>
-          {data?.payment.status === 'PENDENTE' && !data?.payment?.paid && (
+          {data?.payment.status === 'PENDENTE' &&
+          data?.payment.method === 'PIX' ? (
+            data?.payment?.attachments.edges.length === 0 && (
+              <Box>
+                <PaymentInstructions
+                  payment={{
+                    id: data?.payment?.id,
+                    amount: data?.payment?.amount,
+                    method: data?.payment?.method,
+                  }}
+                />
+              </Box>
+            )
+          ) : (
             <Box>
               <PaymentInstructions
                 payment={{
@@ -419,13 +432,14 @@ function Payment() {
             </Box>
 
             <Box>
-              {data?.payment?.method === 'PIX' && !data?.payment?.paid && (
-                <Alert status="info" rounded={'md'}>
-                  <AlertIcon />
-                  Adicione o comprovante de pagamento aos anexos abaixo e
-                  aguarde a confirmação do pagamento.
-                </Alert>
-              )}
+              {data?.payment?.method === 'PIX' &&
+                data.payment.attachments.edges.length === 0 && (
+                  <Alert status="info" rounded={'md'}>
+                    <AlertIcon />
+                    Adicione o comprovante de pagamento aos anexos abaixo e
+                    aguarde a confirmação do pagamento.
+                  </Alert>
+                )}
               <HStack w="full" justify={'space-between'}>
                 <Heading size="sm" my={4}>
                   ANEXOS

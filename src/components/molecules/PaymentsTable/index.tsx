@@ -16,7 +16,10 @@ import {
   Th,
   Thead,
   Tr,
+  chakra,
 } from '@chakra-ui/react';
+import { BsChevronCompactDown, BsChevronCompactUp } from 'react-icons/bs';
+import { Column, useSortBy, useTable } from 'react-table';
 import {
   MdMoreHoriz,
   MdNavigateBefore,
@@ -24,7 +27,7 @@ import {
   MdRefresh,
 } from 'react-icons/md';
 import { gql, useQuery } from '@apollo/client';
-import { useCallback, useContext } from 'react';
+import { useCallback, useContext, useMemo } from 'react';
 
 import { AuthContext } from '@/contexts/AuthContext';
 import { ColorContext } from '@/contexts/ColorContext';
@@ -121,6 +124,87 @@ function PaymentsTable({
     }
   }, [data, refetch]);
 
+  const tableData: Payment[] = useMemo(() => {
+    if (loading) {
+      return [];
+    }
+
+    return data?.allPayments.objects || [];
+  }, [data, loading]);
+
+  const tableColumns: Column<Payment>[] = useMemo(
+    () =>
+      [
+        {
+          Header: 'Member',
+          accessor: 'user.member.name',
+        },
+        {
+          Header: 'Descrição',
+          accessor: 'description',
+        },
+        {
+          Header: 'Valor',
+          accessor: 'amount',
+        },
+        {
+          Header: 'Criado em',
+          accessor: 'createdAt',
+          Cell: ({ value }: { value: string }) => {
+            return (
+              <Text as={'time'} dateTime={value}>
+                {new Date(value).toLocaleString('pt-BR', {
+                  timeStyle: 'short',
+                  dateStyle: 'short',
+                  timeZone: 'America/Sao_Paulo',
+                })}
+              </Text>
+            );
+          },
+        },
+        {
+          Header: 'Status',
+          accessor: 'status',
+          Cell: ({ value }: { value: string }) => {
+            return (
+              <Text>
+                <Badge
+                  colorScheme={
+                    value === 'PAGO'
+                      ? 'green'
+                      : value === 'PENDENTE'
+                      ? 'yellow'
+                      : 'gray'
+                  }
+                >
+                  {value}
+                </Badge>
+              </Text>
+            );
+          },
+        },
+        {
+          Header: 'Ações',
+          accessor: 'id',
+          Cell: ({ value }: { value: string }) => {
+            return (
+              <HStack spacing={1}>
+                <CustomIconButton
+                  icon={<MdMoreHoriz size="20px" />}
+                  aria-label="ver mais"
+                  onClick={() => router.push(`/bank/payment/${value}`)}
+                />
+              </HStack>
+            );
+          },
+        },
+      ] as Column<Payment>[],
+    [router],
+  );
+
+  const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
+    useTable({ columns: tableColumns, data: tableData }, useSortBy);
+
   return (
     <>
       <HStack my={6} justify="space-between">
@@ -157,67 +241,53 @@ function PaymentsTable({
       </HStack>
       <TableContainer>
         <Table size={'sm'}>
-          <Thead>
-            {data?.allPayments?.objects.length === 0 ? (
-              <Tr>
-                <Td colSpan={6}>
-                  <Text textAlign="center">Nenhum pagamento encontrado</Text>
-                </Td>
-              </Tr>
-            ) : (
-              <Tr>
-                <Th>Membro</Th>
-                <Th>Descrição</Th>
-                <Th>Valor</Th>
-                <Th>Criado em</Th>
-                <Th>Status</Th>
+          <Thead {...getTableProps()}>
+            {headerGroups.map((headerGroup) => (
+              <Tr {...headerGroup.getHeaderGroupProps()} key={headerGroup.id}>
+                {headerGroup.headers.map((column) => (
+                  <Th
+                    {...column.getHeaderProps(column.getSortByToggleProps())}
+                    key={column.id}
+                  >
+                    {column.render('Header')}
+                    <chakra.span pl="2">
+                      {column.isSorted ? (
+                        column.isSortedDesc ? (
+                          <CustomIconButton
+                            size="xs"
+                            variant={'link'}
+                            icon={<BsChevronCompactDown size="10px" />}
+                            aria-label="sorted descending"
+                          />
+                        ) : (
+                          <CustomIconButton
+                            size="xs"
+                            variant={'link'}
+                            icon={<BsChevronCompactUp size="10px" />}
+                            aria-label="sorted ascending"
+                          />
+                        )
+                      ) : null}
+                    </chakra.span>
+                  </Th>
+                ))}
                 <Th />
               </Tr>
-            )}
-          </Thead>
-          <Tbody>
-            {data?.allPayments?.objects.map((node) => (
-              <Tr key={node.id}>
-                <Td>{node.user.member.name}</Td>
-                <Td>{node.description}</Td>
-
-                <Td>
-                  {node.amount} {node.currency}
-                </Td>
-
-                <Td>
-                  <Text as={'time'} dateTime={node.createdAt}>
-                    {new Date(node.createdAt).toLocaleString('pt-BR', {
-                      timeStyle: 'short',
-                      dateStyle: 'short',
-                      timeZone: 'America/Sao_Paulo',
-                    })}
-                  </Text>
-                </Td>
-                <Td>
-                  <Text>
-                    <Badge
-                      colorScheme={
-                        node.status === 'PAGO'
-                          ? 'green'
-                          : node.status === 'PENDENTE'
-                          ? 'yellow'
-                          : 'gray'
-                      }
-                    >
-                      {node.status}
-                    </Badge>
-                  </Text>
-                </Td>
-                <Td>
-                  <CustomIconButton
-                    icon={<MdMoreHoriz size="20px" />}
-                    aria-label="ver mais"
-                    onClick={() => router.push(`/bank/payment/${node.id}`)}
-                  />
-                </Td>
-              </Tr>
             ))}
+          </Thead>
+          <Tbody {...getTableBodyProps()}>
+            {rows.map((row) => {
+              prepareRow(row);
+              return (
+                <Tr {...row.getRowProps()} key={row.id}>
+                  {row.cells.map((cell) => (
+                    <Td {...cell.getCellProps()} key={cell.value}>
+                      {cell.render('Cell')}
+                    </Td>
+                  ))}
+                </Tr>
+              );
+            })}
           </Tbody>
         </Table>
       </TableContainer>
