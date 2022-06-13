@@ -6,6 +6,7 @@ import { AddPaymentDrawerProps } from './AddPaymentDrawer';
 import { AddScheduleDrawerProps } from './AddScheduleDrawer';
 import { AreaMembroMenuProps } from './AreaSocioMenu';
 import { CartaoCreditoTabPanelProps } from './PagamentoTabs/CartaoCreditoTabPanel';
+import { CartsDashboardCardProps } from './CartsDashboardCard';
 import { ClientInfoCardProps } from './ClientInfoCard';
 import { CommentCardProps } from './CommentCard';
 import { CreateCommentProps } from './CreateComment';
@@ -61,6 +62,9 @@ export const CadastroDrawer = dynamic<ICadastroDrawer>(() =>
 
 export const Card = dynamic<ICard & RefAttributes<HTMLDivElement>>(() =>
   import('./Card').then((mod) => mod.Card),
+);
+export const CartsDashboardCard = dynamic<CartsDashboardCardProps>(() =>
+  import('./CartsDashboardCard').then((mod) => mod.default),
 );
 export const ClientInfoCard = dynamic<ClientInfoCardProps>(() =>
   import('./ClientInfoCard').then((mod) => mod.ClientInfoCard),

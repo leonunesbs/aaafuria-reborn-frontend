@@ -117,7 +117,7 @@ function Loja() {
   }>(GET_MEMBER, {
     context: {
       headers: {
-        Authorization: `JWT ${token}`,
+        Authorization: token ? `JWT ${token}` : '',
       },
     },
   });

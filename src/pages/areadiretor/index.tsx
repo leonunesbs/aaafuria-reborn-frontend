@@ -1,10 +1,11 @@
 import {
   ActivitiesDashboardCard,
+  CartsDashboardCard,
   MembersDashboardCard,
   PaymentsDashboardCard,
 } from '@/components/molecules';
 import { Box, Grid, GridItem, useToast } from '@chakra-ui/react';
-import React, { useContext, useEffect } from 'react';
+import { useContext, useEffect } from 'react';
 
 import { AuthContext } from '@/contexts/AuthContext';
 import { GetServerSideProps } from 'next';
@@ -38,24 +39,33 @@ function AreaDiretor() {
         <PageHeading>Área do Diretor</PageHeading>
         <Grid
           templateAreas={[
-            `"members"
-          "activities"
-          "payments"`,
-            `"members activities"
-          "payments activities"`,
+            `
+            "members"
+            "carts"
+            "activities"
+            "payments"
+          `,
+            `
+            "members carts"
+            "payments carts"
+            "activities activities"
+          `,
           ]}
-          gridTemplateRows={['repeat(100%, 3)', '1fr 4fr']}
+          gridTemplateRows={['repeat(100%, 4)', 'repeat(100%, 3)']}
           gridTemplateColumns={['100%', '40% 60%']}
           gap="2"
         >
           <GridItem area={'members'}>
             <MembersDashboardCard />
           </GridItem>
-          <GridItem area={'activities'}>
-            <ActivitiesDashboardCard />
+          <GridItem area={'carts'}>
+            <CartsDashboardCard />
           </GridItem>
           <GridItem area={'payments'}>
             <PaymentsDashboardCard />
+          </GridItem>
+          <GridItem area={'activities'}>
+            <ActivitiesDashboardCard />
           </GridItem>
         </Grid>
       </Box>

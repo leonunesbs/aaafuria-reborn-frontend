@@ -1,4 +1,5 @@
 import { ActivityIconProps } from './ActivityIcon';
+import { CartsTableProps } from './CartsTable';
 import { CustomChakraNextLinkProps } from './CustomChakraNextLink';
 import { CustomIconButtonProps } from './CustomIconButton';
 import { FloatingCarrinhoPlantaoButtonProps } from './FloatingCarrinhoPlantaoButton';
@@ -9,6 +10,7 @@ import { ICustomButton } from './CustomButton/ICustomButton';
 import { IPriceTag } from './PriceTag/IPriceTag';
 import { NotificationBadgeProps } from './NotificationBadge';
 import { PageHeadingProps } from './PageHeading';
+import { PaymentInstructionsProps } from './PaymentInstructions';
 import { PaymentMethodsProps } from './PaymentMethods';
 import { QuantityCartItemSelectorProps } from './QuantityCartItemSelector';
 import { RefAttributes } from 'react';
@@ -39,6 +41,9 @@ export const AtividadesSocioTableRow = dynamic<IAtividadesSocioTableRow>(() =>
 export const CarteirinhaInput = dynamic<ICarteirinhaInput>(() =>
   import('./CarteirinhaInput').then((mod) => mod.CarteirinhaInput),
 );
+export const CartsTable = dynamic<CartsTableProps>(() =>
+  import('./CartsTable').then((mod) => mod.default),
+);
 export const CustomButton = dynamic<
   ICustomButton & RefAttributes<HTMLButtonElement>
 >(() => import('./CustomButton').then((mod) => mod.CustomButton));
@@ -66,6 +71,9 @@ export const NotificationBadge = dynamic<NotificationBadgeProps>(() =>
 
 export const PageHeading = dynamic<PageHeadingProps>(() =>
   import('./PageHeading').then((mod) => mod.PageHeading),
+);
+export const PaymentInstructions = dynamic<PaymentInstructionsProps>(() =>
+  import('./PaymentInstructions').then((mod) => mod.default),
 );
 export const PaymentMethods = dynamic<PaymentMethodsProps>(() =>
   import('./PaymentMethods').then((mod) => mod.default),
