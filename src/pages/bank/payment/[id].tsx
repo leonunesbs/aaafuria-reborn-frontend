@@ -422,7 +422,8 @@ function Payment() {
               {data?.payment?.method === 'PIX' && !data?.payment?.paid && (
                 <Alert status="info" rounded={'md'}>
                   <AlertIcon />
-                  Adicione o comprovante de pagamento aos anexos abaixo.
+                  Adicione o comprovante de pagamento aos anexos abaixo e
+                  aguarde a confirmação do pagamento.
                 </Alert>
               )}
               <HStack w="full" justify={'space-between'}>
