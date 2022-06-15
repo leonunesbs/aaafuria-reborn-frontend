@@ -21,6 +21,7 @@ import {
 } from '@chakra-ui/react';
 import { BsChevronCompactDown, BsChevronCompactUp } from 'react-icons/bs';
 import { Column, useSortBy, useTable } from 'react-table';
+import { CustomChakraNextLink, CustomIconButton } from '@/components/atoms';
 import {
   MdMoreHoriz,
   MdNavigateBefore,
@@ -32,8 +33,6 @@ import { useCallback, useContext, useMemo } from 'react';
 
 import { AuthContext } from '@/contexts/AuthContext';
 import { ColorContext } from '@/contexts/ColorContext';
-import { CustomIconButton } from '@/components/atoms';
-import { useRouter } from 'next/router';
 
 const ALL_PAYMENTS = gql`
   query allPayments($page: Int = 1, $status: String, $pageSize: Int) {
@@ -94,7 +93,6 @@ function PaymentsTable({
   pageSize = 10,
   shortView = false,
 }: PaymentsTableProps) {
-  const router = useRouter();
   const { green } = useContext(ColorContext);
   const { token } = useContext(AuthContext);
 
@@ -196,17 +194,19 @@ function PaymentsTable({
           Cell: ({ value }: { value: string }) => {
             return (
               <HStack spacing={1}>
-                <CustomIconButton
-                  icon={<MdMoreHoriz size="20px" />}
-                  aria-label="ver mais"
-                  onClick={() => router.push(`/bank/payment/${value}`)}
-                />
+                <CustomChakraNextLink href={`/bank/payment/${value}`}>
+                  <CustomIconButton
+                    variant={'link'}
+                    icon={<MdMoreHoriz size="20px" />}
+                    aria-label="ver mais"
+                  />
+                </CustomChakraNextLink>
               </HStack>
             );
           },
         },
       ] as Column<Payment>[],
-    [router],
+    [],
   );
 
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
