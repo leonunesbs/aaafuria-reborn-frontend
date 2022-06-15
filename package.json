@@ -29,8 +29,8 @@
   "dependencies": {
     "@apollo/client": "3.6.6",
     "@chakra-ui/react": "1.8.8",
-    "@emotion/react": "11.9.0",
-    "@emotion/styled": "11.8.1",
+    "@emotion/react": "11.9.3",
+    "@emotion/styled": "11.9.3",
     "@typescript-eslint/experimental-utils": "5.22.0",
     "apollo-upload-client": "17.0.0",
     "framer-motion": "6.3.3",
