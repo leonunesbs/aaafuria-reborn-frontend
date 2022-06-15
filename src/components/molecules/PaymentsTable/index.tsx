@@ -137,18 +137,22 @@ function PaymentsTable({
     () =>
       [
         {
+          id: 'user',
           Header: 'Member',
           accessor: 'user.member.name',
         },
         {
+          id: 'description',
           Header: 'Descrição',
           accessor: 'description',
         },
         {
+          id: 'amount',
           Header: 'Valor',
           accessor: 'amount',
         },
         {
+          id: 'createdAt',
           Header: 'Criado em',
           accessor: 'createdAt',
           Cell: ({ value }: { value: string }) => {
@@ -164,6 +168,7 @@ function PaymentsTable({
           },
         },
         {
+          id: 'status',
           Header: 'Status',
           accessor: 'status',
           Cell: ({ value }: { value: string }) => {
@@ -185,6 +190,7 @@ function PaymentsTable({
           },
         },
         {
+          id: 'id',
           Header: 'Ações',
           accessor: 'id',
           Cell: ({ value }: { value: string }) => {
