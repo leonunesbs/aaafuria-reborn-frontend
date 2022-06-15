@@ -150,7 +150,7 @@ function CartsTable({ pageSize, shortView }: CartsTableProps) {
   return (
     <>
       <TableContainer>
-        <Table>
+        <Table size={'sm'} variant="striped">
           <Thead>
             <Tr>
               <Th>Membro</Th>
@@ -192,7 +192,9 @@ function CartsTable({ pageSize, shortView }: CartsTableProps) {
                 </Td>
                 <Td>
                   <CustomButton
-                    leftIcon={<MdCheck size="20px" />}
+                    variant={'link'}
+                    size="sm"
+                    leftIcon={<MdCheck size="15px" />}
                     isLoading={loading}
                     onClick={async () => {
                       await deliverCart({

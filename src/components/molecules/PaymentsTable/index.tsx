@@ -247,7 +247,7 @@ function PaymentsTable({
         </HStack>
       </HStack>
       <TableContainer>
-        <Table {...getTableProps()} size={'sm'}>
+        <Table {...getTableProps()} size={'sm'} variant="striped">
           <Thead>
             {headerGroups.map((headerGroup) => (
               <Tr {...headerGroup.getHeaderGroupProps()} key={headerGroup.id}>
