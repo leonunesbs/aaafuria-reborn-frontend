@@ -1,36 +1,36 @@
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
 
 import {
-  Box,
-  Center,
-  Circle,
-  HStack,
-  Heading,
-  Stack,
-  Text,
-  chakra,
-  useColorModeValue,
-} from '@chakra-ui/react';
-import { Card, SejaSocioPricing } from '@/components/molecules';
-import {
   CustomButton,
   CustomChakraNextLink,
   CustomIconButton,
   PageHeading,
 } from '@/components/atoms';
-import { FaDrum, FaVolleyballBall } from 'react-icons/fa';
+import { Card, SejaSocioPricing } from '@/components/molecules';
+import {
+  Box,
+  Center,
+  chakra,
+  Circle,
+  Heading,
+  HStack,
+  Stack,
+  Text,
+  useColorModeValue,
+} from '@chakra-ui/react';
 import { useContext, useRef } from 'react';
+import { FaDrum, FaVolleyballBall } from 'react-icons/fa';
 
-import { Carousel } from 'react-responsive-carousel';
-import { ColorContext } from '@/contexts/ColorContext';
-import CountUp from 'react-countup';
-import { GiPartyPopper } from 'react-icons/gi';
 import { Layout } from '@/components/templates/Layout';
-import { MdStore } from 'react-icons/md';
-import NextImage from 'next/image';
+import { ColorContext } from '@/contexts/ColorContext';
 import client from '@/services/apollo-client';
 import { gql } from '@apollo/client';
+import NextImage from 'next/image';
 import { useRouter } from 'next/router';
+import CountUp from 'react-countup';
+import { GiPartyPopper } from 'react-icons/gi';
+import { MdStore } from 'react-icons/md';
+import { Carousel } from 'react-responsive-carousel';
 
 type FeaturePostData = {
   id: string;
