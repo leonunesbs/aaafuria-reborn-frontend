@@ -90,7 +90,7 @@ type PaymentsData = {
 };
 
 function PaymentsTable({
-  pageSize = 10,
+  pageSize = 20,
   shortView = false,
 }: PaymentsTableProps) {
   const { green } = useContext(ColorContext);
