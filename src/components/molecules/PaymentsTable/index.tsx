@@ -21,6 +21,7 @@ import {
 } from '@chakra-ui/react';
 import { BsChevronCompactDown, BsChevronCompactUp } from 'react-icons/bs';
 import { Column, useSortBy, useTable } from 'react-table';
+import { CustomChakraNextLink, CustomIconButton } from '@/components/atoms';
 import {
   MdMoreHoriz,
   MdNavigateBefore,
@@ -32,8 +33,6 @@ import { useCallback, useContext, useMemo } from 'react';
 
 import { AuthContext } from '@/contexts/AuthContext';
 import { ColorContext } from '@/contexts/ColorContext';
-import { CustomIconButton } from '@/components/atoms';
-import { useRouter } from 'next/router';
 
 const ALL_PAYMENTS = gql`
   query allPayments($page: Int = 1, $status: String, $pageSize: Int) {
@@ -91,10 +90,9 @@ type PaymentsData = {
 };
 
 function PaymentsTable({
-  pageSize = 10,
+  pageSize = 20,
   shortView = false,
 }: PaymentsTableProps) {
-  const router = useRouter();
   const { green } = useContext(ColorContext);
   const { token } = useContext(AuthContext);
 
@@ -137,18 +135,22 @@ function PaymentsTable({
     () =>
       [
         {
+          id: 'user',
           Header: 'Member',
           accessor: 'user.member.name',
         },
         {
+          id: 'description',
           Header: 'Descrição',
           accessor: 'description',
         },
         {
+          id: 'amount',
           Header: 'Valor',
           accessor: 'amount',
         },
         {
+          id: 'createdAt',
           Header: 'Criado em',
           accessor: 'createdAt',
           Cell: ({ value }: { value: string }) => {
@@ -164,6 +166,7 @@ function PaymentsTable({
           },
         },
         {
+          id: 'status',
           Header: 'Status',
           accessor: 'status',
           Cell: ({ value }: { value: string }) => {
@@ -185,22 +188,25 @@ function PaymentsTable({
           },
         },
         {
+          id: 'id',
           Header: 'Ações',
           accessor: 'id',
           Cell: ({ value }: { value: string }) => {
             return (
               <HStack spacing={1}>
-                <CustomIconButton
-                  icon={<MdMoreHoriz size="20px" />}
-                  aria-label="ver mais"
-                  onClick={() => router.push(`/bank/payment/${value}`)}
-                />
+                <CustomChakraNextLink href={`/bank/payment/${value}`}>
+                  <CustomIconButton
+                    variant={'link'}
+                    icon={<MdMoreHoriz size="20px" />}
+                    aria-label="ver mais"
+                  />
+                </CustomChakraNextLink>
               </HStack>
             );
           },
         },
       ] as Column<Payment>[],
-    [router],
+    [],
   );
 
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
@@ -241,7 +247,7 @@ function PaymentsTable({
         </HStack>
       </HStack>
       <TableContainer>
-        <Table {...getTableProps()} size={'sm'}>
+        <Table {...getTableProps()} size={'sm'} variant="striped">
           <Thead>
             {headerGroups.map((headerGroup) => (
               <Tr {...headerGroup.getHeaderGroupProps()} key={headerGroup.id}>

@@ -42,9 +42,8 @@ function PaymentInstructions({ payment }: PaymentInstructionsProps) {
         merchantName: 'Albérico S S A Santana',
         merchantCity: 'Teresina',
         pixKey: 'pix@aaafuria.site',
-        infoAdicional: payment.id ?? '',
-        transactionAmount:
-          parseFloat(payment.amount?.replace('=', '') as string) ?? 1,
+        infoAdicional: payment.id?.replace('=', '') ?? '',
+        transactionAmount: parseFloat(payment.amount as string) ?? 0,
         txid: '',
       }) as PixStaticObject;
     }

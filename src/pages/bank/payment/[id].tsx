@@ -260,10 +260,10 @@ function Payment() {
       <Box maxW="3xl" mx="auto">
         <PageHeading>Pagamento</PageHeading>
         <Card>
-          {data?.payment.status === 'PENDENTE' && (
+          {data?.payment?.status === 'PENDENTE' && (
             <>
-              {data?.payment.method === 'PIX' ? (
-                data.payment.attachments.edges.length === 0 && (
+              {data?.payment?.method === 'PIX' ? (
+                data.payment?.attachments.edges.length === 0 && (
                   <Box>
                     <PaymentInstructions
                       payment={{
@@ -435,10 +435,10 @@ function Payment() {
             </Box>
 
             <Box>
-              {data?.payment.status === 'PENDENTE' && (
+              {data?.payment?.status === 'PENDENTE' && (
                 <>
-                  {data?.payment.method === 'PIX' &&
-                    data.payment.attachments.edges.length === 0 && (
+                  {data?.payment?.method === 'PIX' &&
+                    data.payment?.attachments.edges.length === 0 && (
                       <Alert status="info" rounded={'md'}>
                         <AlertIcon />
                         Adicione o comprovante de pagamento aos anexos abaixo e

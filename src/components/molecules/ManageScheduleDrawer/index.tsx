@@ -10,7 +10,6 @@ import {
   FormControl,
   FormLabel,
   Input,
-  Spinner,
   Stack,
   Switch,
   Table,
@@ -25,72 +24,74 @@ import {
 } from '@chakra-ui/react';
 import { MdAssignment, MdSave } from 'react-icons/md';
 import { gql, useMutation, useQuery } from '@apollo/client';
-import { useContext, useMemo, useState } from 'react';
 
 import { AuthContext } from '@/contexts/AuthContext';
 import { ColorContext } from '@/contexts/ColorContext';
+import { useContext } from 'react';
 
-const TOGGLE_PRESENCE = gql`
-  mutation ToggleUserPresence($scheduleId: ID!, $userId: ID!) {
-    toggleUserPresence(scheduleId: $scheduleId, userId: $userId) {
+const SET_PRESENCE = gql`
+  mutation SetUserPresence(
+    $scheduleId: ID!
+    $userId: ID!
+    $isPresent: Boolean!
+  ) {
+    setUserPresence(
+      scheduleId: $scheduleId
+      userId: $userId
+      isPresent: $isPresent
+    ) {
       ok
-      presence
     }
   }
 `;
 
 function ParticipantRow({
-  scheduleId,
-  participant,
-  usersPresent,
+  userId,
+  member,
+  scheduleData: { schedule },
   refetch,
 }: {
-  scheduleId: string;
-  participant: Member;
-  usersPresent: Member[];
+  userId: string;
+  scheduleData: ScheduleData;
+  member: Member;
+
   refetch: () => void;
 }) {
   const { token } = useContext(AuthContext);
-  const { green } = useContext(ColorContext);
   const { onToggle, isOpen } = useDisclosure({ defaultIsOpen: true });
-  const [isPresent, setIsPresent] = useState(
-    useMemo(() => {
-      return usersPresent.some((user) => user.id === participant.id);
-    }, [participant.id, usersPresent]),
+
+  const isPresent = schedule.usersPresent.edges.some(
+    ({ node: { id } }) => id === userId,
   );
 
-  const [togglePresence, { loading }] = useMutation(TOGGLE_PRESENCE, {
-    variables: {
-      scheduleId: scheduleId,
-      userId: participant.id,
-    },
+  const [setPresence] = useMutation(SET_PRESENCE, {
     context: {
       headers: {
         authorization: `JWT ${token}`,
       },
     },
   });
-
   return (
-    <Tr key={participant.id}>
+    <Tr key={member.id}>
       <Td onClick={onToggle} cursor={'pointer'}>
-        {isOpen ? participant.nickname : participant.name}
+        {isOpen ? member.nickname : member.name}
       </Td>
-      <Td isNumeric>{participant.group}</Td>
+      <Td isNumeric>{member.group}</Td>
       <Td isNumeric>
-        {loading ? (
-          <Spinner color={green} />
-        ) : (
-          <Switch
-            colorScheme={'green'}
-            defaultChecked={isPresent}
-            onChange={() => {
-              setIsPresent(!isPresent);
-              togglePresence();
-              refetch();
-            }}
-          />
-        )}
+        <Switch
+          colorScheme={'green'}
+          defaultChecked={isPresent}
+          onChange={async ({ target: { checked } }) => {
+            setPresence({
+              variables: {
+                userId,
+                scheduleId: schedule.id,
+                isPresent: checked,
+              },
+            });
+            refetch();
+          }}
+        />
       </Td>
     </Tr>
   );
@@ -107,6 +108,7 @@ const GET_SCHEDULE = gql`
       usersConfirmed {
         edges {
           node {
+            id
             member {
               id
               nickname
@@ -119,6 +121,7 @@ const GET_SCHEDULE = gql`
       usersPresent {
         edges {
           node {
+            id
             member {
               id
               nickname
@@ -170,6 +173,7 @@ type ScheduleData = {
     usersConfirmed: {
       edges: {
         node: {
+          id: string;
           member: Member;
         };
       }[];
@@ -177,6 +181,7 @@ type ScheduleData = {
     usersPresent: {
       edges: {
         node: {
+          id: string;
           member: Member;
         };
       }[];
@@ -193,7 +198,7 @@ function ManageScheduleDrawer({
 
   const { onOpen, isOpen, onClose } = useDisclosure();
 
-  const { data, refetch: getScheduleRefetch } = useQuery<ScheduleData>(
+  const { data, refetch: scheduleRefetch } = useQuery<ScheduleData>(
     GET_SCHEDULE,
     {
       variables: { scheduleId },
@@ -222,11 +227,6 @@ function ManageScheduleDrawer({
       },
     },
   });
-
-  const usersPresent = useMemo(() => {
-    if (!data) return [];
-    return data.schedule.usersPresent.edges.map(({ node }) => node.member);
-  }, [data]);
 
   return (
     <>
@@ -263,13 +263,13 @@ function ManageScheduleDrawer({
                   </Thead>
                   <Tbody>
                     {data?.schedule.usersConfirmed.edges.map(
-                      ({ node: { member } }) => (
+                      ({ node: { id, member } }) => (
                         <ParticipantRow
-                          key={member.id}
-                          scheduleId={scheduleId}
-                          participant={member}
-                          usersPresent={usersPresent}
-                          refetch={getScheduleRefetch}
+                          key={id}
+                          userId={id}
+                          member={member}
+                          scheduleData={data}
+                          refetch={scheduleRefetch}
                         />
                       ),
                     )}

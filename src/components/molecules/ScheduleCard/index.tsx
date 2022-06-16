@@ -7,12 +7,7 @@ import {
   Spinner,
   Stack,
   Switch,
-  Table,
-  TableContainer,
   Text,
-  Th,
-  Thead,
-  Tr,
   useDisclosure,
   useToast,
 } from '@chakra-ui/react';
@@ -157,7 +152,7 @@ export default function ScheduleCard({ schedule, refetch }: ScheduleCardProps) {
     >
       <HStack p={2} w="full" justify="space-between" align={'flex-end'}>
         <Stack>
-          <Text fontSize="sm">
+          <Box fontSize="sm">
             {schedule.location}
             <br />
             <Text fontSize="xs">
@@ -180,7 +175,7 @@ export default function ScheduleCard({ schedule, refetch }: ScheduleCardProps) {
                 </Badge>
               ))}
             </HStack>
-          </Text>
+          </Box>
           <Text fontSize="xs">{schedule.description}</Text>
         </Stack>
         <Stack>
@@ -209,20 +204,11 @@ export default function ScheduleCard({ schedule, refetch }: ScheduleCardProps) {
         </Stack>
       </HStack>
       <Collapse in={isOpen}>
-        <HStack w="full" justify={'space-between'} align="center" px={2}>
+        <HStack w="full" justify={'space-between'} align="center" px={2} mb={4}>
           <Stack fontSize="x-small" spacing={0} fontStyle="italic">
             <Text>Mínimo: {schedule.minParticipants}</Text>
             <Text>Confirmados: {schedule.confirmedCount}</Text>
             <Text>Status: {schedule.status}</Text>
-            <TableContainer>
-              <Table>
-                <Thead>
-                  <Tr>
-                    <Th></Th>
-                  </Tr>
-                </Thead>
-              </Table>
-            </TableContainer>
           </Stack>
           {user?.isStaff && (
             <ManageScheduleDrawer scheduleId={schedule.id} refetch={refetch} />
