@@ -130,7 +130,7 @@ function Intermed() {
 
       await createPayment({
         variables: {
-          amount: amount,
+          amount,
           methodId: 'UGF5bWVudE1ldGhvZE5vZGU6MQ==',
           description: 'Pagamento VI Intermed Nordeste',
           atttachmentTitle: 'comprovante',
