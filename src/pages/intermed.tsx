@@ -170,19 +170,30 @@ function Intermed() {
             enroll: enroll[0],
             vaccineCard: vaccineCard[0],
           },
-        }).then(({ data: { createIntermedProfile } }) => {
-          if (createIntermedProfile.ok) {
+        })
+          .then(({ data: { createIntermedProfile } }) => {
+            if (createIntermedProfile.ok) {
+              toast({
+                title: 'Dados salvos com sucesso',
+                description:
+                  'Seus dados foram enviados à organizadora, efetue o pagamento para confirmar sua inscrição',
+                status: 'success',
+                duration: 2500,
+                isClosable: true,
+                position: 'top-left',
+              });
+            }
+          })
+          .catch((err) => {
             toast({
-              title: 'Dados salvos com sucesso',
-              description:
-                'Seus dados foram enviados à organizadora, efetue o pagamento para confirmar sua inscrição',
-              status: 'success',
+              title: 'Erro ao salvar dados',
+              description: err.message,
+              status: 'error',
               duration: 2500,
               isClosable: true,
               position: 'top-left',
             });
-          }
-        });
+          });
       },
       [createIntermedProfile, toast],
     );
