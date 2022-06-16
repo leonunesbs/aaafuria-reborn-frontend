@@ -34,6 +34,7 @@ const ALL_CARTS = gql`
             name
           }
         }
+        total
         items {
           edges {
             node {
@@ -80,6 +81,7 @@ type CartsData = {
           name: string;
         };
       };
+      total: number;
       items: {
         edges: {
           node: {
@@ -155,6 +157,7 @@ function CartsTable({ pageSize, shortView }: CartsTableProps) {
             <Tr>
               <Th>Membro</Th>
               <Th>Itens</Th>
+              <Th>Total</Th>
               <Th>Pago</Th>
               <Th>Atualizado</Th>
               <Th>Ações</Th>
@@ -181,7 +184,7 @@ function CartsTable({ pageSize, shortView }: CartsTableProps) {
                     </Box>
                   ))}
                 </Td>
-
+                <Td>{cart.total}</Td>
                 <Td>{cart.ordered ? 'Sim' : 'Não'}</Td>
                 <Td>
                   {new Date(cart.updatedAt).toLocaleString('pt-BR', {
