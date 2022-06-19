@@ -116,7 +116,7 @@ interface CartData {
 }
 
 type CheckoutForm = {
-  method: string;
+  methodId: string;
 };
 
 function Cart() {
@@ -166,10 +166,10 @@ function Cart() {
   );
 
   const onSubmit: SubmitHandler<CheckoutForm> = useCallback(
-    async ({ method }) => {
+    async ({ methodId }) => {
       await checkoutCart({
         variables: {
-          methodId: method,
+          methodId,
         },
       })
         .then(async ({ data }) => {
@@ -277,7 +277,7 @@ function Cart() {
                 <form onSubmit={checkoutForm.handleSubmit(onSubmit)}>
                   <Stack spacing={4}>
                     <Controller
-                      name="method"
+                      name="methodId"
                       control={checkoutForm.control}
                       rules={{ required: 'Matrícula obrigatória' }}
                       render={({ field }) => (

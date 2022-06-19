@@ -5,7 +5,6 @@ import {
   Radio,
   RadioGroup,
 } from '@chakra-ui/react';
-import { Noop, RefCallBack } from 'react-hook-form';
 import { gql, useQuery } from '@apollo/client';
 
 import { AuthContext } from '@/contexts/AuthContext';
@@ -31,11 +30,6 @@ type PaymentMethods = {
 
 export interface PaymentMethodsProps {
   disabledMethods?: string[];
-  onChange: (...event: any[]) => void;
-  onBlur: Noop;
-  value: string;
-  name: 'method';
-  ref: RefCallBack;
 }
 
 const PaymentMethods = ({ disabledMethods, ...rest }: PaymentMethodsProps) => {
