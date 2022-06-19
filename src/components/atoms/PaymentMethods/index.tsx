@@ -8,6 +8,7 @@ import {
 import { gql, useQuery } from '@apollo/client';
 
 import { AuthContext } from '@/contexts/AuthContext';
+import { ControllerRenderProps } from 'react-hook-form';
 import { useContext } from 'react';
 
 const PAYMENT_METHODS = gql`
@@ -28,7 +29,7 @@ type PaymentMethods = {
   }[];
 };
 
-export interface PaymentMethodsProps {
+export interface PaymentMethodsProps extends ControllerRenderProps {
   disabledMethods?: string[];
 }
 
