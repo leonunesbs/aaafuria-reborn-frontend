@@ -279,7 +279,7 @@ function Cart() {
                     <Controller
                       name="methodId"
                       control={checkoutForm.control}
-                      rules={{ required: 'Matrícula obrigatória' }}
+                      rules={{ required: 'Método obrigatório' }}
                       render={({ field }) => (
                         <PaymentMethods
                           disabledMethods={data.cart.disabledPaymentMethods}
