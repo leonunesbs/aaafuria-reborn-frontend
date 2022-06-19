@@ -5,6 +5,7 @@ import {
   Radio,
   RadioGroup,
 } from '@chakra-ui/react';
+import { Noop, RefCallBack } from 'react-hook-form';
 import { gql, useQuery } from '@apollo/client';
 
 import { AuthContext } from '@/contexts/AuthContext';
@@ -28,10 +29,16 @@ type PaymentMethods = {
   }[];
 };
 
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
-export interface PaymentMethodsProps {}
+export interface PaymentMethodsProps {
+  disabledMethods?: string[];
+  onChange: (...event: any[]) => void;
+  onBlur: Noop;
+  value: string;
+  name: 'method';
+  ref: RefCallBack;
+}
 
-const PaymentMethods = ({ ...rest }: PaymentMethodsProps) => {
+const PaymentMethods = ({ disabledMethods, ...rest }: PaymentMethodsProps) => {
   const { token } = useContext(AuthContext);
   const { data } = useQuery<PaymentMethods>(PAYMENT_METHODS, {
     context: {
@@ -46,11 +53,19 @@ const PaymentMethods = ({ ...rest }: PaymentMethodsProps) => {
       <FormLabel>Forma de pagamento: </FormLabel>
       <RadioGroup colorScheme={'green'} {...rest}>
         <HStack>
-          {data?.allPaymentMethods?.map(({ id, name }) => (
-            <Radio key={id} value={id} colorScheme={'green'}>
-              {name}
-            </Radio>
-          ))}
+          {data?.allPaymentMethods?.map(({ id, title, name }) => {
+            console.log(id);
+            return (
+              <Radio
+                key={id}
+                value={id}
+                colorScheme={'green'}
+                isDisabled={disabledMethods?.includes(title)}
+              >
+                {name}
+              </Radio>
+            );
+          })}
         </HStack>
       </RadioGroup>
     </FormControl>

@@ -37,6 +37,7 @@ const GET_CART = gql`
         }
       }
       total
+      disabledPaymentMethods
       items {
         edges {
           node {
@@ -88,6 +89,7 @@ interface CartData {
       };
     };
     total: number;
+    disabledPaymentMethods: string[];
     items: {
       edges: {
         node: {
@@ -278,7 +280,12 @@ function Cart() {
                       name="method"
                       control={checkoutForm.control}
                       rules={{ required: 'Matrícula obrigatória' }}
-                      render={({ field }) => <PaymentMethods {...field} />}
+                      render={({ field }) => (
+                        <PaymentMethods
+                          disabledMethods={data.cart.disabledPaymentMethods}
+                          {...field}
+                        />
+                      )}
                     />
                     <CustomButton
                       type="submit"
