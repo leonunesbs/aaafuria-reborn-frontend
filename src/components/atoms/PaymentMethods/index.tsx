@@ -49,7 +49,6 @@ const PaymentMethods = ({ disabledMethods, ...rest }: PaymentMethodsProps) => {
       <RadioGroup colorScheme={'green'} {...rest}>
         <HStack>
           {data?.allPaymentMethods?.map(({ id, title, name }) => {
-            console.log(id);
             return (
               <Radio
                 key={id}
