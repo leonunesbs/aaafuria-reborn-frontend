@@ -12,9 +12,10 @@ import {
 } from '@chakra-ui/react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { gql, useMutation } from '@apollo/client';
-import { useCallback, useState } from 'react';
+import { useCallback, useContext, useState } from 'react';
 
 import { Card } from '@/components/molecules';
+import { ColorContext } from '@/contexts/ColorContext';
 import { CustomButton } from '@/components/atoms';
 import { MdShoppingCart } from 'react-icons/md';
 import { ProdutoType } from '../../organisms/LojaPlantao';
@@ -50,6 +51,7 @@ export const ProdutoPlantaoCard = ({
   matriculaSocio,
 }: ProdutoPlantaoCardProps) => {
   const router = useRouter();
+  const { green } = useContext(ColorContext);
   const { register, handleSubmit } = useForm<any>();
   const [addToCartPlantao, { loading }] = useMutation(ADD_TO_CART_PLANTAO, {
     context: {
@@ -158,8 +160,8 @@ export const ProdutoPlantaoCard = ({
                 <FormControl>
                   <Select
                     required
-                    focusBorderColor="green.500"
-                    placeholder="Selecione o tamanho"
+                    focusBorderColor={green}
+                    placeholder="Selecione uma opção"
                     {...register('variacaoId')}
                   >
                     {node?.variacoes.edges.map(

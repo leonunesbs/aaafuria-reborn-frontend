@@ -41,6 +41,7 @@ const DIGITAL_ITEMS = gql`
         price
         image
         description
+        membershipExclusive
         membershipPrice
         staffPrice
         variations {
@@ -72,6 +73,7 @@ export type ProductType = {
   price: number;
   image: string;
   description: string;
+  membershipExclusive: boolean;
   membershipPrice: number;
   staffPrice: number;
   variations: {

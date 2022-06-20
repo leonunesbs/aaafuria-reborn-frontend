@@ -5,10 +5,10 @@ import {
   Radio,
   RadioGroup,
 } from '@chakra-ui/react';
-import { Noop, RefCallBack } from 'react-hook-form';
 import { gql, useQuery } from '@apollo/client';
 
 import { AuthContext } from '@/contexts/AuthContext';
+import { ControllerRenderProps } from 'react-hook-form';
 import { useContext } from 'react';
 
 const PAYMENT_METHODS = gql`
@@ -29,13 +29,8 @@ type PaymentMethods = {
   }[];
 };
 
-export interface PaymentMethodsProps {
+export interface PaymentMethodsProps extends ControllerRenderProps {
   disabledMethods?: string[];
-  onChange: (...event: any[]) => void;
-  onBlur: Noop;
-  value: string;
-  name: 'method';
-  ref: RefCallBack;
 }
 
 const PaymentMethods = ({ disabledMethods, ...rest }: PaymentMethodsProps) => {
@@ -54,7 +49,6 @@ const PaymentMethods = ({ disabledMethods, ...rest }: PaymentMethodsProps) => {
       <RadioGroup colorScheme={'green'} {...rest}>
         <HStack>
           {data?.allPaymentMethods?.map(({ id, title, name }) => {
-            console.log(id);
             return (
               <Radio
                 key={id}

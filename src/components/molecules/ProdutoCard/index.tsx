@@ -170,7 +170,7 @@ export const ProdutoCard = ({
               >
                 <Select
                   focusBorderColor={green}
-                  placeholder="Selecione o tamanho"
+                  placeholder="Selecione uma opção"
                   required={
                     product?.variations?.edges.length > 0 ? true : false
                   }
@@ -186,17 +186,54 @@ export const ProdutoCard = ({
             </HStack>
           </Stack>
         </Flex>
-        <CustomButton
-          w="full"
-          type="submit"
-          rounded="0"
-          leftIcon={<MdShoppingCart size="20px" />}
-          isLoading={loading}
-          loadingText="Adicionando..."
-          variant={'solid'}
-        >
-          {isAuthenticated ? addToCartBreakpoint : 'Faça login para comprar'}
-        </CustomButton>
+
+        {isAuthenticated ? (
+          product.membershipExclusive ? (
+            <CustomButton
+              w="full"
+              type="submit"
+              rounded="0"
+              leftIcon={<MdShoppingCart size="20px" />}
+              isLoading={loading}
+              loadingText="Adicionando..."
+              variant={'solid'}
+              isDisabled={!user?.member.hasActiveMembership}
+            >
+              {user?.member.hasActiveMembership
+                ? addToCartBreakpoint
+                : 'PRODUTO EXCLUSIVO'}
+            </CustomButton>
+          ) : (
+            <CustomButton
+              w="full"
+              type="submit"
+              rounded="0"
+              leftIcon={<MdShoppingCart size="20px" />}
+              isLoading={loading}
+              loadingText="Adicionando..."
+              variant={'solid'}
+            >
+              {addToCartBreakpoint}
+            </CustomButton>
+          )
+        ) : (
+          <CustomButton
+            w="full"
+            type="submit"
+            rounded="0"
+            leftIcon={<MdShoppingCart size="20px" />}
+            isLoading={loading}
+            loadingText="Adicionando..."
+            variant={'solid'}
+            isDisabled={
+              product.membershipExclusive
+                ? !user?.member.hasActiveMembership ?? true
+                : false
+            }
+          >
+            Faça login para comprar
+          </CustomButton>
+        )}
       </Card>
     </form>
   );
