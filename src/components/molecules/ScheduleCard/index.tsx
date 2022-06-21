@@ -8,7 +8,6 @@ import {
   Stack,
   Switch,
   Table,
-  TableContainer,
   Tag,
   Text,
   Th,
@@ -157,16 +156,16 @@ export default function ScheduleCard({ schedule, refetch }: ScheduleCardProps) {
     >
       <HStack p={2} w="full" justify="space-between" align={'flex-end'}>
         <Stack>
-          <Text fontSize="sm">
+          <Box fontSize="sm">
             {schedule.location}
             <br />
-            <Text fontSize="xs">
+            <Box fontSize="xs">
               {new Date(schedule.startDate as string).toLocaleString('pt-BR', {
                 dateStyle: 'short',
                 timeStyle: 'short',
                 timeZone: 'America/Sao_Paulo',
               })}
-            </Text>
+            </Box>
             <HStack>
               {schedule.tags?.map((tag) => (
                 <Tag
@@ -180,8 +179,8 @@ export default function ScheduleCard({ schedule, refetch }: ScheduleCardProps) {
                 </Tag>
               ))}
             </HStack>
-          </Text>
-          <Text fontSize="xs">{schedule.description}</Text>
+          </Box>
+          <Box fontSize="xs">{schedule.description}</Box>
         </Stack>
         <Stack>
           {confirmLoading || cancelLoading === true ? (
@@ -214,15 +213,13 @@ export default function ScheduleCard({ schedule, refetch }: ScheduleCardProps) {
             <Text>Mínimo: {schedule.minParticipants}</Text>
             <Text>Confirmados: {schedule.confirmedCount}</Text>
             <Text>Status: {schedule.status}</Text>
-            <TableContainer>
-              <Table>
-                <Thead>
-                  <Tr>
-                    <Th></Th>
-                  </Tr>
-                </Thead>
-              </Table>
-            </TableContainer>
+            <Table>
+              <Thead>
+                <Tr>
+                  <Th></Th>
+                </Tr>
+              </Thead>
+            </Table>
           </Stack>
           {user?.isStaff && (
             <ManageScheduleDrawer scheduleId={schedule.id} refetch={refetch} />
