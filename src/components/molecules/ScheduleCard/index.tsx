@@ -7,12 +7,8 @@ import {
   Spinner,
   Stack,
   Switch,
-  Table,
   Tag,
   Text,
-  Th,
-  Thead,
-  Tr,
   useDisclosure,
   useToast,
 } from '@chakra-ui/react';
@@ -169,7 +165,7 @@ export default function ScheduleCard({ schedule, refetch }: ScheduleCardProps) {
             <HStack>
               {schedule.tags?.map((tag) => (
                 <Tag
-                  key={tag}
+                  key={tag.toUpperCase()}
                   colorScheme="green"
                   variant="solid"
                   rounded="full"
@@ -213,13 +209,6 @@ export default function ScheduleCard({ schedule, refetch }: ScheduleCardProps) {
             <Text>Mínimo: {schedule.minParticipants}</Text>
             <Text>Confirmados: {schedule.confirmedCount}</Text>
             <Text>Status: {schedule.status}</Text>
-            <Table>
-              <Thead>
-                <Tr>
-                  <Th></Th>
-                </Tr>
-              </Thead>
-            </Table>
           </Stack>
           {user?.isStaff && (
             <ManageScheduleDrawer scheduleId={schedule.id} refetch={refetch} />
