@@ -1,5 +1,5 @@
+import { gql, useMutation } from '@apollo/client';
 import {
-  Badge,
   Box,
   Collapse,
   HStack,
@@ -7,20 +7,20 @@ import {
   Spinner,
   Stack,
   Switch,
+  Tag,
   Text,
   useDisclosure,
   useToast,
 } from '@chakra-ui/react';
 import { ChangeEvent, useCallback, useContext } from 'react';
 import { MdLogin, MdMoreVert } from 'react-icons/md';
-import { gql, useMutation } from '@apollo/client';
 
-import { Activity } from '@/pages/activities';
 import { AuthContext } from '@/contexts/AuthContext';
 import { ColorContext } from '@/contexts/ColorContext';
-import { CustomIconButton } from '../../atoms';
-import { ManageScheduleDrawer } from '..';
+import { Activity } from '@/pages/activities';
 import { useRouter } from 'next/router';
+import { ManageScheduleDrawer } from '..';
+import { CustomIconButton } from '../../atoms';
 
 const CONFIRM_TO_SCHEDULE = gql`
   mutation confirmToSchedule($scheduleId: ID!) {
@@ -155,28 +155,29 @@ export default function ScheduleCard({ schedule, refetch }: ScheduleCardProps) {
           <Box fontSize="sm">
             {schedule.location}
             <br />
-            <Text fontSize="xs">
+            <Box fontSize="xs">
               {new Date(schedule.startDate as string).toLocaleString('pt-BR', {
                 dateStyle: 'short',
                 timeStyle: 'short',
                 timeZone: 'America/Sao_Paulo',
               })}
-            </Text>
+            </Box>
             <HStack>
               {schedule.tags?.map((tag) => (
-                <Badge
+                <Tag
                   key={tag}
+                  size="sm"
                   colorScheme="green"
                   variant="solid"
                   rounded="full"
                   fontSize="xx-small"
                 >
-                  {tag}
-                </Badge>
+                  {tag.toUpperCase()}
+                </Tag>
               ))}
             </HStack>
           </Box>
-          <Text fontSize="xs">{schedule.description}</Text>
+          <Box fontSize="xs">{schedule.description}</Box>
         </Stack>
         <Stack>
           {confirmLoading || cancelLoading === true ? (
@@ -204,7 +205,7 @@ export default function ScheduleCard({ schedule, refetch }: ScheduleCardProps) {
         </Stack>
       </HStack>
       <Collapse in={isOpen}>
-        <HStack w="full" justify={'space-between'} align="center" px={2} mb={4}>
+        <HStack w="full" justify={'space-between'} align="center" px={2}>
           <Stack fontSize="x-small" spacing={0} fontStyle="italic">
             <Text>Mínimo: {schedule.minParticipants}</Text>
             <Text>Confirmados: {schedule.confirmedCount}</Text>
