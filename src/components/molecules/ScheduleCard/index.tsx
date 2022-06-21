@@ -171,7 +171,7 @@ export default function ScheduleCard({ schedule, refetch }: ScheduleCardProps) {
                   rounded="full"
                   fontSize="xx-small"
                 >
-                  {tag.toLocaleUpperCase()}
+                  {tag.toUpperCase()}
                 </Tag>
               ))}
             </HStack>
