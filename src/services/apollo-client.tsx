@@ -1,9 +1,6 @@
-import {
-  ApolloClient,
-  createHttpLink,
-  DefaultOptions,
-  InMemoryCache,
-} from '@apollo/client';
+import { ApolloClient, DefaultOptions, InMemoryCache } from '@apollo/client';
+
+import { createUploadLink } from 'apollo-upload-client';
 
 const defaultOptions: DefaultOptions = {
   watchQuery: {
@@ -16,17 +13,17 @@ const defaultOptions: DefaultOptions = {
   },
 };
 
-const httpLink = createHttpLink({
+const uploadLink = createUploadLink({
   uri:
     process.env.NODE_ENV === 'development'
-      ? 'http://192.168.100.3:8000/graphql'
+      ? 'http://192.168.5.155:8000/graphql'
       : `${process.env.BACKEND_DOMAIN}/graphql`,
   credentials: 'same-origin',
 });
 
 const client = new ApolloClient({
   cache: new InMemoryCache(),
-  link: httpLink,
+  link: uploadLink as any,
   defaultOptions: defaultOptions,
 });
 
