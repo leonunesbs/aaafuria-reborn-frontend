@@ -165,13 +165,13 @@ export default function ScheduleCard({ schedule, refetch }: ScheduleCardProps) {
             <HStack>
               {schedule.tags?.map((tag) => (
                 <Tag
-                  key={tag.toUpperCase()}
+                  key={tag}
                   colorScheme="green"
                   variant="solid"
                   rounded="full"
                   fontSize="xx-small"
                 >
-                  {tag}
+                  {tag.toLocaleUpperCase()}
                 </Tag>
               ))}
             </HStack>
