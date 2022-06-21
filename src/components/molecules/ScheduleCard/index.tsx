@@ -166,6 +166,7 @@ export default function ScheduleCard({ schedule, refetch }: ScheduleCardProps) {
               {schedule.tags?.map((tag) => (
                 <Tag
                   key={tag}
+                  size="sm"
                   colorScheme="green"
                   variant="solid"
                   rounded="full"
