@@ -69,7 +69,7 @@ function Activities() {
 
   return (
     <Layout
-      title="Atividades"
+      title="Programação de atividades"
       desc="Participe de jogos, apresentações, treinos, ensaios e muito mais. Conheça o melhor da Fúria!"
     >
       <Box mx="auto" maxW="8xl">

@@ -1,4 +1,3 @@
-import { gql, useMutation } from '@apollo/client';
 import {
   Box,
   Collapse,
@@ -14,13 +13,14 @@ import {
 } from '@chakra-ui/react';
 import { ChangeEvent, useCallback, useContext } from 'react';
 import { MdLogin, MdMoreVert } from 'react-icons/md';
+import { gql, useMutation } from '@apollo/client';
 
+import { Activity } from '@/pages/activities';
 import { AuthContext } from '@/contexts/AuthContext';
 import { ColorContext } from '@/contexts/ColorContext';
-import { Activity } from '@/pages/activities';
-import { useRouter } from 'next/router';
-import { ManageScheduleDrawer } from '..';
 import { CustomIconButton } from '../../atoms';
+import { ManageScheduleDrawer } from '..';
+import { useRouter } from 'next/router';
 
 const CONFIRM_TO_SCHEDULE = gql`
   mutation confirmToSchedule($scheduleId: ID!) {
@@ -205,7 +205,7 @@ export default function ScheduleCard({ schedule, refetch }: ScheduleCardProps) {
         </Stack>
       </HStack>
       <Collapse in={isOpen}>
-        <HStack w="full" justify={'space-between'} align="center" px={2}>
+        <HStack w="full" justify={'space-between'} align="center" px={2} pb={2}>
           <Stack fontSize="x-small" spacing={0} fontStyle="italic">
             <Text>Mínimo: {schedule.minParticipants}</Text>
             <Text>Confirmados: {schedule.confirmedCount}</Text>

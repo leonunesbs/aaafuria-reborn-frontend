@@ -1,9 +1,9 @@
+import { ActivityIcon, CustomChakraNextLink } from '@/components/atoms';
 import { ActivitySchedules, AddScheduleDrawer, Card } from '..';
 import { Box, HStack, Heading } from '@chakra-ui/react';
 import { useContext, useMemo } from 'react';
 
 import { Activity } from '@/pages/activities';
-import { ActivityIcon } from '@/components/atoms';
 import { AuthContext } from '@/contexts/AuthContext';
 
 export interface ActivityCardProps {
@@ -27,7 +27,16 @@ function ActivityCard({ activity, refetch }: ActivityCardProps) {
       <HStack mb={2} w="full" justify={'space-between'} pr={1}>
         <HStack>
           <ActivityIcon activityName={activityName} />
-          <Heading size="sm">{activity.name.toUpperCase()}</Heading>
+          <CustomChakraNextLink
+            href={`/activity/${activity.id}`}
+            chakraLinkProps={{
+              _hover: {
+                textColor: 'green.500',
+              },
+            }}
+          >
+            <Heading size="sm">{activity.name.toUpperCase()}</Heading>
+          </CustomChakraNextLink>
         </HStack>
         {user?.isStaff && (
           <Box>
