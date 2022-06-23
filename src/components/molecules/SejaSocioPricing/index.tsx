@@ -253,7 +253,19 @@ export const SejaSocioPricing = ({}: ISejaSocioPricing) => {
                     {plano.descricao}
                   </Text> */}
                   <PopoverTrigger>
-                    <CustomButton variant={'solid'}>Seja Sócio!</CustomButton>
+                    <Button
+                      colorScheme="green"
+                      w="full"
+                      p={4}
+                      rounded="full"
+                      _focus={{
+                        outlineColor: green,
+                        outlineWidth: 'thin',
+                      }}
+                      variant={'solid'}
+                    >
+                      Seja Sócio!
+                    </Button>
                   </PopoverTrigger>
                 </Stack>
                 <Portal>
