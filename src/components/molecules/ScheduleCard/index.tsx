@@ -1,4 +1,6 @@
+import { gql, useMutation } from '@apollo/client';
 import {
+  Badge,
   Box,
   Collapse,
   HStack,
@@ -6,21 +8,19 @@ import {
   Spinner,
   Stack,
   Switch,
-  Tag,
   Text,
   useDisclosure,
   useToast,
 } from '@chakra-ui/react';
 import { ChangeEvent, useCallback, useContext } from 'react';
 import { MdLogin, MdMoreVert } from 'react-icons/md';
-import { gql, useMutation } from '@apollo/client';
+import { Card, ManageScheduleDrawer } from '..';
 
-import { Activity } from '@/pages/activities';
 import { AuthContext } from '@/contexts/AuthContext';
 import { ColorContext } from '@/contexts/ColorContext';
-import { CustomIconButton } from '../../atoms';
-import { ManageScheduleDrawer } from '..';
+import { Activity } from '@/pages/activities';
 import { useRouter } from 'next/router';
+import { CustomIconButton } from '../../atoms';
 
 const CONFIRM_TO_SCHEDULE = gql`
   mutation confirmToSchedule($scheduleId: ID!) {
@@ -144,11 +144,13 @@ export default function ScheduleCard({ schedule, refetch }: ScheduleCardProps) {
     [cancelFromSchedule, confirmToSchedule, refetch, toast],
   );
   return (
-    <Box
+    <Card
       key={schedule.id}
       position={'relative'}
       rounded={'md'}
       overflow="hidden"
+      p={0}
+      px={0}
     >
       <HStack p={2} w="full" justify="space-between" align={'flex-end'}>
         <Stack>
@@ -164,16 +166,15 @@ export default function ScheduleCard({ schedule, refetch }: ScheduleCardProps) {
             </Box>
             <HStack>
               {schedule.tags?.map((tag) => (
-                <Tag
+                <Badge
                   key={tag}
-                  size="sm"
                   colorScheme="green"
-                  variant="solid"
+                  variant="subtle"
                   rounded="full"
                   fontSize="xx-small"
                 >
                   {tag.toUpperCase()}
-                </Tag>
+                </Badge>
               ))}
             </HStack>
           </Box>
@@ -229,6 +230,6 @@ export default function ScheduleCard({ schedule, refetch }: ScheduleCardProps) {
         bottom={-2}
         left={0}
       />
-    </Box>
+    </Card>
   );
 }

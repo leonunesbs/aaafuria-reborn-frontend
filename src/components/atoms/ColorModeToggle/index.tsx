@@ -1,5 +1,5 @@
-import { BsFillMoonFill, BsFillSunFill } from 'react-icons/bs';
 import { useColorMode, useColorModeValue } from '@chakra-ui/react';
+import { BsFillMoonFill, BsFillSunFill } from 'react-icons/bs';
 
 import { CustomIconButton } from '..';
 

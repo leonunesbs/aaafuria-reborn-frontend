@@ -1,10 +1,11 @@
-import { Box, Text, Wrap, WrapItem } from '@chakra-ui/react';
 import { gql, useQuery } from '@apollo/client';
+import { Box, Grid, GridItem, Text } from '@chakra-ui/react';
 
-import { ActivityCard } from '@/components/molecules';
-import { AuthContext } from '@/contexts/AuthContext';
-import { Layout } from '@/components/templates';
 import { PageHeading } from '@/components/atoms';
+import { ActivityCard } from '@/components/molecules';
+import { Layout } from '@/components/templates';
+import { AuthContext } from '@/contexts/AuthContext';
+import { ColorContext } from '@/contexts/ColorContext';
 import { useContext } from 'react';
 
 const ALL_ACTIVITIES = gql`
@@ -58,6 +59,7 @@ type ActivitiesData = {
 };
 
 function Activities() {
+  const { green } = useContext(ColorContext);
   const { token } = useContext(AuthContext);
   const { data, refetch } = useQuery<ActivitiesData>(ALL_ACTIVITIES, {
     context: {
@@ -72,20 +74,32 @@ function Activities() {
       title="Programação de atividades"
       desc="Participe de jogos, apresentações, treinos, ensaios e muito mais. Conheça o melhor da Fúria!"
     >
-      <Box mx="auto" maxW="8xl">
+      <Box mx="auto">
         <Box mb={6}>
-          <PageHeading>O MELHOR DA FÚRIA</PageHeading>
+          <PageHeading>Programação de atividades</PageHeading>
           <Text textAlign={'center'} size="lg">
-            Junte-se aos nossos times de campeões!
+            Junte-se aos nossos{' '}
+            <Text as="span" textColor={green}>
+              times de campeões
+            </Text>
+            !
           </Text>
         </Box>
-        <Wrap spacing={4} justify="center">
+        <Grid
+          gap={4}
+          templateColumns={[
+            'repeat(1, 1fr)',
+            'repeat(3, 1fr)',
+            'repeat(3, 1fr)',
+            'repeat(4, 1fr)',
+          ]}
+        >
           {data?.allActivities.map((activity) => (
-            <WrapItem key={activity.id} maxW={['md', 'xs']} w="full">
+            <GridItem key={activity.id}>
               <ActivityCard activity={activity} refetch={refetch} />
-            </WrapItem>
+            </GridItem>
           ))}
-        </Wrap>
+        </Grid>
       </Box>
     </Layout>
   );

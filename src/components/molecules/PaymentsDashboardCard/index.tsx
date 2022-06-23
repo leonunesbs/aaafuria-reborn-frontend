@@ -1,5 +1,5 @@
 import { AddPaymentDrawer, Card, PaymentsTable } from '@/components/molecules';
-import { Box, HStack, Heading, Text } from '@chakra-ui/react';
+import { Box, Heading, HStack, Text } from '@chakra-ui/react';
 
 import { ColorContext } from '@/contexts/ColorContext';
 import { useContext } from 'react';
@@ -20,7 +20,7 @@ function PaymentsDashboardCard({}: PaymentsDashboardCardProps) {
         </Box>
         <AddPaymentDrawer />
       </HStack>
-      <PaymentsTable pageSize={5} shortView />
+      <PaymentsTable />
     </Card>
   );
 }

@@ -1,7 +1,14 @@
 import {
+  ColorModeToggle,
+  CustomButton,
+  CustomChakraNextLink,
+  CustomIconButton,
+} from '@/components/atoms';
+import {
   Avatar,
   Box,
   Center,
+  chakra,
   Drawer,
   DrawerBody,
   DrawerCloseButton,
@@ -13,14 +20,9 @@ import {
   HStack,
   Stack,
   Text,
-  chakra,
   useDisclosure,
 } from '@chakra-ui/react';
-import {
-  ColorModeToggle,
-  CustomButton,
-  CustomIconButton,
-} from '@/components/atoms';
+import { ReactNode, useContext, useRef } from 'react';
 import { FaDrum, FaVolleyballBall } from 'react-icons/fa';
 import {
   MdHelpCenter,
@@ -30,15 +32,36 @@ import {
   MdPerson,
   MdStore,
 } from 'react-icons/md';
-import { useContext, useRef } from 'react';
 
-import { AiFillHome } from 'react-icons/ai';
 import { AuthContext } from '@/contexts/AuthContext';
 import { ColorContext } from '@/contexts/ColorContext';
-import { GiPartyPopper } from 'react-icons/gi';
 import Hamburger from 'hamburger-react';
 import NextImage from 'next/image';
 import { useRouter } from 'next/router';
+import { AiFillHome } from 'react-icons/ai';
+import { GiPartyPopper } from 'react-icons/gi';
+
+const HeaderMenuItem = ({
+  children,
+  href,
+}: {
+  children: ReactNode;
+  href: string;
+}) => {
+  const router = useRouter();
+  const { green, invertedBg } = useContext(ColorContext);
+
+  return (
+    <CustomChakraNextLink
+      chakraLinkProps={{
+        textColor: router.asPath === href ? green : invertedBg,
+      }}
+      href={href}
+    >
+      {children}
+    </CustomChakraNextLink>
+  );
+};
 
 export const Header = () => {
   const router = useRouter();
@@ -48,16 +71,28 @@ export const Header = () => {
   const { isAuthenticated, signOut, user } = useContext(AuthContext);
   const ChakraNextImage = chakra(NextImage);
 
+  const menuItems = [
+    {
+      title: 'Início',
+      href: '/',
+    },
+    {
+      title: 'Loja',
+      href: '/loja',
+    },
+    {
+      title: 'Atividades',
+      href: '/activities',
+    },
+    {
+      title: 'Eventos',
+      href: '/eventos',
+    },
+  ];
+
   return (
     <>
-      <Flex
-        justify="space-between"
-        bg={bg}
-        py="2"
-        px={[2, 2, 2, 14]}
-        mx="auto"
-        maxW={'8xl'}
-      >
+      <Flex justify="space-between" bg={bg} py="2" mx="auto" px={['2', '10']}>
         <HStack spacing={10}>
           <Center>
             <Box
@@ -81,43 +116,18 @@ export const Header = () => {
               />
             </Box>
           </Center>
-          <HStack display={['none', 'none', 'flex']} spacing={4}>
-            <CustomButton
-              variant={'ghost'}
-              isActive={router.asPath == '/'}
-              onClick={() => router.push('/')}
-            >
-              Início
-            </CustomButton>
-            <CustomButton
-              variant={'ghost'}
-              isActive={router.asPath == '/loja'}
-              onClick={() => router.push('/loja')}
-            >
-              Loja
-            </CustomButton>
-            <CustomButton
-              variant={'ghost'}
-              isActive={router.asPath == '/activities'}
-              onClick={() => router.push('/activities')}
-            >
-              Atividades
-            </CustomButton>
-            <CustomButton
-              variant={'ghost'}
-              isActive={router.asPath == '/eventos'}
-              isDisabled
-              onClick={() => router.push('/eventos')}
-            >
-              Eventos
-            </CustomButton>
-            <CustomButton
-              variant={'solid'}
-              isActive={router.asPath == '/ajuda/minhas-solicitacoes'}
-              onClick={() => router.push('/ajuda/minhas-solicitacoes')}
-            >
-              Ajuda
-            </CustomButton>
+          <HStack
+            display={['none', 'none', 'none', 'flex']}
+            spacing={6}
+            fontSize={'lg'}
+            fontFamily="AACHENN"
+            textTransform={'uppercase'}
+          >
+            {menuItems.map((item) => (
+              <HeaderMenuItem key={item.href} href={item.href}>
+                {item.title}
+              </HeaderMenuItem>
+            ))}
           </HStack>
         </HStack>
         <HStack spacing={[2, 2, 4]}>
@@ -146,7 +156,6 @@ export const Header = () => {
             ref={btnRef}
             aria-label="hamburguer-menu"
             onClick={onToggle}
-            variant="link"
             icon={
               <Hamburger
                 toggled={isOpen}
@@ -155,10 +164,11 @@ export const Header = () => {
                 hideOutline={false}
               />
             }
+            variant="link"
           />
         </HStack>
       </Flex>
-      <Flex flexGrow={1} bgColor={green} h={1} />
+      <Flex flexGrow={1} bgColor={green} h={'0.5'} />
       <Drawer isOpen={isOpen} placement="left" onClose={onClose} size="xs">
         <DrawerOverlay />
         <DrawerContent bgColor={green} pr={6}>

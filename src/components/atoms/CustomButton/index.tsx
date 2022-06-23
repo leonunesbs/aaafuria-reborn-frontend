@@ -1,7 +1,7 @@
 import { forwardRef, useContext } from 'react';
 
-import { Button } from '@chakra-ui/react';
 import { ColorContext } from '@/contexts/ColorContext';
+import { Button } from '@chakra-ui/react';
 import { FiExternalLink } from 'react-icons/fi';
 import { ICustomButton } from './ICustomButton';
 
@@ -16,6 +16,7 @@ export const CustomButton = forwardRef<HTMLButtonElement, ICustomButton>(
         w="full"
         rightIcon={hasExternalIcon ? <FiExternalLink size="15px" /> : undefined}
         p={4}
+        rounded="full"
         _focus={{
           outlineColor: green,
           outlineWidth: 'thin',

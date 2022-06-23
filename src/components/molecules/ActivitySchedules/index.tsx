@@ -1,5 +1,5 @@
 import { Activity } from '@/pages/activities';
-import { Box } from '@chakra-ui/react';
+import { Stack } from '@chakra-ui/react';
 import { ScheduleCard } from '..';
 
 export interface ActivitySchedulesProps {
@@ -9,11 +9,11 @@ export interface ActivitySchedulesProps {
 
 function ActivitySchedules({ schedules, refetch }: ActivitySchedulesProps) {
   return (
-    <Box overflowY={'auto'} rounded="md">
+    <Stack overflowY={'auto'} rounded="md" p={1}>
       {schedules.map(({ node: schedule }) => (
         <ScheduleCard key={schedule.id} schedule={schedule} refetch={refetch} />
       ))}
-    </Box>
+    </Stack>
   );
 }
 

@@ -3,22 +3,27 @@ import 'react-responsive-carousel/lib/styles/carousel.min.css';
 import {
   CustomButton,
   CustomChakraNextLink,
+  CustomDivider,
   CustomIconButton,
   PageHeading,
 } from '@/components/atoms';
 import { Card, SejaSocioPricing } from '@/components/molecules';
 import {
   Box,
+  BoxProps,
   Center,
   chakra,
   Circle,
+  Grid,
+  GridItem,
   Heading,
   HStack,
   Stack,
   Text,
+  Textarea,
   useColorModeValue,
 } from '@chakra-ui/react';
-import { useContext, useRef } from 'react';
+import { forwardRef, useContext, useRef } from 'react';
 import { FaDrum, FaVolleyballBall } from 'react-icons/fa';
 
 import { Layout } from '@/components/templates/Layout';
@@ -53,69 +58,83 @@ interface HomeProps {
   }[];
 }
 
+const HomeSection = forwardRef<HTMLDivElement, BoxProps>(
+  ({ id, children, ...rest }: BoxProps, ref) => {
+    return (
+      <Box id={id} ref={ref} py={10} {...rest}>
+        {children}
+      </Box>
+    );
+  },
+);
+HomeSection.displayName = 'HomeSection';
+
 function Home({ post, partnerships }: HomeProps) {
   const router = useRouter();
   const sejaSocioDiv = useRef<HTMLDivElement>(null);
   const postDiv = useRef<HTMLDivElement>(null);
   const featuresDiv = useRef<HTMLDivElement>(null);
   const partnershipsDiv = useRef<HTMLDivElement>(null);
-  const { bg, green } = useContext(ColorContext);
+  const { bg, green, invertedBg } = useContext(ColorContext);
   const ctaLogo = useColorModeValue('/logo-cinza.png', '/logo-branco.png');
   const ChakraNextImage = chakra(NextImage);
 
   return (
-    <Layout title="Início" px={0} py={0}>
-      <Box py="12" px={{ base: '4', lg: '8' }}>
-        <Stack
-          direction={['column', 'column', 'row']}
-          justify={'space-around'}
-          align="center"
-          spacing={8}
-          maxW="8xl"
-          mx="auto"
-        >
-          <Stack spacing={4} maxW="xl">
-            <Stack>
-              <Heading as="h1" fontSize={['4xl', '5xl']}>
-                A MAIOR DO PIAUÍ ESTÁ TE ESPERANDO!
-              </Heading>
-              <Text fontSize={'lg'} as="h2">
-                Você está a poucos cliques de ser Sócio da maior do Piauí.
-              </Text>
-              <Text as="h3">💚 1ºLugar Geral V Intermed NE</Text>
-              <Text as="h3">🥁 1ºLugar Bateria III Intermed NE</Text>
+    <Layout title="Início">
+      <HomeSection id="cta">
+        <Grid templateColumns={['1fr', '1fr', '1fr', '2fr 3fr']}>
+          <GridItem>
+            <Stack justify={'center'} h="100%">
+              <Stack>
+                <Text fontSize={'lg'} as="h2"></Text>
+                <Heading
+                  as="h1"
+                  fontSize={['4xl', '5xl']}
+                  textColor={invertedBg}
+                >
+                  A
+                  <Text as="span" textColor={green}>
+                    {' '}
+                    MAIOR{' '}
+                  </Text>
+                  DO PIAUÍ ESTÁ TE ESPERANDO!
+                </Heading>
+              </Stack>
+              <Stack direction={['column', 'column', 'row']} maxW="md">
+                <CustomButton
+                  variant={'solid'}
+                  onClick={() =>
+                    sejaSocioDiv.current?.scrollIntoView({
+                      block: 'start',
+                      behavior: 'smooth',
+                    })
+                  }
+                >
+                  Seja Sócio!
+                </CustomButton>
+                <CustomButton
+                  onClick={() =>
+                    post
+                      ? postDiv.current?.scrollIntoView({
+                          block: 'start',
+                          behavior: 'smooth',
+                        })
+                      : featuresDiv.current?.scrollIntoView({
+                          block: 'start',
+                          behavior: 'smooth',
+                        })
+                  }
+                >
+                  Explorar
+                </CustomButton>
+              </Stack>
             </Stack>
-            <Stack>
-              <CustomButton
-                variant={'solid'}
-                onClick={() =>
-                  sejaSocioDiv.current?.scrollIntoView({
-                    block: 'start',
-                    behavior: 'smooth',
-                  })
-                }
-              >
-                Quero ser Sócio!
-              </CustomButton>
-              <CustomButton
-                onClick={() =>
-                  post
-                    ? postDiv.current?.scrollIntoView({
-                        block: 'start',
-                        behavior: 'smooth',
-                      })
-                    : featuresDiv.current?.scrollIntoView({
-                        block: 'start',
-                        behavior: 'smooth',
-                      })
-                }
-              >
-                Ver mais
-              </CustomButton>
-            </Stack>
-          </Stack>
-          <Center>
-            <Box boxSize={['xs', 'md', 'lg']} position="relative">
+          </GridItem>
+          <GridItem
+            display={'flex'}
+            justifyContent={['center', 'center', 'center', 'flex-end']}
+          >
+            <Box boxSize={['xs', 'md', 'xl', '3xl']} position="relative">
               <ChakraNextImage
                 placeholder="blur"
                 blurDataURL={ctaLogo}
@@ -129,13 +148,12 @@ function Home({ post, partnerships }: HomeProps) {
                 draggable={false}
               />
             </Box>
-          </Center>
-        </Stack>
-      </Box>
-      <Box bgColor={green} textColor={bg} py={12}>
+          </GridItem>
+        </Grid>
+      </HomeSection>
+      <HomeSection id="stats" bgColor={green} textColor={bg} rounded="3xl">
         <Stack
           direction={['column', 'row']}
-          spacing={6}
           justify="space-around"
           mx="auto"
           maxW="8xl"
@@ -171,33 +189,22 @@ function Home({ post, partnerships }: HomeProps) {
             <Text>Atletas e ritmistas</Text>
           </Box>
         </Stack>
-      </Box>
+      </HomeSection>
       {post && (
-        <Box
-          id="post"
-          ref={postDiv}
-          bgColor={bg}
-          py={12}
-          px={{ base: '4', lg: '8' }}
-        >
-          <HStack w={'full'} justify="space-around">
-            <Circle size="15px" bgColor={green} />
-            <Circle size="15px" bgColor={green} />
-            <Circle size="15px" bgColor={green} />
-            <Circle size="15px" bgColor={green} />
-          </HStack>
-          <Stack spacing={8} maxW="7xl" w="full" mx="auto" my={12}>
-            <Stack
-              w="full"
-              justify="space-around"
-              direction={['column', 'column', 'row']}
-            >
-              <Center>
-                <Box
-                  width={['400px', '500px', '550px']}
-                  height={['400px', '500px', '550px']}
-                  position="relative"
-                >
+        <HomeSection id="post" ref={postDiv}>
+          <Stack w="full">
+            <HStack w={'full'} justify="space-around">
+              <Circle size="15px" bgColor={green} />
+              <Circle size="15px" bgColor={green} />
+              <Circle size="15px" bgColor={green} />
+              <Circle size="15px" bgColor={green} />
+            </HStack>
+            <Grid templateColumns={['1fr', '1fr', '1fr 1fr']}>
+              <GridItem
+                display={'flex'}
+                justifyContent={['center', 'center', 'center', 'flex-start']}
+              >
+                <Box boxSize={['xs', 'md', 'xl', '3xl']} position="relative">
                   <ChakraNextImage
                     placeholder="blur"
                     blurDataURL={post.image}
@@ -207,209 +214,214 @@ function Home({ post, partnerships }: HomeProps) {
                     quality={20}
                     alt="logo"
                     draggable={false}
-                    rounded="md"
+                    rounded="3xl"
                   />
                 </Box>
-              </Center>
-              <Stack justify={'space-between'}>
-                <Stack justify={'center'} h="100%" my={4}>
-                  <Heading as="h2" textAlign={['left', 'left', 'right']}>
-                    {post.title}
-                  </Heading>
-                  <Text as="h4" maxW="md" textAlign={['left', 'left', 'right']}>
-                    {post.content}
-                  </Text>
-                </Stack>
-                <Stack>
-                  <CustomButton
-                    variant={'solid'}
-                    onClick={() => sejaSocioDiv.current?.scrollIntoView()}
-                  >
-                    Seja sócio
-                  </CustomButton>
-                  {post.buttonTarget && (
-                    <CustomButton
-                      variant={'outline'}
-                      onClick={() => router.push(post.buttonTarget)}
-                    >
-                      Saiba mais
-                    </CustomButton>
-                  )}
-                </Stack>
-              </Stack>
-            </Stack>
-          </Stack>
-          <HStack w={'full'} justify="space-around" mb={10}>
-            <Circle size="15px" bgColor={green} />
-            <Circle size="15px" bgColor={green} />
-            <Circle size="15px" bgColor={green} />
-            <Circle size="15px" bgColor={green} />
-          </HStack>
-        </Box>
-      )}
-      <Box ref={featuresDiv} id="features" py={12} px={{ base: '4', lg: '8' }}>
-        <Stack
-          direction={['column', 'column', 'row']}
-          justify={'space-around'}
-          align="center"
-          spacing={8}
-          maxW="8xl"
-          mx="auto"
-        >
-          <Stack spacing={12}>
-            <Stack>
-              <Heading as="h2">O MELHOR DA FÚRIA!</Heading>
-              <Text fontSize={'lg'} as="h3">
-                A seguir você encontrará nossas atividades, produtos e eventos.
-              </Text>
-            </Stack>
-            <Stack>
-              <Card maxW="xl">
-                <HStack align="flex-start">
-                  <CustomIconButton
-                    variant={'solid'}
-                    aria-label="esportes"
-                    icon={<MdStore size="25px" />}
-                    onClick={() => router.push('/loja')}
+              </GridItem>
+              <GridItem>
+                <Stack h="100%">
+                  <Box>
+                    <Heading as="h2">{post.title}</Heading>
+                    <CustomDivider />
+                  </Box>
+                  <Textarea
+                    value={post.content}
+                    fontSize={'lg'}
+                    lineHeight={2}
+                    isReadOnly
+                    _focus={{}}
+                    _hover={{}}
+                    p={0}
+                    border=""
+                    h="100%"
                   />
-                  <Stack p={2}>
-                    <CustomChakraNextLink
-                      href="/loja"
-                      chakraLinkProps={{
-                        _hover: {
-                          color: green,
-                        },
-                        _focus: {},
-                      }}
+                  <Stack direction={['column', 'row', 'row', 'row']}>
+                    <CustomButton
+                      variant={'solid'}
+                      onClick={() => sejaSocioDiv.current?.scrollIntoView()}
                     >
-                      <Text fontSize={'xl'} fontWeight={'bold'}>
-                        Loja
-                      </Text>
-                    </CustomChakraNextLink>
-                    <Text mb={4}>
-                      Os produtos mais bonitos do Norteste estão aqui.
-                    </Text>
+                      Seja Sócio
+                    </CustomButton>
+                    {post.buttonTarget && (
+                      <CustomButton
+                        variant={'outline'}
+                        onClick={() => router.push(post.buttonTarget)}
+                      >
+                        Saiba mais
+                      </CustomButton>
+                    )}
                   </Stack>
-                </HStack>
-              </Card>
-              <Card maxW="xl">
-                <HStack align="flex-start">
-                  <Stack>
+                </Stack>
+              </GridItem>
+            </Grid>
+            <HStack w={'full'} justify="space-around" mb={10}>
+              <Circle size="15px" bgColor={green} />
+              <Circle size="15px" bgColor={green} />
+              <Circle size="15px" bgColor={green} />
+              <Circle size="15px" bgColor={green} />
+            </HStack>
+          </Stack>
+        </HomeSection>
+      )}
+      <HomeSection ref={featuresDiv} id="features">
+        <Grid templateColumns={['1fr', '1fr 1fr', '1fr 2fr']}>
+          <GridItem>
+            <Stack spacing={12}>
+              <Box>
+                <Heading as="h2">O MELHOR DA FÚRIA!</Heading>
+                <CustomDivider />
+              </Box>
+              <Stack>
+                <Card>
+                  <HStack align="flex-start">
                     <CustomIconButton
                       variant={'solid'}
                       aria-label="esportes"
-                      icon={<FaVolleyballBall size="25px" />}
-                      onClick={() => router.push('/activities')}
+                      icon={<MdStore size="25px" />}
+                      onClick={() => router.push('/loja')}
                     />
+                    <Stack p={2}>
+                      <CustomChakraNextLink
+                        href="/loja"
+                        chakraLinkProps={{
+                          _hover: {
+                            color: green,
+                          },
+                          _focus: {},
+                        }}
+                      >
+                        <Text fontSize={'xl'} fontWeight={'bold'}>
+                          Loja
+                        </Text>
+                      </CustomChakraNextLink>
+                      <Text mb={4}>
+                        Os produtos mais bonitos do Norteste estão aqui.
+                      </Text>
+                    </Stack>
+                  </HStack>
+                </Card>
+                <Card>
+                  <HStack align="flex-start">
+                    <Stack>
+                      <CustomIconButton
+                        variant={'solid'}
+                        aria-label="esportes"
+                        icon={<FaVolleyballBall size="25px" />}
+                        onClick={() => router.push('/activities')}
+                      />
 
+                      <CustomIconButton
+                        variant={'solid'}
+                        aria-label="bateria"
+                        icon={<FaDrum size="25px" />}
+                        onClick={() => router.push('/activities')}
+                      />
+                    </Stack>
+                    <Stack p={2}>
+                      <CustomChakraNextLink
+                        href="/activities"
+                        chakraLinkProps={{
+                          _hover: {
+                            color: green,
+                          },
+                          _focus: {},
+                        }}
+                      >
+                        <Text fontSize={'xl'} fontWeight={'bold'}>
+                          Atividades
+                        </Text>
+                      </CustomChakraNextLink>
+                      <Text mb={4}>
+                        Programação dos treinos de todas as modalidades e dos
+                        ensaios da Carabina.
+                      </Text>
+                    </Stack>
+                  </HStack>
+                </Card>
+                <Card>
+                  <HStack align="flex-start">
                     <CustomIconButton
                       variant={'solid'}
-                      aria-label="bateria"
-                      icon={<FaDrum size="25px" />}
-                      onClick={() => router.push('/activities')}
+                      aria-label="eventos"
+                      icon={<GiPartyPopper size="25px" />}
+                      onClick={() => router.push('/eventos')}
                     />
-                  </Stack>
-                  <Stack p={2}>
-                    <CustomChakraNextLink
-                      href="/activities"
-                      chakraLinkProps={{
-                        _hover: {
-                          color: green,
-                        },
-                        _focus: {},
-                      }}
-                    >
-                      <Text fontSize={'xl'} fontWeight={'bold'}>
-                        Atividades
+                    <Stack p={2}>
+                      <CustomChakraNextLink
+                        href="/eventos"
+                        chakraLinkProps={{
+                          _hover: {
+                            color: green,
+                          },
+                          _focus: {},
+                        }}
+                      >
+                        <Text fontSize={'xl'} fontWeight={'bold'}>
+                          Eventos
+                        </Text>
+                      </CustomChakraNextLink>
+                      <Text mb={4}>
+                        Tenha uma experiência única com eventos padrão Fúria de
+                        qualidade!
                       </Text>
-                    </CustomChakraNextLink>
-                    <Text mb={4}>
-                      Programação dos treinos de todas as modalidades e dos
-                      ensaios da Carabina.
-                    </Text>
-                  </Stack>
-                </HStack>
-              </Card>
-              <Card maxW="xl">
-                <HStack align="flex-start">
-                  <CustomIconButton
-                    variant={'solid'}
-                    aria-label="eventos"
-                    icon={<GiPartyPopper size="25px" />}
-                    onClick={() => router.push('/eventos')}
-                  />
-                  <Stack p={2}>
-                    <CustomChakraNextLink
-                      href="/eventos"
-                      chakraLinkProps={{
-                        _hover: {
-                          color: green,
-                        },
-                        _focus: {},
-                      }}
-                    >
-                      <Text fontSize={'xl'} fontWeight={'bold'}>
-                        Eventos
-                      </Text>
-                    </CustomChakraNextLink>
-                    <Text mb={4}>
-                      Tenha uma experiência única com eventos padrão Fúria de
-                      qualidade!
-                    </Text>
-                  </Stack>
-                </HStack>
-              </Card>
+                    </Stack>
+                  </HStack>
+                </Card>
+              </Stack>
+              <CustomButton
+                variant={'solid'}
+                onClick={() =>
+                  sejaSocioDiv.current?.scrollIntoView({
+                    block: 'start',
+                    behavior: 'smooth',
+                  })
+                }
+              >
+                Quero ser Sócio!
+              </CustomButton>
             </Stack>
-          </Stack>
-          <Center>
-            <Box
-              width={['200px', '230px', '400px']}
-              height={['210px', '240px', '410px']}
-              position="relative"
-            >
+          </GridItem>
+
+          <GridItem
+            display={'flex'}
+            justifyContent={['center', 'center', 'center', 'flex-end']}
+          >
+            <Box boxSize={['xs', 'md', 'xl', '2xl']} position="relative">
               <ChakraNextImage
                 placeholder="blur"
                 blurDataURL={'/calango-verde.png'}
                 layout="fill"
                 objectFit="cover"
                 src={'/calango-verde.png'}
-                quality={40}
+                quality={100}
                 alt="logo"
                 mx="auto"
-                mb={{ base: '8', md: '12' }}
                 draggable={false}
               />
             </Box>
-          </Center>
-        </Stack>
-        <Box maxW="xl" mx="auto" mt={6}>
-          <CustomButton
-            variant={'solid'}
-            onClick={() =>
-              sejaSocioDiv.current?.scrollIntoView({
-                block: 'start',
-                behavior: 'smooth',
-              })
-            }
-          >
-            Quero ser Sócio!
-          </CustomButton>
-        </Box>
-      </Box>
+          </GridItem>
+        </Grid>
+      </HomeSection>
 
-      <Box ref={sejaSocioDiv} bgColor={green} id="seja-socio" py={12} px={2}>
+      <HomeSection
+        ref={sejaSocioDiv}
+        bgColor={green}
+        id="seja-socio"
+        rounded={'3xl'}
+        px={2}
+      >
         <PageHeading as="h2" textColor={bg}>
           Junte-se a nós, seja um <Text as="span">sócio Fúria</Text>!
         </PageHeading>
         <Text fontSize="xl" textColor={bg} textAlign={'center'} mb={10}>
           Escolha abaixo o plano que melhor se adequa a você!
         </Text>
-        <Box px={[0, 0, 8]}>
+        <Box>
           <SejaSocioPricing />
         </Box>
-      </Box>
+      </HomeSection>
       {partnerships.length > 0 && (
-        <Box ref={partnershipsDiv} bgColor={bg} py={2} px={2}>
+        <HomeSection ref={partnershipsDiv} bgColor={bg}>
           <Box maxW="7xl" mx="auto">
             <Carousel
               autoPlay
@@ -460,7 +472,7 @@ function Home({ post, partnerships }: HomeProps) {
               ))}
             </Carousel>
           </Box>
-        </Box>
+        </HomeSection>
       )}
     </Layout>
   );

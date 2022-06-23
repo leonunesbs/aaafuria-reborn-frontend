@@ -1,4 +1,7 @@
+import { CustomButton, CustomDivider } from '@/components/atoms';
+import { gql, useMutation, useQuery } from '@apollo/client';
 import {
+  Box,
   Button,
   Flex,
   Heading,
@@ -20,19 +23,17 @@ import {
   useColorModeValue,
   useToast,
 } from '@chakra-ui/react';
-import { gql, useMutation, useQuery } from '@apollo/client';
 import { useCallback, useContext, useState } from 'react';
 
 import { AuthContext } from '@/contexts/AuthContext';
-import { BsCurrencyDollar } from 'react-icons/bs';
-import { Card } from '..';
 import { ColorContext } from '@/contexts/ColorContext';
-import { CustomButton } from '@/components/atoms';
-import { HiCheckCircle } from 'react-icons/hi';
-import { ISejaSocioPricing } from './ISejaSocioPricing';
-import { MdLogin } from 'react-icons/md';
 import client from '@/services/apollo-client';
 import { useRouter } from 'next/router';
+import { BsCurrencyDollar } from 'react-icons/bs';
+import { HiCheckCircle } from 'react-icons/hi';
+import { MdLogin } from 'react-icons/md';
+import { Card } from '..';
+import { ISejaSocioPricing } from './ISejaSocioPricing';
 
 const CHECKOUT_MEMBERSHIP = gql`
   mutation checkoutMembership($membershipId: ID!, $methodId: String!) {
@@ -186,11 +187,11 @@ export const SejaSocioPricing = ({}: ISejaSocioPricing) => {
         return (
           <Card
             key={plano.nome}
+            bg={bg}
             w="100%"
             h="100%"
             position="relative"
             overflow="hidden"
-            border={plano.best ? '1px solid green' : ''}
           >
             {plano.best && (
               <Flex
@@ -200,6 +201,7 @@ export const SejaSocioPricing = ({}: ISejaSocioPricing) => {
                 top={6}
                 width="240px"
                 transform="rotate(45deg)"
+                shadow={'base'}
                 py={2}
                 justifyContent="center"
                 alignItems="center"
@@ -217,9 +219,12 @@ export const SejaSocioPricing = ({}: ISejaSocioPricing) => {
             )}
             <Stack spacing={4} h="100%" justify={'space-between'}>
               <Stack spacing={4}>
-                <Heading as="h3" size="lg">
-                  {plano.nome}
-                </Heading>
+                <Box>
+                  <Heading as="h3" size="lg">
+                    {plano.nome}
+                  </Heading>
+                  <CustomDivider />
+                </Box>
 
                 <Text fontSize="2xl" fontWeight="extrabold" color={green}>
                   R${plano.valor}
@@ -248,13 +253,7 @@ export const SejaSocioPricing = ({}: ISejaSocioPricing) => {
                     {plano.descricao}
                   </Text> */}
                   <PopoverTrigger>
-                    <Button
-                      colorScheme="green"
-                      w="100%"
-                      variant={plano.best ? 'solid' : 'outline'}
-                    >
-                      Seja Sócio!
-                    </Button>
+                    <CustomButton variant={'solid'}>Seja Sócio!</CustomButton>
                   </PopoverTrigger>
                 </Stack>
                 <Portal>

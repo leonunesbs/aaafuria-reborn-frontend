@@ -1,4 +1,11 @@
 import {
+  CustomButton,
+  CustomIconButton,
+  PageHeading,
+  VoltarButton,
+} from '@/components/atoms';
+import { gql, useQuery } from '@apollo/client';
+import {
   Badge,
   Box,
   Center,
@@ -12,25 +19,18 @@ import {
   Stack,
   Text,
 } from '@chakra-ui/react';
-import {
-  CustomButton,
-  CustomIconButton,
-  PageHeading,
-  VoltarButton,
-} from '@/components/atoms';
-import { MdSend, MdShoppingCart } from 'react-icons/md';
-import { SubmitHandler, useForm } from 'react-hook-form';
-import { gql, useQuery } from '@apollo/client';
 import { useCallback, useContext, useState } from 'react';
+import { SubmitHandler, useForm } from 'react-hook-form';
+import { MdSend, MdShoppingCart } from 'react-icons/md';
 
-import { AiOutlineUnorderedList } from 'react-icons/ai';
+import { ProdutoCard } from '@/components/molecules';
+import { Layout } from '@/components/templates';
 import { AuthContext } from '@/contexts/AuthContext';
 import { ColorContext } from '@/contexts/ColorContext';
-import { GetStaticProps } from 'next';
-import { Layout } from '@/components/templates';
-import { ProdutoCard } from '@/components/molecules';
 import client from '@/services/apollo-client';
+import { GetStaticProps } from 'next';
 import { useRouter } from 'next/router';
+import { AiOutlineUnorderedList } from 'react-icons/ai';
 
 const DIGITAL_ITEMS = gql`
   query getDigitalItems {
@@ -134,7 +134,7 @@ function Loja() {
 
   return (
     <Layout title="Loja">
-      <Box maxW="8xl" mx="auto">
+      <Box>
         <PageHeading>Loja</PageHeading>
         {loading && (
           <Center>

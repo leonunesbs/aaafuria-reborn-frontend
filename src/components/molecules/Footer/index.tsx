@@ -1,29 +1,22 @@
-import { Box, Circle, HStack, Stack, Text, chakra } from '@chakra-ui/react';
+import { Box, chakra, HStack, Stack, Text } from '@chakra-ui/react';
 
-import { ColorContext } from '@/contexts/ColorContext';
-import { CustomButton } from '@/components/atoms/CustomButton';
 import { CustomChakraNextLink } from '@/components/atoms';
+import { CustomButton } from '@/components/atoms/CustomButton';
+import { ColorContext } from '@/contexts/ColorContext';
 import NextImage from 'next/image';
-import { SocialIcons } from '..';
-import { useContext } from 'react';
 import { useRouter } from 'next/router';
+import { useContext } from 'react';
+import { SocialIcons } from '..';
 
 export const Footer = () => {
   const router = useRouter();
   const { green, bg } = useContext(ColorContext);
   const ChakraNextImage = chakra(NextImage);
   return (
-    <Box as="footer" role={'contentinfo'} bg={green} py={12}>
-      <HStack w={'full'} justify="space-around">
-        <Circle size="15px" bgColor={bg} />
-        <Circle size="15px" bgColor={bg} />
-        <Circle size="15px" bgColor={bg} />
-        <Circle size="15px" bgColor={bg} />
-      </HStack>
+    <Box as="footer" role={'contentinfo'} bg={green}>
       <HStack
         py={4}
         w="full"
-        maxW="7xl"
         mx="auto"
         justify={'space-between'}
         px={{ base: '4', lg: '8' }}
@@ -66,16 +59,12 @@ export const Footer = () => {
           <CustomButton
             aria-label="designer"
             variant={'solid'}
-            maxW="150px"
+            size={'xs'}
             rightIcon={
-              <NextImage
-                src={'/myLogo.png'}
-                height="25px"
-                width="25px"
-                alt="myLogo"
-              />
+              <Box boxSize="20px" position="relative">
+                <NextImage src={'/myLogo.png'} alt="myLogo" layout="fill" />
+              </Box>
             }
-            justifyContent="flex-start"
             onClick={() => router.push('https://github.com/leonunesbs')}
           >
             Designed by

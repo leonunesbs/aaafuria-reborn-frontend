@@ -1,5 +1,5 @@
 import { Footer, Header } from '@/components/molecules';
-import { Box, BoxProps, useColorModeValue } from '@chakra-ui/react';
+import { Box, BoxProps } from '@chakra-ui/react';
 import { ReactNode, useContext, useEffect } from 'react';
 
 import { AuthContext } from '@/contexts/AuthContext';
@@ -24,7 +24,6 @@ export const Layout = ({
   isHeaded = true,
   ...rest
 }: LayoutProps) => {
-  const bg = useColorModeValue('gray.50', 'gray.900');
   const router = useRouter();
   const { checkAuth } = useContext(AuthContext);
 
@@ -96,7 +95,7 @@ export const Layout = ({
       </Head>
       {isHeaded && <Header />}
       {/* <AlertMessages /> */}
-      <Box bg={bg} minH="100vh" py="12" px={{ base: '2', lg: '8' }} {...rest}>
+      <Box minH="100vh" py="12" px={['2', '10']} {...rest}>
         {children}
       </Box>
       {isFooted && <Footer />}

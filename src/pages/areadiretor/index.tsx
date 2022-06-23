@@ -4,15 +4,22 @@ import {
   MembersDashboardCard,
   PaymentsDashboardCard,
 } from '@/components/molecules';
-import { Box, Grid, GridItem, useToast } from '@chakra-ui/react';
+import {
+  Tab,
+  TabList,
+  TabPanel,
+  TabPanels,
+  Tabs,
+  useToast,
+} from '@chakra-ui/react';
 import { useContext, useEffect } from 'react';
 
+import { PageHeading } from '@/components/atoms';
+import { Layout } from '@/components/templates';
 import { AuthContext } from '@/contexts/AuthContext';
 import { GetServerSideProps } from 'next';
-import { Layout } from '@/components/templates';
-import { PageHeading } from '@/components/atoms';
-import { parseCookies } from 'nookies';
 import { useRouter } from 'next/router';
+import { parseCookies } from 'nookies';
 
 function AreaDiretor() {
   const router = useRouter();
@@ -35,40 +42,29 @@ function AreaDiretor() {
 
   return (
     <Layout title="Área do Diretor">
-      <Box maxW="7xl" mx="auto">
-        <PageHeading>Área do Diretor</PageHeading>
-        <Grid
-          templateAreas={[
-            `
-            "members"
-            "carts"
-            "activities"
-            "payments"
-          `,
-            `
-            "members carts"
-            "payments carts"
-            "activities activities"
-          `,
-          ]}
-          gridTemplateRows={['repeat(100%, 4)', 'repeat(100%, 3)']}
-          gridTemplateColumns={['100%', '40% 60%']}
-          gap="2"
-        >
-          <GridItem area={'members'}>
+      <PageHeading>Área do Diretor</PageHeading>
+      <Tabs variant="solid-rounded" colorScheme="green" isLazy>
+        <TabList fontFamily={'AACHENN'} overflow="auto">
+          <Tab>ASSOCIAÇÕES</Tab>
+          <Tab>ATIVIDADES</Tab>
+          <Tab>PEDIDOS</Tab>
+          <Tab>FINANCEIRO</Tab>
+        </TabList>
+        <TabPanels>
+          <TabPanel px={0}>
             <MembersDashboardCard />
-          </GridItem>
-          <GridItem area={'carts'}>
-            <CartsDashboardCard />
-          </GridItem>
-          <GridItem area={'payments'}>
-            <PaymentsDashboardCard />
-          </GridItem>
-          <GridItem area={'activities'}>
+          </TabPanel>
+          <TabPanel px={0}>
             <ActivitiesDashboardCard />
-          </GridItem>
-        </Grid>
-      </Box>
+          </TabPanel>
+          <TabPanel px={0}>
+            <CartsDashboardCard />
+          </TabPanel>
+          <TabPanel px={0}>
+            <PaymentsDashboardCard />
+          </TabPanel>
+        </TabPanels>
+      </Tabs>
     </Layout>
   );
 }
