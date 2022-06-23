@@ -14,12 +14,12 @@ import {
 } from '@chakra-ui/react';
 import { useContext, useEffect } from 'react';
 
-import { PageHeading } from '@/components/atoms';
-import { Layout } from '@/components/templates';
 import { AuthContext } from '@/contexts/AuthContext';
 import { GetServerSideProps } from 'next';
-import { useRouter } from 'next/router';
+import { Layout } from '@/components/templates';
+import { PageHeading } from '@/components/atoms';
 import { parseCookies } from 'nookies';
+import { useRouter } from 'next/router';
 
 function AreaDiretor() {
   const router = useRouter();
@@ -44,7 +44,7 @@ function AreaDiretor() {
     <Layout title="Área do Diretor">
       <PageHeading>Área do Diretor</PageHeading>
       <Tabs variant="solid-rounded" colorScheme="green" isLazy>
-        <TabList fontFamily={'AACHENN'} overflow="auto">
+        <TabList fontFamily={'AACHENN'} overflow="auto" py={4}>
           <Tab>ASSOCIAÇÕES</Tab>
           <Tab>ATIVIDADES</Tab>
           <Tab>PEDIDOS</Tab>
