@@ -11,12 +11,17 @@ import { useRouter } from 'next/router';
 
 export interface ISocialIcons extends StackProps {
   variant?: string;
+  shouldWrap?: boolean;
 }
 
-export const SocialIcons = ({ variant, ...rest }: ISocialIcons) => {
+export const SocialIcons = ({ variant, shouldWrap, ...rest }: ISocialIcons) => {
   const router = useRouter();
   return (
-    <Stack justify="center" direction={['column', 'row']} {...rest}>
+    <Stack
+      justify="center"
+      direction={shouldWrap ? ['column', 'row'] : 'row'}
+      {...rest}
+    >
       <HStack>
         <CustomIconButton
           aria-label="Facebook"

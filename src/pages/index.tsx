@@ -1,41 +1,41 @@
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
 
 import {
+  Box,
+  BoxProps,
+  Center,
+  Circle,
+  Grid,
+  GridItem,
+  HStack,
+  Heading,
+  Stack,
+  Text,
+  Textarea,
+  chakra,
+  useColorModeValue,
+} from '@chakra-ui/react';
+import { Card, SejaSocioPricing, SocialIcons } from '@/components/molecules';
+import {
   CustomButton,
   CustomChakraNextLink,
   CustomDivider,
   CustomIconButton,
   PageHeading,
 } from '@/components/atoms';
-import { Card, SejaSocioPricing } from '@/components/molecules';
-import {
-  Box,
-  BoxProps,
-  Center,
-  chakra,
-  Circle,
-  Grid,
-  GridItem,
-  Heading,
-  HStack,
-  Stack,
-  Text,
-  Textarea,
-  useColorModeValue,
-} from '@chakra-ui/react';
-import { forwardRef, useContext, useRef } from 'react';
 import { FaDrum, FaVolleyballBall } from 'react-icons/fa';
+import { forwardRef, useContext, useRef } from 'react';
 
-import { Layout } from '@/components/templates/Layout';
+import { Carousel } from 'react-responsive-carousel';
 import { ColorContext } from '@/contexts/ColorContext';
-import client from '@/services/apollo-client';
-import { gql } from '@apollo/client';
-import NextImage from 'next/image';
-import { useRouter } from 'next/router';
 import CountUp from 'react-countup';
 import { GiPartyPopper } from 'react-icons/gi';
+import { Layout } from '@/components/templates/Layout';
 import { MdStore } from 'react-icons/md';
-import { Carousel } from 'react-responsive-carousel';
+import NextImage from 'next/image';
+import client from '@/services/apollo-client';
+import { gql } from '@apollo/client';
+import { useRouter } from 'next/router';
 
 type FeaturePostData = {
   id: string;
@@ -80,13 +80,12 @@ function Home({ post, partnerships }: HomeProps) {
   const ChakraNextImage = chakra(NextImage);
 
   return (
-    <Layout title="Início">
+    <Layout title="Início" py={0} pb={10}>
       <HomeSection id="cta">
-        <Grid templateColumns={['1fr', '1fr', '1fr', '2fr 3fr']}>
+        <Grid templateColumns={['1fr', '1fr', '1fr', '2fr 3fr']} gap={4}>
           <GridItem>
-            <Stack justify={'center'} h="100%">
+            <Stack justify={'center'} h="100%" spacing={6}>
               <Stack>
-                <Text fontSize={'lg'} as="h2"></Text>
                 <Heading
                   as="h1"
                   fontSize={['4xl', '5xl']}
@@ -128,6 +127,13 @@ function Home({ post, partnerships }: HomeProps) {
                   Explorar
                 </CustomButton>
               </Stack>
+              <Box>
+                <SocialIcons
+                  shouldWrap={false}
+                  variant="ghost"
+                  justify={['center', 'center', 'flex-start']}
+                />
+              </Box>
             </Stack>
           </GridItem>
           <GridItem
@@ -192,14 +198,13 @@ function Home({ post, partnerships }: HomeProps) {
       </HomeSection>
       {post && (
         <HomeSection id="post" ref={postDiv}>
-          <Stack w="full">
-            <HStack w={'full'} justify="space-around">
-              <Circle size="15px" bgColor={green} />
-              <Circle size="15px" bgColor={green} />
-              <Circle size="15px" bgColor={green} />
-              <Circle size="15px" bgColor={green} />
+          <Stack w="full" spacing={10}>
+            <HStack w={'full'} justify="space-between">
+              {[...Array(6)].map((_, i) => (
+                <Circle key={i} size="15px" bgColor={green} />
+              ))}
             </HStack>
-            <Grid templateColumns={['1fr', '1fr', '1fr 1fr']}>
+            <Grid templateColumns={['1fr', '1fr', '1fr', '1fr 1fr']} gap={4}>
               <GridItem
                 display={'flex'}
                 justifyContent={['center', 'center', 'center', 'flex-start']}
@@ -233,7 +238,7 @@ function Home({ post, partnerships }: HomeProps) {
                     _hover={{}}
                     p={0}
                     border=""
-                    h="100%"
+                    minH="xl"
                   />
                   <Stack direction={['column', 'row', 'row', 'row']}>
                     <CustomButton
@@ -254,17 +259,16 @@ function Home({ post, partnerships }: HomeProps) {
                 </Stack>
               </GridItem>
             </Grid>
-            <HStack w={'full'} justify="space-around" mb={10}>
-              <Circle size="15px" bgColor={green} />
-              <Circle size="15px" bgColor={green} />
-              <Circle size="15px" bgColor={green} />
-              <Circle size="15px" bgColor={green} />
+            <HStack w={'full'} justify="space-between">
+              {[...Array(6)].map((_, i) => (
+                <Circle key={i} size="15px" bgColor={green} />
+              ))}
             </HStack>
           </Stack>
         </HomeSection>
       )}
       <HomeSection ref={featuresDiv} id="features">
-        <Grid templateColumns={['1fr', '1fr 1fr', '1fr 2fr']}>
+        <Grid templateColumns={['1fr', '1fr', '1fr', '1fr 2fr']} gap={4}>
           <GridItem>
             <Stack spacing={12}>
               <Box>

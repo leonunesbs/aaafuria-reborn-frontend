@@ -1,5 +1,5 @@
-import { Footer, Header } from '@/components/molecules';
 import { Box, BoxProps } from '@chakra-ui/react';
+import { Footer, Header } from '@/components/molecules';
 import { ReactNode, useContext, useEffect } from 'react';
 
 import { AuthContext } from '@/contexts/AuthContext';
@@ -95,7 +95,7 @@ export const Layout = ({
       </Head>
       {isHeaded && <Header />}
       {/* <AlertMessages /> */}
-      <Box minH="100vh" py="12" px={['2', '10']} {...rest}>
+      <Box minH="100vh" py="10" px={['2', '10']} {...rest}>
         {children}
       </Box>
       {isFooted && <Footer />}
