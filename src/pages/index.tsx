@@ -9,12 +9,10 @@ import {
   GridItem,
   HStack,
   Heading,
-  SlideFade,
   Stack,
   Text,
   Textarea,
   chakra,
-  useBoolean,
   useColorModeValue,
 } from '@chakra-ui/react';
 import { Card, SejaSocioPricing, SocialIcons } from '@/components/molecules';
@@ -26,7 +24,7 @@ import {
   PageHeading,
 } from '@/components/atoms';
 import { FaDrum, FaVolleyballBall } from 'react-icons/fa';
-import { RefObject, forwardRef, useContext, useEffect, useRef } from 'react';
+import { forwardRef, useContext, useRef } from 'react';
 
 import { Carousel } from 'react-responsive-carousel';
 import { ColorContext } from '@/contexts/ColorContext';
@@ -37,7 +35,6 @@ import { MdStore } from 'react-icons/md';
 import NextImage from 'next/image';
 import client from '@/services/apollo-client';
 import { gql } from '@apollo/client';
-import handleViewport from 'react-in-viewport';
 import { useRouter } from 'next/router';
 
 type FeaturePostData = {
@@ -61,49 +58,19 @@ interface HomeProps {
   }[];
 }
 
-interface HomeSectionProps extends BoxProps {
-  forwardedRef?: RefObject<HTMLDivElement>;
-  inViewport?: boolean;
-}
-
-const HomeSection = forwardRef<HTMLDivElement, HomeSectionProps>(
-  (
-    {
-      id,
-      children,
-      forwardedRef: fadeRef,
-      inViewport,
-      ...rest
-    }: HomeSectionProps,
-    ref,
-  ) => {
-    const [animate, setAnimate] = useBoolean();
-    useEffect(() => {
-      inViewport && setAnimate.on();
-    }, [inViewport, setAnimate]);
+const HomeSection = forwardRef<HTMLDivElement, BoxProps>(
+  ({ id, children, ...rest }: BoxProps, ref) => {
     return (
-      <Box transitionDuration={'4s'}>
-        <SlideFade ref={fadeRef} in={animate} offsetY="250px">
-          <Box id={id} ref={ref} py={10} {...rest}>
-            {children}
-          </Box>
-        </SlideFade>
+      <Box id={id} ref={ref} py={10} {...rest}>
+        {children}
       </Box>
     );
   },
 );
 HomeSection.displayName = 'HomeSection';
 
-const ViewportBlock = forwardRef<HTMLDivElement, HomeSectionProps>(
-  handleViewport(HomeSection),
-);
-
-ViewportBlock.displayName = 'HomeSection';
-
 function Home({ post, partnerships }: HomeProps) {
   const router = useRouter();
-  const ctaDiv = useRef<HTMLDivElement>(null);
-  const statsDiv = useRef<HTMLDivElement>(null);
   const sejaSocioDiv = useRef<HTMLDivElement>(null);
   const postDiv = useRef<HTMLDivElement>(null);
   const featuresDiv = useRef<HTMLDivElement>(null);
@@ -113,8 +80,8 @@ function Home({ post, partnerships }: HomeProps) {
   const ChakraNextImage = chakra(NextImage);
 
   return (
-    <Layout title="Início" py={0} pb={10} onScroll={(e) => console.log(e)}>
-      <ViewportBlock id="cta" ref={ctaDiv}>
+    <Layout title="Início" py={0} pb={10}>
+      <HomeSection id="cta">
         <Grid templateColumns={['1fr', '1fr', '1fr', '2fr 3fr']} gap={4}>
           <GridItem>
             <Stack justify={'center'} h="100%" spacing={6}>
@@ -189,14 +156,8 @@ function Home({ post, partnerships }: HomeProps) {
             </Box>
           </GridItem>
         </Grid>
-      </ViewportBlock>
-      <ViewportBlock
-        ref={statsDiv}
-        id="stats"
-        bgColor={green}
-        textColor={bg}
-        rounded="3xl"
-      >
+      </HomeSection>
+      <HomeSection id="stats" bgColor={green} textColor={bg} rounded="3xl">
         <Stack
           direction={['column', 'row']}
           justify="space-around"
@@ -234,9 +195,9 @@ function Home({ post, partnerships }: HomeProps) {
             <Text>Atletas e ritmistas</Text>
           </Box>
         </Stack>
-      </ViewportBlock>
+      </HomeSection>
       {post && (
-        <ViewportBlock id="post" ref={postDiv}>
+        <HomeSection id="post" ref={postDiv}>
           <Stack w="full" spacing={10}>
             <HStack w={'full'} justify="space-between">
               {[...Array(6)].map((_, i) => (
@@ -304,9 +265,9 @@ function Home({ post, partnerships }: HomeProps) {
               ))}
             </HStack>
           </Stack>
-        </ViewportBlock>
+        </HomeSection>
       )}
-      <ViewportBlock ref={featuresDiv} id="features">
+      <HomeSection ref={featuresDiv} id="features">
         <Grid templateColumns={['1fr', '1fr', '1fr', '1fr 2fr']} gap={4}>
           <GridItem>
             <Stack spacing={12}>
@@ -444,9 +405,9 @@ function Home({ post, partnerships }: HomeProps) {
             </Box>
           </GridItem>
         </Grid>
-      </ViewportBlock>
+      </HomeSection>
 
-      <ViewportBlock
+      <HomeSection
         ref={sejaSocioDiv}
         bgColor={green}
         id="seja-socio"
@@ -462,9 +423,9 @@ function Home({ post, partnerships }: HomeProps) {
         <Box>
           <SejaSocioPricing />
         </Box>
-      </ViewportBlock>
+      </HomeSection>
       {partnerships.length > 0 && (
-        <ViewportBlock ref={partnershipsDiv} bgColor={bg}>
+        <HomeSection ref={partnershipsDiv} bgColor={bg}>
           <Box maxW="7xl" mx="auto">
             <Carousel
               autoPlay
@@ -515,7 +476,7 @@ function Home({ post, partnerships }: HomeProps) {
               ))}
             </Carousel>
           </Box>
-        </ViewportBlock>
+        </HomeSection>
       )}
     </Layout>
   );
