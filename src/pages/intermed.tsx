@@ -205,7 +205,7 @@ function Intermed() {
   return (
     <Layout
       title="VI INTERMED NE"
-      desc="Inscreva-se agora no melhor evento do ano. Vamos invadir Fortal!"
+      desc="O VI INTERMED NORDESTE está chegando e você não pode perder a chance de curtir a Terra da Luz junto com a Fúria. Em outubro, vamos invadir Fortaleza!"
     >
       <Box maxW="4xl" mx="auto">
         <PageHeading>VI Intermed Nordeste</PageHeading>
