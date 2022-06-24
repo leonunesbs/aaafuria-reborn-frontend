@@ -20,7 +20,7 @@ const MEMBERSHIP_PLANS = gql`
         node {
           id
           name
-          count
+          membersCount
           isActive
         }
       }
@@ -33,7 +33,7 @@ type MembershipPlans = {
       node: {
         id: string;
         name: string;
-        count: number;
+        membersCount: number;
         isActive: boolean;
       };
     }[];
@@ -63,10 +63,10 @@ function MembersDashboardCard({}: MembersDashboardCardProps) {
       </HStack>
       <StatGroup>
         {membershipPlans.data?.allMembershipPlans.edges.map(
-          ({ node: { id, name, count } }) => (
+          ({ node: { id, name, membersCount } }) => (
             <Stat key={id}>
               <StatLabel>{name}</StatLabel>
-              <StatNumber>{count}</StatNumber>
+              <StatNumber>{membersCount}</StatNumber>
             </Stat>
           ),
         )}

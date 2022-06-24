@@ -63,7 +63,7 @@ export interface AddMembershipDrawerProps {
     node: {
       id: string;
       name: string;
-      count: number;
+      membersCount: number;
       isActive: boolean;
     };
   }[];
