@@ -1,7 +1,7 @@
-import { useColorModeValue } from '@chakra-ui/color-mode';
 import { Box } from '@chakra-ui/react';
-import React from 'react';
 import { ICard } from './ICard';
+import React from 'react';
+import { useColorModeValue } from '@chakra-ui/color-mode';
 
 export const Card = React.forwardRef<HTMLDivElement, ICard>(
   ({ children, variant, ...rest }, ref) => {
@@ -52,7 +52,7 @@ export const Card = React.forwardRef<HTMLDivElement, ICard>(
         py="8"
         px={{ base: '4', md: '10' }}
         shadow={shadow}
-        rounded={{ base: 'md', sm: 'lg' }}
+        rounded="3xl"
         {...rest}
       >
         {children}

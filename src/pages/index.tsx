@@ -106,12 +106,7 @@ function Home({ post, partnerships }: HomeProps) {
               <Stack direction={['column', 'column', 'row']} maxW="md">
                 <CustomButton
                   variant={'solid'}
-                  onClick={() =>
-                    sejaSocioDiv.current?.scrollIntoView({
-                      block: 'start',
-                      behavior: 'smooth',
-                    })
-                  }
+                  onClick={() => router.push('/sejasocio')}
                 >
                   Seja Sócio!
                 </CustomButton>
@@ -419,7 +414,7 @@ function Home({ post, partnerships }: HomeProps) {
         px={2}
       >
         <PageHeading as="h2" textColor={bg}>
-          Junte-se a nós, seja um <Text as="span">sócio Fúria</Text>!
+          Junte-se à Fúria, <Text as="span">Seja sócio</Text>!
         </PageHeading>
         <Text fontSize="xl" textColor={bg} textAlign={'center'} mb={10}>
           Escolha abaixo o plano que melhor se adequa a você!

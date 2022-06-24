@@ -1,4 +1,3 @@
-import { gql, useMutation } from '@apollo/client';
 import {
   Badge,
   Box,
@@ -12,15 +11,16 @@ import {
   useDisclosure,
   useToast,
 } from '@chakra-ui/react';
+import { Card, ManageScheduleDrawer } from '..';
 import { ChangeEvent, useCallback, useContext } from 'react';
 import { MdLogin, MdMoreVert } from 'react-icons/md';
-import { Card, ManageScheduleDrawer } from '..';
+import { gql, useMutation } from '@apollo/client';
 
+import { Activity } from '@/pages/activities';
 import { AuthContext } from '@/contexts/AuthContext';
 import { ColorContext } from '@/contexts/ColorContext';
-import { Activity } from '@/pages/activities';
-import { useRouter } from 'next/router';
 import { CustomIconButton } from '../../atoms';
+import { useRouter } from 'next/router';
 
 const CONFIRM_TO_SCHEDULE = gql`
   mutation confirmToSchedule($scheduleId: ID!) {
@@ -147,7 +147,7 @@ export default function ScheduleCard({ schedule, refetch }: ScheduleCardProps) {
     <Card
       key={schedule.id}
       position={'relative'}
-      rounded={'md'}
+      rounded={'lg'}
       overflow="hidden"
       p={0}
       px={0}

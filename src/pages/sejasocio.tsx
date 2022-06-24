@@ -1,6 +1,6 @@
-import { Box, Stack, Text, useToast } from '@chakra-ui/react';
 import { PageHeading, VoltarButton } from '@/components/atoms';
-import React, { useContext, useEffect } from 'react';
+import { Stack, Text, useToast } from '@chakra-ui/react';
+import { useContext, useEffect } from 'react';
 
 import { AuthContext } from '@/contexts/AuthContext';
 import { ColorContext } from '@/contexts/ColorContext';
@@ -31,21 +31,19 @@ function SejaSocio() {
   return (
     <Layout
       title="Seja sócio"
-      desc="Junte-se à nós escolhendo o plano de associação que melhor se encaixa com você! Aproveite agora o desconto na primeira associação e Seja Sócio!"
+      desc="Junte-se à Fúria, escolha o plano de associação que melhor se encaixa com você! Aproveite agora o desconto na primeira associação seja Sócio e aproveite nossos treinos, ensaios, produtos, eventos e muito mais!"
     >
-      <Box maxW="5xl" mx="auto">
-        <PageHeading>
-          Junte-se a nós, seja um{' '}
-          <Text as="span" color={green}>
-            sócio Fúria
-          </Text>
-          !
-        </PageHeading>
-        <SejaSocioPricing />
-        <Stack align="center">
-          <VoltarButton href="/" />
-        </Stack>
-      </Box>
+      <PageHeading>
+        Junte-se à Fúria,{' '}
+        <Text as="span" color={green}>
+          Seja sócio
+        </Text>
+        !
+      </PageHeading>
+      <SejaSocioPricing />
+      <Stack align="center">
+        <VoltarButton href="/" />
+      </Stack>
     </Layout>
   );
 }

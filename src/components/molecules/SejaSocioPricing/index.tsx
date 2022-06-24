@@ -70,7 +70,7 @@ type CheckoutMembership = {
 export const SejaSocioPricing = ({}: ISejaSocioPricing) => {
   const router = useRouter();
   const toast = useToast();
-  const { green, bg } = useContext(ColorContext);
+  const { green, bg, invertedBg } = useContext(ColorContext);
   const { isAuthenticated, token, user } = useContext(AuthContext);
   const [billingPortalLoading, setBillingPortalLoading] = useState(false);
   const [mutateFunction, { loading }] =
@@ -86,37 +86,46 @@ export const SejaSocioPricing = ({}: ISejaSocioPricing) => {
   });
   const planos = [
     {
-      slug: 'Semestral',
-      nome: 'PACOTE SEMESTRAL',
-      descricao: `Associação válida até (${
-        new Date().getMonth() > 6 ? '31/12' : '30/06'
-      }/${new Date().getFullYear()}).`,
-      valor: '99,50',
+      slug: 'mensal',
+      nome: 'MENSAL',
+      total: '24,90',
+      valorMes: '24,90',
+      descricao: 'Cobrado a cada mês.',
+      features: [
+        'Participe dos treinos de todas as modalidades e ensaios da Carabina',
+        'Ganhe desconto em produtos e eventos',
+      ],
+      membershipId: 'TWVtYmVyc2hpcFBsYW5Ob2RlOjY=',
+    },
+    {
+      slug: 'semestral',
+      nome: 'SEMESTRAL',
+
+      total: '119,40',
+      valorMes: '19,90',
+      descricao:
+        'R$ 119,40 cobrado agora; depois, R$ 119,40 será cobrado a cada semestre após 6 meses.',
       best: true,
       features: [
         'TODOS OS BENEFÍCIOS DO SÓCIO FÚRIA',
-        'Acesso durante o semestre atual com renovação automática',
-        'Participe dos treinos de todas as modalidades',
-        'Participe dos ensaios da Carabina',
-        'Ganhe desconto em produtos e eventos',
-        'Desconto no INTERMED',
-        'Desconto no BONDE DO AHAM',
+        'Participe dos treinos de todas as modalidades e ensaios da Carabina',
+        'Desconto em produtos e eventos organizados pela Fúria',
+        'Desconto no INTERMED e no BONDE DO AHAM',
       ],
       membershipId: 'TWVtYmVyc2hpcFBsYW5Ob2RlOjc=',
     },
     {
-      slug: 'Anual',
-      nome: 'PACOTE ANUAL',
-      descricao: `Associação válida até (31/12/${new Date().getFullYear()}).`,
-      valor: '198,00',
+      slug: 'anual',
+      nome: 'ANUAL',
+      total: '202,80',
+      valorMes: '16,90',
+      descricao:
+        'R$ 202,80 cobrado agora; depois, 202,80 será cobrado anualmente após 12 meses.',
       features: [
         'TODOS OS BENEFÍCIOS DO SÓCIO FÚRIA',
-        'Acesso durante o semestre atual e o próximo semestre com renovação automática',
-        'Participe dos treinos de todas as modalidades',
-        'Participe dos ensaios da Carabina',
-        'Ganhe desconto em produtos e eventos',
-        'Desconto no INTERMED',
-        'Desconto no BONDE DO AHAM',
+        'Participe dos treinos de todas as modalidades e ensaios da Carabina',
+        'Desconto em produtos e eventos organizados pela Fúria',
+        'Desconto no INTERMED e no BONDE DO AHAM',
       ],
       membershipId: 'TWVtYmVyc2hpcFBsYW5Ob2RlOjE=',
     },
@@ -176,7 +185,7 @@ export const SejaSocioPricing = ({}: ISejaSocioPricing) => {
   );
   return (
     <SimpleGrid
-      columns={{ base: 1, lg: 2 }}
+      columns={{ base: 1, lg: 3 }}
       spacing={{ base: '8', lg: '2' }}
       maxW="7xl"
       mx="auto"
@@ -226,8 +235,11 @@ export const SejaSocioPricing = ({}: ISejaSocioPricing) => {
                   <CustomDivider />
                 </Box>
 
-                <Text fontSize="2xl" fontWeight="extrabold" color={green}>
-                  R${plano.valor}
+                <Text fontSize="4xl" fontWeight="extrabold" color={green}>
+                  R$ {plano.valorMes}
+                  <Text as="span" fontSize={'sm'} color={invertedBg}>
+                    /mês
+                  </Text>
                 </Text>
                 <List spacing="4" mx="auto">
                   {plano.features.map((feature, index) => (
@@ -249,9 +261,9 @@ export const SejaSocioPricing = ({}: ISejaSocioPricing) => {
                     Assine agora e aproveite 5% de desconto na{' '}
                     <strong>primeira associação</strong>!
                   </Text>
-                  {/* <Text textAlign="center" fontSize="sm">
+                  <Text textAlign="center" fontSize="xs" fontStyle={'italic'}>
                     {plano.descricao}
-                  </Text> */}
+                  </Text>
                   <PopoverTrigger>
                     <Button
                       colorScheme="green"
@@ -273,20 +285,14 @@ export const SejaSocioPricing = ({}: ISejaSocioPricing) => {
                     <PopoverArrow />
                     <PopoverHeader>
                       <Text fontSize="lg" fontWeight="extrabold" mb={2}>
-                        R${plano.valor}
+                        R${plano.total}
                         <Text
                           fontSize="lg"
                           fontWeight="light"
                           as="i"
                           color={color}
                         >
-                          {plano.slug === 'Mensal' && '/mês'}
-                          {plano.slug === 'Semestral' &&
-                            `/${new Date().getFullYear()}.${
-                              new Date().getMonth() > 6 ? '2' : '1'
-                            }`}
-                          {plano.slug === 'Anual' &&
-                            `/${new Date().getFullYear()}.1 + ${new Date().getFullYear()}.2`}
+                          /{plano.slug}
                         </Text>
                       </Text>
                     </PopoverHeader>

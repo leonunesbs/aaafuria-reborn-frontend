@@ -35,6 +35,7 @@ import {
 
 import { AiFillHome } from 'react-icons/ai';
 import { AuthContext } from '@/contexts/AuthContext';
+import { ColorContext } from '@/contexts/ColorContext';
 import { GetServerSideProps } from 'next';
 import { Layout } from '@/components/templates';
 import { MdLogin } from 'react-icons/md';
@@ -61,6 +62,7 @@ export default function Entrar() {
   const router = useRouter();
   const toast = useToast();
   const { after }: { after?: string } = router.query;
+  const { green } = useContext(ColorContext);
 
   const [login, setLogin] = useState(false);
   const pinInputFieldRef = useRef<HTMLInputElement>(null);
@@ -157,7 +159,7 @@ export default function Entrar() {
       isFooted={false}
     >
       <Box maxW="md" mx="auto">
-        <Center>
+        <Center mb={6}>
           <Box boxSize="250px" position="relative">
             <ChakraNextImage
               placeholder="blur"
@@ -201,7 +203,7 @@ export default function Entrar() {
                       <PinInput
                         type="number"
                         size="lg"
-                        focusBorderColor="green.500"
+                        focusBorderColor={green}
                         placeholder=""
                         autoFocus
                         onComplete={checkMatricula}
@@ -247,7 +249,7 @@ export default function Entrar() {
                           size="lg"
                           mask
                           placeholder=""
-                          focusBorderColor="green.500"
+                          focusBorderColor={green}
                           onComplete={() => handleSubmit(onSubmit)()}
                           {...field}
                         >
@@ -266,7 +268,7 @@ export default function Entrar() {
               <CustomChakraNextLink
                 href={`${process.env.DIRETORIA_DOMAIN}/accounts/password_reset/`}
                 chakraLinkProps={{
-                  color: 'green',
+                  color: green,
                   textAlign: 'right',
                   mt: 4,
                 }}
