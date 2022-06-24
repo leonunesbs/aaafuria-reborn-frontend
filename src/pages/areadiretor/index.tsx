@@ -45,7 +45,7 @@ function AreaDiretor() {
       <PageHeading>Área do Diretor</PageHeading>
       <Tabs variant="solid-rounded" colorScheme="green" isLazy size={'sm'}>
         <TabList fontFamily={'AACHENN'} overflow="auto" py={4}>
-          <Tab>ASSOCIAÇÕES</Tab>
+          <Tab>MEMBROS</Tab>
           <Tab>ATIVIDADES</Tab>
           <Tab>PEDIDOS</Tab>
           <Tab>FINANCEIRO</Tab>

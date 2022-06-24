@@ -21,6 +21,7 @@ import { InputMatriculaPlantaoProps } from './InputMatriculaPlantao';
 import { IssueInfoCardProps } from './IssueInfoCard';
 import { ManageScheduleDrawerProps } from './ManageScheduleDrawer';
 import { MembersDashboardCardProps } from './MembersDashboardCard';
+import { MembersTableProps } from './MembersTable';
 import { PaymentsDashboardCardProps } from './PaymentsDashboardCard';
 import { PaymentsTableProps } from './PaymentsTable';
 import { PixTabPanelProps } from './PagamentoTabs/PIXTabPanel';
@@ -98,6 +99,9 @@ export const ManageScheduleDrawer = dynamic<ManageScheduleDrawerProps>(() =>
 );
 export const MembersDashboardCard = dynamic<MembersDashboardCardProps>(() =>
   import('./MembersDashboardCard').then((mod) => mod.default),
+);
+export const MembersTable = dynamic<MembersTableProps>(() =>
+  import('./MembersTable').then((mod) => mod.default),
 );
 
 export const CartaoCreditoTabPanel = dynamic<CartaoCreditoTabPanelProps>(() =>

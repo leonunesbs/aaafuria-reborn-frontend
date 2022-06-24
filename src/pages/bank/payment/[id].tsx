@@ -535,14 +535,10 @@ function Payment() {
           </Stack>
 
           <Stack>
-            <CustomButton onClick={() => router.push('/bank/my-payments')}>
-              Meus pagamentos
-            </CustomButton>
             {user?.isStaff && (
               <Stack>
                 {!data?.payment?.paid && !data?.payment?.expired && (
                   <CustomButton
-                    variant={'solid'}
                     isLoading={confirmPaymentLoading}
                     onClick={async () => {
                       await confirmPayment({
@@ -563,7 +559,6 @@ function Payment() {
                 )}
                 {!data?.payment?.paid && !data?.payment?.expired && (
                   <CustomButton
-                    variant={'solid'}
                     colorScheme="red"
                     isLoading={cancelPaymentLoading}
                     onClick={async () => {
@@ -582,7 +577,7 @@ function Payment() {
                 )}
                 <CustomButton
                   colorScheme="yellow"
-                  onClick={() => router.push('/bank/payments')}
+                  onClick={() => router.push('/areadiretor')}
                 >
                   Gerenciar pagamentos
                 </CustomButton>

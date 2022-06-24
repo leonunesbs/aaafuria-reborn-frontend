@@ -1,8 +1,9 @@
-import { AddMembershipDrawer, Card } from '..';
+import { AddMembershipDrawer, Card, MembersTable } from '..';
 import {
   Box,
   HStack,
   Heading,
+  Stack,
   Stat,
   StatGroup,
   StatLabel,
@@ -48,30 +49,40 @@ function MembersDashboardCard({}: MembersDashboardCardProps) {
   const membershipPlans = useQuery<MembershipPlans>(MEMBERSHIP_PLANS);
 
   return (
-    <Card>
-      <HStack w="full" justify={'space-between'} mb={4}>
+    <Stack spacing={4}>
+      <Card>
+        <HStack w="full" justify={'space-between'} mb={4}>
+          <Box>
+            <Heading size="md" color={green}>
+              ASSOCIAÇÕES
+            </Heading>
+          </Box>
+          {membershipPlans.data && (
+            <AddMembershipDrawer
+              membershipPlans={membershipPlans.data.allMembershipPlans.edges}
+            />
+          )}
+        </HStack>
+        <StatGroup>
+          {membershipPlans.data?.allMembershipPlans.edges.map(
+            ({ node: { id, name, membersCount } }) => (
+              <Stat key={id}>
+                <StatLabel>{name}</StatLabel>
+                <StatNumber>{membersCount}</StatNumber>
+              </Stat>
+            ),
+          )}
+        </StatGroup>
+      </Card>
+      <Card>
         <Box>
           <Heading size="md" color={green}>
-            ASSOCIAÇÕES
+            MEMBROS
           </Heading>
         </Box>
-        {membershipPlans.data && (
-          <AddMembershipDrawer
-            membershipPlans={membershipPlans.data.allMembershipPlans.edges}
-          />
-        )}
-      </HStack>
-      <StatGroup>
-        {membershipPlans.data?.allMembershipPlans.edges.map(
-          ({ node: { id, name, membersCount } }) => (
-            <Stat key={id}>
-              <StatLabel>{name}</StatLabel>
-              <StatNumber>{membersCount}</StatNumber>
-            </Stat>
-          ),
-        )}
-      </StatGroup>
-    </Card>
+        <MembersTable />
+      </Card>
+    </Stack>
   );
 }
 
