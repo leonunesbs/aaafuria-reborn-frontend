@@ -6,7 +6,6 @@ import {
   FormLabel,
   HStack,
   Heading,
-  Input,
   ListItem,
   SimpleGrid,
   Stack,
@@ -18,6 +17,7 @@ import {
 import {
   CustomButton,
   CustomIconButton,
+  CustomInput,
   PageHeading,
 } from '@/components/atoms';
 import { MdCheck, MdFileCopy, MdSend } from 'react-icons/md';
@@ -27,7 +27,6 @@ import { useCallback, useContext, useEffect, useMemo, useState } from 'react';
 
 import { AuthContext } from '@/contexts/AuthContext';
 import { Card } from '@/components/molecules';
-import { ColorContext } from '@/contexts/ColorContext';
 import { GetServerSideProps } from 'next';
 import Image from 'next/image';
 import { Layout } from '@/components/templates';
@@ -92,7 +91,6 @@ function Intermed() {
     };
   }, []);
   const router = useRouter();
-  const { green } = useContext(ColorContext);
 
   const [value] = useState('pix@aaafuria.site');
   const { hasCopied, onCopy } = useClipboard(value);
@@ -223,12 +221,11 @@ function Intermed() {
                 <Stack>
                   <FormControl isRequired>
                     <FormLabel>Foto de rosto: </FormLabel>
-                    <Input
+                    <CustomInput
                       {...step1Form.register('avatar')}
-                      focusBorderColor={green}
                       pt={1}
                       type="file"
-                      required
+                      isRequired
                     />
                     <FormHelperText>
                       Foto de frente, sem boné ou óculos escuro e em ambiente
@@ -237,12 +234,11 @@ function Intermed() {
                   </FormControl>
                   <FormControl isRequired>
                     <FormLabel>Comprovante de vacinação: </FormLabel>
-                    <Input
+                    <CustomInput
                       {...step1Form.register('vaccineCard')}
-                      focusBorderColor={green}
                       pt={1}
                       type="file"
-                      required
+                      isRequired
                     />
                     <FormHelperText>
                       Mínimo de 03 doses, de acordo com as regras sanitárias
@@ -251,12 +247,11 @@ function Intermed() {
                   </FormControl>
                   <FormControl isRequired>
                     <FormLabel>Comprovante de matrícula: </FormLabel>
-                    <Input
+                    <CustomInput
                       {...step1Form.register('enroll')}
-                      focusBorderColor={green}
                       pt={1}
                       type="file"
-                      required
+                      isRequired
                     />
                   </FormControl>
                   <Card>
@@ -364,11 +359,7 @@ function Intermed() {
                           <Text>Chave PIX</Text>
                         </FormLabel>
                         <HStack>
-                          <Input
-                            value={value}
-                            isReadOnly
-                            focusBorderColor={green}
-                          />
+                          <CustomInput value={value} isReadOnly />
                           <CustomIconButton
                             onClick={onCopy}
                             ml={2}
@@ -387,9 +378,8 @@ function Intermed() {
                         <FormLabel>
                           <Text>Comprovante de pagamento</Text>
                         </FormLabel>
-                        <Input
+                        <CustomInput
                           {...register('attachments')}
-                          focusBorderColor={green}
                           pt={1}
                           type={'file'}
                           isRequired

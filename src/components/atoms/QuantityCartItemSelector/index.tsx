@@ -1,7 +1,7 @@
-import { gql, useMutation } from '@apollo/client';
 import { HStack, Input, useNumberInput, useToast } from '@chakra-ui/react';
-import { useCallback, useContext } from 'react';
 import { MdAdd, MdRemove } from 'react-icons/md';
+import { gql, useMutation } from '@apollo/client';
+import { useCallback, useContext } from 'react';
 
 import { AuthContext } from '@/contexts/AuthContext';
 import { ColorContext } from '@/contexts/ColorContext';

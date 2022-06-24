@@ -130,7 +130,7 @@ function DefaultColumnFilter({
   const count = preFilteredRows.length;
 
   return (
-    <input
+    <CustomInput
       value={filterValue || ''}
       onChange={(e) => {
         setFilter(e.target.value || undefined); // Set undefined to remove the filter entirely

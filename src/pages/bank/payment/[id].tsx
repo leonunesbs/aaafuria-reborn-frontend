@@ -8,7 +8,6 @@ import {
   FormLabel,
   HStack,
   Heading,
-  Input,
   Stack,
   Table,
   TableContainer,
@@ -23,6 +22,7 @@ import {
 } from '@chakra-ui/react';
 import {
   CustomButton,
+  CustomInput,
   PageHeading,
   PaymentInstructions,
 } from '@/components/atoms';
@@ -33,7 +33,6 @@ import { useCallback, useContext } from 'react';
 
 import { AuthContext } from '@/contexts/AuthContext';
 import { Card } from '@/components/molecules';
-import { ColorContext } from '@/contexts/ColorContext';
 import { CustomIconButton } from '@/components/atoms/CustomIconButton';
 import { GetServerSideProps } from 'next';
 import { Layout } from '@/components/templates';
@@ -153,7 +152,6 @@ function Payment() {
   const toast = useToast();
   const router = useRouter();
   const { token, user } = useContext(AuthContext);
-  const { green } = useContext(ColorContext);
   const { onToggle: toggleAttach, isOpen: attachOpen } = useDisclosure();
   const { id } = router.query;
 
@@ -468,19 +466,17 @@ function Payment() {
                     <Stack direction={['column', 'row']}>
                       <FormControl isRequired>
                         <FormLabel fontSize={'sm'}>Título</FormLabel>
-                        <Input
+                        <CustomInput
                           {...attachmentForm.register('title')}
                           placeholder="Título do anexo"
-                          focusBorderColor={green}
-                          required
+                          isRequired
                         />
                       </FormControl>
                       <FormControl isRequired>
                         <FormLabel fontSize={'sm'}>Anexo</FormLabel>
-                        <Input
+                        <CustomInput
                           {...attachmentForm.register('file')}
-                          required
-                          focusBorderColor={green}
+                          isRequired
                           type="file"
                           pt={1}
                         />

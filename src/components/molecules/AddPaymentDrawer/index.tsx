@@ -11,7 +11,6 @@ import {
   FormControl,
   FormHelperText,
   FormLabel,
-  Input,
   InputGroup,
   InputLeftAddon,
   InputRightElement,
@@ -24,6 +23,7 @@ import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import {
   CustomButton,
   CustomIconButton,
+  CustomInput,
   PaymentMethods,
 } from '@/components/atoms';
 import { MdAdd, MdCheck } from 'react-icons/md';
@@ -178,14 +178,13 @@ function AddPaymentDrawer({}: AddPaymentDrawerProps) {
                 <FormControl isRequired>
                   <FormLabel>Matrícula: </FormLabel>
                   <InputGroup size="md">
-                    <Input
+                    <CustomInput
                       {...register('registration', {
                         onChange: () => clearErrors('registration'),
                       })}
                       autoFocus
                       pr="4.5rem"
-                      required
-                      focusBorderColor={green}
+                      isRequired
                       isDisabled={registrationChecked}
                       isInvalid={!!errors.registration}
                     />
@@ -228,7 +227,7 @@ function AddPaymentDrawer({}: AddPaymentDrawerProps) {
                       <InputLeftAddon>
                         <Text fontSize="sm">R$</Text>
                       </InputLeftAddon>
-                      <Input
+                      <CustomInput
                         {...register('amount', {
                           required: true,
                           validate: (value) =>
@@ -237,8 +236,7 @@ function AddPaymentDrawer({}: AddPaymentDrawerProps) {
                         type="number"
                         step="0.1"
                         min="0"
-                        required
-                        focusBorderColor={green}
+                        isRequired
                       />
                     </InputGroup>
                     <FormHelperText>
@@ -247,11 +245,10 @@ function AddPaymentDrawer({}: AddPaymentDrawerProps) {
                   </FormControl>
                   <FormControl isRequired>
                     <FormLabel>Descrição: </FormLabel>
-                    <Input
+                    <CustomInput
                       {...register('description')}
                       type="text"
-                      required
-                      focusBorderColor={green}
+                      isRequired
                     />
                   </FormControl>
                   <Controller

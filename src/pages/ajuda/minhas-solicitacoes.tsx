@@ -10,7 +10,6 @@ import {
   FormControl,
   FormLabel,
   HStack,
-  Input,
   Select,
   Skeleton,
   Stack,
@@ -29,6 +28,7 @@ import {
 import {
   CustomButton,
   CustomIconButton,
+  CustomInput,
   PageHeading,
   VoltarButton,
 } from '@/components/atoms';
@@ -292,11 +292,7 @@ function Solicitacoes() {
               <Stack>
                 <FormControl>
                   <FormLabel>Título: </FormLabel>
-                  <Input
-                    focusBorderColor={green}
-                    required
-                    {...register('title')}
-                  />
+                  <CustomInput isRequired {...register('title')} />
                 </FormControl>
                 <FormControl>
                   <FormLabel>Descrição: </FormLabel>

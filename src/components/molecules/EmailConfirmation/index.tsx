@@ -1,4 +1,4 @@
-import { CustomButton, PageHeading } from '@/components/atoms';
+import { CustomButton, CustomInput, PageHeading } from '@/components/atoms';
 import {
   Drawer,
   DrawerBody,
@@ -7,7 +7,6 @@ import {
   DrawerOverlay,
   FormControl,
   FormLabel,
-  Input,
   Stack,
   Text,
   useDisclosure,
@@ -120,7 +119,7 @@ export const EmailConfirmation = ({ ...rest }: IEmailConfirmation) => {
               <Stack>
                 <FormControl>
                   <FormLabel>Email: </FormLabel>
-                  <Input
+                  <CustomInput
                     type={'email'}
                     isRequired
                     focusBorderColor={green}
@@ -131,7 +130,7 @@ export const EmailConfirmation = ({ ...rest }: IEmailConfirmation) => {
                 </FormControl>
                 <FormControl>
                   <FormLabel>Confirme seu email: </FormLabel>
-                  <Input
+                  <CustomInput
                     type={'email'}
                     isRequired
                     focusBorderColor={green}

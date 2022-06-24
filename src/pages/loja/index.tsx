@@ -1,17 +1,9 @@
 import {
-  CustomButton,
-  CustomIconButton,
-  PageHeading,
-  VoltarButton,
-} from '@/components/atoms';
-import { gql, useQuery } from '@apollo/client';
-import {
   Badge,
   Box,
   Center,
   FormControl,
   FormLabel,
-  Input,
   InputGroup,
   InputRightElement,
   SimpleGrid,
@@ -19,18 +11,26 @@ import {
   Stack,
   Text,
 } from '@chakra-ui/react';
-import { useCallback, useContext, useState } from 'react';
-import { SubmitHandler, useForm } from 'react-hook-form';
+import {
+  CustomButton,
+  CustomIconButton,
+  CustomInput,
+  PageHeading,
+  VoltarButton,
+} from '@/components/atoms';
 import { MdSend, MdShoppingCart } from 'react-icons/md';
+import { SubmitHandler, useForm } from 'react-hook-form';
+import { gql, useQuery } from '@apollo/client';
+import { useCallback, useContext, useState } from 'react';
 
-import { ProdutoCard } from '@/components/molecules';
-import { Layout } from '@/components/templates';
+import { AiOutlineUnorderedList } from 'react-icons/ai';
 import { AuthContext } from '@/contexts/AuthContext';
 import { ColorContext } from '@/contexts/ColorContext';
-import client from '@/services/apollo-client';
 import { GetStaticProps } from 'next';
+import { Layout } from '@/components/templates';
+import { ProdutoCard } from '@/components/molecules';
+import client from '@/services/apollo-client';
 import { useRouter } from 'next/router';
-import { AiOutlineUnorderedList } from 'react-icons/ai';
 
 const DIGITAL_ITEMS = gql`
   query getDigitalItems {
@@ -156,9 +156,8 @@ function Loja() {
                   </Text>
                 </FormLabel>
                 <InputGroup maxW="2xs" size={'sm'}>
-                  <Input
+                  <CustomInput
                     placeholder="Matrícula"
-                    focusBorderColor={green}
                     rounded="md"
                     {...register('registration')}
                   />

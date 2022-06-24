@@ -1,6 +1,5 @@
 import {
   Box,
-  Input,
   InputGroup,
   InputRightElement,
   SimpleGrid,
@@ -9,10 +8,10 @@ import {
   useClipboard,
   useToast,
 } from '@chakra-ui/react';
+import { CustomIconButton, CustomInput } from '@/components/atoms';
 import { gql, useMutation } from '@apollo/client';
 import { useEffect, useState } from 'react';
 
-import { CustomIconButton } from '@/components/atoms';
 import { MdCopyAll } from 'react-icons/md';
 import QRCode from 'react-qr-code';
 import { parseCookies } from 'nookies';
@@ -84,12 +83,7 @@ export const CartaoCreditoTabPanel = ({
         <ChakraQRCode value={url} size={256} fgColor="green" />
         <Box>
           <InputGroup size="lg">
-            <Input
-              pr="4.5rem"
-              value={url}
-              readOnly
-              focusBorderColor="green.500"
-            />
+            <CustomInput pr="4.5rem" value={url} isReadOnly />
             <InputRightElement>
               <CustomIconButton
                 aria-label="copy"

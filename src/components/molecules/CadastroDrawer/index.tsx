@@ -17,7 +17,7 @@ import {
 } from '@chakra-ui/react';
 import { CadastroInputsType, ICadastroDrawer } from './ICadastroDrawer';
 import { Controller, useForm } from 'react-hook-form';
-import { CustomButton, PageHeading } from '@/components/atoms';
+import { CustomButton, CustomInput, PageHeading } from '@/components/atoms';
 import React, { useCallback, useContext, useEffect } from 'react';
 import { gql, useMutation } from '@apollo/client';
 
@@ -251,7 +251,7 @@ export const CadastroDrawer = ({
                   </FormControl>
                   <FormControl>
                     <FormLabel>Email: </FormLabel>
-                    <Input
+                    <CustomInput
                       type="email"
                       focusBorderColor="green.500"
                       required
@@ -260,7 +260,7 @@ export const CadastroDrawer = ({
                   </FormControl>
                   <FormControl>
                     <FormLabel>Confirmar email: </FormLabel>
-                    <Input
+                    <CustomInput
                       type="email"
                       focusBorderColor="green.500"
                       required
@@ -275,32 +275,28 @@ export const CadastroDrawer = ({
                       type="tel"
                       focusBorderColor="green.500"
                       {...register('turma')}
-                      required
                     />
                   </FormControl>
                   <FormControl>
                     <FormLabel>Nome completo: </FormLabel>
-                    <Input
+                    <CustomInput
                       focusBorderColor="green.500"
                       {...register('nome')}
-                      required
                     />
                   </FormControl>
                   <FormControl>
                     <FormLabel>Apelido: </FormLabel>
-                    <Input
+                    <CustomInput
                       focusBorderColor="green.500"
                       {...register('apelido')}
-                      required
                     />
                   </FormControl>
                   <FormControl>
                     <FormLabel>Data de nascimento: </FormLabel>
-                    <Input
+                    <CustomInput
                       type="date"
                       focusBorderColor="green.500"
                       {...register('dataNascimento')}
-                      required
                     />
                   </FormControl>
                   <FormControl>
@@ -311,7 +307,6 @@ export const CadastroDrawer = ({
                       type="tel"
                       focusBorderColor="green.500"
                       {...register('whatsapp')}
-                      required
                     />
                   </FormControl>
                   <FormControl>
@@ -321,25 +316,22 @@ export const CadastroDrawer = ({
                       mask="999.999.999-99"
                       focusBorderColor="green.500"
                       {...register('cpf')}
-                      required
                     />
                   </FormControl>
                   <FormControl>
                     <FormLabel>RG: </FormLabel>
-                    <Input
+                    <CustomInput
                       focusBorderColor="green.500"
                       {...register('rg')}
-                      required
                     />
                   </FormControl>
                   <FormControl>
                     <FormLabel>Foto: </FormLabel>
-                    <Input
+                    <CustomInput
                       focusBorderColor="green.500"
                       {...register('avatar')}
                       pt={1}
                       type="file"
-                      required
                     />
                   </FormControl>
 

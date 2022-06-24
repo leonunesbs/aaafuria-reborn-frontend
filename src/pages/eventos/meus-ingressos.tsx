@@ -12,7 +12,6 @@ import {
   FormControl,
   HStack,
   Heading,
-  Input,
   Stack,
   Table,
   Tbody,
@@ -27,6 +26,7 @@ import {
 import {
   CustomButton,
   CustomIconButton,
+  CustomInput,
   PageHeading,
   VoltarButton,
 } from '@/components/atoms';
@@ -254,18 +254,16 @@ function MeusEventos() {
               <AlertDialogBody>
                 <Stack>
                   <FormControl>
-                    <Input
+                    <CustomInput
                       placeholder="Matrícula de destino"
-                      focusBorderColor={green}
-                      required
+                      isRequired
                       {...register('newOwnerMatricula')}
                     />
                   </FormControl>
                   <FormControl>
-                    <Input
+                    <CustomInput
                       placeholder="Confirme a matrícula de destino"
-                      focusBorderColor={green}
-                      required
+                      isRequired
                       {...register('confirmNewOwnerMatricula')}
                     />
                   </FormControl>

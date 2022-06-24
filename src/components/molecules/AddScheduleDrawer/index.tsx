@@ -1,4 +1,8 @@
-import { CustomButton, CustomIconButton } from '@/components/atoms';
+import {
+  CustomButton,
+  CustomIconButton,
+  CustomInput,
+} from '@/components/atoms';
 import {
   Drawer,
   DrawerBody,
@@ -188,19 +192,11 @@ function AddScheduleDrawer({ refetch, activityId }: AddScheduleDrawerProps) {
                 </FormControl>
                 <FormControl isRequired>
                   <FormLabel htmlFor="location">Local: </FormLabel>
-                  <Input
-                    focusBorderColor={green}
-                    required
-                    {...register('location')}
-                  />
+                  <CustomInput isRequired {...register('location')} />
                 </FormControl>
                 <FormControl isRequired>
                   <FormLabel htmlFor="description">Descrição: </FormLabel>
-                  <Input
-                    focusBorderColor={green}
-                    required
-                    {...register('description')}
-                  />
+                  <CustomInput isRequired {...register('description')} />
                   <FormHelperText>ex.: Treino para o amistoso</FormHelperText>
                 </FormControl>
                 <FormControl>
@@ -215,9 +211,8 @@ function AddScheduleDrawer({ refetch, activityId }: AddScheduleDrawerProps) {
                 <Stack direction={['column', 'row']}>
                   <FormControl isRequired>
                     <FormLabel htmlFor="startDate">Início: </FormLabel>
-                    <Input
-                      focusBorderColor={green}
-                      required
+                    <CustomInput
+                      isRequired
                       type={'datetime-local'}
                       {...register('startDate')}
                     />
@@ -227,8 +222,8 @@ function AddScheduleDrawer({ refetch, activityId }: AddScheduleDrawerProps) {
                   </FormControl>
                   <FormControl>
                     <FormLabel htmlFor="endDate">Fim: </FormLabel>
-                    <Input
-                      focusBorderColor={green}
+                    <CustomInput
+                      isRequired
                       type={'datetime-local'}
                       {...register('endDate')}
                     />

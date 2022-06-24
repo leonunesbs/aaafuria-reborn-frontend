@@ -1,10 +1,10 @@
 import { Card, ClientInfoCard } from '@/components/molecules';
+import { CustomButton, CustomInput } from '@/components/atoms';
 import { Dispatch, useCallback, useEffect, useState } from 'react';
 import {
   FormControl,
   FormLabel,
   HStack,
-  Input,
   PinInput,
   PinInputField,
   Stack,
@@ -15,7 +15,6 @@ import { MdCheck, MdRefresh } from 'react-icons/md';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { gql, useQuery } from '@apollo/client';
 
-import { CustomButton } from '@/components/atoms';
 import { useRouter } from 'next/router';
 
 const QUERY_SOCIO = gql`
@@ -109,7 +108,7 @@ export const InputMatriculaPlantao = ({
             <FormControl>
               <FormLabel>Matrícula: </FormLabel>
               <HStack>
-                <Input
+                <CustomInput
                   type="hidden"
                   autoFocus
                   {...matriculaForm.register('matricula')}
