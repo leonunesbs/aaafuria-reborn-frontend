@@ -55,7 +55,7 @@ export const CustomIconButton = dynamic<
 >(() => import('./CustomIconButton').then((mod) => mod.CustomIconButton));
 
 export const CustomInput = dynamic<
-  CustomInputProps & RefAttributes<HTMLButtonElement>
+  CustomInputProps & RefAttributes<HTMLInputElement>
 >(() => import('./CustomInput').then((mod) => mod.default));
 
 export const CustomChakraNextLink = dynamic<CustomChakraNextLinkProps>(() =>
