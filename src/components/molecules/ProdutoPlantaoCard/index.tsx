@@ -9,8 +9,8 @@ import {
   Text,
   useToast,
 } from '@chakra-ui/react';
+import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { CustomButton, CustomInput } from '@/components/atoms';
-import { SubmitHandler, useForm } from 'react-hook-form';
 import { gql, useMutation } from '@apollo/client';
 import { useCallback, useContext, useState } from 'react';
 
@@ -51,7 +51,7 @@ export const ProdutoPlantaoCard = ({
 }: ProdutoPlantaoCardProps) => {
   const router = useRouter();
   const { green } = useContext(ColorContext);
-  const { register, handleSubmit } = useForm<any>();
+  const { register, handleSubmit, control } = useForm<any>();
   const [addToCartPlantao, { loading }] = useMutation(ADD_TO_CART_PLANTAO, {
     context: {
       headers: {
@@ -176,10 +176,19 @@ export const ProdutoPlantaoCard = ({
               )}
               {node.hasObservacoes && (
                 <FormControl>
-                  <CustomInput
-                    isRequired
-                    placeholder="Observações"
-                    {...register('observacoes')}
+                  <Controller
+                    name="observacoes"
+                    control={control}
+                    rules={{
+                      required: true,
+                    }}
+                    render={({ field }) => (
+                      <CustomInput
+                        isRequired
+                        placeholder="Observações"
+                        {...field}
+                      />
+                    )}
                   />
                 </FormControl>
               )}
