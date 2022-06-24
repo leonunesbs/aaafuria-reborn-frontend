@@ -70,7 +70,7 @@ type CheckoutMembership = {
 export const SejaSocioPricing = ({}: ISejaSocioPricing) => {
   const router = useRouter();
   const toast = useToast();
-  const { green, bg, invertedBg } = useContext(ColorContext);
+  const { green, bg } = useContext(ColorContext);
   const { isAuthenticated, token, user } = useContext(AuthContext);
   const [billingPortalLoading, setBillingPortalLoading] = useState(false);
   const [mutateFunction, { loading }] =
@@ -88,7 +88,7 @@ export const SejaSocioPricing = ({}: ISejaSocioPricing) => {
     {
       slug: 'mensal',
       nome: 'MENSAL',
-      total: '24,90',
+      total: '29,90',
       valorMes: '***,**',
       descricao: 'Cobrado a cada mês.',
       features: [
@@ -236,10 +236,7 @@ export const SejaSocioPricing = ({}: ISejaSocioPricing) => {
                 </Box>
 
                 <Text fontSize="4xl" fontWeight="extrabold" color={green}>
-                  R$ {plano.valorMes}
-                  <Text as="span" fontSize={'sm'} color={invertedBg}>
-                    /mês
-                  </Text>
+                  R$ {plano.total}
                 </Text>
                 <List spacing="4" mx="auto">
                   {plano.features.map((feature, index) => (
@@ -275,6 +272,7 @@ export const SejaSocioPricing = ({}: ISejaSocioPricing) => {
                         outlineWidth: 'thin',
                       }}
                       variant={'solid'}
+                      isDisabled
                     >
                       Seja Sócio!
                     </Button>
