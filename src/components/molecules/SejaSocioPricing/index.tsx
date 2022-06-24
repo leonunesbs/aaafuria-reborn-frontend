@@ -89,7 +89,7 @@ export const SejaSocioPricing = ({}: ISejaSocioPricing) => {
       slug: 'mensal',
       nome: 'MENSAL',
       total: '24,90',
-      valorMes: '24,90',
+      valorMes: '***,***',
       descricao: 'Cobrado a cada mês.',
       features: [
         'Participe dos treinos de todas as modalidades e ensaios da Carabina',
@@ -102,7 +102,7 @@ export const SejaSocioPricing = ({}: ISejaSocioPricing) => {
       nome: 'SEMESTRAL',
 
       total: '119,40',
-      valorMes: '19,90',
+      valorMes: '***,**',
       descricao:
         'R$ 119,40 cobrado agora; depois, R$ 119,40 será cobrado a cada semestre após 6 meses.',
       best: true,
@@ -118,7 +118,7 @@ export const SejaSocioPricing = ({}: ISejaSocioPricing) => {
       slug: 'anual',
       nome: 'ANUAL',
       total: '202,80',
-      valorMes: '16,90',
+      valorMes: '***,**',
       descricao:
         'R$ 202,80 cobrado agora; depois, 202,80 será cobrado anualmente após 12 meses.',
       features: [
@@ -261,9 +261,9 @@ export const SejaSocioPricing = ({}: ISejaSocioPricing) => {
                     Assine agora e aproveite 5% de desconto na{' '}
                     <strong>primeira associação</strong>!
                   </Text>
-                  <Text textAlign="center" fontSize="xs" fontStyle={'italic'}>
+                  {/* <Text textAlign="center" fontSize="xs" fontStyle={'italic'}>
                     {plano.descricao}
-                  </Text>
+                  </Text> */}
                   <PopoverTrigger>
                     <Button
                       colorScheme="green"
