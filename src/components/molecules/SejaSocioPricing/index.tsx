@@ -89,7 +89,7 @@ export const SejaSocioPricing = ({}: ISejaSocioPricing) => {
       slug: 'mensal',
       nome: 'MENSAL',
       total: '24,90',
-      valorMes: '***,***',
+      valorMes: '***,**',
       descricao: 'Cobrado a cada mês.',
       features: [
         'Participe dos treinos de todas as modalidades e ensaios da Carabina',
