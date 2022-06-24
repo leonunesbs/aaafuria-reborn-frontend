@@ -1,16 +1,8 @@
 import * as gtag from 'lib/gtag';
 
 import {
-  CustomButton,
-  CustomChakraNextLink,
-  PageHeading,
-} from '@/components/atoms';
-import { CadastroDrawer, Card } from '@/components/molecules';
-import { gql, useQuery } from '@apollo/client';
-import {
   Box,
   Center,
-  chakra,
   Collapse,
   FormControl,
   FormLabel,
@@ -19,9 +11,19 @@ import {
   PinInputField,
   Stack,
   Text,
+  chakra,
+  useColorModeValue,
   useDisclosure,
   useToast,
 } from '@chakra-ui/react';
+import { CadastroDrawer, Card } from '@/components/molecules';
+import { Controller, SubmitHandler, useForm } from 'react-hook-form';
+import {
+  CustomButton,
+  CustomChakraNextLink,
+  PageHeading,
+} from '@/components/atoms';
+import { gql, useQuery } from '@apollo/client';
 import {
   useCallback,
   useContext,
@@ -30,16 +32,15 @@ import {
   useRef,
   useState,
 } from 'react';
-import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 
-import { Layout } from '@/components/templates';
+import { AiFillHome } from 'react-icons/ai';
 import { AuthContext } from '@/contexts/AuthContext';
 import { GetServerSideProps } from 'next';
-import NextImage from 'next/image';
-import { useRouter } from 'next/router';
-import { parseCookies } from 'nookies';
-import { AiFillHome } from 'react-icons/ai';
+import { Layout } from '@/components/templates';
 import { MdLogin } from 'react-icons/md';
+import NextImage from 'next/image';
+import { parseCookies } from 'nookies';
+import { useRouter } from 'next/router';
 
 const CHECK_MEMBER = gql`
   query checkMember($matricula: String) {
@@ -63,6 +64,11 @@ export default function Entrar() {
 
   const [login, setLogin] = useState(false);
   const pinInputFieldRef = useRef<HTMLInputElement>(null);
+
+  const calango = useColorModeValue(
+    '/calango-verde.png',
+    '/calango-verde-b.png',
+  );
 
   const { refetch } = useQuery<GetSocioData>(CHECK_MEMBER, {
     fetchPolicy: 'no-cache',
@@ -157,8 +163,8 @@ export default function Entrar() {
               placeholder="blur"
               layout="fill"
               objectFit="cover"
-              src={'/calango-verde.png'}
-              blurDataURL={'/calango-verde.png'}
+              src={calango}
+              blurDataURL={calango}
               quality={1}
               alt="logo"
               mx="auto"

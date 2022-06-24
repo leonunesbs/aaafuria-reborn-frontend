@@ -77,7 +77,10 @@ function Home({ post, partnerships }: HomeProps) {
   const partnershipsDiv = useRef<HTMLDivElement>(null);
   const { bg, green, invertedBg } = useContext(ColorContext);
   const ctaLogo = useColorModeValue('/logo-cinza.png', '/logo-branco.png');
-  const calango = useColorModeValue('/calango-verde.png', '/calango-verde.png');
+  const calango = useColorModeValue(
+    '/calango-verde.png',
+    '/calango-verde-b.png',
+  );
   const ChakraNextImage = chakra(NextImage);
 
   return (
