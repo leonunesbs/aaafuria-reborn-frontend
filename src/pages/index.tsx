@@ -77,6 +77,7 @@ function Home({ post, partnerships }: HomeProps) {
   const partnershipsDiv = useRef<HTMLDivElement>(null);
   const { bg, green, invertedBg } = useContext(ColorContext);
   const ctaLogo = useColorModeValue('/logo-cinza.png', '/logo-branco.png');
+  const calango = useColorModeValue('/calango-verde.png', '/calango-verde.png');
   const ChakraNextImage = chakra(NextImage);
 
   return (
@@ -393,10 +394,10 @@ function Home({ post, partnerships }: HomeProps) {
             <Box boxSize={['xs', 'md', 'xl', '2xl']} position="relative">
               <ChakraNextImage
                 placeholder="blur"
-                blurDataURL={'/calango-verde.png'}
+                blurDataURL={calango}
                 layout="fill"
                 objectFit="cover"
-                src={'/calango-verde.png'}
+                src={calango}
                 quality={100}
                 alt="logo"
                 mx="auto"
@@ -448,13 +449,13 @@ function Home({ post, partnerships }: HomeProps) {
                           src={
                             partnership.logo !== null
                               ? partnership.logo
-                              : '/calango-verde.png'
+                              : calango
                           }
                           placeholder="blur"
                           blurDataURL={
                             partnership.logo !== null
                               ? partnership.logo
-                              : '/calango-verde.png'
+                              : calango
                           }
                           layout="fill"
                           objectFit="cover"

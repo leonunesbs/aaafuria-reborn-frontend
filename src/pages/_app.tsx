@@ -11,7 +11,7 @@ import { ColorProvider } from '@/contexts/ColorContext';
 import { LoadingProvider } from '@/contexts/LoadingContext';
 import client from '../services/apollo-client';
 import { hotjar } from 'react-hotjar';
-import { theme } from '@/styles/theme';
+import theme from '@/styles/theme';
 import { useRouter } from 'next/router';
 
 const ContextProviders = ({ children }: { children: ReactNode }) => {

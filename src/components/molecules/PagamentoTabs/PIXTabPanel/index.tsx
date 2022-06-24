@@ -100,7 +100,7 @@ export const PixTabPanel = ({ parentData: parentData }: PixTabPanelProps) => {
             mensagem: `${parentData.data?.carrinho.id}`,
           }}
           imageSettings={{
-            src: '/calango-verde-3.png',
+            src: '/calango-verde-b.png',
             height: 100,
             width: 100,
             alt: 'Pix',
