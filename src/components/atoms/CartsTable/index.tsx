@@ -20,8 +20,8 @@ import { AuthContext } from '@/contexts/AuthContext';
 import { ColorContext } from '@/contexts/ColorContext';
 
 const ALL_CARTS = gql`
-  query AllCarts($page: Int, $pageSize: Int) {
-    allCarts(page: $page, pageSize: $pageSize) {
+  query {
+    allCarts(page: 1, pageSize: 0) {
       page
       pages
       hasNext
@@ -106,11 +106,10 @@ type CartsData = {
 };
 
 export interface CartsTableProps {
-  pageSize?: number;
   shortView?: boolean;
 }
 
-function CartsTable({ pageSize, shortView }: CartsTableProps) {
+function CartsTable({ shortView }: CartsTableProps) {
   const toast = useToast();
   const { token } = useContext(AuthContext);
   const { green } = useContext(ColorContext);
@@ -119,10 +118,6 @@ function CartsTable({ pageSize, shortView }: CartsTableProps) {
       headers: {
         Authorization: `JWT ${token}`,
       },
-    },
-    variables: {
-      page: 1,
-      pageSize: pageSize || 5,
     },
   });
   const [deliverCart, { loading }] = useMutation(DELIVER_CART, {

@@ -1,5 +1,5 @@
 import { AddPaymentDrawer, Card, PaymentsTable } from '@/components/molecules';
-import { Box, Heading, HStack, Text } from '@chakra-ui/react';
+import { Box, HStack, Heading } from '@chakra-ui/react';
 
 import { ColorContext } from '@/contexts/ColorContext';
 import { useContext } from 'react';
@@ -16,7 +16,6 @@ function PaymentsDashboardCard({}: PaymentsDashboardCardProps) {
           <Heading size="md" color={green}>
             PAGAMENTOS
           </Heading>
-          <Text>Útimos pagamentos</Text>
         </Box>
         <AddPaymentDrawer />
       </HStack>

@@ -1,9 +1,9 @@
-import { Box, Heading, HStack, Text } from '@chakra-ui/react';
+import { Box, HStack, Heading } from '@chakra-ui/react';
 
+import { Card } from '..';
 import { CartsTable } from '@/components/atoms';
 import { ColorContext } from '@/contexts/ColorContext';
 import { useContext } from 'react';
-import { Card } from '..';
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface CartsDashboardCardProps {}
@@ -17,7 +17,6 @@ function CartsDashboardCard({}: CartsDashboardCardProps) {
           <Heading size="md" color={green}>
             PEDIDOS
           </Heading>
-          <Text textStyle="italic">Aguardando entrega</Text>
         </Box>
       </HStack>
       <CartsTable />

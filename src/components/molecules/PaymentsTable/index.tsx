@@ -1,13 +1,6 @@
 import {
   Badge,
-  Button,
   HStack,
-  Menu,
-  MenuButton,
-  MenuDivider,
-  MenuItemOption,
-  MenuList,
-  MenuOptionGroup,
   Skeleton,
   Table,
   TableContainer,
@@ -20,8 +13,21 @@ import {
   chakra,
 } from '@chakra-ui/react';
 import { BsChevronCompactDown, BsChevronCompactUp } from 'react-icons/bs';
-import { Column, useSortBy, useTable } from 'react-table';
-import { CustomChakraNextLink, CustomIconButton } from '@/components/atoms';
+import {
+  Column,
+  FilterTypes,
+  useAsyncDebounce,
+  useFilters,
+  useGlobalFilter,
+  usePagination,
+  useSortBy,
+  useTable,
+} from 'react-table';
+import {
+  CustomChakraNextLink,
+  CustomIconButton,
+  CustomInput,
+} from '@/components/atoms';
 import {
   MdMoreHoriz,
   MdNavigateBefore,
@@ -29,14 +35,14 @@ import {
   MdRefresh,
 } from 'react-icons/md';
 import { gql, useQuery } from '@apollo/client';
-import { useCallback, useContext, useMemo } from 'react';
+import { useContext, useMemo, useState } from 'react';
 
 import { AuthContext } from '@/contexts/AuthContext';
 import { ColorContext } from '@/contexts/ColorContext';
 
 const ALL_PAYMENTS = gql`
-  query allPayments($page: Int = 1, $status: String, $pageSize: Int) {
-    allPayments(page: $page, status: $status, pageSize: $pageSize) {
+  query allPayments($page: Int = 1, $status: String) {
+    allPayments(page: $page, status: $status, pageSize: 0) {
       page
       pages
       hasNext
@@ -60,7 +66,6 @@ const ALL_PAYMENTS = gql`
 `;
 
 export interface PaymentsTableProps {
-  pageSize?: number;
   shortView?: boolean;
 }
 
@@ -89,10 +94,53 @@ type PaymentsData = {
   };
 };
 
-function PaymentsTable({
-  pageSize = 20,
-  shortView = false,
-}: PaymentsTableProps) {
+// Define a default UI for filtering
+function GlobalFilter({
+  preGlobalFilteredRows,
+  globalFilter,
+  setGlobalFilter,
+}: any) {
+  const count = preGlobalFilteredRows.length;
+  const [value, setValue] = useState(globalFilter);
+  const onChange = useAsyncDebounce((value) => {
+    setGlobalFilter(value || undefined);
+  }, 200);
+
+  return (
+    <Text>
+      Buscar:{' '}
+      <CustomInput
+        size="sm"
+        maxW="xs"
+        value={value || ''}
+        onChange={(e) => {
+          setValue(e.target.value);
+          onChange(e.target.value);
+        }}
+        placeholder={`${count} pagamentos...`}
+      />
+    </Text>
+  );
+}
+
+// Define a default UI for filtering
+function DefaultColumnFilter({
+  column: { filterValue, preFilteredRows, setFilter },
+}: any) {
+  const count = preFilteredRows.length;
+
+  return (
+    <input
+      value={filterValue || ''}
+      onChange={(e) => {
+        setFilter(e.target.value || undefined); // Set undefined to remove the filter entirely
+      }}
+      placeholder={`Search ${count} records...`}
+    />
+  );
+}
+
+function PaymentsTable({ shortView = false }: PaymentsTableProps) {
   const { green } = useContext(ColorContext);
   const { token } = useContext(AuthContext);
 
@@ -102,26 +150,7 @@ function PaymentsTable({
         Authorization: `JWT ${token}`,
       },
     },
-    variables: {
-      pageSize: pageSize,
-    },
   });
-
-  const handleNextPage = useCallback(async () => {
-    if (data?.allPayments.hasNext) {
-      await refetch({
-        page: data.allPayments.page + 1,
-      });
-    }
-  }, [data, refetch]);
-
-  const handlePreviousPage = useCallback(async () => {
-    if (data?.allPayments.hasPrev) {
-      await refetch({
-        page: data.allPayments.page - 1,
-      });
-    }
-  }, [data, refetch]);
 
   const tableData: Payment[] = useMemo(() => {
     if (loading) {
@@ -131,12 +160,36 @@ function PaymentsTable({
     return data?.allPayments.objects || [];
   }, [data, loading]);
 
+  const filterTypes: FilterTypes<Payment> = useMemo(
+    () => ({
+      text: (rows, id, filterValue) => {
+        return rows.filter((row) => {
+          const rowValue = row.values[id as any];
+          return rowValue !== undefined
+            ? String(rowValue)
+                .toLowerCase()
+                .startsWith(String(filterValue).toLowerCase())
+            : true;
+        });
+      },
+    }),
+    [],
+  );
+
+  const defaultColumn = useMemo(
+    () => ({
+      // Let's set up our default Filter UI
+      Filter: DefaultColumnFilter,
+    }),
+    [],
+  );
+
   const tableColumns: Column<Payment>[] = useMemo(
     () =>
       [
         {
           id: 'user',
-          Header: 'Member',
+          Header: 'Membro',
           accessor: 'user.member.name',
         },
         {
@@ -148,6 +201,11 @@ function PaymentsTable({
           id: 'amount',
           Header: 'Valor',
           accessor: 'amount',
+        },
+        {
+          id: 'currency',
+          Header: 'Moeda',
+          accessor: 'currency',
         },
         {
           id: 'createdAt',
@@ -209,34 +267,47 @@ function PaymentsTable({
     [],
   );
 
-  const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
-    useTable({ columns: tableColumns, data: tableData }, useSortBy);
+  const {
+    getTableProps,
+    getTableBodyProps,
+    headerGroups,
+    prepareRow,
+    // start Pagination
+    page,
+    canPreviousPage,
+    canNextPage,
+    pageOptions,
+    nextPage,
+    previousPage,
+    // end Paginatio
+    // start Filters
+    state,
+    visibleColumns,
+    preGlobalFilteredRows,
+    setGlobalFilter,
+    // end Filters
+
+    state: { pageIndex },
+  } = useTable(
+    {
+      columns: tableColumns,
+      data: tableData,
+      initialState: {
+        pageSize: 20,
+      },
+      defaultColumn,
+      filterTypes,
+    },
+    useGlobalFilter,
+    useFilters,
+    useSortBy,
+    usePagination,
+  );
 
   return (
     <>
-      <HStack my={6} justify="space-between">
-        <Menu>
-          <MenuButton as={Button} colorScheme="gray" size="xs">
-            Filtro
-          </MenuButton>
-          <MenuList minWidth="240px">
-            <MenuOptionGroup
-              title="Status"
-              type="radio"
-              onChange={(value) => {
-                refetch({
-                  status: value,
-                });
-              }}
-            >
-              <MenuItemOption value="">Todos</MenuItemOption>
-              <MenuItemOption value="PAGO">Pagos</MenuItemOption>
-              <MenuItemOption value="PENDENTE">Pendentes</MenuItemOption>
-            </MenuOptionGroup>
-            <MenuDivider />
-          </MenuList>
-        </Menu>
-        <HStack pr={1}>
+      <HStack justify="space-between">
+        <HStack pr={1} w="full" justify={'flex-end'}>
           <CustomIconButton
             aria-label="refresh payments"
             icon={<MdRefresh size="20px" />}
@@ -247,8 +318,22 @@ function PaymentsTable({
         </HStack>
       </HStack>
       <TableContainer>
-        <Table {...getTableProps()} size={'sm'} variant="striped">
+        <Table {...getTableProps()} size={'sm'} variant="simple">
           <Thead>
+            <Tr>
+              <Th
+                colSpan={visibleColumns.length}
+                style={{
+                  textAlign: 'left',
+                }}
+              >
+                <GlobalFilter
+                  preGlobalFilteredRows={preGlobalFilteredRows}
+                  globalFilter={state.globalFilter}
+                  setGlobalFilter={setGlobalFilter}
+                />
+              </Th>
+            </Tr>
             {headerGroups.map((headerGroup) => (
               <Tr {...headerGroup.getHeaderGroupProps()} key={headerGroup.id}>
                 {headerGroup.headers.map((column) => (
@@ -283,12 +368,12 @@ function PaymentsTable({
             ))}
           </Thead>
           <Tbody {...getTableBodyProps()}>
-            {rows.map((row) => {
+            {page.map((row, i) => {
               prepareRow(row);
               return (
-                <Tr {...row.getRowProps()} key={row.id}>
-                  {row.cells.map((cell) => (
-                    <Td {...cell.getCellProps()} key={cell.value}>
+                <Tr {...row.getRowProps()} key={i}>
+                  {row.cells.map((cell, i) => (
+                    <Td {...cell.getCellProps()} key={i}>
                       {cell.render('Cell')}
                     </Td>
                   ))}
@@ -296,7 +381,7 @@ function PaymentsTable({
               );
             })}
             {loading &&
-              [...Array(5)].map((_, i) => (
+              [...Array(20)].map((_, i) => (
                 <Tr key={i}>
                   {tableColumns.map((column) => (
                     <Td key={column.id}>
@@ -310,21 +395,21 @@ function PaymentsTable({
       </TableContainer>
       <HStack w="full" justify={'center'} display={shortView ? 'none' : 'flex'}>
         <CustomIconButton
-          visibility={data?.allPayments?.hasPrev ? 'visible' : 'hidden'}
+          visibility={canPreviousPage ? 'visible' : 'hidden'}
           aria-label="prev-page"
           icon={<MdNavigateBefore size="20px" />}
-          onClick={handlePreviousPage}
+          onClick={previousPage}
           colorScheme="gray"
           isLoading={loading}
         />
         <Text fontFamily={'AACHENN'} textColor={green}>
-          {data?.allPayments?.page} de {data?.allPayments?.pages}
+          {pageIndex + 1} de {pageOptions.length}
         </Text>
         <CustomIconButton
-          visibility={data?.allPayments?.hasNext ? 'visible' : 'hidden'}
+          visibility={canNextPage ? 'visible' : 'hidden'}
           aria-label="next-page"
           icon={<MdNavigateNext size="20px" />}
-          onClick={handleNextPage}
+          onClick={nextPage}
           colorScheme="gray"
           isLoading={loading}
         />

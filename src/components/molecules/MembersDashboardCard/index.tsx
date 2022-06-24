@@ -7,7 +7,6 @@ import {
   StatGroup,
   StatLabel,
   StatNumber,
-  Text,
 } from '@chakra-ui/react';
 import { gql, useQuery } from '@apollo/client';
 
@@ -55,7 +54,6 @@ function MembersDashboardCard({}: MembersDashboardCardProps) {
           <Heading size="md" color={green}>
             ASSOCIAÇÕES
           </Heading>
-          <Text>Ativas</Text>
         </Box>
         {membershipPlans.data && (
           <AddMembershipDrawer
