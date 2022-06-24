@@ -69,12 +69,11 @@ export const CadastroDrawer = ({
   const router = useRouter();
   const { cadastro, after }: { cadastro?: string; after?: string } =
     router.query;
-  const { control, register, handleSubmit, setValue } =
-    useForm<CadastroInputsType>({
-      defaultValues: {
-        matricula: cadastro,
-      },
-    });
+  const { control, handleSubmit, setValue } = useForm<CadastroInputsType>({
+    defaultValues: {
+      matricula: cadastro,
+    },
+  });
   const [matricula, setMatricula] = React.useState('');
   const toast = useToast();
 
@@ -251,87 +250,146 @@ export const CadastroDrawer = ({
                   </FormControl>
                   <FormControl>
                     <FormLabel>Email: </FormLabel>
-                    <CustomInput
-                      type="email"
-                      focusBorderColor="green.500"
-                      required
-                      {...register('email')}
+                    <Controller
+                      name="email"
+                      control={control}
+                      rules={{
+                        required: true,
+                      }}
+                      render={({ field }) => (
+                        <CustomInput type="email" isRequired {...field} />
+                      )}
                     />
                   </FormControl>
                   <FormControl>
                     <FormLabel>Confirmar email: </FormLabel>
-                    <CustomInput
-                      type="email"
-                      focusBorderColor="green.500"
-                      required
-                      {...register('confirmEmail')}
+                    <Controller
+                      name="confirmEmail"
+                      control={control}
+                      rules={{
+                        required: true,
+                      }}
+                      render={({ field }) => (
+                        <CustomInput type="email" isRequired {...field} />
+                      )}
                     />
                   </FormControl>
                   <FormControl>
                     <FormLabel>Turma: </FormLabel>
-                    <Input
-                      as={InputMask as As<any>}
-                      mask="MED: 99"
-                      type="tel"
-                      focusBorderColor="green.500"
-                      {...register('turma')}
+                    <Controller
+                      name="turma"
+                      control={control}
+                      rules={{
+                        required: true,
+                      }}
+                      render={({ field }) => (
+                        <Input
+                          as={InputMask as As<any>}
+                          mask="MED: 99"
+                          type="tel"
+                          focusBorderColor="green.500"
+                          {...field}
+                        />
+                      )}
                     />
                   </FormControl>
                   <FormControl>
                     <FormLabel>Nome completo: </FormLabel>
-                    <CustomInput
-                      focusBorderColor="green.500"
-                      {...register('nome')}
+                    <Controller
+                      name="nome"
+                      control={control}
+                      rules={{
+                        required: true,
+                      }}
+                      render={({ field }) => <CustomInput {...field} />}
                     />
                   </FormControl>
                   <FormControl>
                     <FormLabel>Apelido: </FormLabel>
-                    <CustomInput
-                      focusBorderColor="green.500"
-                      {...register('apelido')}
+                    <Controller
+                      name="apelido"
+                      control={control}
+                      rules={{
+                        required: true,
+                      }}
+                      render={({ field }) => <CustomInput {...field} />}
                     />
                   </FormControl>
                   <FormControl>
                     <FormLabel>Data de nascimento: </FormLabel>
-                    <CustomInput
-                      type="date"
-                      focusBorderColor="green.500"
-                      {...register('dataNascimento')}
+                    <Controller
+                      name="dataNascimento"
+                      control={control}
+                      rules={{
+                        required: true,
+                      }}
+                      render={({ field }) => (
+                        <CustomInput type={'date'} {...field} />
+                      )}
                     />
                   </FormControl>
                   <FormControl>
                     <FormLabel>Whatsapp: </FormLabel>
-                    <Input
-                      as={InputMask as As<any>}
-                      mask="(99) 99999-9999"
-                      type="tel"
-                      focusBorderColor="green.500"
-                      {...register('whatsapp')}
+
+                    <Controller
+                      name="whatsapp"
+                      control={control}
+                      rules={{
+                        required: true,
+                      }}
+                      render={({ field }) => (
+                        <Input
+                          as={InputMask as As<any>}
+                          mask="(99) 99999-9999"
+                          type="tel"
+                          {...field}
+                        />
+                      )}
                     />
                   </FormControl>
                   <FormControl>
                     <FormLabel>CPF: </FormLabel>
-                    <Input
-                      as={InputMask as As<any>}
-                      mask="999.999.999-99"
-                      focusBorderColor="green.500"
-                      {...register('cpf')}
+
+                    <Controller
+                      name="cpf"
+                      control={control}
+                      rules={{
+                        required: true,
+                      }}
+                      render={({ field }) => (
+                        <Input
+                          as={InputMask as As<any>}
+                          mask="999.999.999-99"
+                          focusBorderColor="green.500"
+                          {...field}
+                        />
+                      )}
                     />
                   </FormControl>
                   <FormControl>
                     <FormLabel>RG: </FormLabel>
-                    <CustomInput
-                      focusBorderColor="green.500"
-                      {...register('rg')}
+
+                    <Controller
+                      name="rg"
+                      control={control}
+                      rules={{
+                        required: true,
+                      }}
+                      render={({ field }) => <CustomInput {...field} />}
                     />
                   </FormControl>
                   <FormControl>
                     <FormLabel>Foto: </FormLabel>
-                    <CustomInput
-                      focusBorderColor="green.500"
-                      {...register('avatar')}
-                      pt={1}
-                      type="file"
+
+                    <Controller
+                      name="avatar"
+                      control={control}
+                      rules={{
+                        required: true,
+                      }}
+                      render={({ field }) => (
+                        <CustomInput pt={1} type="file" {...field} />
+                      )}
                     />
                   </FormControl>
 

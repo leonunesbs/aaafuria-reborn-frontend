@@ -14,6 +14,7 @@ import {
   useClipboard,
   useToast,
 } from '@chakra-ui/react';
+import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import {
   CustomButton,
   CustomIconButton,
@@ -21,7 +22,6 @@ import {
   PageHeading,
 } from '@/components/atoms';
 import { MdCheck, MdFileCopy, MdSend } from 'react-icons/md';
-import { SubmitHandler, useForm } from 'react-hook-form';
 import { gql, useMutation } from '@apollo/client';
 import { useCallback, useContext, useEffect, useMemo, useState } from 'react';
 
@@ -113,7 +113,7 @@ function Intermed() {
   });
 
   const step1Form = useForm<Step1InputData>();
-  const { handleSubmit, register } = useForm<Step2InputData>();
+  const { handleSubmit, control } = useForm<Step2InputData>();
 
   const onSubmit: SubmitHandler<Step2InputData> = useCallback(
     async (data) => {
@@ -378,11 +378,21 @@ function Intermed() {
                         <FormLabel>
                           <Text>Comprovante de pagamento</Text>
                         </FormLabel>
-                        <CustomInput
-                          {...register('attachments')}
-                          pt={1}
-                          type={'file'}
-                          isRequired
+
+                        <Controller
+                          name="attachments"
+                          control={control}
+                          rules={{
+                            required: true,
+                          }}
+                          render={({ field }) => (
+                            <CustomInput
+                              pt={1}
+                              type={'file'}
+                              isRequired
+                              {...field}
+                            />
+                          )}
                         />
                       </FormControl>
                       <CustomButton

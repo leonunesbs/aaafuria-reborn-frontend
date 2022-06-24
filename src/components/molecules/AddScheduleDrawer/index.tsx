@@ -1,3 +1,4 @@
+import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import {
   CustomButton,
   CustomIconButton,
@@ -15,7 +16,6 @@ import {
   FormHelperText,
   FormLabel,
   HStack,
-  Input,
   InputGroup,
   InputLeftAddon,
   NumberDecrementStepper,
@@ -29,7 +29,6 @@ import {
   useToast,
 } from '@chakra-ui/react';
 import { MdAdd, MdSave } from 'react-icons/md';
-import { SubmitHandler, useForm } from 'react-hook-form';
 import { gql, useMutation, useQuery } from '@apollo/client';
 import { useCallback, useContext } from 'react';
 
@@ -102,7 +101,7 @@ function AddScheduleDrawer({ refetch, activityId }: AddScheduleDrawerProps) {
   const { token } = useContext(AuthContext);
   const { bg, green } = useContext(ColorContext);
   const { onOpen, isOpen, onClose } = useDisclosure();
-  const { handleSubmit, reset, register } = useForm<Inputs>();
+  const { handleSubmit, reset, register, control } = useForm<Inputs>();
 
   const { data } = useQuery<ActivitiesData>(ALL_ACTIVITIES, {
     context: {
@@ -122,6 +121,7 @@ function AddScheduleDrawer({ refetch, activityId }: AddScheduleDrawerProps) {
 
   const onSubmit: SubmitHandler<Inputs> = useCallback(
     async (data) => {
+      console.log(data);
       await createSchedule({
         variables: {
           ...data,
@@ -192,16 +192,32 @@ function AddScheduleDrawer({ refetch, activityId }: AddScheduleDrawerProps) {
                 </FormControl>
                 <FormControl isRequired>
                   <FormLabel htmlFor="location">Local: </FormLabel>
-                  <CustomInput isRequired {...register('location')} />
+                  <Controller
+                    name="location"
+                    control={control}
+                    render={({ field }) => (
+                      <CustomInput isRequired {...field} />
+                    )}
+                  />
                 </FormControl>
                 <FormControl isRequired>
                   <FormLabel htmlFor="description">Descrição: </FormLabel>
-                  <CustomInput isRequired {...register('description')} />
+                  <Controller
+                    name="description"
+                    control={control}
+                    render={({ field }) => (
+                      <CustomInput isRequired {...field} />
+                    )}
+                  />
                   <FormHelperText>ex.: Treino para o amistoso</FormHelperText>
                 </FormControl>
                 <FormControl>
                   <FormLabel htmlFor="tags">Tags: </FormLabel>
-                  <Input focusBorderColor={green} {...register('tags')} />
+                  <Controller
+                    name="tags"
+                    control={control}
+                    render={({ field }) => <CustomInput {...field} />}
+                  />
                   <FormHelperText>ex.: feminino, amistoso</FormHelperText>
                   <FormHelperText>
                     obs.: Separe os valores por vírgula
@@ -211,10 +227,16 @@ function AddScheduleDrawer({ refetch, activityId }: AddScheduleDrawerProps) {
                 <Stack direction={['column', 'row']}>
                   <FormControl isRequired>
                     <FormLabel htmlFor="startDate">Início: </FormLabel>
-                    <CustomInput
-                      isRequired
-                      type={'datetime-local'}
-                      {...register('startDate')}
+                    <Controller
+                      name="startDate"
+                      control={control}
+                      render={({ field }) => (
+                        <CustomInput
+                          isRequired
+                          type={'datetime-local'}
+                          {...field}
+                        />
+                      )}
                     />
                     <FormHelperText>
                       Data e hora de início da atividade
@@ -222,10 +244,13 @@ function AddScheduleDrawer({ refetch, activityId }: AddScheduleDrawerProps) {
                   </FormControl>
                   <FormControl>
                     <FormLabel htmlFor="endDate">Fim: </FormLabel>
-                    <CustomInput
-                      isRequired
-                      type={'datetime-local'}
-                      {...register('endDate')}
+
+                    <Controller
+                      name="endDate"
+                      control={control}
+                      render={({ field }) => (
+                        <CustomInput type={'datetime-local'} {...field} />
+                      )}
                     />
                     <FormHelperText>
                       Data e hora de fim da atividade (opcional)
@@ -238,48 +263,69 @@ function AddScheduleDrawer({ refetch, activityId }: AddScheduleDrawerProps) {
                     <FormLabel htmlFor="minParticipants">
                       Mínimo de participantes:
                     </FormLabel>
-                    <NumberInput focusBorderColor={green} min={1}>
-                      <NumberInputField
-                        required
-                        {...register('minParticipants')}
-                      />
-                      <NumberInputStepper>
-                        <NumberIncrementStepper />
-                        <NumberDecrementStepper />
-                      </NumberInputStepper>
-                    </NumberInput>
+                    <Controller
+                      name="minParticipants"
+                      control={control}
+                      render={({ field }) => (
+                        <NumberInput
+                          focusBorderColor={green}
+                          rounded="3xl"
+                          min={1}
+                        >
+                          <NumberInputField required {...field} />
+                          <NumberInputStepper>
+                            <NumberIncrementStepper />
+                            <NumberDecrementStepper />
+                          </NumberInputStepper>
+                        </NumberInput>
+                      )}
+                    />
                   </FormControl>
                   <FormControl isRequired>
                     <FormLabel htmlFor="maxParticipants">
                       Participantes esperados:
                     </FormLabel>
-                    <NumberInput focusBorderColor={green} min={1}>
-                      <NumberInputField
-                        required
-                        {...register('maxParticipants')}
-                      />
-                      <NumberInputStepper>
-                        <NumberIncrementStepper />
-                        <NumberDecrementStepper />
-                      </NumberInputStepper>
-                    </NumberInput>
+                    <Controller
+                      name="maxParticipants"
+                      control={control}
+                      render={({ field }) => (
+                        <NumberInput
+                          focusBorderColor={green}
+                          rounded="3xl"
+                          min={1}
+                        >
+                          <NumberInputField required {...field} />
+                          <NumberInputStepper>
+                            <NumberIncrementStepper />
+                            <NumberDecrementStepper />
+                          </NumberInputStepper>
+                        </NumberInput>
+                      )}
+                    />
                   </FormControl>
                 </HStack>
                 <FormControl>
                   <FormLabel htmlFor="cost">Custo esperado: </FormLabel>
-                  <NumberInput focusBorderColor={green} min={0} precision={2}>
-                    <InputGroup>
-                      <InputLeftAddon>R$</InputLeftAddon>
-                      <NumberInputField
-                        borderLeftRadius={0}
-                        {...register('cost')}
-                      />
-                    </InputGroup>
-                    <NumberInputStepper>
-                      <NumberIncrementStepper />
-                      <NumberDecrementStepper />
-                    </NumberInputStepper>
-                  </NumberInput>
+                  <Controller
+                    name="cost"
+                    control={control}
+                    render={({ field }) => (
+                      <NumberInput
+                        focusBorderColor={green}
+                        min={0}
+                        precision={2}
+                      >
+                        <InputGroup>
+                          <InputLeftAddon>R$</InputLeftAddon>
+                          <NumberInputField borderLeftRadius={0} {...field} />
+                        </InputGroup>
+                        <NumberInputStepper>
+                          <NumberIncrementStepper />
+                          <NumberDecrementStepper />
+                        </NumberInputStepper>
+                      </NumberInput>
+                    )}
+                  />
                 </FormControl>
               </Stack>
             </DrawerBody>

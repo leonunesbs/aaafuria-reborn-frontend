@@ -11,6 +11,7 @@ import {
   Stack,
   Text,
 } from '@chakra-ui/react';
+import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import {
   CustomButton,
   CustomIconButton,
@@ -19,7 +20,6 @@ import {
   VoltarButton,
 } from '@/components/atoms';
 import { MdSend, MdShoppingCart } from 'react-icons/md';
-import { SubmitHandler, useForm } from 'react-hook-form';
 import { gql, useQuery } from '@apollo/client';
 import { useCallback, useContext, useState } from 'react';
 
@@ -102,7 +102,7 @@ function Loja() {
     null,
   );
 
-  const { handleSubmit, register } = useForm<{
+  const { handleSubmit, control } = useForm<{
     registration: string;
   }>();
 
@@ -156,11 +156,14 @@ function Loja() {
                   </Text>
                 </FormLabel>
                 <InputGroup maxW="2xs" size={'sm'}>
-                  <CustomInput
-                    placeholder="Matrícula"
-                    rounded="md"
-                    {...register('registration')}
+                  <Controller
+                    name="registraion"
+                    control={control}
+                    render={({ field }) => (
+                      <CustomInput placeholder="Matrícula" {...field} />
+                    )}
                   />
+
                   <InputRightElement>
                     <CustomIconButton
                       type="submit"

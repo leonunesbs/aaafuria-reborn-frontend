@@ -1,3 +1,4 @@
+import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import {
   Drawer,
   DrawerBody,
@@ -11,7 +12,6 @@ import {
   useToast,
 } from '@chakra-ui/react';
 import { MdReply, MdSend } from 'react-icons/md';
-import { SubmitHandler, useForm } from 'react-hook-form';
 import { gql, useMutation } from '@apollo/client';
 import { useCallback, useContext, useRef } from 'react';
 
@@ -46,7 +46,7 @@ export const CreateComment = ({
   const { onOpen, onClose, isOpen } = useDisclosure();
   const btnRef = useRef<HTMLButtonElement>(null);
 
-  const { register, handleSubmit, reset } = useForm<Inputs>();
+  const { register, control, handleSubmit, reset } = useForm<Inputs>();
   const [createComment, { loading: createCommentLoading }] = useMutation(
     CREATE_COMMENT,
     {
@@ -103,11 +103,18 @@ export const CreateComment = ({
             <DrawerCloseButton />
             <DrawerHeader>Adicionar comentário</DrawerHeader>
             <DrawerBody>
-              <Textarea
-                placeholder="Digite aqui um comentário..."
-                focusBorderColor={green}
-                autoFocus
-                {...register('description')}
+              <Controller
+                name="description"
+                control={control}
+                render={({ field }) => (
+                  <Textarea
+                    placeholder="Digite aqui um comentário..."
+                    focusBorderColor={green}
+                    autoFocus
+                    isRequired
+                    {...field}
+                  />
+                )}
               />
             </DrawerBody>
 

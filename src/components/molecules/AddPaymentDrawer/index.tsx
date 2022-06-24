@@ -94,7 +94,6 @@ function AddPaymentDrawer({}: AddPaymentDrawerProps) {
   const {
     control,
     handleSubmit,
-    register,
     reset,
     getValues,
     setError,
@@ -178,16 +177,24 @@ function AddPaymentDrawer({}: AddPaymentDrawerProps) {
                 <FormControl isRequired>
                   <FormLabel>Matrícula: </FormLabel>
                   <InputGroup size="md">
-                    <CustomInput
-                      {...register('registration', {
+                    <Controller
+                      name="registration"
+                      control={control}
+                      rules={{
                         onChange: () => clearErrors('registration'),
-                      })}
-                      autoFocus
-                      pr="4.5rem"
-                      isRequired
-                      isDisabled={registrationChecked}
-                      isInvalid={!!errors.registration}
+                      }}
+                      render={({ field }) => (
+                        <CustomInput
+                          autoFocus
+                          pr="4.5rem"
+                          isRequired
+                          isDisabled={registrationChecked}
+                          isInvalid={!!errors.registration}
+                          {...field}
+                        />
+                      )}
                     />
+
                     <InputRightElement width="4.5rem">
                       {!registrationChecked ? (
                         <CustomButton
@@ -227,16 +234,23 @@ function AddPaymentDrawer({}: AddPaymentDrawerProps) {
                       <InputLeftAddon>
                         <Text fontSize="sm">R$</Text>
                       </InputLeftAddon>
-                      <CustomInput
-                        {...register('amount', {
+                      <Controller
+                        name="amount"
+                        control={control}
+                        rules={{
                           required: true,
                           validate: (value) =>
                             value > 0 ? undefined : 'Valor inválido',
-                        })}
-                        type="number"
-                        step="0.1"
-                        min="0"
-                        isRequired
+                        }}
+                        render={({ field }) => (
+                          <CustomInput
+                            type="number"
+                            step="0.1"
+                            min="0"
+                            isRequired
+                            {...field}
+                          />
+                        )}
                       />
                     </InputGroup>
                     <FormHelperText>
@@ -245,10 +259,15 @@ function AddPaymentDrawer({}: AddPaymentDrawerProps) {
                   </FormControl>
                   <FormControl isRequired>
                     <FormLabel>Descrição: </FormLabel>
-                    <CustomInput
-                      {...register('description')}
-                      type="text"
-                      isRequired
+                    <Controller
+                      name="description"
+                      control={control}
+                      rules={{
+                        required: true,
+                      }}
+                      render={({ field }) => (
+                        <CustomInput type="text" isRequired {...field} />
+                      )}
                     />
                   </FormControl>
                   <Controller

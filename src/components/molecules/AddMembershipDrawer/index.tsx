@@ -111,7 +111,6 @@ function AddMembershipDrawer({ membershipPlans }: AddMembershipDrawerProps) {
   const {
     control,
     handleSubmit,
-    register,
     reset,
     getValues,
     setError,
@@ -179,16 +178,24 @@ function AddMembershipDrawer({ membershipPlans }: AddMembershipDrawerProps) {
                 <FormControl isRequired>
                   <FormLabel>Matrícula: </FormLabel>
                   <InputGroup size="md">
-                    <CustomInput
-                      {...register('registration', {
+                    <Controller
+                      name="registration"
+                      control={control}
+                      rules={{
                         onChange: () => clearErrors('registration'),
-                      })}
-                      autoFocus
-                      pr="4.5rem"
-                      isRequired
-                      isDisabled={registrationChecked}
-                      isInvalid={!!errors.registration}
+                      }}
+                      render={({ field }) => (
+                        <CustomInput
+                          autoFocus
+                          pr="4.5rem"
+                          isRequired
+                          isDisabled={registrationChecked}
+                          isInvalid={!!errors.registration}
+                          {...field}
+                        />
+                      )}
                     />
+
                     <InputRightElement width="4.5rem">
                       {!registrationChecked ? (
                         <CustomButton
