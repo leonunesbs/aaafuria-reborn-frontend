@@ -157,7 +157,7 @@ function Loja() {
                 </FormLabel>
                 <InputGroup maxW="2xs" size={'sm'}>
                   <Controller
-                    name="registraion"
+                    name="registration"
                     control={control}
                     render={({ field }) => (
                       <CustomInput placeholder="Matrícula" {...field} />
