@@ -1,3 +1,5 @@
+import 'regenerator-runtime/runtime';
+
 import * as gtag from 'lib/gtag';
 
 import { Analytics, Fonts } from '@/components/atoms';
