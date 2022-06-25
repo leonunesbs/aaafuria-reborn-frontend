@@ -207,209 +207,207 @@ function Intermed() {
       title="VI INTERMED NE"
       desc="O VI INTERMED NORDESTE está chegando e você não pode perder a chance de curtir a Terra da Luz junto com a Fúria. Em outubro, vamos invadir Fortaleza!"
     >
-      <Box maxW="4xl" mx="auto">
-        <PageHeading>VI Intermed Nordeste</PageHeading>
-        <SimpleGrid columns={1} spacing={2}>
-          <Card>
-            <Stack>
-              <Heading size="md" as="h2" my={4}>
-                COMPLETE A SUA INSCRIÇÃO
-              </Heading>
-              <form
-                onSubmit={step1Form.handleSubmit(handleCreateIntermedProfile)}
-              >
-                <Stack>
-                  <FormControl isRequired>
-                    <FormLabel>Foto de rosto: </FormLabel>
-                    <CustomInput
-                      {...step1Form.register('avatar')}
-                      pt={1}
-                      type="file"
-                      isRequired
-                    />
-                    <FormHelperText>
-                      Foto de frente, sem boné ou óculos escuro e em ambiente
-                      bem iluminado
-                    </FormHelperText>
-                  </FormControl>
-                  <FormControl isRequired>
-                    <FormLabel>Comprovante de vacinação: </FormLabel>
-                    <CustomInput
-                      {...step1Form.register('vaccineCard')}
-                      pt={1}
-                      type="file"
-                      isRequired
-                    />
-                    <FormHelperText>
-                      Mínimo de 03 doses, de acordo com as regras sanitárias
-                      locais.
-                    </FormHelperText>
-                  </FormControl>
-                  <FormControl isRequired>
-                    <FormLabel>Comprovante de matrícula: </FormLabel>
-                    <CustomInput
-                      {...step1Form.register('enroll')}
-                      pt={1}
-                      type="file"
-                      isRequired
-                    />
-                  </FormControl>
-                  <Card>
-                    <Text>OBSERVAÇÕES IMPORTANTES:</Text>
-                    <UnorderedList>
-                      <ListItem>
-                        EM CASO DE ADIAMENTO DO EVENTO, POR CAUSA DA PANDEMIA, A
-                        INSCRIÇÃO SERÁ ADIADA PARA O PRÓXIMO EVENTO DE
-                        ORGANIZAÇÃO DA LINE.
-                      </ListItem>
-                      <ListItem>
-                        PARA COMPARECER AO O EVENTO, O PARTICIPANTE DEVE TER
-                        COMPROVANTE COM 3 DOSES DE VACINA PARA COVID-19. ALÉM
-                        DISSO, NÃO PODE APRESENTAR SINTOMAS, COMO FEBRE E TOSSE
-                        NAS ULTIMAS 24H.
-                      </ListItem>
-                      <ListItem>
-                        A ATLÉTICA ORGANIZADORA PREZA PELO BEM ESTAR DOS
-                        PARTICIPANTES DO EVENTO, COM TOLERÂNCIA ZERO PARA
-                        AGRESSÕES FÍSICAS, QUALQUER MANIFESTAÇÃO DE RACISMO,
-                        HOMOFOBIA OU QUALQUER OUTRO TIPO DE PRECONCEITO, SENDO O
-                        ATUANTE PUNIDO COM EXPULSÃO DO EVENTO E A ATLÉTICA PELÁ
-                        QUAL O MESMO ESTAR INSCRITO PASSÍVEL DE PUNIÇÃO.
-                      </ListItem>
-                      <ListItem>
-                        AO CONFIRMAR SUA INSCRIÇÃO VOCÊ ESTAR DE ACORDO COM OS
-                        TERMOS ACIMA.
-                      </ListItem>
-                    </UnorderedList>
-                  </Card>
-                  <CustomButton
-                    type="submit"
-                    isLoading={createIntermedProfileLoading}
-                  >
-                    Enviar
-                  </CustomButton>
-                </Stack>
-              </form>
-            </Stack>
-          </Card>
-
-          <Card>
-            <Heading size="md" as="h2" my={4} mb={10}>
-              EFETUE O PAGAMENTO
+      <PageHeading>VI Intermed Nordeste</PageHeading>
+      <SimpleGrid columns={1} spacing={2}>
+        <Card>
+          <Stack>
+            <Heading size="md" as="h2" my={4}>
+              COMPLETE A SUA INSCRIÇÃO
             </Heading>
-            <Center mb={4}>
-              <Box rounded="md" overflow={'hidden'}>
-                <Image
-                  src={'/lote-intermed.jpg'}
-                  height="500px"
-                  width="400px"
-                  alt={'lote-intermed'}
-                />
-              </Box>
-            </Center>
-            <Stack>
-              <form onSubmit={handleSubmit(onSubmit)}>
-                <Stack>
-                  <Box>
-                    <HStack justify={'space-between'}>
-                      <Text>Categoria: </Text>
-                      <Text textAlign={'right'}>
-                        {user?.member.firstTeamer ? (
-                          'Atleta / Ritmista'
-                        ) : user?.member.hasActiveMembership &&
-                          user.member.activeMembership?.membershipPlan.title !==
-                            'MENSAL' ? (
-                          'Sócio'
-                        ) : (
-                          <Stack align={'flex-end'}>
-                            <CustomButton
-                              size="sm"
-                              maxW="80px"
-                              onClick={() => router.push('/sejasocio')}
-                            >
-                              Seja sócio
-                            </CustomButton>
-                            <Text>Não sócio / Sócio mensal</Text>
-                          </Stack>
-                        )}
-                      </Text>
-                    </HStack>
-                    <HStack justify={'space-between'}>
-                      <Text>Total: </Text>
-                      <Text
-                        fontWeight={'bold'}
-                        fontSize="2xl"
-                        textAlign={'right'}
-                      >
-                        R$
-                        {user?.member.firstTeamer
-                          ? price.atletaOuRitmista
-                          : user?.member.hasActiveMembership &&
-                            user.member.activeMembership?.membershipPlan
-                              .title !== 'MENSAL'
-                          ? price.socio
-                          : price.naoSocio}
-                      </Text>
-                    </HStack>
-                  </Box>
-                  <Card px={4}>
-                    <Stack>
-                      <FormControl>
-                        <FormLabel>
-                          <Text>Chave PIX</Text>
-                        </FormLabel>
-                        <HStack>
-                          <CustomInput value={value} isReadOnly />
-                          <CustomIconButton
-                            onClick={onCopy}
-                            ml={2}
-                            icon={
-                              hasCopied ? (
-                                <MdCheck size="20px" />
-                              ) : (
-                                <MdFileCopy size="20px" />
-                              )
-                            }
-                            aria-label="Copiar"
-                          />
-                        </HStack>
-                      </FormControl>
-                      <FormControl>
-                        <FormLabel>
-                          <Text>Comprovante de pagamento</Text>
-                        </FormLabel>
+            <form
+              onSubmit={step1Form.handleSubmit(handleCreateIntermedProfile)}
+            >
+              <Stack>
+                <FormControl isRequired>
+                  <FormLabel>Foto de rosto: </FormLabel>
+                  <CustomInput
+                    {...step1Form.register('avatar')}
+                    pt={1}
+                    type="file"
+                    isRequired
+                  />
+                  <FormHelperText>
+                    Foto de frente, sem boné ou óculos escuro e em ambiente bem
+                    iluminado
+                  </FormHelperText>
+                </FormControl>
+                <FormControl isRequired>
+                  <FormLabel>Comprovante de vacinação: </FormLabel>
+                  <CustomInput
+                    {...step1Form.register('vaccineCard')}
+                    pt={1}
+                    type="file"
+                    isRequired
+                  />
+                  <FormHelperText>
+                    Mínimo de 03 doses, de acordo com as regras sanitárias
+                    locais.
+                  </FormHelperText>
+                </FormControl>
+                <FormControl isRequired>
+                  <FormLabel>Comprovante de matrícula: </FormLabel>
+                  <CustomInput
+                    {...step1Form.register('enroll')}
+                    pt={1}
+                    type="file"
+                    isRequired
+                  />
+                </FormControl>
+                <Card>
+                  <Text>OBSERVAÇÕES IMPORTANTES:</Text>
+                  <UnorderedList>
+                    <ListItem>
+                      EM CASO DE ADIAMENTO DO EVENTO, POR CAUSA DA PANDEMIA, A
+                      INSCRIÇÃO SERÁ ADIADA PARA O PRÓXIMO EVENTO DE ORGANIZAÇÃO
+                      DA LINE.
+                    </ListItem>
+                    <ListItem>
+                      PARA COMPARECER AO O EVENTO, O PARTICIPANTE DEVE TER
+                      COMPROVANTE COM 3 DOSES DE VACINA PARA COVID-19. ALÉM
+                      DISSO, NÃO PODE APRESENTAR SINTOMAS, COMO FEBRE E TOSSE
+                      NAS ULTIMAS 24H.
+                    </ListItem>
+                    <ListItem>
+                      A ATLÉTICA ORGANIZADORA PREZA PELO BEM ESTAR DOS
+                      PARTICIPANTES DO EVENTO, COM TOLERÂNCIA ZERO PARA
+                      AGRESSÕES FÍSICAS, QUALQUER MANIFESTAÇÃO DE RACISMO,
+                      HOMOFOBIA OU QUALQUER OUTRO TIPO DE PRECONCEITO, SENDO O
+                      ATUANTE PUNIDO COM EXPULSÃO DO EVENTO E A ATLÉTICA PELÁ
+                      QUAL O MESMO ESTAR INSCRITO PASSÍVEL DE PUNIÇÃO.
+                    </ListItem>
+                    <ListItem>
+                      AO CONFIRMAR SUA INSCRIÇÃO VOCÊ ESTAR DE ACORDO COM OS
+                      TERMOS ACIMA.
+                    </ListItem>
+                  </UnorderedList>
+                </Card>
+                <CustomButton
+                  type="submit"
+                  isLoading={createIntermedProfileLoading}
+                >
+                  Enviar
+                </CustomButton>
+              </Stack>
+            </form>
+          </Stack>
+        </Card>
 
-                        <Controller
-                          name="attachments"
-                          control={control}
-                          rules={{
-                            required: true,
-                          }}
-                          render={({ field }) => (
-                            <CustomInput
-                              pt={1}
-                              type={'file'}
-                              isRequired
-                              {...field}
-                            />
-                          )}
+        <Card>
+          <Heading size="md" as="h2" my={4} mb={10}>
+            EFETUE O PAGAMENTO
+          </Heading>
+          <Center mb={4}>
+            <Box rounded="md" overflow={'hidden'}>
+              <Image
+                src={'/lote-intermed.jpg'}
+                height="500px"
+                width="400px"
+                alt={'lote-intermed'}
+              />
+            </Box>
+          </Center>
+          <Stack>
+            <form onSubmit={handleSubmit(onSubmit)}>
+              <Stack>
+                <Box>
+                  <HStack justify={'space-between'}>
+                    <Text>Categoria: </Text>
+                    <Text textAlign={'right'}>
+                      {user?.member.firstTeamer ? (
+                        'Atleta / Ritmista'
+                      ) : user?.member.hasActiveMembership &&
+                        user.member.activeMembership?.membershipPlan.title !==
+                          'MENSAL' ? (
+                        'Sócio'
+                      ) : (
+                        <Stack align={'flex-end'}>
+                          <CustomButton
+                            size="sm"
+                            maxW="80px"
+                            onClick={() => router.push('/sejasocio')}
+                          >
+                            Seja sócio
+                          </CustomButton>
+                          <Text>Não sócio / Sócio mensal</Text>
+                        </Stack>
+                      )}
+                    </Text>
+                  </HStack>
+                  <HStack justify={'space-between'}>
+                    <Text>Total: </Text>
+                    <Text
+                      fontWeight={'bold'}
+                      fontSize="2xl"
+                      textAlign={'right'}
+                    >
+                      R$
+                      {user?.member.firstTeamer
+                        ? price.atletaOuRitmista
+                        : user?.member.hasActiveMembership &&
+                          user.member.activeMembership?.membershipPlan.title !==
+                            'MENSAL'
+                        ? price.socio
+                        : price.naoSocio}
+                    </Text>
+                  </HStack>
+                </Box>
+                <Card px={4}>
+                  <Stack>
+                    <FormControl>
+                      <FormLabel>
+                        <Text>Chave PIX</Text>
+                      </FormLabel>
+                      <HStack>
+                        <CustomInput value={value} isReadOnly />
+                        <CustomIconButton
+                          onClick={onCopy}
+                          ml={2}
+                          icon={
+                            hasCopied ? (
+                              <MdCheck size="20px" />
+                            ) : (
+                              <MdFileCopy size="20px" />
+                            )
+                          }
+                          aria-label="Copiar"
                         />
-                      </FormControl>
-                      <CustomButton
-                        leftIcon={<MdSend size="20px" />}
-                        type="submit"
-                        isLoading={loading}
-                      >
-                        Enviar inscrição
-                      </CustomButton>
-                    </Stack>
-                  </Card>
-                </Stack>
-              </form>
-            </Stack>
-          </Card>
-        </SimpleGrid>
-      </Box>
+                      </HStack>
+                    </FormControl>
+                    <FormControl>
+                      <FormLabel>
+                        <Text>Comprovante de pagamento</Text>
+                      </FormLabel>
+
+                      <Controller
+                        name="attachments"
+                        control={control}
+                        rules={{
+                          required: true,
+                        }}
+                        render={({ field }) => (
+                          <CustomInput
+                            pt={1}
+                            type={'file'}
+                            isRequired
+                            {...field}
+                          />
+                        )}
+                      />
+                    </FormControl>
+                    <CustomButton
+                      leftIcon={<MdSend size="20px" />}
+                      type="submit"
+                      isLoading={loading}
+                    >
+                      Enviar inscrição
+                    </CustomButton>
+                  </Stack>
+                </Card>
+              </Stack>
+            </form>
+          </Stack>
+        </Card>
+      </SimpleGrid>
     </Layout>
   );
 }

@@ -1,5 +1,15 @@
 import { BsChevronCompactDown, BsChevronCompactUp } from 'react-icons/bs';
-import { Column, usePagination, useSortBy, useTable } from 'react-table';
+import {
+  Column,
+  FilterTypes,
+  useAsyncDebounce,
+  useFilters,
+  useGlobalFilter,
+  usePagination,
+  useSortBy,
+  useTable,
+} from 'react-table';
+import { CustomIconButton, CustomInput } from '@/components/atoms';
 import {
   HStack,
   Icon,
@@ -16,11 +26,10 @@ import {
 import { HiCheckCircle, HiXCircle } from 'react-icons/hi';
 import { MdNavigateBefore, MdNavigateNext } from 'react-icons/md';
 import { gql, useQuery } from '@apollo/client';
-import { useContext, useMemo } from 'react';
+import { useContext, useMemo, useState } from 'react';
 
 import { AuthContext } from '@/contexts/AuthContext';
 import { ColorContext } from '@/contexts/ColorContext';
-import { CustomIconButton } from '@/components/atoms';
 
 const ALL_MEMBERS = gql`
   query allMembers {
@@ -63,6 +72,52 @@ type MemberData = {
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface MembersTableProps {}
 
+// Define a default UI for filtering
+function GlobalFilter({
+  preGlobalFilteredRows,
+  globalFilter,
+  setGlobalFilter,
+}: any) {
+  const count = preGlobalFilteredRows.length;
+  const [value, setValue] = useState(globalFilter);
+  const onChange = useAsyncDebounce((value) => {
+    setGlobalFilter(value || undefined);
+  }, 200);
+
+  return (
+    <Text>
+      Buscar:{' '}
+      <CustomInput
+        size="sm"
+        maxW="xs"
+        value={value || ''}
+        onChange={(e) => {
+          setValue(e.target.value);
+          onChange(e.target.value);
+        }}
+        placeholder={`${count} mebros...`}
+      />
+    </Text>
+  );
+}
+
+// Define a default UI for filtering
+function DefaultColumnFilter({
+  column: { filterValue, preFilteredRows, setFilter },
+}: any) {
+  const count = preFilteredRows.length;
+
+  return (
+    <CustomInput
+      value={filterValue || ''}
+      onChange={(e) => {
+        setFilter(e.target.value || undefined); // Set undefined to remove the filter entirely
+      }}
+      placeholder={`Buscar ${count} membros...`}
+    />
+  );
+}
+
 function MembersTable({}: MembersTableProps) {
   const { token } = useContext(AuthContext);
   const { green } = useContext(ColorContext);
@@ -80,6 +135,31 @@ function MembersTable({}: MembersTableProps) {
     }
     return data?.allMembers || [];
   }, [data, loading]);
+
+  const filterTypes: FilterTypes<Member> = useMemo(
+    () => ({
+      text: (rows, id, filterValue) => {
+        return rows.filter((row) => {
+          const rowValue = row.values[id as any];
+          return rowValue !== undefined
+            ? String(rowValue)
+                .toLowerCase()
+                .startsWith(String(filterValue).toLowerCase())
+            : true;
+        });
+      },
+    }),
+    [],
+  );
+
+  const defaultColumn = useMemo(
+    () => ({
+      // Let's set up our default Filter UI
+      Filter: DefaultColumnFilter,
+    }),
+    [],
+  );
+
   const tableColumns: Column<Member>[] = useMemo(
     () =>
       [
@@ -139,6 +219,13 @@ function MembersTable({}: MembersTableProps) {
     previousPage,
     // end Pagination
 
+    // start Filters
+    state,
+    visibleColumns,
+    preGlobalFilteredRows,
+    setGlobalFilter,
+    // end Filters
+
     state: { pageIndex },
   } = useTable(
     {
@@ -147,7 +234,11 @@ function MembersTable({}: MembersTableProps) {
       initialState: {
         pageSize: 20,
       },
+      defaultColumn,
+      filterTypes,
     },
+    useGlobalFilter,
+    useFilters,
     useSortBy,
     usePagination,
   );
@@ -156,6 +247,20 @@ function MembersTable({}: MembersTableProps) {
       <TableContainer>
         <Table {...getTableProps()} size={'sm'} variant="simple">
           <Thead>
+            <Tr>
+              <Th
+                colSpan={visibleColumns.length}
+                style={{
+                  textAlign: 'left',
+                }}
+              >
+                <GlobalFilter
+                  preGlobalFilteredRows={preGlobalFilteredRows}
+                  globalFilter={state.globalFilter}
+                  setGlobalFilter={setGlobalFilter}
+                />
+              </Th>
+            </Tr>
             {headerGroups.map((headerGroup) => (
               <Tr {...headerGroup.getHeaderGroupProps()} key={headerGroup.id}>
                 {headerGroup.headers.map((column) => (

@@ -1,5 +1,6 @@
 import {
   Badge,
+  Box,
   Collapse,
   Drawer,
   DrawerBody,
@@ -62,6 +63,7 @@ const GET_MEMBER = gql`
       id
       name
       group
+      hasActiveMembership
     }
   }
 `;
@@ -71,6 +73,7 @@ type MemberByRegistrationData = {
     id: string;
     name: string;
     group: string;
+    hasActiveMembership: boolean;
   };
 };
 
@@ -217,21 +220,23 @@ function AddPaymentDrawer({}: AddPaymentDrawerProps) {
                   </InputGroup>
                 </FormControl>
                 <Collapse in={registrationChecked}>
-                  <Card m={4} textAlign="center">
-                    <Text>{memberData?.memberByRegistration?.name}</Text>
-                    <Text>
-                      <Badge ml={2}>
-                        {memberData?.memberByRegistration?.group}
-                      </Badge>
-                    </Text>
-                  </Card>
+                  <Box p={2}>
+                    <Card textAlign="center">
+                      <Text>{memberData?.memberByRegistration?.name}</Text>
+                      {memberData?.memberByRegistration?.hasActiveMembership ? (
+                        <Badge colorScheme={'green'}>SÓCIO ATIVO</Badge>
+                      ) : (
+                        <Badge colorScheme={'red'}>SÓCIO INATIVO</Badge>
+                      )}
+                    </Card>
+                  </Box>
                 </Collapse>
                 <Stack>
                   <FormControl isRequired>
                     <FormLabel>Valor: </FormLabel>
 
                     <InputGroup>
-                      <InputLeftAddon>
+                      <InputLeftAddon borderLeftRadius={'3xl'}>
                         <Text fontSize="sm">R$</Text>
                       </InputLeftAddon>
                       <Controller
@@ -244,6 +249,7 @@ function AddPaymentDrawer({}: AddPaymentDrawerProps) {
                         }}
                         render={({ field }) => (
                           <CustomInput
+                            borderLeftRadius={0}
                             type="number"
                             step="0.1"
                             min="0"
