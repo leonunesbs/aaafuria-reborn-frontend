@@ -30,7 +30,7 @@ function SejaSocio() {
 
   return (
     <Layout
-      title="Seja sócio"
+      title="Seja Sócio"
       desc="Junte-se à Fúria, escolha o plano de associação que melhor se encaixa com você! Aproveite agora o desconto na primeira associação seja Sócio e aproveite nossos treinos, ensaios, produtos, eventos e muito mais!"
     >
       <PageHeading>
