@@ -550,7 +550,7 @@ function Payment() {
                       await confirmPayment({
                         variables: {
                           paymentId: data?.payment?.id,
-                          description: 'Pagamento confirmado manualmente.',
+                          description: data?.payment.description,
                         },
                       }).then(({ errors }) => {
                         if (errors) {
@@ -571,7 +571,7 @@ function Payment() {
                       await cancelPayment({
                         variables: {
                           paymentId: data?.payment?.id,
-                          description: 'Pagamento cancelado manualmente.',
+                          description: data?.payment.description,
                         },
                       }).then(() => {
                         refetch();
