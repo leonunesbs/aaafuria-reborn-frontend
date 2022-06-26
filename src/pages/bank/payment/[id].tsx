@@ -8,6 +8,7 @@ import {
   FormLabel,
   HStack,
   Heading,
+  Input,
   Stack,
   Table,
   TableContainer,
@@ -22,7 +23,6 @@ import {
 } from '@chakra-ui/react';
 import {
   CustomButton,
-  CustomInput,
   PageHeading,
   PaymentInstructions,
 } from '@/components/atoms';
@@ -33,6 +33,7 @@ import { useCallback, useContext } from 'react';
 
 import { AuthContext } from '@/contexts/AuthContext';
 import { Card } from '@/components/molecules';
+import { ColorContext } from '@/contexts/ColorContext';
 import { CustomIconButton } from '@/components/atoms/CustomIconButton';
 import { GetServerSideProps } from 'next';
 import { Layout } from '@/components/templates';
@@ -151,6 +152,7 @@ type AttachmentForm = {
 function Payment() {
   const toast = useToast();
   const router = useRouter();
+  const { green } = useContext(ColorContext);
   const { token, user } = useContext(AuthContext);
   const { onToggle: toggleAttach, isOpen: attachOpen } = useDisclosure();
   const { id } = router.query;
@@ -466,18 +468,22 @@ function Payment() {
                     <Stack direction={['column', 'row']}>
                       <FormControl isRequired>
                         <FormLabel fontSize={'sm'}>Título</FormLabel>
-                        <CustomInput
+                        <Input
                           {...attachmentForm.register('title')}
                           placeholder="Título do anexo"
                           isRequired
+                          rounded="3xl"
+                          focusBorderColor={green}
                         />
                       </FormControl>
                       <FormControl isRequired>
                         <FormLabel fontSize={'sm'}>Anexo</FormLabel>
-                        <CustomInput
+                        <Input
                           {...attachmentForm.register('file')}
                           isRequired
                           type="file"
+                          rounded="3xl"
+                          focusBorderColor={green}
                           pt={1}
                         />
                       </FormControl>

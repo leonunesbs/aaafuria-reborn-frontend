@@ -4,18 +4,19 @@ import {
   HStack,
   Heading,
   Image,
+  Input,
   Select,
   Stack,
   Text,
   useToast,
 } from '@chakra-ui/react';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
-import { CustomButton, CustomInput } from '@/components/atoms';
 import { gql, useMutation } from '@apollo/client';
 import { useCallback, useContext, useState } from 'react';
 
 import { Card } from '@/components/molecules';
 import { ColorContext } from '@/contexts/ColorContext';
+import { CustomButton } from '@/components/atoms';
 import { MdShoppingCart } from 'react-icons/md';
 import { ProdutoType } from '../../organisms/LojaPlantao';
 import { parseCookies } from 'nookies';
@@ -183,9 +184,11 @@ export const ProdutoPlantaoCard = ({
                       required: true,
                     }}
                     render={({ field }) => (
-                      <CustomInput
+                      <Input
                         isRequired
                         placeholder="Observações"
+                        rounded="3xl"
+                        focusBorderColor={green}
                         {...field}
                       />
                     )}

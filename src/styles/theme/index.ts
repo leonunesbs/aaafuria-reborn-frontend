@@ -1,4 +1,4 @@
-import { Button, Form } from '@/styles/theme/components';
+import { Button, Form, Input } from '@/styles/theme/components';
 import { colors, fonts } from '@/styles/theme/foundations';
 import { extendTheme, ThemeOverride, type ThemeConfig } from '@chakra-ui/react';
 import styles from './styles';
@@ -16,6 +16,7 @@ const overrides: ThemeOverride = {
   components: {
     Form,
     Button,
+    Input,
   },
 };
 

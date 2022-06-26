@@ -17,12 +17,13 @@ import {
 } from '@chakra-ui/react';
 import { CadastroInputsType, ICadastroDrawer } from './ICadastroDrawer';
 import { Controller, useForm } from 'react-hook-form';
-import { CustomButton, CustomInput, PageHeading } from '@/components/atoms';
+import { CustomButton, PageHeading } from '@/components/atoms';
 import React, { useCallback, useContext, useEffect } from 'react';
 import { gql, useMutation } from '@apollo/client';
 
 import { AuthContext } from '@/contexts/AuthContext';
 import { Card } from '@/components/molecules';
+import { ColorContext } from '@/contexts/ColorContext';
 import InputMask from 'react-input-mask';
 import { Layout } from '@/components/templates';
 import { useRouter } from 'next/router';
@@ -66,6 +67,7 @@ export const CadastroDrawer = ({
   onClose,
   ...rest
 }: ICadastroDrawer) => {
+  const { green } = useContext(ColorContext);
   const router = useRouter();
   const { cadastro, after }: { cadastro?: string; after?: string } =
     router.query;
@@ -257,7 +259,13 @@ export const CadastroDrawer = ({
                         required: true,
                       }}
                       render={({ field }) => (
-                        <CustomInput type="email" isRequired {...field} />
+                        <Input
+                          rounded="3xl"
+                          focusBorderColor={green}
+                          type="email"
+                          isRequired
+                          {...field}
+                        />
                       )}
                     />
                   </FormControl>
@@ -270,7 +278,13 @@ export const CadastroDrawer = ({
                         required: true,
                       }}
                       render={({ field }) => (
-                        <CustomInput type="email" isRequired {...field} />
+                        <Input
+                          rounded="3xl"
+                          focusBorderColor={green}
+                          type="email"
+                          isRequired
+                          {...field}
+                        />
                       )}
                     />
                   </FormControl>
@@ -287,7 +301,8 @@ export const CadastroDrawer = ({
                           as={InputMask as As<any>}
                           mask="MED: 99"
                           type="tel"
-                          focusBorderColor="green.500"
+                          rounded="3xl"
+                          focusBorderColor={green}
                           {...field}
                         />
                       )}
@@ -301,7 +316,13 @@ export const CadastroDrawer = ({
                       rules={{
                         required: true,
                       }}
-                      render={({ field }) => <CustomInput {...field} />}
+                      render={({ field }) => (
+                        <Input
+                          rounded="3xl"
+                          focusBorderColor={green}
+                          {...field}
+                        />
+                      )}
                     />
                   </FormControl>
                   <FormControl>
@@ -312,7 +333,13 @@ export const CadastroDrawer = ({
                       rules={{
                         required: true,
                       }}
-                      render={({ field }) => <CustomInput {...field} />}
+                      render={({ field }) => (
+                        <Input
+                          rounded="3xl"
+                          focusBorderColor={green}
+                          {...field}
+                        />
+                      )}
                     />
                   </FormControl>
                   <FormControl>
@@ -324,7 +351,12 @@ export const CadastroDrawer = ({
                         required: true,
                       }}
                       render={({ field }) => (
-                        <CustomInput type={'date'} {...field} />
+                        <Input
+                          rounded="3xl"
+                          focusBorderColor={green}
+                          type={'date'}
+                          {...field}
+                        />
                       )}
                     />
                   </FormControl>
@@ -360,7 +392,8 @@ export const CadastroDrawer = ({
                         <Input
                           as={InputMask as As<any>}
                           mask="999.999.999-99"
-                          focusBorderColor="green.500"
+                          rounded="3xl"
+                          focusBorderColor={green}
                           {...field}
                         />
                       )}
@@ -375,7 +408,13 @@ export const CadastroDrawer = ({
                       rules={{
                         required: true,
                       }}
-                      render={({ field }) => <CustomInput {...field} />}
+                      render={({ field }) => (
+                        <Input
+                          rounded="3xl"
+                          focusBorderColor={green}
+                          {...field}
+                        />
+                      )}
                     />
                   </FormControl>
                   <FormControl>
@@ -388,7 +427,13 @@ export const CadastroDrawer = ({
                         required: true,
                       }}
                       render={({ field }) => (
-                        <CustomInput pt={1} type="file" {...field} />
+                        <Input
+                          pt={1}
+                          type="file"
+                          rounded="3xl"
+                          focusBorderColor={green}
+                          {...field}
+                        />
                       )}
                     />
                   </FormControl>

@@ -12,6 +12,7 @@ import {
   FormControl,
   FormHelperText,
   FormLabel,
+  Input,
   InputGroup,
   InputLeftAddon,
   InputRightElement,
@@ -24,7 +25,6 @@ import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import {
   CustomButton,
   CustomIconButton,
-  CustomInput,
   PaymentMethods,
 } from '@/components/atoms';
 import { MdAdd, MdCheck } from 'react-icons/md';
@@ -187,10 +187,12 @@ function AddPaymentDrawer({}: AddPaymentDrawerProps) {
                         onChange: () => clearErrors('registration'),
                       }}
                       render={({ field }) => (
-                        <CustomInput
+                        <Input
                           autoFocus
                           pr="4.5rem"
                           isRequired
+                          rounded="3xl"
+                          focusBorderColor={green}
                           isDisabled={registrationChecked}
                           isInvalid={!!errors.registration}
                           {...field}
@@ -248,12 +250,14 @@ function AddPaymentDrawer({}: AddPaymentDrawerProps) {
                             value > 0 ? undefined : 'Valor inválido',
                         }}
                         render={({ field }) => (
-                          <CustomInput
+                          <Input
                             borderLeftRadius={0}
                             type="number"
                             step="0.1"
                             min="0"
                             isRequired
+                            rounded="3xl"
+                            focusBorderColor={green}
                             {...field}
                           />
                         )}
@@ -272,7 +276,7 @@ function AddPaymentDrawer({}: AddPaymentDrawerProps) {
                         required: true,
                       }}
                       render={({ field }) => (
-                        <CustomInput type="text" isRequired {...field} />
+                        <Input type="text" isRequired {...field} />
                       )}
                     />
                   </FormControl>

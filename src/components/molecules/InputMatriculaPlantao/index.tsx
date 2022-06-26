@@ -1,10 +1,10 @@
 import { Card, ClientInfoCard } from '@/components/molecules';
-import { CustomButton, CustomInput } from '@/components/atoms';
-import { Dispatch, useCallback, useEffect, useState } from 'react';
+import { Dispatch, useCallback, useContext, useEffect, useState } from 'react';
 import {
   FormControl,
   FormLabel,
   HStack,
+  Input,
   PinInput,
   PinInputField,
   Stack,
@@ -15,6 +15,8 @@ import { MdCheck, MdRefresh } from 'react-icons/md';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { gql, useQuery } from '@apollo/client';
 
+import { ColorContext } from '@/contexts/ColorContext';
+import { CustomButton } from '@/components/atoms';
 import { useRouter } from 'next/router';
 
 const QUERY_SOCIO = gql`
@@ -45,6 +47,7 @@ export const InputMatriculaPlantao = ({
   socioData,
   setSocioData,
 }: InputMatriculaPlantaoProps) => {
+  const { green } = useContext(ColorContext);
   const router = useRouter();
   const { m }: any = router.query;
   const toast = useToast();
@@ -108,9 +111,11 @@ export const InputMatriculaPlantao = ({
             <FormControl>
               <FormLabel>Matrícula: </FormLabel>
               <HStack>
-                <CustomInput
+                <Input
                   type="hidden"
                   autoFocus
+                  rounded="3xl"
+                  focusBorderColor={green}
                   {...matriculaForm.register('matricula')}
                 />
                 <PinInput

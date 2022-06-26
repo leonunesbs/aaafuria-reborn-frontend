@@ -3,7 +3,6 @@ import { CartsTableProps } from './CartsTable';
 import { CustomChakraNextLinkProps } from './CustomChakraNextLink';
 import { CustomDividerProps } from './CustomDivider';
 import { CustomIconButtonProps } from './CustomIconButton';
-import { CustomInputProps } from './CustomInput';
 import { FloatingCarrinhoPlantaoButtonProps } from './FloatingCarrinhoPlantaoButton';
 import { IAreaDiretorButton } from './AreaDiretorButton/IAreaDiretorButton';
 import { IAtividadesSocioTableRow } from './AtividadesSocioTableRow/IAtividadesSocioTableRow';
@@ -53,10 +52,6 @@ export const CustomButton = dynamic<
 export const CustomIconButton = dynamic<
   CustomIconButtonProps & RefAttributes<HTMLButtonElement>
 >(() => import('./CustomIconButton').then((mod) => mod.CustomIconButton));
-
-export const CustomInput = dynamic<
-  CustomInputProps & RefAttributes<HTMLInputElement>
->(() => import('./CustomInput').then((mod) => mod.default));
 
 export const CustomChakraNextLink = dynamic<CustomChakraNextLinkProps>(() =>
   import('./CustomChakraNextLink').then((mod) => mod.CustomChakraNextLink),

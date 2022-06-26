@@ -6,6 +6,7 @@ import {
   FormLabel,
   HStack,
   Heading,
+  Input,
   ListItem,
   SimpleGrid,
   Stack,
@@ -14,19 +15,19 @@ import {
   useClipboard,
   useToast,
 } from '@chakra-ui/react';
-import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import {
   CustomButton,
   CustomIconButton,
-  CustomInput,
   PageHeading,
 } from '@/components/atoms';
 import { MdCheck, MdFileCopy, MdSend } from 'react-icons/md';
+import { SubmitHandler, useForm } from 'react-hook-form';
 import { gql, useMutation } from '@apollo/client';
 import { useCallback, useContext, useEffect, useMemo, useState } from 'react';
 
 import { AuthContext } from '@/contexts/AuthContext';
 import { Card } from '@/components/molecules';
+import { ColorContext } from '@/contexts/ColorContext';
 import { GetServerSideProps } from 'next';
 import Image from 'next/image';
 import { Layout } from '@/components/templates';
@@ -82,6 +83,7 @@ type Step2InputData = {
 };
 
 function Intermed() {
+  const { green } = useContext(ColorContext);
   const toast = useToast();
   const price = useMemo(() => {
     return {
@@ -113,7 +115,7 @@ function Intermed() {
   });
 
   const step1Form = useForm<Step1InputData>();
-  const { handleSubmit, control } = useForm<Step2InputData>();
+  const step2Form = useForm<Step2InputData>();
 
   const onSubmit: SubmitHandler<Step2InputData> = useCallback(
     async (data) => {
@@ -220,11 +222,13 @@ function Intermed() {
               <Stack>
                 <FormControl isRequired>
                   <FormLabel>Foto de rosto: </FormLabel>
-                  <CustomInput
+                  <Input
                     {...step1Form.register('avatar')}
                     pt={1}
                     type="file"
                     isRequired
+                    rounded="3xl"
+                    focusBorderColor={green}
                   />
                   <FormHelperText>
                     Foto de frente, sem boné ou óculos escuro e em ambiente bem
@@ -233,11 +237,13 @@ function Intermed() {
                 </FormControl>
                 <FormControl isRequired>
                   <FormLabel>Comprovante de vacinação: </FormLabel>
-                  <CustomInput
+                  <Input
                     {...step1Form.register('vaccineCard')}
                     pt={1}
                     type="file"
                     isRequired
+                    rounded="3xl"
+                    focusBorderColor={green}
                   />
                   <FormHelperText>
                     Mínimo de 03 doses, de acordo com as regras sanitárias
@@ -246,11 +252,13 @@ function Intermed() {
                 </FormControl>
                 <FormControl isRequired>
                   <FormLabel>Comprovante de matrícula: </FormLabel>
-                  <CustomInput
+                  <Input
                     {...step1Form.register('enroll')}
                     pt={1}
                     type="file"
                     isRequired
+                    rounded="3xl"
+                    focusBorderColor={green}
                   />
                 </FormControl>
                 <Card>
@@ -307,7 +315,7 @@ function Intermed() {
             </Box>
           </Center>
           <Stack>
-            <form onSubmit={handleSubmit(onSubmit)}>
+            <form onSubmit={step2Form.handleSubmit(onSubmit)}>
               <Stack>
                 <Box>
                   <HStack justify={'space-between'}>
@@ -358,7 +366,12 @@ function Intermed() {
                         <Text>Chave PIX</Text>
                       </FormLabel>
                       <HStack>
-                        <CustomInput value={value} isReadOnly />
+                        <Input
+                          value={value}
+                          isReadOnly
+                          rounded="3xl"
+                          focusBorderColor={green}
+                        />
                         <CustomIconButton
                           onClick={onCopy}
                           ml={2}
@@ -377,21 +390,13 @@ function Intermed() {
                       <FormLabel>
                         <Text>Comprovante de pagamento</Text>
                       </FormLabel>
-
-                      <Controller
-                        name="attachments"
-                        control={control}
-                        rules={{
-                          required: true,
-                        }}
-                        render={({ field }) => (
-                          <CustomInput
-                            pt={1}
-                            type={'file'}
-                            isRequired
-                            {...field}
-                          />
-                        )}
+                      <Input
+                        pt={1}
+                        type={'file'}
+                        isRequired
+                        rounded="3xl"
+                        focusBorderColor={green}
+                        {...step2Form.register('attachments')}
                       />
                     </FormControl>
                     <CustomButton

@@ -10,6 +10,7 @@ import { CartsDashboardCardProps } from './CartsDashboardCard';
 import { ClientInfoCardProps } from './ClientInfoCard';
 import { CommentCardProps } from './CommentCard';
 import { CreateCommentProps } from './CreateComment';
+import { CustomTableProps } from './CustomTable';
 import { EspecieTabPanelProps } from './PagamentoTabs/EspecieTabPanel';
 import { HomeMenuProps } from './HomeMenu';
 import { IAtividadeSocioTable } from './AtividadesSocioTable/IAtividadesSocioTable';
@@ -75,6 +76,9 @@ export const CommentCard = dynamic<CommentCardProps>(() =>
 );
 export const CreateComment = dynamic<CreateCommentProps>(() =>
   import('./CreateComment').then((mod) => mod.CreateComment),
+);
+export const CustomTable = dynamic<CustomTableProps>(() =>
+  import('./CustomTable').then((mod) => mod.default),
 );
 export const EmailConfirmation = dynamic<IEmailConfirmation>(() =>
   import('./EmailConfirmation').then((mod) => mod.EmailConfirmation),

@@ -46,7 +46,7 @@ export const CreateComment = ({
   const { onOpen, onClose, isOpen } = useDisclosure();
   const btnRef = useRef<HTMLButtonElement>(null);
 
-  const { register, control, handleSubmit, reset } = useForm<Inputs>();
+  const { control, handleSubmit, reset } = useForm<Inputs>();
   const [createComment, { loading: createCommentLoading }] = useMutation(
     CREATE_COMMENT,
     {

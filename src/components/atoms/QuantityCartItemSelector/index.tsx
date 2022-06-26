@@ -122,6 +122,7 @@ function QuantityCartItemSelector({
         w="50px"
         textAlign={'center'}
         isReadOnly
+        rounded="3xl"
         focusBorderColor={green}
         size="xs"
         value={quantity}

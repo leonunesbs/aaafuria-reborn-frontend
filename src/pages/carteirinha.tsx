@@ -181,6 +181,8 @@ function Carteirinha({}: CarteirinhaProps) {
                       value={user?.member.cpf}
                       bgColor="green.100"
                       color="green.900"
+                      rounded="3xl"
+                      focusBorderColor={green}
                     />
                   </FormControl>
                   <FormControl>

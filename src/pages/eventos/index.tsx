@@ -6,6 +6,7 @@ import {
   FormControl,
   HStack,
   Image,
+  Input,
   SimpleGrid,
   Spinner,
   Stack,
@@ -13,12 +14,7 @@ import {
   useColorModeValue,
   useToast,
 } from '@chakra-ui/react';
-import {
-  CustomButton,
-  CustomInput,
-  PageHeading,
-  VoltarButton,
-} from '@/components/atoms';
+import { CustomButton, PageHeading, VoltarButton } from '@/components/atoms';
 import { FaTicketAlt, FaWhatsapp } from 'react-icons/fa';
 import { MdLogin, MdPayment, MdSend } from 'react-icons/md';
 import { gql, useMutation, useQuery } from '@apollo/client';
@@ -313,16 +309,20 @@ function Eventos() {
                     <Box>
                       <Stack>
                         <FormControl>
-                          <CustomInput
+                          <Input
                             placeholder="Nome completo do convidado"
                             isRequired
+                            rounded="3xl"
+                            focusBorderColor={green}
                           />
                         </FormControl>
                         <FormControl>
-                          <CustomInput
+                          <Input
                             placeholder="Email do convidado"
                             type="email"
                             isRequired
+                            rounded="3xl"
+                            focusBorderColor={green}
                           />
                         </FormControl>
                       </Stack>

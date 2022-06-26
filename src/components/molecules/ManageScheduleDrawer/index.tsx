@@ -1,8 +1,4 @@
-import {
-  CustomButton,
-  CustomIconButton,
-  CustomInput,
-} from '@/components/atoms';
+import { CustomButton, CustomIconButton } from '@/components/atoms';
 import {
   Drawer,
   DrawerBody,
@@ -13,6 +9,7 @@ import {
   DrawerOverlay,
   FormControl,
   FormLabel,
+  Input,
   Stack,
   Switch,
   Table,
@@ -250,7 +247,11 @@ function ManageScheduleDrawer({
             <Stack mb={10}>
               <FormControl isReadOnly>
                 <FormLabel htmlFor="activity">Atividade: </FormLabel>
-                <CustomInput value={data?.schedule.activity.name} />
+                <Input
+                  value={data?.schedule.activity.name}
+                  rounded="3xl"
+                  focusBorderColor={green}
+                />
               </FormControl>
               <TableContainer>
                 <Table>

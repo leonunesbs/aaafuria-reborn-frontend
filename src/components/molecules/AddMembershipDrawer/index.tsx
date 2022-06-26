@@ -11,6 +11,7 @@ import {
   FormControl,
   FormLabel,
   HStack,
+  Input,
   InputGroup,
   InputRightElement,
   Radio,
@@ -24,7 +25,6 @@ import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import {
   CustomButton,
   CustomIconButton,
-  CustomInput,
   PaymentMethods,
 } from '@/components/atoms';
 import { MdAdd, MdCheck } from 'react-icons/md';
@@ -185,10 +185,12 @@ function AddMembershipDrawer({ membershipPlans }: AddMembershipDrawerProps) {
                         onChange: () => clearErrors('registration'),
                       }}
                       render={({ field }) => (
-                        <CustomInput
+                        <Input
                           autoFocus
                           pr="4.5rem"
                           isRequired
+                          rounded="3xl"
+                          focusBorderColor={green}
                           isDisabled={registrationChecked}
                           isInvalid={!!errors.registration}
                           {...field}

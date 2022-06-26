@@ -1,9 +1,5 @@
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
-import {
-  CustomButton,
-  CustomIconButton,
-  CustomInput,
-} from '@/components/atoms';
+import { CustomButton, CustomIconButton } from '@/components/atoms';
 import {
   Drawer,
   DrawerBody,
@@ -16,6 +12,7 @@ import {
   FormHelperText,
   FormLabel,
   HStack,
+  Input,
   InputGroup,
   InputLeftAddon,
   NumberDecrementStepper,
@@ -196,7 +193,12 @@ function AddScheduleDrawer({ refetch, activityId }: AddScheduleDrawerProps) {
                     name="location"
                     control={control}
                     render={({ field }) => (
-                      <CustomInput isRequired {...field} />
+                      <Input
+                        rounded="3xl"
+                        focusBorderColor={green}
+                        isRequired
+                        {...field}
+                      />
                     )}
                   />
                 </FormControl>
@@ -206,7 +208,12 @@ function AddScheduleDrawer({ refetch, activityId }: AddScheduleDrawerProps) {
                     name="description"
                     control={control}
                     render={({ field }) => (
-                      <CustomInput isRequired {...field} />
+                      <Input
+                        rounded="3xl"
+                        focusBorderColor={green}
+                        isRequired
+                        {...field}
+                      />
                     )}
                   />
                   <FormHelperText>ex.: Treino para o amistoso</FormHelperText>
@@ -216,7 +223,13 @@ function AddScheduleDrawer({ refetch, activityId }: AddScheduleDrawerProps) {
                   <Controller
                     name="tags"
                     control={control}
-                    render={({ field }) => <CustomInput {...field} />}
+                    render={({ field }) => (
+                      <Input
+                        rounded="3xl"
+                        focusBorderColor={green}
+                        {...field}
+                      />
+                    )}
                   />
                   <FormHelperText>ex.: feminino, amistoso</FormHelperText>
                   <FormHelperText>
@@ -231,7 +244,9 @@ function AddScheduleDrawer({ refetch, activityId }: AddScheduleDrawerProps) {
                       name="startDate"
                       control={control}
                       render={({ field }) => (
-                        <CustomInput
+                        <Input
+                          rounded="3xl"
+                          focusBorderColor={green}
                           isRequired
                           type={'datetime-local'}
                           {...field}
@@ -249,7 +264,12 @@ function AddScheduleDrawer({ refetch, activityId }: AddScheduleDrawerProps) {
                       name="endDate"
                       control={control}
                       render={({ field }) => (
-                        <CustomInput type={'datetime-local'} {...field} />
+                        <Input
+                          rounded="3xl"
+                          focusBorderColor={green}
+                          type={'datetime-local'}
+                          {...field}
+                        />
                       )}
                     />
                     <FormHelperText>

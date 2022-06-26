@@ -4,6 +4,7 @@ import {
   Center,
   FormControl,
   FormLabel,
+  Input,
   InputGroup,
   InputRightElement,
   SimpleGrid,
@@ -15,7 +16,6 @@ import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import {
   CustomButton,
   CustomIconButton,
-  CustomInput,
   PageHeading,
   VoltarButton,
 } from '@/components/atoms';
@@ -160,7 +160,12 @@ function Loja() {
                     name="registration"
                     control={control}
                     render={({ field }) => (
-                      <CustomInput placeholder="Matrícula" {...field} />
+                      <Input
+                        placeholder="Matrícula"
+                        rounded="3xl"
+                        focusBorderColor={green}
+                        {...field}
+                      />
                     )}
                   />
 
