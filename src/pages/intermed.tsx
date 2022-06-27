@@ -86,11 +86,48 @@ function Intermed() {
   const { green } = useContext(ColorContext);
   const toast = useToast();
   const price = useMemo(() => {
-    return {
-      atletaOuRitmista: 190,
-      socio: 210,
-      naoSocio: 260,
-    };
+    const today = new Date();
+    const lotes = [
+      {
+        atletaOuRitmista: 190,
+        socio: 210,
+        naoSocio: 260,
+      },
+      {
+        atletaOuRitmista: 240,
+        socio: 270,
+        naoSocio: 330,
+      },
+      {
+        atletaOuRitmista: 260,
+        socio: 290,
+        naoSocio: 350,
+      },
+      {
+        atletaOuRitmista: 285,
+        socio: 310,
+        naoSocio: 380,
+      },
+      {
+        atletaOuRitmista: 300,
+        socio: 350,
+        naoSocio: 410,
+      },
+    ];
+
+    if (
+      new Date(2022, 0, 1) < today &&
+      today <= new Date(2022, 5, 26, 23, 59, 59)
+    ) {
+      return lotes[0];
+    }
+    if (
+      new Date(2022, 5, 26, 23, 59, 59) < today &&
+      today <= new Date(2022, 6, 17)
+    ) {
+      return lotes[1];
+    }
+    return lotes[lotes.length];
   }, []);
   const router = useRouter();
 
