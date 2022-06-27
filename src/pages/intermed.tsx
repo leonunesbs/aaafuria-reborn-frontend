@@ -113,6 +113,11 @@ function Intermed() {
         socio: 350,
         naoSocio: 410,
       },
+      {
+        atletaOuRitmista: 0,
+        socio: 0,
+        naoSocio: 0,
+      },
     ];
 
     if (
@@ -122,10 +127,28 @@ function Intermed() {
       return lotes[0];
     }
     if (
-      new Date(2022, 5, 26, 23, 59, 59) < today &&
-      today <= new Date(2022, 6, 17)
+      new Date(2022, 5, 28, 0, 0, 0) < today &&
+      today <= new Date(2022, 6, 17, 23, 59, 59)
     ) {
       return lotes[1];
+    }
+    if (
+      new Date(2022, 6, 19, 0, 0, 0) < today &&
+      today <= new Date(2022, 7, 21, 23, 59, 59)
+    ) {
+      return lotes[2];
+    }
+    if (
+      new Date(2022, 7, 23, 0, 0, 0) < today &&
+      today <= new Date(2022, 8, 18, 23, 59, 59)
+    ) {
+      return lotes[3];
+    }
+    if (
+      new Date(2022, 8, 18, 0, 0, 0) < today &&
+      today <= new Date(2022, 9, 16, 23, 59, 59)
+    ) {
+      return lotes[4];
     }
     return lotes[lotes.length];
   }, []);
@@ -437,6 +460,7 @@ function Intermed() {
                       />
                     </FormControl>
                     <CustomButton
+                      isDisabled={price.naoSocio === 0}
                       leftIcon={<MdSend size="20px" />}
                       type="submit"
                       isLoading={loading}
