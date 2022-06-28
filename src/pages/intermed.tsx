@@ -379,7 +379,7 @@ function Intermed() {
               <Box rounded="md" overflow={'hidden'}>
                 <Image
                   src={'/lote-intermed.jpg'}
-                  height="500px"
+                  height="400px"
                   width="400px"
                   alt={'lote-intermed'}
                 />
