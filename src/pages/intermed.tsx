@@ -73,6 +73,7 @@ const CREATE_PAYMENT = gql`
 `;
 
 type Step1InputData = {
+  nickname: string;
   avatar: string;
   vaccineCard: string;
   enroll: string;
@@ -126,7 +127,7 @@ function Intermed() {
     ) {
       return lotes[0];
     } else if (
-      new Date(2022, 5, 28, 9, 0, 0) < today &&
+      new Date(2022, 5, 28, 0, 0, 0) < today &&
       today <= new Date(2022, 6, 17, 23, 59, 59)
     ) {
       return lotes[1];
@@ -278,6 +279,18 @@ function Intermed() {
                 onSubmit={step1Form.handleSubmit(handleCreateIntermedProfile)}
               >
                 <Stack>
+                  <FormControl isRequired>
+                    <FormLabel>Apelido no crachá: </FormLabel>
+                    <Input
+                      {...step1Form.register('nickname')}
+                      isRequired
+                      rounded="3xl"
+                      focusBorderColor={green}
+                    />
+                    <FormHelperText>
+                      Nome a ser impresso no crachá
+                    </FormHelperText>
+                  </FormControl>
                   <FormControl isRequired>
                     <FormLabel>Foto de rosto: </FormLabel>
                     <Input
