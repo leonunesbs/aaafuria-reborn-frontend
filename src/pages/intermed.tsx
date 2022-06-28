@@ -399,7 +399,8 @@ function Intermed() {
                             'MENSAL' ? (
                           'Sócio'
                         ) : (
-                          <Stack align={'flex-end'}>
+                          <HStack align={'flex-end'}>
+                            <Text>Não sócio / Sócio mensal</Text>
                             <CustomButton
                               size="sm"
                               maxW="80px"
@@ -407,8 +408,7 @@ function Intermed() {
                             >
                               Seja sócio
                             </CustomButton>
-                            <Text>Não sócio / Sócio mensal</Text>
-                          </Stack>
+                          </HStack>
                         )}
                       </Text>
                     </HStack>
