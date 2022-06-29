@@ -7,6 +7,7 @@ import { ColorContext } from '@/contexts/ColorContext';
 import { Column } from 'react-table';
 import { CustomTable } from '..';
 import { Icon } from '@chakra-ui/react';
+import { SelectColumnFilter } from '@/components/atoms';
 
 const ALL_MEMBERS = gql`
   query allMembers {
@@ -16,6 +17,7 @@ const ALL_MEMBERS = gql`
       name
       nickname
       group
+      firstTeamer
       hasActiveMembership
       activeMembership {
         id
@@ -86,16 +88,35 @@ function MembersTable({}: MembersTableProps) {
           accessor: 'group',
         },
         {
+          id: 'firstTeamer',
+          Header: 'Atleta',
+          accessor: 'firstTeamer',
+          Filter: SelectColumnFilter,
+          filter: 'include',
+          Cell: ({ value: firstTeamer }: { value: boolean }) => {
+            return (
+              <Icon
+                as={firstTeamer ? HiCheckCircle : HiXCircle}
+                color={firstTeamer ? green : 'red.500'}
+                h={4}
+                w={4}
+              />
+            );
+          },
+        },
+        {
           id: 'hasActiveMembership',
           Header: 'Sócio',
           accessor: 'hasActiveMembership',
+          Filter: SelectColumnFilter,
+          filter: 'include',
           Cell: ({ value: isSocio }: { value: boolean }) => {
             return (
               <Icon
                 as={isSocio ? HiCheckCircle : HiXCircle}
                 color={isSocio ? green : 'red.500'}
-                h={5}
-                w={5}
+                h={4}
+                w={4}
               />
             );
           },
@@ -104,6 +125,8 @@ function MembersTable({}: MembersTableProps) {
           id: 'activeMembership',
           Header: 'Plano',
           accessor: 'activeMembership.membershipPlan.title',
+          Filter: SelectColumnFilter,
+          filter: 'include',
           Cell: ({ value }: { value: string }) => {
             return <>{value}</> || <>{'-'}</>;
           },

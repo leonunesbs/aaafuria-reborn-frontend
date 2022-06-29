@@ -1,5 +1,9 @@
 import { Badge, HStack, Text } from '@chakra-ui/react';
-import { CustomChakraNextLink, CustomIconButton } from '@/components/atoms';
+import {
+  CustomChakraNextLink,
+  CustomIconButton,
+  SelectColumnFilter,
+} from '@/components/atoms';
 import { MdMoreHoriz, MdRefresh } from 'react-icons/md';
 import { gql, useQuery } from '@apollo/client';
 import { useContext, useMemo } from 'react';
@@ -102,11 +106,14 @@ function PaymentsTable({}: PaymentsTableProps) {
           id: 'currency',
           Header: 'Moeda',
           accessor: 'currency',
+          Filter: SelectColumnFilter,
+          filter: 'include',
         },
         {
           id: 'createdAt',
           Header: 'Criado em',
           accessor: 'createdAt',
+          disableFilters: true,
           Cell: ({ value }: { value: string }) => {
             return (
               <Text as={'time'} dateTime={value}>
@@ -123,6 +130,8 @@ function PaymentsTable({}: PaymentsTableProps) {
           id: 'status',
           Header: 'Status',
           accessor: 'status',
+          Filter: SelectColumnFilter,
+          filter: 'include',
           Cell: ({ value }: { value: string }) => {
             return (
               <Text>
@@ -145,6 +154,7 @@ function PaymentsTable({}: PaymentsTableProps) {
           id: 'id',
           Header: 'Ações',
           accessor: 'id',
+          disableFilters: true,
           Cell: ({ value }: { value: string }) => {
             return (
               <HStack spacing={1}>

@@ -13,6 +13,7 @@ import { PaymentMethodsProps } from './PaymentMethods';
 import { QuantityCartItemSelectorProps } from './QuantityCartItemSelector';
 import { RefAttributes } from 'react';
 import { SejaSocioButtonProps } from './SejaSocioButton';
+import { SelectColumnFilterProps } from './SelectColumnFilter';
 import { VoltarButtonProps } from './VoltarButton';
 import dynamic from 'next/dynamic';
 
@@ -75,6 +76,9 @@ export const QuantityCartItemSelector = dynamic<QuantityCartItemSelectorProps>(
 
 export const SejaSocioButton = dynamic<SejaSocioButtonProps>(() =>
   import('./SejaSocioButton').then((mod) => mod.SejaSocioButton),
+);
+export const SelectColumnFilter = dynamic<SelectColumnFilterProps>(() =>
+  import('./SelectColumnFilter').then((mod) => mod.default),
 );
 export const VoltarButton = dynamic<VoltarButtonProps>(() =>
   import('./VoltarButton').then((mod) => mod.VoltarButton),

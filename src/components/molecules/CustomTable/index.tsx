@@ -1,15 +1,5 @@
-import { BsChevronCompactDown, BsChevronCompactUp } from 'react-icons/bs';
 import {
-  Column,
-  FilterTypes,
-  useAsyncDebounce,
-  useFilters,
-  useGlobalFilter,
-  usePagination,
-  useSortBy,
-  useTable,
-} from 'react-table';
-import {
+  Box,
   HStack,
   Input,
   Skeleton,
@@ -21,8 +11,16 @@ import {
   Th,
   Thead,
   Tr,
-  chakra,
 } from '@chakra-ui/react';
+import {
+  Column,
+  FilterTypes,
+  useAsyncDebounce,
+  useFilters,
+  useGlobalFilter,
+  usePagination,
+  useTable,
+} from 'react-table';
 import { MdNavigateBefore, MdNavigateNext } from 'react-icons/md';
 import { useContext, useMemo, useState } from 'react';
 
@@ -70,6 +68,8 @@ function DefaultColumnFilter({
 
   return (
     <Input
+      size="xs"
+      fontFamily={'Lato'}
       value={filterValue || ''}
       onChange={(e) => {
         setFilter(e.target.value || undefined); // Set undefined to remove the filter entirely
@@ -85,9 +85,15 @@ export interface CustomTableProps {
   data: any[];
   columns: Column<any>[];
   loading: boolean;
+  globalFilter?: boolean;
 }
 
-function CustomTable({ data, columns, loading }: CustomTableProps) {
+function CustomTable({
+  data,
+  columns,
+  loading,
+  globalFilter = false,
+}: CustomTableProps) {
   const { green } = useContext(ColorContext);
   const filterTypes: FilterTypes<any> = useMemo(
     () => ({
@@ -147,54 +153,34 @@ function CustomTable({ data, columns, loading }: CustomTableProps) {
     },
     useGlobalFilter,
     useFilters,
-    useSortBy,
     usePagination,
   );
   return (
     <TableContainer>
       <Table {...getTableProps()} size={'sm'} variant="simple">
         <Thead>
-          <Tr>
-            <Th
-              colSpan={visibleColumns.length}
-              style={{
-                textAlign: 'left',
-              }}
-            >
-              <GlobalFilter
-                preGlobalFilteredRows={preGlobalFilteredRows}
-                globalFilter={state.globalFilter}
-                setGlobalFilter={setGlobalFilter}
-              />
-            </Th>
-          </Tr>
+          {globalFilter && (
+            <Tr>
+              <Th
+                colSpan={visibleColumns.length}
+                style={{
+                  textAlign: 'left',
+                }}
+              >
+                <GlobalFilter
+                  preGlobalFilteredRows={preGlobalFilteredRows}
+                  globalFilter={state.globalFilter}
+                  setGlobalFilter={setGlobalFilter}
+                />
+              </Th>
+            </Tr>
+          )}
           {headerGroups.map((headerGroup) => (
             <Tr {...headerGroup.getHeaderGroupProps()} key={headerGroup.id}>
               {headerGroup.headers.map((column) => (
-                <Th
-                  {...column.getHeaderProps(column.getSortByToggleProps())}
-                  key={column.id}
-                >
+                <Th {...column.getHeaderProps()} key={column.id}>
                   {column.render('Header')}
-                  <chakra.span pl="2">
-                    {column.isSorted ? (
-                      column.isSortedDesc ? (
-                        <CustomIconButton
-                          size="xs"
-                          variant={'link'}
-                          icon={<BsChevronCompactDown size="10px" />}
-                          aria-label="sorted descending"
-                        />
-                      ) : (
-                        <CustomIconButton
-                          size="xs"
-                          variant={'link'}
-                          icon={<BsChevronCompactUp size="10px" />}
-                          aria-label="sorted ascending"
-                        />
-                      )
-                    ) : null}
-                  </chakra.span>
+                  <Box>{column.canFilter ? column.render('Filter') : null}</Box>
                 </Th>
               ))}
               <Th />
