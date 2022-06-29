@@ -33,7 +33,7 @@ function AreaDiretor() {
         return 0;
       case 'activities':
         return 1;
-      case 'orders':
+      case 'carts':
         return 2;
       case 'finances':
         return 3;
@@ -89,7 +89,7 @@ function AreaDiretor() {
           </Tab>
           <Tab
             onClick={() =>
-              router.push('/areadiretor?panel=orders', undefined, {
+              router.push('/areadiretor?panel=carts', undefined, {
                 scroll: false,
               })
             }

@@ -2,18 +2,20 @@ import { ActivityIconProps } from './ActivityIcon';
 import { CustomChakraNextLinkProps } from './CustomChakraNextLink';
 import { CustomDividerProps } from './CustomDivider';
 import { CustomIconButtonProps } from './CustomIconButton';
+import { DefaultColumnFilterProps } from './filters/DefaultColumnFilter';
 import { FloatingCarrinhoPlantaoButtonProps } from './FloatingCarrinhoPlantaoButton';
 import { ICarteirinhaInput } from './CarteirinhaInput/ICarteirinhaInput';
 import { ICustomButton } from './CustomButton/ICustomButton';
 import { IPriceTag } from './PriceTag/IPriceTag';
 import { NotificationBadgeProps } from './NotificationBadge';
+import { ObjectColumnFilterProps } from './filters/ObjectColumnFilter';
 import { PageHeadingProps } from './PageHeading';
 import { PaymentInstructionsProps } from './PaymentInstructions';
 import { PaymentMethodsProps } from './PaymentMethods';
 import { QuantityCartItemSelectorProps } from './QuantityCartItemSelector';
 import { RefAttributes } from 'react';
 import { SejaSocioButtonProps } from './SejaSocioButton';
-import { SelectColumnFilterProps } from './SelectColumnFilter';
+import { SelectColumnFilterProps } from './filters/SelectColumnFilter';
 import { VoltarButtonProps } from './VoltarButton';
 import dynamic from 'next/dynamic';
 
@@ -37,9 +39,22 @@ export const CustomIconButton = dynamic<
   CustomIconButtonProps & RefAttributes<HTMLButtonElement>
 >(() => import('./CustomIconButton').then((mod) => mod.CustomIconButton));
 
+export const ObjectColumnFilter = dynamic<ObjectColumnFilterProps>(() =>
+  import('./filters/ObjectColumnFilter').then((mod) => mod.default),
+);
+
+export const DefaultColumnFilter = dynamic<DefaultColumnFilterProps>(() =>
+  import('./filters/DefaultColumnFilter').then((mod) => mod.default),
+);
+
+export const SelectColumnFilter = dynamic<SelectColumnFilterProps>(() =>
+  import('./filters/SelectColumnFilter').then((mod) => mod.default),
+);
+
 export const CustomChakraNextLink = dynamic<CustomChakraNextLinkProps>(() =>
   import('./CustomChakraNextLink').then((mod) => mod.CustomChakraNextLink),
 );
+
 export const CustomDivider = dynamic<CustomDividerProps>(() =>
   import('./CustomDivider').then((mod) => mod.default),
 );
@@ -77,9 +92,7 @@ export const QuantityCartItemSelector = dynamic<QuantityCartItemSelectorProps>(
 export const SejaSocioButton = dynamic<SejaSocioButtonProps>(() =>
   import('./SejaSocioButton').then((mod) => mod.SejaSocioButton),
 );
-export const SelectColumnFilter = dynamic<SelectColumnFilterProps>(() =>
-  import('./SelectColumnFilter').then((mod) => mod.default),
-);
+
 export const VoltarButton = dynamic<VoltarButtonProps>(() =>
   import('./VoltarButton').then((mod) => mod.VoltarButton),
 );

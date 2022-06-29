@@ -1,60 +1,49 @@
+import { Box, Icon, Text, useToast } from '@chakra-ui/react';
 import {
-  Box,
-  HStack,
-  Table,
-  TableContainer,
-  Tbody,
-  Td,
-  Text,
-  Th,
-  Thead,
-  Tr,
-  useToast,
-} from '@chakra-ui/react';
-import { CustomButton, CustomIconButton } from '@/components/atoms';
-import { MdCheck, MdNavigateBefore, MdNavigateNext } from 'react-icons/md';
+  CustomButton,
+  ObjectColumnFilter,
+  SelectColumnFilter,
+} from '@/components/atoms';
+import { HiCheckCircle, HiXCircle } from 'react-icons/hi';
 import { gql, useMutation, useQuery } from '@apollo/client';
-import { useCallback, useContext } from 'react';
+import { useContext, useMemo } from 'react';
 
 import { AuthContext } from '@/contexts/AuthContext';
 import { ColorContext } from '@/contexts/ColorContext';
+import { Column } from 'react-table';
+import { CustomTable } from '..';
+import { MdCheck } from 'react-icons/md';
 
 const ALL_CARTS = gql`
   query {
-    allCarts(page: 1, pageSize: 0) {
-      page
-      pages
-      hasNext
-      hasPrev
-      objects {
-        id
-        user {
-          member {
-            nickname
-            name
-          }
+    allCarts {
+      id
+      user {
+        member {
+          nickname
+          name
         }
-        total
-        items {
-          edges {
-            node {
-              id
-              item {
-                name
-                refItem {
-                  name
-                }
-              }
-              description
-              quantity
-            }
-          }
-        }
-        delivered
-        ordered
-        createdAt
-        updatedAt
       }
+      total
+      items {
+        edges {
+          node {
+            id
+            item {
+              name
+              refItem {
+                name
+              }
+            }
+            description
+            quantity
+          }
+        }
+      }
+      delivered
+      ordered
+      createdAt
+      updatedAt
     }
   }
 `;
@@ -67,49 +56,47 @@ const DELIVER_CART = gql`
   }
 `;
 
-type CartsData = {
-  allCarts: {
-    page: number;
-    pages: number;
-    hasNext: boolean;
-    hasPrev: boolean;
-    objects: {
-      id: string;
-      user: {
-        member: {
-          nickname: string;
-          name: string;
-        };
-      };
-      total: number;
-      items: {
-        edges: {
-          node: {
-            id: string;
-            item: {
-              name: string;
-              refItem: {
-                name: string;
-              };
-            };
-            description: string;
-            quantity: number;
-          };
-        }[];
-      };
-      delivered: boolean;
-      ordered: boolean;
-      createdAt: string;
-      updatedAt: string;
-    }[];
+type Item = {
+  id: string;
+  item: {
+    name: string;
+    refItem: {
+      name: string;
+    };
   };
+  description: string;
+  quantity: number;
+};
+
+type Cart = {
+  id: string;
+  user: {
+    member: {
+      nickname: string;
+      name: string;
+    };
+  };
+  total: number;
+  items: {
+    edges: {
+      node: Item[];
+    };
+  };
+  delivered: boolean;
+  ordered: boolean;
+  createdAt: string;
+  updatedAt: string;
+};
+
+type CartsData = {
+  allCarts: Cart[];
 };
 
 export interface CartsTableProps {
   shortView?: boolean;
 }
 
-function CartsTable({ shortView }: CartsTableProps) {
+function CartsTable({}: CartsTableProps) {
   const toast = useToast();
   const { token } = useContext(AuthContext);
   const { green } = useContext(ColorContext);
@@ -128,113 +115,132 @@ function CartsTable({ shortView }: CartsTableProps) {
     },
   });
 
-  const handleNextPage = useCallback(async () => {
-    if (data?.allCarts.hasNext) {
-      await refetch({
-        page: data.allCarts.page + 1,
-      });
+  const tableData: Cart[] = useMemo(() => {
+    if (loading) {
+      return [];
     }
-  }, [data, refetch]);
 
-  const handlePreviousPage = useCallback(async () => {
-    if (data?.allCarts.hasPrev) {
-      await refetch({
-        page: data.allCarts.page - 1,
-      });
-    }
-  }, [data, refetch]);
+    return data?.allCarts || [];
+  }, [data, loading]);
+
+  const tableColumns: Column<Cart>[] = useMemo(
+    () =>
+      [
+        {
+          id: 'user',
+          Header: 'Membro',
+          accessor: 'user.member.name',
+        },
+        {
+          id: 'items',
+          Header: 'Itens',
+          accessor: 'items',
+          Filter: ObjectColumnFilter,
+          filter: 'object',
+          Cell: ({
+            value: { edges },
+          }: {
+            value: { edges: { node: Item }[] };
+          }) => {
+            return edges.map((item) => (
+              <Box key={item.node.id}>
+                {item.node.item.refItem?.name ? (
+                  <Text>
+                    {item.node.quantity}x {item.node.item.refItem.name} (
+                    {item.node.item.name})
+                  </Text>
+                ) : (
+                  <Text>
+                    {item.node.quantity}x {item.node.item.name}
+                  </Text>
+                )}
+                <Text>{item.node.description}</Text>
+              </Box>
+            ));
+          },
+        },
+        {
+          id: 'ordered',
+          Header: 'Pago',
+          accessor: 'ordered',
+          Filter: SelectColumnFilter,
+          filter: 'include',
+          Cell: ({ value: ordered }: { value: boolean }) => {
+            return (
+              <Icon
+                as={ordered ? HiCheckCircle : HiXCircle}
+                color={ordered ? green : 'red.500'}
+                h={4}
+                w={4}
+              />
+            );
+          },
+        },
+        {
+          id: 'delivered',
+          Header: 'Entregue',
+          accessor: 'delivered',
+          Filter: SelectColumnFilter,
+          filter: 'include',
+          Cell: ({ value: delivered }: { value: boolean }) => {
+            return (
+              <Icon
+                as={delivered ? HiCheckCircle : HiXCircle}
+                color={delivered ? green : 'red.500'}
+                h={4}
+                w={4}
+              />
+            );
+          },
+        },
+        {
+          id: 'updatedAt',
+          Header: 'Atualizado em',
+          accessor: 'updatedAt',
+          disableFilters: true,
+          Cell: ({ value }: { value: string }) =>
+            new Date(value).toLocaleString('pt-BR', {
+              timeStyle: 'short',
+              dateStyle: 'short',
+              timeZone: 'America/Sao_Paulo',
+            }),
+        },
+        {
+          id: 'id',
+          Header: 'Ações',
+          accessor: 'id',
+          disableFilters: true,
+          Cell: ({ value }: { value: boolean }) => {
+            return (
+              <CustomButton
+                variant={'link'}
+                size="xs"
+                leftIcon={<MdCheck size="15px" />}
+                isLoading={loading}
+                onClick={async () => {
+                  await deliverCart({
+                    variables: { cartId: value },
+                  }).then(() => {
+                    toast({
+                      title: 'Pedido entregue',
+                      description: 'O pedido foi entregue com sucesso!',
+                    });
+                    refetch();
+                  });
+                }}
+              >
+                Entregar
+              </CustomButton>
+            );
+          },
+        },
+      ] as Column<Cart>[],
+    [deliverCart, green, loading, refetch, toast],
+  );
 
   return (
     <>
-      <TableContainer>
-        <Table size={'sm'} variant="striped">
-          <Thead>
-            <Tr>
-              <Th>Membro</Th>
-              <Th>Itens</Th>
-              <Th>Total</Th>
-              <Th>Pago</Th>
-              <Th>Atualizado</Th>
-              <Th>Ações</Th>
-            </Tr>
-          </Thead>
-          <Tbody>
-            {data?.allCarts?.objects?.map((cart) => (
-              <Tr key={cart.id}>
-                <Td>{cart.user.member.name}</Td>
-                <Td>
-                  {cart.items.edges.map((item) => (
-                    <Box key={item.node.id}>
-                      {item.node.item.refItem?.name ? (
-                        <Text>
-                          {item.node.quantity}x {item.node.item.refItem.name} (
-                          {item.node.item.name})
-                        </Text>
-                      ) : (
-                        <Text>
-                          {item.node.quantity}x {item.node.item.name}
-                        </Text>
-                      )}
-                      <Text>{item.node.description}</Text>
-                    </Box>
-                  ))}
-                </Td>
-                <Td>{cart.total}</Td>
-                <Td>{cart.ordered ? 'Sim' : 'Não'}</Td>
-                <Td>
-                  {new Date(cart.updatedAt).toLocaleString('pt-BR', {
-                    timeStyle: 'short',
-                    dateStyle: 'short',
-                    timeZone: 'America/Sao_Paulo',
-                  })}
-                </Td>
-                <Td>
-                  <CustomButton
-                    variant={'link'}
-                    size="sm"
-                    leftIcon={<MdCheck size="15px" />}
-                    isLoading={loading}
-                    onClick={async () => {
-                      await deliverCart({
-                        variables: { cartId: cart.id },
-                      }).then(() => {
-                        toast({
-                          title: 'Pedido entregue',
-                          description: 'O pedido foi entregue com sucesso!',
-                        });
-                        refetch();
-                      });
-                    }}
-                  >
-                    Entregar
-                  </CustomButton>
-                </Td>
-              </Tr>
-            ))}
-          </Tbody>
-        </Table>
-      </TableContainer>
-      <HStack w="full" justify={'center'} display={shortView ? 'none' : 'flex'}>
-        <CustomIconButton
-          visibility={data?.allCarts?.hasPrev ? 'visible' : 'hidden'}
-          aria-label="prev-page"
-          icon={<MdNavigateBefore size="20px" />}
-          onClick={handlePreviousPage}
-          colorScheme="gray"
-          isLoading={loading}
-        />
-        <Text fontFamily={'AACHENN'} textColor={green}>
-          {data?.allCarts?.page} de {data?.allCarts?.pages}
-        </Text>
-        <CustomIconButton
-          visibility={data?.allCarts?.hasNext ? 'visible' : 'hidden'}
-          aria-label="next-page"
-          icon={<MdNavigateNext size="20px" />}
-          onClick={handleNextPage}
-          colorScheme="gray"
-          isLoading={loading}
-        />
-      </HStack>
+      <CustomTable columns={tableColumns} data={tableData} loading={loading} />
     </>
   );
 }

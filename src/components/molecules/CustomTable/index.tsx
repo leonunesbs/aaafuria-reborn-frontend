@@ -21,11 +21,11 @@ import {
   usePagination,
   useTable,
 } from 'react-table';
+import { CustomIconButton, DefaultColumnFilter } from '@/components/atoms';
 import { MdNavigateBefore, MdNavigateNext } from 'react-icons/md';
 import { useContext, useMemo, useState } from 'react';
 
 import { ColorContext } from '@/contexts/ColorContext';
-import { CustomIconButton } from '@/components/atoms';
 
 // Define a default UI for filtering
 function GlobalFilter({
@@ -59,28 +59,6 @@ function GlobalFilter({
   );
 }
 
-// Define a default UI for filtering
-function DefaultColumnFilter({
-  column: { filterValue, preFilteredRows, setFilter },
-}: any) {
-  const { green } = useContext(ColorContext);
-  const count = preFilteredRows.length;
-
-  return (
-    <Input
-      size="xs"
-      fontFamily={'Lato'}
-      value={filterValue || ''}
-      onChange={(e) => {
-        setFilter(e.target.value || undefined); // Set undefined to remove the filter entirely
-      }}
-      placeholder={`Buscar ${count} resultados...`}
-      rounded="3xl"
-      focusBorderColor={green}
-    />
-  );
-}
-
 export interface CustomTableProps {
   data: any[];
   columns: Column<any>[];
@@ -103,9 +81,20 @@ function CustomTable({
           return rowValue !== undefined
             ? String(rowValue)
                 .toLowerCase()
-                .startsWith(String(filterValue).toLowerCase())
+                .includes(String(filterValue).toLowerCase())
             : true;
         });
+      },
+      object: (rows, id, filterValue) => {
+        const filteredRows = rows.filter((row) => {
+          const rowValue = row.values[id as any];
+          return rowValue.edges.some(
+            ({ node }: { node: any }) =>
+              node.item.refItem?.name === filterValue ||
+              node.item.name === filterValue,
+          );
+        });
+        return filteredRows;
       },
     }),
     [],
