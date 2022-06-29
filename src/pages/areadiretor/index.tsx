@@ -12,7 +12,7 @@ import {
   Tabs,
   useToast,
 } from '@chakra-ui/react';
-import { useContext, useEffect } from 'react';
+import { useContext, useEffect, useState } from 'react';
 
 import { AuthContext } from '@/contexts/AuthContext';
 import { GetServerSideProps } from 'next';
@@ -23,8 +23,26 @@ import { useRouter } from 'next/router';
 
 function AreaDiretor() {
   const router = useRouter();
+  const { panel } = router.query;
   const toast = useToast();
   const { user } = useContext(AuthContext);
+
+  const tabIndex = () => {
+    switch (panel) {
+      case 'members':
+        return 0;
+      case 'activities':
+        return 1;
+      case 'orders':
+        return 2;
+      case 'finances':
+        return 3;
+      default:
+        return 0;
+    }
+  };
+
+  const [index] = useState(tabIndex);
 
   useEffect(() => {
     if (user?.isStaff === false) {
@@ -43,12 +61,26 @@ function AreaDiretor() {
   return (
     <Layout title="Área do Diretor">
       <PageHeading>Área do Diretor</PageHeading>
-      <Tabs variant="solid-rounded" colorScheme="green" isLazy size={'sm'}>
+      <Tabs
+        variant="solid-rounded"
+        colorScheme="green"
+        isLazy
+        size={'sm'}
+        defaultIndex={index}
+      >
         <TabList fontFamily={'AACHENN'} overflow="auto" py={4}>
-          <Tab>MEMBROS</Tab>
-          <Tab>ATIVIDADES</Tab>
-          <Tab>PEDIDOS</Tab>
-          <Tab>FINANCEIRO</Tab>
+          <Tab onClick={() => router.push('/areadiretor?panel=members')}>
+            MEMBROS
+          </Tab>
+          <Tab onClick={() => router.push('/areadiretor?panel=activities')}>
+            ATIVIDADES
+          </Tab>
+          <Tab onClick={() => router.push('/areadiretor?panel=orders')}>
+            PEDIDOS
+          </Tab>
+          <Tab onClick={() => router.push('/areadiretor?panel=finances')}>
+            FINANCEIRO
+          </Tab>
         </TabList>
         <TabPanels>
           <TabPanel px={0}>
