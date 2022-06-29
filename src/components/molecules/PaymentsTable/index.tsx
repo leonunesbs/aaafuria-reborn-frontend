@@ -109,23 +109,7 @@ function PaymentsTable({}: PaymentsTableProps) {
           Filter: SelectColumnFilter,
           filter: 'include',
         },
-        {
-          id: 'createdAt',
-          Header: 'Criado em',
-          accessor: 'createdAt',
-          disableFilters: true,
-          Cell: ({ value }: { value: string }) => {
-            return (
-              <Text as={'time'} dateTime={value}>
-                {new Date(value).toLocaleString('pt-BR', {
-                  timeStyle: 'short',
-                  dateStyle: 'short',
-                  timeZone: 'America/Sao_Paulo',
-                })}
-              </Text>
-            );
-          },
-        },
+
         {
           id: 'status',
           Header: 'Status',
@@ -146,6 +130,23 @@ function PaymentsTable({}: PaymentsTableProps) {
                 >
                   {value}
                 </Badge>
+              </Text>
+            );
+          },
+        },
+        {
+          id: 'createdAt',
+          Header: 'Criado em',
+          accessor: 'createdAt',
+          disableFilters: true,
+          Cell: ({ value }: { value: string }) => {
+            return (
+              <Text as={'time'} dateTime={value}>
+                {new Date(value).toLocaleString('pt-BR', {
+                  timeStyle: 'short',
+                  dateStyle: 'short',
+                  timeZone: 'America/Sao_Paulo',
+                })}
               </Text>
             );
           },
