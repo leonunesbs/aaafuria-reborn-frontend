@@ -1,6 +1,6 @@
 import { Activity } from '@/pages/activities';
-import { Stack } from '@chakra-ui/react';
 import { ScheduleCard } from '..';
+import { Stack } from '@chakra-ui/react';
 
 export interface ActivitySchedulesProps {
   schedules: { node: Activity }[];

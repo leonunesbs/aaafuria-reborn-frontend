@@ -69,16 +69,40 @@ function AreaDiretor() {
         defaultIndex={index}
       >
         <TabList fontFamily={'AACHENN'} overflow="auto" py={4}>
-          <Tab onClick={() => router.push('/areadiretor?panel=members')}>
+          <Tab
+            onClick={() =>
+              router.push('/areadiretor?panel=members', undefined, {
+                scroll: false,
+              })
+            }
+          >
             MEMBROS
           </Tab>
-          <Tab onClick={() => router.push('/areadiretor?panel=activities')}>
+          <Tab
+            onClick={() =>
+              router.push('/areadiretor?panel=activities', undefined, {
+                scroll: false,
+              })
+            }
+          >
             ATIVIDADES
           </Tab>
-          <Tab onClick={() => router.push('/areadiretor?panel=orders')}>
+          <Tab
+            onClick={() =>
+              router.push('/areadiretor?panel=orders', undefined, {
+                scroll: false,
+              })
+            }
+          >
             PEDIDOS
           </Tab>
-          <Tab onClick={() => router.push('/areadiretor?panel=finances')}>
+          <Tab
+            onClick={() =>
+              router.push('/areadiretor?panel=finances', undefined, {
+                scroll: false,
+              })
+            }
+          >
             FINANCEIRO
           </Tab>
         </TabList>

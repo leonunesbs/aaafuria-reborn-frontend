@@ -1,14 +1,7 @@
 import {
-  ColorModeToggle,
-  CustomButton,
-  CustomChakraNextLink,
-  CustomIconButton,
-} from '@/components/atoms';
-import {
   Avatar,
   Box,
   Center,
-  chakra,
   Drawer,
   DrawerBody,
   DrawerCloseButton,
@@ -20,26 +13,32 @@ import {
   HStack,
   Stack,
   Text,
+  chakra,
   useDisclosure,
 } from '@chakra-ui/react';
-import { ReactNode, useContext, useRef } from 'react';
+import {
+  ColorModeToggle,
+  CustomButton,
+  CustomChakraNextLink,
+  CustomIconButton,
+} from '@/components/atoms';
 import { FaDrum, FaVolleyballBall } from 'react-icons/fa';
 import {
-  MdHelpCenter,
   MdLogin,
   MdLogout,
   MdManageAccounts,
   MdPerson,
   MdStore,
 } from 'react-icons/md';
+import { ReactNode, useContext, useRef } from 'react';
 
+import { AiFillHome } from 'react-icons/ai';
 import { AuthContext } from '@/contexts/AuthContext';
 import { ColorContext } from '@/contexts/ColorContext';
+import { GiPartyPopper } from 'react-icons/gi';
 import Hamburger from 'hamburger-react';
 import NextImage from 'next/image';
 import { useRouter } from 'next/router';
-import { AiFillHome } from 'react-icons/ai';
-import { GiPartyPopper } from 'react-icons/gi';
 
 const HeaderMenuItem = ({
   children,
@@ -278,15 +277,6 @@ export const Header = () => {
                       Área do Diretor
                     </CustomButton>
                   )}
-                  <CustomButton
-                    isActive={router.asPath == '/ajuda/minhas-solicitacoes'}
-                    variant={'solid'}
-                    justifyContent={'flex-start'}
-                    leftIcon={<MdHelpCenter size="20px" />}
-                    onClick={() => router.push('/ajuda/minhas-solicitacoes')}
-                  >
-                    Ajuda
-                  </CustomButton>
                 </Stack>
                 <Box h={'1px'} my={6} bgColor={'rgb(0,0,0,0.5)'} rounded="sm" />
                 <Stack>

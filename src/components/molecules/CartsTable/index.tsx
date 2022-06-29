@@ -11,7 +11,7 @@ import {
   Tr,
   useToast,
 } from '@chakra-ui/react';
-import { CustomButton, CustomIconButton } from '..';
+import { CustomButton, CustomIconButton } from '@/components/atoms';
 import { MdCheck, MdNavigateBefore, MdNavigateNext } from 'react-icons/md';
 import { gql, useMutation, useQuery } from '@apollo/client';
 import { useCallback, useContext } from 'react';

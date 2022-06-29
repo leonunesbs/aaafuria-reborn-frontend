@@ -1,11 +1,8 @@
 import { ActivityIconProps } from './ActivityIcon';
-import { CartsTableProps } from './CartsTable';
 import { CustomChakraNextLinkProps } from './CustomChakraNextLink';
 import { CustomDividerProps } from './CustomDivider';
 import { CustomIconButtonProps } from './CustomIconButton';
 import { FloatingCarrinhoPlantaoButtonProps } from './FloatingCarrinhoPlantaoButton';
-import { IAreaDiretorButton } from './AreaDiretorButton/IAreaDiretorButton';
-import { IAtividadesSocioTableRow } from './AtividadesSocioTableRow/IAtividadesSocioTableRow';
 import { ICarteirinhaInput } from './CarteirinhaInput/ICarteirinhaInput';
 import { ICustomButton } from './CustomButton/ICustomButton';
 import { IPriceTag } from './PriceTag/IPriceTag';
@@ -22,28 +19,14 @@ import dynamic from 'next/dynamic';
 export const ActivityIcon = dynamic<ActivityIconProps>(() =>
   import('./ActivityIcon').then((mod) => mod.default),
 );
-export const AlertMessages = dynamic<IAlertMessages>(() =>
-  import('./AlertMessages').then((mod) => mod.AlertMessages),
-);
 export const Analytics = dynamic<any>(() =>
   import('./Analytics').then((mod) => mod.Analytics),
 );
 export const ColorModeToggle = dynamic<any>(() =>
   import('./ColorModeToggle').then((mod) => mod.ColorModeToggle),
 );
-export const AreaDiretorButton = dynamic<IAreaDiretorButton>(() =>
-  import('./AreaDiretorButton').then((mod) => mod.AreaDiretorButton),
-);
-export const AtividadesSocioTableRow = dynamic<IAtividadesSocioTableRow>(() =>
-  import('./AtividadesSocioTableRow').then(
-    (mod) => mod.AtividadesSocioTableRow,
-  ),
-);
 export const CarteirinhaInput = dynamic<ICarteirinhaInput>(() =>
   import('./CarteirinhaInput').then((mod) => mod.CarteirinhaInput),
-);
-export const CartsTable = dynamic<CartsTableProps>(() =>
-  import('./CartsTable').then((mod) => mod.default),
 );
 export const CustomButton = dynamic<
   ICustomButton & RefAttributes<HTMLButtonElement>

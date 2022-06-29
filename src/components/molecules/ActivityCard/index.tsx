@@ -28,7 +28,7 @@ function ActivityCard({ activity, refetch }: ActivityCardProps) {
         <HStack>
           <ActivityIcon activityName={activityName} />
           <CustomChakraNextLink
-            href={`/activity/${activity.id}`}
+            href={`/activities/${activity.id}`}
             chakraLinkProps={{
               _hover: {
                 textColor: 'green.500',

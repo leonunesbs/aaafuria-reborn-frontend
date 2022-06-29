@@ -94,7 +94,6 @@ export const Layout = ({
         <meta name="twitter:image:alt" content="logo" />
       </Head>
       {isHeaded && <Header />}
-      {/* <AlertMessages /> */}
       <Box minH="100vh" py="10" px={['2', '10']} {...rest}>
         {children}
       </Box>

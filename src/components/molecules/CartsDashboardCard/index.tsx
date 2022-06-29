@@ -1,7 +1,6 @@
 import { Box, HStack, Heading } from '@chakra-ui/react';
+import { Card, CartsTable } from '@/components/molecules';
 
-import { Card } from '..';
-import { CartsTable } from '@/components/atoms';
 import { ColorContext } from '@/contexts/ColorContext';
 import { useContext } from 'react';
 
