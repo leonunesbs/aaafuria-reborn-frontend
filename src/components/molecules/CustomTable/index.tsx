@@ -145,11 +145,12 @@ function CustomTable({
     useGlobalFilter,
     usePagination,
   );
+
   return (
     <TableContainer>
       <Alert status={loading ? 'info' : 'success'} variant="left-accent" mb={4}>
         <AlertIcon />
-        {loading ? 'Sincronizando dados...' : 'Dados sincronizados!'}
+        {loading ? 'Sincronizando dados...' : 'Os dados estão sincronizados!'}
       </Alert>
       <Table {...getTableProps()} size={'sm'} variant="simple">
         <Thead>
