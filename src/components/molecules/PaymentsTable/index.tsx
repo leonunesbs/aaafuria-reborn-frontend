@@ -77,12 +77,8 @@ function PaymentsTable({}: PaymentsTableProps) {
   });
 
   const tableData: Payment[] = useMemo(() => {
-    if (loading) {
-      return [];
-    }
-
     return data?.allPayments.objects || [];
-  }, [data, loading]);
+  }, [data]);
 
   const tableColumns: Column<Payment>[] = useMemo(
     () =>

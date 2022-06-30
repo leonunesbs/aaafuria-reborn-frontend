@@ -116,12 +116,8 @@ function CartsTable({}: CartsTableProps) {
   });
 
   const tableData: Cart[] = useMemo(() => {
-    if (loading) {
-      return [];
-    }
-
     return data?.allCarts || [];
-  }, [data, loading]);
+  }, [data]);
 
   const tableColumns: Column<Cart>[] = useMemo(
     () =>

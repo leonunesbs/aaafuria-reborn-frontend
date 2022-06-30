@@ -63,11 +63,8 @@ function MembersTable({}: MembersTableProps) {
   });
 
   const tableData: Member[] = useMemo(() => {
-    if (loading) {
-      return [];
-    }
     return data?.allMembers || [];
-  }, [data, loading]);
+  }, [data]);
 
   const tableColumns: Column<Member>[] = useMemo(
     () =>
@@ -86,6 +83,8 @@ function MembersTable({}: MembersTableProps) {
           id: 'group',
           Header: 'Turma',
           accessor: 'group',
+          Filter: SelectColumnFilter,
+          filter: 'include',
         },
         {
           id: 'firstTeamer',
