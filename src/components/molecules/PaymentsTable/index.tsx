@@ -4,13 +4,13 @@ import {
   CustomIconButton,
   SelectColumnFilter,
 } from '@/components/atoms';
-import { MdMoreHoriz, MdRefresh } from 'react-icons/md';
 import { gql, useQuery } from '@apollo/client';
 import { useContext, useMemo } from 'react';
 
 import { AuthContext } from '@/contexts/AuthContext';
 import { Column } from 'react-table';
 import { CustomTable } from '..';
+import { MdMoreHoriz } from 'react-icons/md';
 
 const ALL_PAYMENTS = gql`
   query allPayments($page: Int = 1, $status: String) {
@@ -171,20 +171,7 @@ function PaymentsTable({}: PaymentsTableProps) {
   );
 
   return (
-    <>
-      <HStack justify="space-between">
-        <HStack pr={1} w="full" justify={'flex-end'}>
-          <CustomIconButton
-            aria-label="refresh payments"
-            icon={<MdRefresh size="20px" />}
-            size="sm"
-            onClick={() => refetch()}
-            isLoading={loading}
-          />
-        </HStack>
-      </HStack>
-      <CustomTable loading={loading} data={tableData} columns={tableColumns} />
-    </>
+    <CustomTable loading={loading} data={tableData} columns={tableColumns} />
   );
 }
 

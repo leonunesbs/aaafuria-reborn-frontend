@@ -75,7 +75,7 @@ function MembersDashboardCard({}: MembersDashboardCardProps) {
         </StatGroup>
       </Card>
       <Card>
-        <Box>
+        <Box mb={4}>
           <Heading size="md" color={green}>
             MEMBROS
           </Heading>

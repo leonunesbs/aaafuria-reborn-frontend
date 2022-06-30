@@ -64,7 +64,6 @@ function AreaDiretor() {
       <Tabs
         variant="solid-rounded"
         colorScheme="green"
-        isLazy
         size={'sm'}
         defaultIndex={index}
       >

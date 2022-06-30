@@ -54,7 +54,7 @@ export interface MembersTableProps {}
 function MembersTable({}: MembersTableProps) {
   const { token } = useContext(AuthContext);
   const { green } = useContext(ColorContext);
-  const { data, loading } = useQuery<MemberData>(ALL_MEMBERS, {
+  const { data, loading, refetch } = useQuery<MemberData>(ALL_MEMBERS, {
     context: {
       headers: {
         authorization: `JWT ${token}`,
@@ -83,8 +83,6 @@ function MembersTable({}: MembersTableProps) {
           id: 'group',
           Header: 'Turma',
           accessor: 'group',
-          Filter: SelectColumnFilter,
-          filter: 'include',
         },
         {
           id: 'firstTeamer',

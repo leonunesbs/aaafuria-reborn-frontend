@@ -100,14 +100,14 @@ function CartsTable({}: CartsTableProps) {
   const toast = useToast();
   const { token } = useContext(AuthContext);
   const { green } = useContext(ColorContext);
-  const { data, refetch } = useQuery<CartsData>(ALL_CARTS, {
+  const { data, refetch, loading } = useQuery<CartsData>(ALL_CARTS, {
     context: {
       headers: {
         Authorization: `JWT ${token}`,
       },
     },
   });
-  const [deliverCart, { loading }] = useMutation(DELIVER_CART, {
+  const [deliverCart] = useMutation(DELIVER_CART, {
     context: {
       headers: {
         Authorization: `JWT ${token}`,
@@ -139,7 +139,7 @@ function CartsTable({}: CartsTableProps) {
             value: { edges: { node: Item }[] };
           }) => {
             return edges.map((item) => (
-              <Box key={item.node.id}>
+              <Box key={item.node.id} fontSize="xs">
                 {item.node.item.refItem?.name ? (
                   <Text>
                     {item.node.quantity}x {item.node.item.refItem.name} (
@@ -211,18 +211,34 @@ function CartsTable({}: CartsTableProps) {
               <CustomButton
                 variant={'link'}
                 size="xs"
-                leftIcon={<MdCheck size="15px" />}
+                maxH={4}
+                leftIcon={<MdCheck size="10px" />}
                 isLoading={loading}
                 onClick={async () => {
                   await deliverCart({
                     variables: { cartId: value },
-                  }).then(() => {
-                    toast({
-                      title: 'Pedido entregue',
-                      description: 'O pedido foi entregue com sucesso!',
+                  })
+                    .then(() => {
+                      toast({
+                        title: 'Pedido entregue',
+                        description: 'O pedido foi entregue!',
+                        status: 'success',
+                        duration: 2500,
+                        isClosable: true,
+                        position: 'top-left',
+                      });
+                      refetch();
+                    })
+                    .catch((error) => {
+                      toast({
+                        title: 'Erro',
+                        description: error.message,
+                        status: 'warning',
+                        duration: 2500,
+                        isClosable: true,
+                        position: 'top-left',
+                      });
                     });
-                    refetch();
-                  });
                 }}
               >
                 Entregar
@@ -235,9 +251,7 @@ function CartsTable({}: CartsTableProps) {
   );
 
   return (
-    <>
-      <CustomTable columns={tableColumns} data={tableData} loading={loading} />
-    </>
+    <CustomTable columns={tableColumns} data={tableData} loading={loading} />
   );
 }
 

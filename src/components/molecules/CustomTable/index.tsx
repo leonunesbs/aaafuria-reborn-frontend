@@ -1,8 +1,9 @@
 import {
+  Alert,
+  AlertIcon,
   Box,
   HStack,
   Input,
-  Skeleton,
   Table,
   TableContainer,
   Tbody,
@@ -140,12 +141,16 @@ function CustomTable({
       defaultColumn,
       filterTypes,
     },
-    useGlobalFilter,
     useFilters,
+    useGlobalFilter,
     usePagination,
   );
   return (
     <TableContainer>
+      <Alert status={loading ? 'info' : 'success'} variant="left-accent" mb={4}>
+        <AlertIcon />
+        {loading ? 'Sincronizando dados...' : 'Dados sincronizados!'}
+      </Alert>
       <Table {...getTableProps()} size={'sm'} variant="simple">
         <Thead>
           {globalFilter && (
@@ -189,16 +194,6 @@ function CustomTable({
               </Tr>
             );
           })}
-          {loading &&
-            [...Array(20)].map((_, i) => (
-              <Tr key={i}>
-                {columns.map((column) => (
-                  <Td key={column.id}>
-                    <Skeleton height="40px" width="100%" rounded={'md'} />
-                  </Td>
-                ))}
-              </Tr>
-            ))}
         </Tbody>
       </Table>
       <HStack w="full" justify={'center'}>
