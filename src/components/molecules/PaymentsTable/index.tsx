@@ -68,7 +68,7 @@ type PaymentsData = {
 function PaymentsTable({}: PaymentsTableProps) {
   const { token } = useContext(AuthContext);
 
-  const { data, loading, refetch } = useQuery<PaymentsData>(ALL_PAYMENTS, {
+  const { data, loading } = useQuery<PaymentsData>(ALL_PAYMENTS, {
     context: {
       headers: {
         Authorization: `JWT ${token}`,
