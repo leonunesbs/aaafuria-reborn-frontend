@@ -272,7 +272,6 @@ export const SejaSocioPricing = ({}: ISejaSocioPricing) => {
                         outlineWidth: 'thin',
                       }}
                       variant={'solid'}
-                      isDisabled
                     >
                       Seja Sócio!
                     </Button>

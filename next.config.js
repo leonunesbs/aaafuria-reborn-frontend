@@ -33,5 +33,5 @@ module.exports = withPWA({
       );
     }
     return config;
-  }
+  },
 });
