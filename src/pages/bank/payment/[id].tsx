@@ -35,6 +35,7 @@ import { AuthContext } from '@/contexts/AuthContext';
 import { Card } from '@/components/molecules';
 import { ColorContext } from '@/contexts/ColorContext';
 import { CustomIconButton } from '@/components/atoms/CustomIconButton';
+import { FaWhatsapp } from 'react-icons/fa';
 import { GetServerSideProps } from 'next';
 import { Layout } from '@/components/templates';
 import { parseCookies } from 'nookies';
@@ -50,6 +51,7 @@ const GET_PAYMENT = gql`
           registration
           group
           hasActiveMembership
+          whatsappUrl
         }
       }
       amount
@@ -118,6 +120,7 @@ type PaymentData = {
         registration: string;
         group: string;
         hasActiveMembership: boolean;
+        whatsappUrl: string;
       };
     };
     amount: string;
@@ -332,6 +335,26 @@ function Payment() {
                             <Badge colorScheme="red">Sócio Inativo</Badge>
                           )}
                         </Text>
+                      </Td>
+                    </Tr>
+                    <Tr>
+                      <Td>
+                        <Text>Contato:</Text>
+                      </Td>
+                      <Td>
+                        <HStack w="full" justify={'flex-end'}>
+                          <CustomIconButton
+                            aria-label="whatsapp"
+                            icon={<FaWhatsapp size="20px" />}
+                            size="xs"
+                            onClick={() =>
+                              window.open(
+                                data?.payment.user.member.whatsappUrl as string,
+                                '_ blank',
+                              )
+                            }
+                          />
+                        </HStack>
                       </Td>
                     </Tr>
                   </Tbody>
