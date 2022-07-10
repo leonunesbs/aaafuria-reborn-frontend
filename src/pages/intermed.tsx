@@ -39,11 +39,13 @@ const CREATE_INTERMED_PROFILE = gql`
     $avatar: Upload!
     $enroll: Upload!
     $vaccineCard: Upload!
+    $nickname: String!
   ) {
     createIntermedProfile(
       avatar: $avatar
       enroll: $enroll
       vaccineCard: $vaccineCard
+      nickname: $nickname
     ) {
       ok
     }
@@ -219,9 +221,10 @@ function Intermed() {
 
   const handleCreateIntermedProfile: SubmitHandler<Step1InputData> =
     useCallback(
-      async ({ avatar, enroll, vaccineCard }) => {
+      async ({ avatar, enroll, vaccineCard, nickname }) => {
         await createIntermedProfile({
           variables: {
+            nickname,
             avatar: avatar[0],
             enroll: enroll[0],
             vaccineCard: vaccineCard[0],
