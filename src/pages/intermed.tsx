@@ -276,7 +276,7 @@ function Intermed() {
           <Card>
             <Stack>
               <Heading size="md" as="h2" my={4}>
-                COMPLETE A SUA INSCRIÇÃO
+                1º PASSO: COMPLETE A SUA INSCRIÇÃO
               </Heading>
               <form
                 onSubmit={step1Form.handleSubmit(handleCreateIntermedProfile)}
@@ -376,7 +376,7 @@ function Intermed() {
 
           <Card>
             <Heading size="md" as="h2" my={4} mb={10}>
-              EFETUE O PAGAMENTO
+              2º PASSO: EFETUE O PAGAMENTO
             </Heading>
             <Center mb={4}>
               <Box rounded="md" overflow={'hidden'}>
