@@ -328,7 +328,7 @@ export const SejaSocioPricing = ({}: ISejaSocioPricing) => {
                                 isLoading={loading}
                               >
                                 {method.title === 'ST'
-                                  ? 'Stripe (Cartão de crédito / PIX)'
+                                  ? 'Cartão de crédito'
                                   : method.name}
                               </CustomButton>
                             ))}
