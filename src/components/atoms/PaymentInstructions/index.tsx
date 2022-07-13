@@ -66,7 +66,7 @@ function PaymentInstructions({ payment }: PaymentInstructionsProps) {
   }, [checkoutUrl, router]);
   return (
     <Center>
-      {payment.method === 'Cartão de crédito' && (
+      {payment.method === 'Stripe (Cartão de crédito / PIX)' && (
         <Alert
           status="info"
           variant="subtle"
