@@ -76,7 +76,7 @@ function Home({ post, partnerships }: HomeProps) {
   const featuresDiv = useRef<HTMLDivElement>(null);
   const partnershipsDiv = useRef<HTMLDivElement>(null);
   const { bg, green, invertedBg } = useContext(ColorContext);
-  const ctaLogo = useColorModeValue('/logo-cinza.png', '/logo-branco.png');
+  const ctaLogo = useColorModeValue('/logo-cinza.webp', '/logo-branco.webp');
   const calango = useColorModeValue(
     '/calango-verde.png',
     '/calango-verde-b.png',
@@ -146,7 +146,7 @@ function Home({ post, partnerships }: HomeProps) {
                 layout="fill"
                 objectFit="cover"
                 src={ctaLogo}
-                quality={10}
+                quality={100}
                 alt="logo"
                 mx="auto"
                 mb={{ base: '8', md: '12' }}
