@@ -266,17 +266,15 @@ function Payment() {
           {data?.payment?.status === 'PENDENTE' && (
             <>
               {data?.payment?.method === 'PIX' ? (
-                data.payment?.attachments.edges.length === 0 && (
-                  <Box>
-                    <PaymentInstructions
-                      payment={{
-                        id: data?.payment?.id,
-                        amount: data?.payment?.amount,
-                        method: data?.payment?.method,
-                      }}
-                    />
-                  </Box>
-                )
+                <Box>
+                  <PaymentInstructions
+                    payment={{
+                      id: data?.payment?.id,
+                      amount: data?.payment?.amount,
+                      method: data?.payment?.method,
+                    }}
+                  />
+                </Box>
               ) : (
                 <Box>
                   <PaymentInstructions
@@ -460,14 +458,13 @@ function Payment() {
             <Box>
               {data?.payment?.status === 'PENDENTE' && (
                 <>
-                  {data?.payment?.method === 'PIX' &&
-                    data.payment?.attachments.edges.length === 0 && (
-                      <Alert status="info" rounded={'md'}>
-                        <AlertIcon />
-                        Adicione o comprovante de pagamento aos anexos abaixo e
-                        aguarde a confirmação do pagamento.
-                      </Alert>
-                    )}
+                  {data?.payment?.method === 'PIX' && (
+                    <Alert status="info" rounded={'md'}>
+                      <AlertIcon />
+                      Adicione o comprovante de pagamento aos anexos abaixo e
+                      aguarde a confirmação do pagamento.
+                    </Alert>
+                  )}
                 </>
               )}
               <HStack w="full" justify={'space-between'}>

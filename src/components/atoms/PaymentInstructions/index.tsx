@@ -66,37 +66,7 @@ function PaymentInstructions({ payment }: PaymentInstructionsProps) {
   }, [checkoutUrl, router]);
   return (
     <Center>
-      {payment.method === 'Cartão de crédito' && (
-        <Alert
-          status="info"
-          variant="subtle"
-          flexDirection="column"
-          alignItems="center"
-          justifyContent="center"
-          textAlign="center"
-          rounded="md"
-        >
-          <AlertIcon boxSize="40px" mr={0} />
-          <AlertTitle mt={4} mb={1} fontSize="lg">
-            Aguardando pagamento
-          </AlertTitle>
-          <Stack align={'center'}>
-            <AlertDescription maxWidth="sm">
-              Clique no botão abaixo para ser encaminhado para o pagamento.
-            </AlertDescription>
-
-            <CustomButton
-              onClick={handleCheckoutUrl}
-              variant="solid"
-              leftIcon={<MdPayment size="20px" />}
-              isLoading={checkoutUrlLoading}
-            >
-              Ir ao pagamento
-            </CustomButton>
-          </Stack>
-        </Alert>
-      )}
-      {payment.method === 'PIX' && (
+      {payment.method === 'PIX' ? (
         <Alert
           status="info"
           variant="subtle"
@@ -142,6 +112,35 @@ function PaymentInstructions({ payment }: PaymentInstructionsProps) {
             <Text fontStyle={'italic'}>
               Chave PIX: <strong>pix@aaafuria.site</strong>
             </Text>
+          </Stack>
+        </Alert>
+      ) : (
+        <Alert
+          status="info"
+          variant="subtle"
+          flexDirection="column"
+          alignItems="center"
+          justifyContent="center"
+          textAlign="center"
+          rounded="md"
+        >
+          <AlertIcon boxSize="40px" mr={0} />
+          <AlertTitle mt={4} mb={1} fontSize="lg">
+            Aguardando pagamento
+          </AlertTitle>
+          <Stack align={'center'}>
+            <AlertDescription maxWidth="sm">
+              Clique no botão abaixo para ser encaminhado para o pagamento.
+            </AlertDescription>
+
+            <CustomButton
+              onClick={handleCheckoutUrl}
+              variant="solid"
+              leftIcon={<MdPayment size="20px" />}
+              isLoading={checkoutUrlLoading}
+            >
+              Ir ao pagamento
+            </CustomButton>
           </Stack>
         </Alert>
       )}
