@@ -12,18 +12,12 @@ import {
   Stack,
   Text,
   UnorderedList,
-  useClipboard,
   useToast,
 } from '@chakra-ui/react';
-import {
-  CustomButton,
-  CustomIconButton,
-  PageHeading,
-} from '@/components/atoms';
-import { MdCheck, MdFileCopy, MdSend } from 'react-icons/md';
+import { CustomButton, PageHeading } from '@/components/atoms';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { gql, useMutation } from '@apollo/client';
-import { useCallback, useContext, useEffect, useMemo, useState } from 'react';
+import { useCallback, useContext, useEffect, useMemo } from 'react';
 
 import { AuthContext } from '@/contexts/AuthContext';
 import { Card } from '@/components/molecules';
@@ -31,6 +25,7 @@ import { ColorContext } from '@/contexts/ColorContext';
 import { GetServerSideProps } from 'next';
 import Image from 'next/image';
 import { Layout } from '@/components/templates';
+import { MdSend } from 'react-icons/md';
 import { parseCookies } from 'nookies';
 import { useRouter } from 'next/router';
 
@@ -70,6 +65,13 @@ const CREATE_PAYMENT = gql`
         id
       }
       paymentCreated
+    }
+  }
+`;
+const CHECKOUT_PAYMENT = gql`
+  mutation checkoutPayment($paymentId: ID!, $items: [ItemObject]!) {
+    checkoutPayment(paymentId: $paymentId, items: $items) {
+      checkoutUrl
     }
   }
 `;
@@ -152,8 +154,6 @@ function Intermed() {
   }, []);
   const router = useRouter();
 
-  const [value] = useState('pix@aaafuria.site');
-  const { hasCopied, onCopy } = useClipboard(value);
   const { isAuthenticated, user, token } = useContext(AuthContext);
 
   const [createIntermedProfile, { loading: createIntermedProfileLoading }] =
@@ -171,53 +171,67 @@ function Intermed() {
       },
     },
   });
+  const [checkoutPayment] = useMutation(CHECKOUT_PAYMENT, {
+    context: {
+      headers: {
+        authorization: `JWT ${token}`,
+      },
+    },
+  });
 
   const step1Form = useForm<Step1InputData>();
   const step2Form = useForm<Step2InputData>();
 
-  const onSubmit: SubmitHandler<Step2InputData> = useCallback(
-    async (data) => {
-      const { attachments } = data;
+  const onSubmit: SubmitHandler<Step2InputData> = useCallback(async () => {
+    const amount = user?.member.firstTeamer
+      ? price.atletaOuRitmista
+      : user?.member.hasActiveMembership &&
+        user.member.activeMembership?.membershipPlan.title !== 'MENSAL'
+      ? price.socio
+      : price.naoSocio;
 
-      const amount = user?.member.firstTeamer
-        ? price.atletaOuRitmista
-        : user?.member.hasActiveMembership &&
-          user.member.activeMembership?.membershipPlan.title !== 'MENSAL'
-        ? price.socio
-        : price.naoSocio;
+    await createPayment({
+      variables: {
+        amount,
+        methodId: 'UGF5bWVudE1ldGhvZE5vZGU6NQ==',
+        description: 'Pagamento VI Intermed Nordeste',
+      },
+    }).then(async ({ data: { createPayment } }) => {
+      if (createPayment.paymentCreated) {
+        toast({
+          title: 'Dados enviados',
+          description: 'Efetue o pagamento.',
+          status: 'success',
+          duration: 2500,
+          isClosable: true,
+          position: 'top-left',
+        });
+      } else {
+        toast({
+          title: 'Dados já recebidos',
+          status: 'info',
+          duration: 2500,
+          isClosable: true,
+          position: 'top-left',
+        });
+      }
 
-      await createPayment({
+      await checkoutPayment({
         variables: {
-          amount,
-          methodId: 'UGF5bWVudE1ldGhvZE5vZGU6MQ==',
-          description: 'Pagamento VI Intermed Nordeste',
-          atttachmentTitle: 'comprovante',
-          attachment: attachments[0],
+          paymentId: createPayment.payment.id,
+          items: [
+            {
+              name: 'VI INTERMED NORDESTE',
+              quantity: 1,
+              amount: amount * 100,
+            },
+          ],
         },
-      }).then(({ data: { createPayment } }) => {
-        if (createPayment.paymentCreated) {
-          toast({
-            title: 'Dados enviados com sucesso',
-            description: 'Aguarde a confirmação do pagamento.',
-            status: 'success',
-            duration: 2500,
-            isClosable: true,
-            position: 'top-left',
-          });
-        } else {
-          toast({
-            title: 'Dados já recebidos',
-            status: 'info',
-            duration: 2500,
-            isClosable: true,
-            position: 'top-left',
-          });
-        }
-        router.push(`/bank/payment/${createPayment.payment.id}`);
+      }).then(({ data: { checkoutPayment: checkoutPaymentData } }) => {
+        router.push(checkoutPaymentData.checkoutUrl);
       });
-    },
-    [price, user, createPayment, toast, router],
-  );
+    });
+  }, [price, user, createPayment, checkoutPayment, toast, router]);
 
   const handleCreateIntermedProfile: SubmitHandler<Step1InputData> =
     useCallback(
@@ -435,50 +449,13 @@ function Intermed() {
                   </Box>
                   <Card px={4}>
                     <Stack>
-                      <FormControl>
-                        <FormLabel>
-                          <Text>Chave PIX</Text>
-                        </FormLabel>
-                        <HStack>
-                          <Input
-                            value={value}
-                            isReadOnly
-                            rounded="3xl"
-                            focusBorderColor={green}
-                          />
-                          <CustomIconButton
-                            onClick={onCopy}
-                            ml={2}
-                            icon={
-                              hasCopied ? (
-                                <MdCheck size="20px" />
-                              ) : (
-                                <MdFileCopy size="20px" />
-                              )
-                            }
-                            aria-label="Copiar"
-                          />
-                        </HStack>
-                      </FormControl>
-                      <FormControl>
-                        <FormLabel>
-                          <Text>Comprovante de pagamento</Text>
-                        </FormLabel>
-                        <Input
-                          pt={1}
-                          type={'file'}
-                          isRequired
-                          rounded="3xl"
-                          focusBorderColor={green}
-                          {...step2Form.register('attachments')}
-                        />
-                      </FormControl>
                       <CustomButton
                         leftIcon={<MdSend size="20px" />}
                         type="submit"
+                        variant={'solid'}
                         isLoading={loading}
                       >
-                        Enviar inscrição
+                        Pagar agora
                       </CustomButton>
                     </Stack>
                   </Card>
