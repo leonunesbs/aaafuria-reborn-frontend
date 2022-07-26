@@ -39,10 +39,10 @@ function PaymentInstructions({ payment }: PaymentInstructionsProps) {
   const pix = useMemo(() => {
     if (payment) {
       return createStaticPix({
-        merchantName: 'Albérico S S A Santana',
+        merchantName: 'Alberico S S A Santana',
         merchantCity: 'Teresina',
         pixKey: 'pix@aaafuria.site',
-        infoAdicional: payment.id?.replace('=', '') ?? '',
+        infoAdicional: payment.id?.replace(/[^a-z0-9]/gi, '') ?? '',
         transactionAmount: parseFloat(payment.amount as string) ?? 0,
         txid: '',
       }) as PixStaticObject;
