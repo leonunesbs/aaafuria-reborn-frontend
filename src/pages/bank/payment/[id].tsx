@@ -606,7 +606,7 @@ function Payment() {
                 )}
                 <CustomButton
                   colorScheme="yellow"
-                  onClick={() => router.push('/areadiretor')}
+                  onClick={() => router.push('/areadiretor?panel=finances')}
                 >
                   Gerenciar pagamentos
                 </CustomButton>
