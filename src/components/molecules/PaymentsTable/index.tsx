@@ -29,6 +29,7 @@ const ALL_PAYMENTS = gql`
         amount
         currency
         description
+        method
         createdAt
         updatedAt
         status
@@ -105,7 +106,11 @@ function PaymentsTable({}: PaymentsTableProps) {
           Filter: SelectColumnFilter,
           filter: 'include',
         },
-
+        {
+          id: 'method',
+          Header: 'Método',
+          accessor: 'method',
+        },
         {
           id: 'status',
           Header: 'Status',
