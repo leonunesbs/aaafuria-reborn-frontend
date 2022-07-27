@@ -99,9 +99,6 @@ export default function Ticket() {
     );
   }, [router.asPath]);
 
-  console.log(
-    `${window.location.hostname}:${window.location.port}${router.asPath}`,
-  );
   return (
     <Layout title="Ingresso" isHeaded={false} isFooted={false}>
       <Box ref={contentRef} maxW="xl" mx="auto">
