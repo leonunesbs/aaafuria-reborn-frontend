@@ -131,7 +131,9 @@ export default function Ticket() {
 
   useEffect(() => {
     setUQRl(
-      `http://${window.location.hostname}:${window.location.port}${router.asPath}`,
+      `http://${window.location.hostname}${
+        window.location.port && window.location.port + ':'
+      }${router.asPath}`,
     );
   }, [router.asPath]);
 
