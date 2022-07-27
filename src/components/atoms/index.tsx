@@ -16,6 +16,7 @@ import { QuantityCartItemSelectorProps } from './QuantityCartItemSelector';
 import { RefAttributes } from 'react';
 import { SejaSocioButtonProps } from './SejaSocioButton';
 import { SelectColumnFilterProps } from './filters/SelectColumnFilter';
+import { TicketCirclesProps } from './TicketCircles';
 import { VoltarButtonProps } from './VoltarButton';
 import dynamic from 'next/dynamic';
 
@@ -93,6 +94,9 @@ export const SejaSocioButton = dynamic<SejaSocioButtonProps>(() =>
   import('./SejaSocioButton').then((mod) => mod.SejaSocioButton),
 );
 
+export const TicketCircles = dynamic<TicketCirclesProps>(() =>
+  import('./TicketCircles').then((mod) => mod.TicketCircles),
+);
 export const VoltarButton = dynamic<VoltarButtonProps>(() =>
   import('./VoltarButton').then((mod) => mod.VoltarButton),
 );

@@ -5,14 +5,19 @@ import {
   useColorModeValue,
 } from '@chakra-ui/react';
 
-import { ReactNode } from 'react';
 import { CustomDivider } from '..';
+import { ReactNode } from 'react';
 
 export interface PageHeadingProps extends HeadingProps {
   children: ReactNode;
+  divided?: boolean;
 }
 
-export const PageHeading = ({ children, ...rest }: PageHeadingProps) => {
+export const PageHeading = ({
+  children,
+  divided = true,
+  ...rest
+}: PageHeadingProps) => {
   const color = useColorModeValue('gray.700', 'gray.100');
   return (
     <Box mb={4}>
@@ -27,7 +32,7 @@ export const PageHeading = ({ children, ...rest }: PageHeadingProps) => {
       >
         {children}
       </Heading>
-      <CustomDivider />
+      {divided && <CustomDivider />}
     </Box>
   );
 };

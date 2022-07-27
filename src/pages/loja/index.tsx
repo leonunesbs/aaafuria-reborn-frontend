@@ -205,7 +205,7 @@ function Loja() {
           <CustomButton
             colorScheme="gray"
             leftIcon={<MdShoppingCart size="25px" />}
-            onClick={() => router.push('/cart')}
+            onClick={() => router.push('/store/cart')}
           >
             Carrinho
           </CustomButton>

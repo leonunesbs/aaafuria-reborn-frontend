@@ -93,7 +93,7 @@ export const ProdutoCard = ({
                 variant="solid"
                 leftIcon={<MdShoppingCart size="25px" />}
                 shadow="base"
-                onClick={() => router.push('/cart')}
+                onClick={() => router.push('/store/cart')}
               >
                 Ir para o carrinho
               </CustomButton>

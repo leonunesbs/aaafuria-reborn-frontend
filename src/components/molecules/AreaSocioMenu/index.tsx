@@ -1,6 +1,11 @@
 import { Box, Divider, Stack, StackProps } from '@chakra-ui/react';
 import { CustomButton, VoltarButton } from '@/components/atoms';
-import { FaDrum, FaVolleyballBall, FaWallet } from 'react-icons/fa';
+import {
+  FaDrum,
+  FaTicketAlt,
+  FaVolleyballBall,
+  FaWallet,
+} from 'react-icons/fa';
 import { useCallback, useContext, useState } from 'react';
 
 import { AiFillIdcard } from 'react-icons/ai';
@@ -65,13 +70,19 @@ export const AreaMembroMenu = ({ ...rest }: AreaMembroMenuProps) => {
         Carteirinha
       </CustomButton>
 
-      <Divider height="15px" />
+      <CustomButton
+        leftIcon={<FaTicketAlt size="20px" />}
+        onClick={() => router.push('/areamembro/my-tickets')}
+      >
+        Meus ingressos
+      </CustomButton>
       <CustomButton
         leftIcon={<FaWallet size="20px" />}
         onClick={() => router.push('/bank/my-payments')}
       >
         Pagamentos
       </CustomButton>
+      <Divider height="15px" />
 
       <CustomButton
         leftIcon={<MdManageAccounts size="20px" />}

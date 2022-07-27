@@ -90,7 +90,7 @@ export const Header = () => {
   ];
 
   return (
-    <>
+    <Box zIndex={1000}>
       <Flex justify="space-between" bg={bg} py="2" mx="auto" px={['2', '10']}>
         <HStack spacing={10}>
           <Center>
@@ -326,6 +326,6 @@ export const Header = () => {
           </DrawerFooter>
         </DrawerContent>
       </Drawer>
-    </>
+    </Box>
   );
 };
