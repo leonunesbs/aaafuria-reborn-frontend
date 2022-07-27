@@ -32,9 +32,11 @@ import { useContext, useEffect, useRef, useState } from 'react';
 import { AuthContext } from '@/contexts/AuthContext';
 import { Card } from '@/components/molecules';
 import { FaWhatsapp } from 'react-icons/fa';
+import { GetServerSideProps } from 'next';
 import { Layout } from '@/components/templates/Layout';
 import NextImage from 'next/image';
 import QRCode from 'react-qr-code';
+import { parseCookies } from 'nookies';
 import { useRouter } from 'next/router';
 
 const GET_TICKET = gql`
@@ -338,3 +340,20 @@ export default function Ticket() {
     </Layout>
   );
 }
+
+export const getServerSideProps: GetServerSideProps = async (ctx) => {
+  const { ['aaafuriaToken']: token } = parseCookies(ctx);
+
+  if (!token) {
+    return {
+      redirect: {
+        destination: `/entrar?after=${ctx.resolvedUrl}`,
+        permanent: false,
+      },
+    };
+  }
+
+  return {
+    props: {},
+  };
+};
