@@ -582,7 +582,7 @@ function Payment() {
                         });
                       }}
                     >
-                      Invalidar pagamento
+                      Invalidar
                     </CustomButton>
                   )}
                   {!data?.payment?.paid && !data?.payment?.expired && (
@@ -603,7 +603,7 @@ function Payment() {
                         });
                       }}
                     >
-                      Validar pagamento
+                      Validar
                     </CustomButton>
                   )}
                 </HStack>
