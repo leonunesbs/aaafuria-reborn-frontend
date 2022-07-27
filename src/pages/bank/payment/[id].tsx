@@ -566,44 +566,47 @@ function Payment() {
           <Stack>
             {user?.isStaff && (
               <Stack>
-                {!data?.payment?.paid && !data?.payment?.expired && (
-                  <CustomButton
-                    isLoading={confirmPaymentLoading}
-                    onClick={async () => {
-                      await confirmPayment({
-                        variables: {
-                          paymentId: data?.payment?.id,
-                          description: data?.payment.description,
-                        },
-                      }).then(({ errors }) => {
-                        if (errors) {
-                          return alert(errors[0].message);
-                        }
-                        refetch();
-                      });
-                    }}
-                  >
-                    Validar pagamento
-                  </CustomButton>
-                )}
-                {!data?.payment?.paid && !data?.payment?.expired && (
-                  <CustomButton
-                    colorScheme="red"
-                    isLoading={cancelPaymentLoading}
-                    onClick={async () => {
-                      await cancelPayment({
-                        variables: {
-                          paymentId: data?.payment?.id,
-                          description: data?.payment.description,
-                        },
-                      }).then(() => {
-                        refetch();
-                      });
-                    }}
-                  >
-                    Invalidar pagamento
-                  </CustomButton>
-                )}
+                <HStack>
+                  {!data?.payment?.paid && !data?.payment?.expired && (
+                    <CustomButton
+                      colorScheme="red"
+                      isLoading={cancelPaymentLoading}
+                      onClick={async () => {
+                        await cancelPayment({
+                          variables: {
+                            paymentId: data?.payment?.id,
+                            description: data?.payment.description,
+                          },
+                        }).then(() => {
+                          refetch();
+                        });
+                      }}
+                    >
+                      Invalidar pagamento
+                    </CustomButton>
+                  )}
+                  {!data?.payment?.paid && !data?.payment?.expired && (
+                    <CustomButton
+                      variant={'solid'}
+                      isLoading={confirmPaymentLoading}
+                      onClick={async () => {
+                        await confirmPayment({
+                          variables: {
+                            paymentId: data?.payment?.id,
+                            description: data?.payment.description,
+                          },
+                        }).then(({ errors }) => {
+                          if (errors) {
+                            return alert(errors[0].message);
+                          }
+                          refetch();
+                        });
+                      }}
+                    >
+                      Validar pagamento
+                    </CustomButton>
+                  )}
+                </HStack>
                 <CustomButton
                   colorScheme="yellow"
                   onClick={() => router.push('/areadiretor?panel=finances')}
