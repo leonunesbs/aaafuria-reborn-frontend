@@ -1,31 +1,39 @@
 import {
+  AspectRatio,
   Badge,
   Box,
   Center,
   HStack,
   Heading,
+  Icon,
+  Image,
+  Stack,
   Table,
   TableContainer,
   Tbody,
   Td,
   Text,
   Tr,
+  chakra,
   useBreakpointValue,
   useDimensions,
 } from '@chakra-ui/react';
 import {
+  CustomButton,
   CustomIconButton,
   PageHeading,
   TicketCircles,
   VoltarButton,
 } from '@/components/atoms';
-import { gql, useQuery } from '@apollo/client';
+import { HiCheckCircle, HiXCircle } from 'react-icons/hi';
+import { gql, useMutation, useQuery } from '@apollo/client';
 import { useContext, useEffect, useRef, useState } from 'react';
 
 import { AuthContext } from '@/contexts/AuthContext';
 import { Card } from '@/components/molecules';
 import { FaWhatsapp } from 'react-icons/fa';
 import { Layout } from '@/components/templates/Layout';
+import NextImage from 'next/image';
 import QRCode from 'react-qr-code';
 import { useRouter } from 'next/router';
 
@@ -53,6 +61,14 @@ const GET_TICKET = gql`
   }
 `;
 
+const USE_TICKET = gql`
+  mutation useTicket($ticketId: ID!) {
+    useTicket(ticketId: $ticketId) {
+      ok
+    }
+  }
+`;
+
 type TicketData = {
   ticket: {
     id: string;
@@ -73,15 +89,23 @@ type TicketData = {
   };
 };
 
+type UseTicketData = {
+  useTicket: {
+    ok: boolean;
+  };
+};
+
 export default function Ticket() {
+  const router = useRouter();
   const contentRef = useRef<HTMLDivElement>(null);
   const dimensions = useDimensions(contentRef);
   const circleSize = useBreakpointValue([175, 220]);
 
-  const router = useRouter();
+  const ChakraNextImage = chakra(NextImage);
   const { id } = router.query;
-  const { token } = useContext(AuthContext);
-  const { data } = useQuery<TicketData>(GET_TICKET, {
+  const { token, user } = useContext(AuthContext);
+  const [uQRl, setUQRl] = useState('');
+  const { data, refetch } = useQuery<TicketData>(GET_TICKET, {
     context: {
       headers: {
         authorization: `JWT ${token || ' '}`,
@@ -91,7 +115,19 @@ export default function Ticket() {
       id,
     },
   });
-  const [uQRl, setUQRl] = useState('');
+  const [handleTicket, { loading: handleTicketLoading }] =
+    useMutation<UseTicketData>(USE_TICKET, {
+      context: {
+        headers: {
+          authorization: `JWT ${token || ' '}`,
+        },
+      },
+      variables: {
+        ticketId: {
+          id,
+        },
+      },
+    });
 
   useEffect(() => {
     setUQRl(
@@ -102,7 +138,7 @@ export default function Ticket() {
   return (
     <Layout title="Ingresso" isHeaded={false} isFooted={false}>
       <Box ref={contentRef} maxW="xl" mx="auto">
-        <Card borderRadius={0} position={'relative'}>
+        <Card borderRadius={0} position={'relative'} mb={6}>
           <TicketCircles
             parentDimensions={dimensions}
             circleSize={circleSize as number}
@@ -117,6 +153,18 @@ export default function Ticket() {
             px={2}
             my={`${(circleSize as number) / 2}px`}
           >
+            <Center mb={4}>
+              <AspectRatio ratio={1} boxSize={'3xs'}>
+                <Image
+                  rounded={'xl'}
+                  objectFit="cover"
+                  src={data?.ticket?.image}
+                  alt={data?.ticket?.title}
+                  mx="auto"
+                  draggable={false}
+                />
+              </AspectRatio>
+            </Center>
             <PageHeading size="md">Interna (LOTE PROMOCIONAL)</PageHeading>
             <Box>
               <Heading size="xs" my={4}>
@@ -216,27 +264,74 @@ export default function Ticket() {
                     </Tr>
                     <Tr>
                       <Td>
-                        <Text>Status:</Text>
+                        <Text>Válido:</Text>
                       </Td>
                       <Td isNumeric>
-                        <Text>PAGO</Text>
+                        <Text>
+                          {data?.ticket && data?.ticket.remainingUses > 0 ? (
+                            <Icon as={HiCheckCircle} color="green.200" />
+                          ) : (
+                            <Icon as={HiXCircle} color="red.200" />
+                          )}
+                        </Text>
                       </Td>
                     </Tr>
                   </Tbody>
                 </Table>
               </TableContainer>
-              <Center>
+              <Stack align={'center'} spacing={4}>
                 <QRCode
                   value={uQRl}
                   size={128}
-                  fgColor="#9aca3c"
+                  fgColor={
+                    data?.ticket && data.ticket.remainingUses > 0
+                      ? '#9aca3c'
+                      : '#FC8181'
+                  }
                   bgColor="transparent"
                 />
-              </Center>
+                <Box
+                  height={['40px', '50px']}
+                  width={['65px', '80px']}
+                  position="relative"
+                  onClick={() => router.push('/')}
+                >
+                  <ChakraNextImage
+                    placeholder="blur"
+                    layout="fill"
+                    objectFit="cover"
+                    src={'/logo-aaafuria-h.webp'}
+                    blurDataURL={'/logo-aaafuria-h.webp'}
+                    quality={1}
+                    alt="logo"
+                    mx="auto"
+                    draggable={false}
+                    filter="drop-shadow(0.12rem 0.15rem 0.15rem rgba(0, 0, 0, 0.1))"
+                  />
+                </Box>
+              </Stack>
             </Box>
           </Box>
         </Card>
-        <VoltarButton href="/areamembro/my-tickets" />
+        <Stack>
+          {user?.isStaff && data?.ticket && data.ticket.remainingUses > 0 && (
+            <CustomButton
+              variant={'solid'}
+              isLoading={handleTicketLoading}
+              onClick={async () => {
+                await handleTicket({
+                  variables: {
+                    ticketId: data?.ticket.id,
+                  },
+                });
+                refetch();
+              }}
+            >
+              Usar
+            </CustomButton>
+          )}
+          <VoltarButton href="/areamembro/my-tickets" />
+        </Stack>
       </Box>
     </Layout>
   );

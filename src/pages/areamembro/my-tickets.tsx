@@ -1,5 +1,9 @@
 import { Box, HStack, Image, SimpleGrid, Text } from '@chakra-ui/react';
-import { CustomChakraNextLink, PageHeading } from '@/components/atoms';
+import {
+  CustomChakraNextLink,
+  PageHeading,
+  VoltarButton,
+} from '@/components/atoms';
 import { gql, useQuery } from '@apollo/client';
 
 import { AuthContext } from '@/contexts/AuthContext';
@@ -45,13 +49,18 @@ function MyTickets() {
       <Box maxW="8xl" mx="auto">
         <PageHeading>Meus ingressos</PageHeading>
         <Card>
+          {data?.myTickets && data?.myTickets.length < 1 && (
+            <Text textAlign={'center'} fontStyle="italic">
+              Você não possui ingressos para eventos futuros.
+            </Text>
+          )}
           <SimpleGrid columns={[1, 2]} spacing={4}>
             {data?.myTickets.map((ticket) => (
               <Card key={ticket.id}>
                 <HStack align={'flex-start'}>
                   <Box boxSize={['90px', '120px']}>
                     <Image
-                      src={'/lote-intermed.png'}
+                      src={ticket.image}
                       alt={'teste'}
                       rounded={'2xl'}
                       draggable={false}
@@ -84,6 +93,7 @@ function MyTickets() {
             ))}
           </SimpleGrid>
         </Card>
+        <VoltarButton href="/areamembro" />
       </Box>
     </Layout>
   );
