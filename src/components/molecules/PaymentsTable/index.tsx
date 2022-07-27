@@ -110,6 +110,8 @@ function PaymentsTable({}: PaymentsTableProps) {
           id: 'method',
           Header: 'Método',
           accessor: 'method',
+          Filter: SelectColumnFilter,
+          filter: 'include',
         },
         {
           id: 'status',
