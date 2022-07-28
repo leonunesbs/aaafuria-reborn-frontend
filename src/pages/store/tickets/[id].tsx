@@ -169,7 +169,7 @@ export default function Ticket() {
                 />
               </AspectRatio>
             </Center>
-            <PageHeading size="md">Interna (LOTE PROMOCIONAL)</PageHeading>
+            <PageHeading size="md">{data?.ticket?.title}</PageHeading>
             <Box>
               <Heading size="xs" my={4}>
                 DADOS DO CLIENTE
@@ -250,14 +250,6 @@ export default function Ticket() {
               <TableContainer mb={4}>
                 <Table size="sm">
                   <Tbody>
-                    <Tr>
-                      <Td>
-                        <Text>Título:</Text>
-                      </Td>
-                      <Td isNumeric>
-                        <Text>{data?.ticket?.title}</Text>
-                      </Td>
-                    </Tr>
                     <Tr>
                       <Td>
                         <Text>Usos restantes:</Text>
