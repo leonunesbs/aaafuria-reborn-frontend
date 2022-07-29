@@ -5559,14 +5559,14 @@ pinkie@^2.0.0:
   resolved "https://registry.yarnpkg.com/pinkie/-/pinkie-2.0.4.tgz#72556b80cfa0d48a974e80e77248e80ed4f7f870"
   integrity sha1-clVrgM+g1IqXToDnckjoDtT3+HA=
 
-pix-react@1.0.3:
-  version "1.0.3"
-  resolved "https://registry.yarnpkg.com/pix-react/-/pix-react-1.0.3.tgz#29902e5e1f3f508c0002420658544af7ac41f2ff"
-  integrity sha512-JxQBhZGwVyuMYkrFkXS6P/dncW6Ydby/TAseQjZxdlkv/Ia8UaHHjtMHxyz3beHibldkpoy8cBh6OyT0qb6f7w==
+pix-react@1.0.4:
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/pix-react/-/pix-react-1.0.4.tgz#67db4df94f33aa51d1c77a08034acbac4924b9b2"
+  integrity sha512-cT4ftz4r0OCOYo0X93HkJ2/Oi0v9W3qIwBUVuVRJgltWBJrUciEzGmqbtVx45JLfcrIy5GbxmZZ1cLDoh8bE2Q==
   dependencies:
-    polycrc "^1.1.0"
-    qrcode.react "^1.0.1"
-    react ">=16.8"
+    polycrc "^1.1.1"
+    qrcode.react "^3.1.0"
+    react ">=18.2"
 
 pix-utils@2.2.2:
   version "2.2.2"
@@ -5590,10 +5590,10 @@ pngjs@^5.0.0:
   resolved "https://registry.yarnpkg.com/pngjs/-/pngjs-5.0.0.tgz#e79dd2b215767fd9c04561c01236df960bce7fbb"
   integrity sha512-40QW5YalBNfQo5yRYmiw7Yz6TKKVr3h6970B2YE+3fQpsWcrbj1PzJgxeJ19DRQjhMbKPIuMY8rFaXc8moolVw==
 
-polycrc@^1.1.0:
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/polycrc/-/polycrc-1.1.0.tgz#7ee75bd0b47d377d26d78ee7f5c529dde0c77af0"
-  integrity sha512-rEOTU2hpsys8CwOre1XptjEm1pGA8F2mCLI0Hxb1lc7HweXi0m9K70FX5uiGB63v1kklyZ0UfbWNo7pOXp/BHg==
+polycrc@^1.1.1:
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/polycrc/-/polycrc-1.1.1.tgz#74404cc6443ca237f902c6df43233cff9ba33ca9"
+  integrity sha512-bfvt5BA/1e3e5RhBmmYVYED3PRddGN0j+lAed5PmnLWrVCkYEsltsfZLuKgtmUz1OEvPBAZlgWfoEpUTN/po6Q==
 
 popmotion@11.0.3:
   version "11.0.3"
@@ -5660,7 +5660,7 @@ process-nextick-args@~2.0.0:
   resolved "https://registry.yarnpkg.com/process-nextick-args/-/process-nextick-args-2.0.1.tgz#7820d9b16120cc55ca9ae7792680ae7dba6d7fe2"
   integrity sha512-3ouUOpQhtgrbOa17J7+uxOTpITYWaGP7/AhoR3+A+/1e9skrzelGi/dXzEYyvbxubEF6Wn2ypscTKiKJFFn1ag==
 
-prop-types@^15.5.8, prop-types@^15.6.0, prop-types@^15.6.2, prop-types@^15.7.2, prop-types@^15.8.1:
+prop-types@^15.5.8, prop-types@^15.6.2, prop-types@^15.7.2, prop-types@^15.8.1:
   version "15.8.1"
   resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.8.1.tgz#67d87bf1a694f48435cf332c24af10214a3140b5"
   integrity sha512-oj87CgZICdulUohogVAR7AjlC0327U4el4L6eAvOqCeudMDVU0NThNaV+b9Df4dXgSP1gXMTnPdhfe/2qDH5cg==
@@ -5692,14 +5692,10 @@ qr.js@0.0.0:
   resolved "https://registry.yarnpkg.com/qr.js/-/qr.js-0.0.0.tgz#cace86386f59a0db8050fa90d9b6b0e88a1e364f"
   integrity sha1-ys6GOG9ZoNuAUPqQ2baw6IoeNk8=
 
-qrcode.react@^1.0.1:
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/qrcode.react/-/qrcode.react-1.0.1.tgz#2834bb50e5e275ffe5af6906eff15391fe9e38a5"
-  integrity sha512-8d3Tackk8IRLXTo67Y+c1rpaiXjoz/Dd2HpcMdW//62/x8J1Nbho14Kh8x974t9prsLHN6XqVgcnRiBGFptQmg==
-  dependencies:
-    loose-envify "^1.4.0"
-    prop-types "^15.6.0"
-    qr.js "0.0.0"
+qrcode.react@^3.1.0:
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/qrcode.react/-/qrcode.react-3.1.0.tgz#5c91ddc0340f768316fbdb8fff2765134c2aecd8"
+  integrity sha512-oyF+Urr3oAMUG/OiOuONL3HXM+53wvuH3mtIWQrYmsXoAq0DkvZp2RYUWFSMFtbdOpuS++9v+WAkzNVkMlNW6Q==
 
 qrcode@^1.4.4:
   version "1.5.0"
@@ -5870,13 +5866,20 @@ react-table@7.8.0:
   resolved "https://registry.yarnpkg.com/react-table/-/react-table-7.8.0.tgz#07858c01c1718c09f7f1aed7034fcfd7bda907d2"
   integrity sha512-hNaz4ygkZO4bESeFfnfOft73iBUj8K5oKi1EcSHPAibEydfsX2MyU6Z8KCr3mv3C9Kqqh71U+DhZkFvibbnPbA==
 
-react@17.0.2, react@>=16.8:
+react@17.0.2:
   version "17.0.2"
   resolved "https://registry.yarnpkg.com/react/-/react-17.0.2.tgz#d0b5cc516d29eb3eee383f75b62864cfb6800037"
   integrity sha512-gnhPt75i/dq/z3/6q/0asP78D0u592D5L1pd7M8P+dck6Fu/jJeL6iVVK23fptSUZj8Vjf++7wXA8UNclGQcbA==
   dependencies:
     loose-envify "^1.1.0"
     object-assign "^4.1.1"
+
+react@>=18.2:
+  version "18.2.0"
+  resolved "https://registry.yarnpkg.com/react/-/react-18.2.0.tgz#555bd98592883255fa00de14f1151a917b5d77d5"
+  integrity sha512-/3IjMdb2L9QbBdWiW5e3P2/npwMBaU9mHCSCUzNln0ZCYbcfTsGbTJrU/kGemdH2IWmB2ioZ+zkxtmq6g09fGQ==
+  dependencies:
+    loose-envify "^1.1.0"
 
 read-pkg-up@^7.0.1:
   version "7.0.1"
