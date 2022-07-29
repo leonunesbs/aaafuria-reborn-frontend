@@ -49,6 +49,7 @@ const DIGITAL_ITEMS = gql`
             node {
               id
               name
+              isActive
             }
           }
         }
@@ -81,6 +82,7 @@ export type ProductType = {
       node: {
         id: string;
         name: string;
+        isActive: boolean;
       };
     }[];
   };

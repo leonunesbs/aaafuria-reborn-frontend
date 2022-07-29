@@ -176,11 +176,14 @@ export const ProdutoCard = ({
                   }
                   {...register('variacaoId')}
                 >
-                  {product.variations.edges.map(({ node }) => (
-                    <option key={node.id} value={node.id}>
-                      {node.name}
-                    </option>
-                  ))}
+                  {product.variations.edges.map(
+                    ({ node }) =>
+                      node.isActive && (
+                        <option key={node.id} value={node.id}>
+                          {node.name}
+                        </option>
+                      ),
+                  )}
                 </Select>
               </FormControl>
             </HStack>
