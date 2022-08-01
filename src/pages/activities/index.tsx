@@ -1,11 +1,11 @@
-import { gql, useQuery } from '@apollo/client';
 import { Box, Grid, GridItem, Text } from '@chakra-ui/react';
+import { gql, useQuery } from '@apollo/client';
 
-import { PageHeading } from '@/components/atoms';
 import { ActivityCard } from '@/components/molecules';
-import { Layout } from '@/components/templates';
 import { AuthContext } from '@/contexts/AuthContext';
 import { ColorContext } from '@/contexts/ColorContext';
+import { Layout } from '@/components/templates';
+import { PageHeading } from '@/components/atoms';
 import { useContext } from 'react';
 
 const ALL_ACTIVITIES = gql`

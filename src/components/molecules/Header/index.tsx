@@ -35,8 +35,8 @@ import { ReactNode, useContext, useRef } from 'react';
 import { AiFillHome } from 'react-icons/ai';
 import { AuthContext } from '@/contexts/AuthContext';
 import { ColorContext } from '@/contexts/ColorContext';
-import { GiPartyPopper } from 'react-icons/gi';
 import Hamburger from 'hamburger-react';
+import { ImCross } from 'react-icons/im';
 import NextImage from 'next/image';
 import { useRouter } from 'next/router';
 
@@ -84,8 +84,8 @@ export const Header = () => {
       href: '/activities',
     },
     {
-      title: 'Eventos',
-      href: '/eventos',
+      title: 'Confrontos',
+      href: '/activities/matches',
     },
   ];
 
@@ -240,14 +240,13 @@ export const Header = () => {
                 Atividades
               </CustomButton>
               <CustomButton
-                isActive={router.asPath == '/eventos'}
+                isActive={router.asPath == '/activities/matches'}
                 variant={'solid'}
                 justifyContent={'flex-start'}
-                leftIcon={<GiPartyPopper size="20px" />}
-                onClick={() => router.push('/eventos')}
-                isDisabled
+                leftIcon={<ImCross size="20px" />}
+                onClick={() => router.push('/activities/matches')}
               >
-                Eventos
+                Confrontos
               </CustomButton>
             </Stack>
           </DrawerBody>
