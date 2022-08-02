@@ -17,7 +17,7 @@ const ALL_MEMBERS = gql`
       name
       nickname
       group
-      firstTeamer
+      isFirstTeamer
       hasActiveMembership
       activeMembership {
         id
@@ -85,16 +85,16 @@ function MembersTable({}: MembersTableProps) {
           accessor: 'group',
         },
         {
-          id: 'firstTeamer',
+          id: 'isFirstTeamer',
           Header: 'Atleta',
-          accessor: 'firstTeamer',
+          accessor: 'isFirstTeamer',
           Filter: SelectColumnFilter,
           filter: 'include',
-          Cell: ({ value: firstTeamer }: { value: boolean }) => {
+          Cell: ({ value: isFirstTeamer }: { value: boolean }) => {
             return (
               <Icon
-                as={firstTeamer ? HiCheckCircle : HiXCircle}
-                color={firstTeamer ? green : 'red.500'}
+                as={isFirstTeamer ? HiCheckCircle : HiXCircle}
+                color={isFirstTeamer ? green : 'red.500'}
                 h={4}
                 w={4}
               />

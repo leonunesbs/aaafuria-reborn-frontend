@@ -24,7 +24,7 @@ const SIGN_IN = gql`
           rg
           cpf
           hasActiveMembership
-          firstTeamer
+          isFirstTeamer
           activeMembership {
             membershipPlan {
               title
@@ -77,7 +77,7 @@ type UserData = {
     rg: string;
     cpf: string;
     hasActiveMembership: boolean;
-    firstTeamer: boolean;
+    isFirstTeamer: boolean;
     activeMembership: {
       membershipPlan: {
         title: string;
@@ -125,7 +125,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
                 rg
                 cpf
                 hasActiveMembership
-                firstTeamer
+                isFirstTeamer
                 activeMembership {
                   membershipPlan {
                     title

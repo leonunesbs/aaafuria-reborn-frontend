@@ -43,6 +43,7 @@ const DIGITAL_ITEMS = gql`
         description
         membershipExclusive
         membershipPrice
+        hasDescription
         staffPrice
         variations {
           edges {
@@ -77,6 +78,7 @@ export type ProductType = {
   membershipExclusive: boolean;
   membershipPrice: number;
   staffPrice: number;
+  hasDescription: boolean;
   variations: {
     edges: {
       node: {
@@ -186,7 +188,7 @@ function Loja() {
         </Box>
         <SimpleGrid
           columns={{ base: user?.isStaff ? 2 : 1, md: 3, lg: 3 }}
-          spacing={2}
+          gap={2}
         >
           {produtos?.digitalItems.objects.map((product) => {
             return (

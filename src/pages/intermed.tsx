@@ -183,7 +183,7 @@ function Intermed() {
   const step2Form = useForm<Step2InputData>();
 
   const onSubmit: SubmitHandler<Step2InputData> = useCallback(async () => {
-    const amount = user?.member.firstTeamer
+    const amount = user?.member.isFirstTeamer
       ? price.atletaOuRitmista
       : user?.member.hasActiveMembership &&
         user.member.activeMembership?.membershipPlan.title !== 'MENSAL'
@@ -409,7 +409,7 @@ function Intermed() {
                     <HStack justify={'space-between'}>
                       <Text>Categoria: </Text>
                       <Text textAlign={'right'}>
-                        {user?.member.firstTeamer ? (
+                        {user?.member.isFirstTeamer ? (
                           'Atleta / Ritmista'
                         ) : user?.member.hasActiveMembership &&
                           user.member.activeMembership?.membershipPlan.title !==
@@ -437,7 +437,7 @@ function Intermed() {
                         textAlign={'right'}
                       >
                         R$
-                        {user?.member.firstTeamer
+                        {user?.member.isFirstTeamer
                           ? price.atletaOuRitmista
                           : user?.member.hasActiveMembership &&
                             user.member.activeMembership?.membershipPlan

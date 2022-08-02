@@ -42,6 +42,8 @@ const GET_CART = gql`
         edges {
           node {
             id
+            description
+            quantity
             item {
               id
               refItem {
@@ -56,7 +58,6 @@ const GET_CART = gql`
               staffPrice
               membershipPrice
             }
-            quantity
           }
         }
       }
@@ -65,8 +66,8 @@ const GET_CART = gql`
 `;
 
 const DELETE_FROM_CART = gql`
-  mutation deleteFromCart($itemId: ID!) {
-    deleteFromCart(itemId: $itemId) {
+  mutation deleteFromCart($itemId: ID!, $description: String) {
+    deleteFromCart(itemId: $itemId, description: $description) {
       ok
     }
   }
@@ -109,6 +110,7 @@ interface CartData {
             membershipPrice: number;
           };
           quantity: number;
+          description: string;
         };
       }[];
     };
@@ -149,10 +151,11 @@ function Cart() {
   });
 
   const handleDeleteFromCart = useCallback(
-    async (itemId: string) => {
+    async (itemId: string, description: string) => {
       await deleteFromCart({
         variables: {
-          itemId: itemId,
+          itemId,
+          description,
         },
       })
         .then(() => {
@@ -199,7 +202,7 @@ function Cart() {
             >
               <Stack spacing={2} w="full">
                 {data?.cart?.items.edges.map(
-                  ({ node: { id, item, quantity } }) => {
+                  ({ node: { id, item, quantity, description } }) => {
                     return (
                       <Stack
                         key={id}
@@ -214,7 +217,9 @@ function Cart() {
                             colorScheme={'gray'}
                             aria-label="eliminate-from-cart"
                             icon={<MdDelete />}
-                            onClick={() => handleDeleteFromCart(item.id)}
+                            onClick={() =>
+                              handleDeleteFromCart(item.id, description)
+                            }
                           />
                         </Box>
                         <HStack spacing={4} mb={4} w="full">
@@ -238,11 +243,17 @@ function Cart() {
                             <Text as="h3" fontSize={'xs'}>
                               {item.description}
                             </Text>
+                            {description && (
+                              <Text fontSize={'xs'} fontStyle="italic">
+                                Obs.: {description}
+                              </Text>
+                            )}
                           </Box>
                         </HStack>
                         <HStack w="full" justify={'space-between'} px={[0]}>
                           <QuantityCartItemSelector
                             itemId={item.id}
+                            description={description}
                             quantity={quantity}
                             refetch={refetch}
                           />

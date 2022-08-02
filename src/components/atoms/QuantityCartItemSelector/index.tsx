@@ -8,16 +8,20 @@ import { ColorContext } from '@/contexts/ColorContext';
 import { CustomIconButton } from '..';
 
 const ADD_TO_CART = gql`
-  mutation addToCart($itemId: ID!, $quantity: Int!) {
-    addToCart(itemId: $itemId, quantity: $quantity) {
+  mutation addToCart($itemId: ID!, $quantity: Int!, $description: String) {
+    addToCart(itemId: $itemId, quantity: $quantity, description: $description) {
       ok
     }
   }
 `;
 
 const REMOVE_FROM_CART = gql`
-  mutation removeFromCart($itemId: ID!, $quantity: Int!) {
-    removeFromCart(itemId: $itemId, quantity: $quantity) {
+  mutation removeFromCart($itemId: ID!, $quantity: Int!, $description: String) {
+    removeFromCart(
+      itemId: $itemId
+      quantity: $quantity
+      description: $description
+    ) {
       ok
     }
   }
@@ -27,12 +31,14 @@ export interface QuantityCartItemSelectorProps {
   refetch: () => void;
   itemId: string;
   quantity: number;
+  description: string;
 }
 
 function QuantityCartItemSelector({
   refetch,
   itemId,
   quantity,
+  description,
 }: QuantityCartItemSelectorProps) {
   const toast = useToast();
   const { token } = useContext(AuthContext);
@@ -67,54 +73,50 @@ function QuantityCartItemSelector({
     },
   );
 
-  const handleAddToCart = useCallback(
-    async (itemId: string) => {
-      await addToCart({
-        variables: {
-          itemId: itemId,
-          quantity: 1,
-        },
-      })
-        .then(() => {
-          refetch();
-        })
-        .catch((error) => {
-          toast({
-            title: 'Erro',
-            description: error.message,
-            status: 'warning',
-            duration: 2500,
-            isClosable: true,
-            position: 'top-left',
-          });
-        });
-    },
-    [addToCart, refetch, toast],
-  );
-
-  const handleRemoveFromCart = useCallback(
-    async (itemId: string) => {
-      await removeFromCart({
-        variables: {
-          itemId: itemId,
-          quantity: 1,
-        },
-      }).then(async ({ errors }) => {
-        if (errors) {
-          throw errors;
-        }
+  const handleAddToCart = useCallback(async () => {
+    await addToCart({
+      variables: {
+        itemId,
+        description,
+        quantity: 1,
+      },
+    })
+      .then(() => {
         refetch();
+      })
+      .catch((error) => {
+        toast({
+          title: 'Erro',
+          description: error.message,
+          status: 'warning',
+          duration: 2500,
+          isClosable: true,
+          position: 'top-left',
+        });
       });
-    },
-    [removeFromCart, refetch],
-  );
+  }, [addToCart, description, itemId, refetch, toast]);
+
+  const handleRemoveFromCart = useCallback(async () => {
+    await removeFromCart({
+      variables: {
+        itemId: itemId,
+        description,
+        quantity: 1,
+      },
+    }).then(async ({ errors }) => {
+      if (errors) {
+        throw errors;
+      }
+      refetch();
+    });
+  }, [removeFromCart, itemId, description, refetch]);
   return (
     <HStack>
       <CustomIconButton
         {...dec}
         aria-label="remove_from_cart"
         icon={<MdRemove size="15px" />}
-        onClick={() => handleRemoveFromCart(itemId)}
+        onClick={handleRemoveFromCart}
         isLoading={removeFromCartLoading}
       />
       <Input
@@ -131,7 +133,7 @@ function QuantityCartItemSelector({
         {...inc}
         aria-label="add_to_cart"
         icon={<MdAdd size="15px" />}
-        onClick={() => handleAddToCart(itemId)}
+        onClick={handleAddToCart}
         isLoading={addToCartLoading}
       />
     </HStack>

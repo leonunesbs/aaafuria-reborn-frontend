@@ -1,14 +1,16 @@
 import * as gtag from 'lib/gtag';
 
 import {
-  Flex,
+  Box,
   FormControl,
+  FormHelperText,
   Image,
+  Input,
   Select,
+  Stack,
   useBreakpointValue,
   useToast,
 } from '@chakra-ui/react';
-import { HStack, Heading, Stack } from '@chakra-ui/layout';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { gql, useMutation } from '@apollo/client';
 import { useCallback, useContext } from 'react';
@@ -17,6 +19,7 @@ import { AuthContext } from '@/contexts/AuthContext';
 import { Card } from '@/components/molecules';
 import { ColorContext } from '@/contexts/ColorContext';
 import { CustomButton } from '@/components/atoms/CustomButton';
+import { Heading } from '@chakra-ui/layout';
 import { MdShoppingCart } from 'react-icons/md';
 import { PriceTag } from '@/components/atoms';
 import { ProductType } from '@/pages/loja';
@@ -143,52 +146,57 @@ export const ProdutoCard = ({
           mx="auto"
           alt={product.name}
         />
-        <Flex
-          flexDir="column"
-          h={[user?.isStaff ? 36 : 32, 32]}
-          justify={'space-between'}
-          px={2}
-          pt={2}
-        >
-          <Stack>
-            <Stack>
-              <Heading as="h3" size={fontSize}>
-                {product.name.toUpperCase()}
-              </Heading>
-              <PriceTag
-                as="h4"
-                fontSize={fontSize}
-                price={product.price as number}
-                discountedPrice={product.membershipPrice}
-              />
-            </Stack>
-            <HStack>
-              <FormControl
-                display={
-                  product?.variations?.edges.length > 0 ? 'default' : 'none'
-                }
+        <Card rounded={0}>
+          <Box mb={2}>
+            <Heading as="h3" size={fontSize}>
+              {product.name.toUpperCase()}
+            </Heading>
+            <PriceTag
+              as="h4"
+              fontSize={['md', 'lg']}
+              price={product.price as number}
+              discountedPrice={product.membershipPrice}
+            />
+          </Box>
+          <Stack spacing={0.5}>
+            <FormControl
+              display={
+                product?.variations?.edges.length > 0 ? 'default' : 'none'
+              }
+            >
+              <Select
+                size="xs"
+                rounded={'lg'}
+                focusBorderColor={green}
+                placeholder="Selecione uma opção"
+                required={product?.variations?.edges.length > 0 ? true : false}
+                {...register('variacaoId')}
               >
-                <Select
-                  focusBorderColor={green}
-                  placeholder="Selecione uma opção"
-                  required={
-                    product?.variations?.edges.length > 0 ? true : false
-                  }
-                  {...register('variacaoId')}
-                >
-                  {product.variations.edges.map(
-                    ({ node }) =>
-                      node.isActive && (
-                        <option key={node.id} value={node.id}>
-                          {node.name}
-                        </option>
-                      ),
-                  )}
-                </Select>
-              </FormControl>
-            </HStack>
+                {product.variations.edges.map(
+                  ({ node }) =>
+                    node.isActive && (
+                      <option key={node.id} value={node.id}>
+                        {node.name}
+                      </option>
+                    ),
+                )}
+              </Select>
+            </FormControl>
+            <FormControl display={product?.hasDescription ? 'default' : 'none'}>
+              <Input
+                rounded={'lg'}
+                size="xs"
+                focusBorderColor={green}
+                required={product?.hasDescription}
+                placeholder="Observações"
+                {...register('observacoes')}
+              />
+              <FormHelperText fontSize={'xx-small'}>
+                ex.: Nome na camisa: Joãozinho
+              </FormHelperText>
+            </FormControl>
           </Stack>
-        </Flex>
+        </Card>
 
         {isAuthenticated ? (
           product.membershipExclusive ? (
