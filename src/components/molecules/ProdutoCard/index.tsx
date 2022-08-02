@@ -192,7 +192,7 @@ export const ProdutoCard = ({
                 {...register('observacoes')}
               />
               <FormHelperText fontSize={'xx-small'}>
-                ex.: Nome na camisa: Joãozinho
+                ex.: Nome: Joãozinho Nº: 10
               </FormHelperText>
             </FormControl>
           </Stack>
