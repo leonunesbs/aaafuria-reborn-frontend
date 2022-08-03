@@ -1,13 +1,11 @@
-import { CustomButton, PageHeading } from '@/components/atoms';
-import { gql, useMutation } from '@apollo/client';
 import {
   Box,
   Center,
   FormControl,
   FormHelperText,
   FormLabel,
-  Heading,
   HStack,
+  Heading,
   Input,
   ListItem,
   SimpleGrid,
@@ -16,18 +14,20 @@ import {
   UnorderedList,
   useToast,
 } from '@chakra-ui/react';
-import { useCallback, useContext, useEffect, useMemo, useState } from 'react';
+import { CustomButton, PageHeading } from '@/components/atoms';
 import { SubmitHandler, useForm } from 'react-hook-form';
+import { gql, useMutation } from '@apollo/client';
+import { useCallback, useContext, useEffect, useMemo, useState } from 'react';
 
-import { Card } from '@/components/molecules';
-import { Layout } from '@/components/templates';
 import { AuthContext } from '@/contexts/AuthContext';
+import { Card } from '@/components/molecules';
 import { ColorContext } from '@/contexts/ColorContext';
 import { GetServerSideProps } from 'next';
 import Image from 'next/image';
-import { useRouter } from 'next/router';
-import { parseCookies } from 'nookies';
+import { Layout } from '@/components/templates';
 import { MdSend } from 'react-icons/md';
+import { parseCookies } from 'nookies';
+import { useRouter } from 'next/router';
 
 const CREATE_INTERMED_PROFILE = gql`
   mutation createIntermedProfile(
@@ -285,7 +285,7 @@ function Intermed() {
     >
       <PageHeading>VI Intermed Nordeste</PageHeading>
       {pause ? (
-        <Text>Inscrições pausadas. Tente novamente.</Text>
+        <Text>Inscrições pausadas. Tente novamente mais tarde.</Text>
       ) : price.naoSocio === 0 ? (
         <Text textAlign={'center'}>Lote não iniciado</Text>
       ) : (
