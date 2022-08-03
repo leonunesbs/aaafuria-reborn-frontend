@@ -1,11 +1,13 @@
+import { CustomButton, PageHeading } from '@/components/atoms';
+import { gql, useMutation } from '@apollo/client';
 import {
   Box,
   Center,
   FormControl,
   FormHelperText,
   FormLabel,
-  HStack,
   Heading,
+  HStack,
   Input,
   ListItem,
   SimpleGrid,
@@ -14,20 +16,18 @@ import {
   UnorderedList,
   useToast,
 } from '@chakra-ui/react';
-import { CustomButton, PageHeading } from '@/components/atoms';
+import { useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { gql, useMutation } from '@apollo/client';
-import { useCallback, useContext, useEffect, useMemo } from 'react';
 
-import { AuthContext } from '@/contexts/AuthContext';
 import { Card } from '@/components/molecules';
+import { Layout } from '@/components/templates';
+import { AuthContext } from '@/contexts/AuthContext';
 import { ColorContext } from '@/contexts/ColorContext';
 import { GetServerSideProps } from 'next';
 import Image from 'next/image';
-import { Layout } from '@/components/templates';
-import { MdSend } from 'react-icons/md';
-import { parseCookies } from 'nookies';
 import { useRouter } from 'next/router';
+import { parseCookies } from 'nookies';
+import { MdSend } from 'react-icons/md';
 
 const CREATE_INTERMED_PROFILE = gql`
   mutation createIntermedProfile(
@@ -89,6 +89,7 @@ type Step2InputData = {
 
 function Intermed() {
   const { green } = useContext(ColorContext);
+  const [pause] = useState(true);
   const toast = useToast();
   const price = useMemo(() => {
     const today = new Date();
@@ -283,7 +284,9 @@ function Intermed() {
       desc="O VI INTERMED NORDESTE está chegando e você não pode perder a chance de curtir a Terra da Luz junto com a Fúria. Em outubro, vamos invadir Fortaleza!"
     >
       <PageHeading>VI Intermed Nordeste</PageHeading>
-      {price.naoSocio === 0 ? (
+      {pause ? (
+        <Text>Inscrições pausadas. Tente novamente.</Text>
+      ) : price.naoSocio === 0 ? (
         <Text textAlign={'center'}>Lote não iniciado</Text>
       ) : (
         <SimpleGrid columns={1} spacing={2}>
