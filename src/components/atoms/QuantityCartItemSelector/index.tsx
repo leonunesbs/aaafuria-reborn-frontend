@@ -99,7 +99,7 @@ function QuantityCartItemSelector({
   const handleRemoveFromCart = useCallback(async () => {
     await removeFromCart({
       variables: {
-        itemId: itemId,
+        itemId,
         description,
         quantity: 1,
       },
