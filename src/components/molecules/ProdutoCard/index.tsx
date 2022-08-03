@@ -1,5 +1,6 @@
 import * as gtag from 'lib/gtag';
 
+import { gql, useMutation } from '@apollo/client';
 import {
   Box,
   FormControl,
@@ -11,19 +12,18 @@ import {
   useBreakpointValue,
   useToast,
 } from '@chakra-ui/react';
+import { useCallback, useContext, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { gql, useMutation } from '@apollo/client';
-import { useCallback, useContext } from 'react';
 
-import { AuthContext } from '@/contexts/AuthContext';
-import { Card } from '@/components/molecules';
-import { ColorContext } from '@/contexts/ColorContext';
-import { CustomButton } from '@/components/atoms/CustomButton';
-import { Heading } from '@chakra-ui/layout';
-import { MdShoppingCart } from 'react-icons/md';
 import { PriceTag } from '@/components/atoms';
+import { CustomButton } from '@/components/atoms/CustomButton';
+import { Card } from '@/components/molecules';
+import { AuthContext } from '@/contexts/AuthContext';
+import { ColorContext } from '@/contexts/ColorContext';
 import { ProductType } from '@/pages/loja';
+import { Heading } from '@chakra-ui/layout';
 import { useRouter } from 'next/router';
+import { MdShoppingCart } from 'react-icons/md';
 
 const ADD_TO_CART = gql`
   mutation addToCart(
@@ -51,6 +51,9 @@ export const ProdutoCard = ({
   clientRegistration?: string;
 }) => {
   const router = useRouter();
+  const [variationId, setVariationId] = useState('');
+  const [subVariationId, setSubVariationId] = useState('');
+  const [underVariationId, setUnderVariationId] = useState('');
   const { green } = useContext(ColorContext);
   const { isAuthenticated, token, user } = useContext(AuthContext);
   const { register, handleSubmit } = useForm<any>();
@@ -73,7 +76,12 @@ export const ProdutoCard = ({
       if (!isAuthenticated) {
         router.push(`/entrar?after=${router.asPath}`);
       }
-      const productId = formData.variacaoId || product.id;
+      const productId =
+        underVariationId ||
+        subVariationId ||
+        variationId ||
+        formData.variacaoId ||
+        product.id;
       const quantidade = 1;
       const observacoes = formData.observacoes;
 
@@ -133,7 +141,19 @@ export const ProdutoCard = ({
           return;
         });
     },
-    [isAuthenticated, product, addToCart, router, toast, clientRegistration],
+    [
+      isAuthenticated,
+      underVariationId,
+      subVariationId,
+      variationId,
+      product.id,
+      product.name,
+      product.price,
+      addToCart,
+      clientRegistration,
+      router,
+      toast,
+    ],
   );
 
   return (
@@ -169,8 +189,10 @@ export const ProdutoCard = ({
                 rounded={'lg'}
                 focusBorderColor={green}
                 placeholder="Selecione uma opção"
-                required={product?.variations?.edges.length > 0 ? true : false}
-                {...register('variacaoId')}
+                required={product?.variations?.edges.length > 0}
+                {...register('variacaoId', {
+                  onChange: (e) => setVariationId(e.target.value),
+                })}
               >
                 {product.variations.edges.map(
                   ({ node }) =>
@@ -179,6 +201,87 @@ export const ProdutoCard = ({
                         {node.name}
                       </option>
                     ),
+                )}
+              </Select>
+            </FormControl>
+            <FormControl
+              display={
+                product?.variations?.edges.filter(
+                  ({ node }) => node.variations.edges.length > 0,
+                ).length > 0
+                  ? 'default'
+                  : 'none'
+              }
+              isDisabled={!variationId}
+            >
+              <Select
+                size="xs"
+                rounded={'lg'}
+                focusBorderColor={green}
+                placeholder="Selecione uma opção"
+                required={
+                  product?.variations?.edges.filter(
+                    ({ node }) => node.variations.edges.length > 0,
+                  ).length > 0
+                }
+                onChange={(e) => setSubVariationId(e.target.value)}
+              >
+                {product.variations.edges.map(({ node: variation }) =>
+                  variation.variations.edges.map(
+                    ({ node: subVariation }) =>
+                      subVariation.refItem.id == variationId &&
+                      subVariation.isActive && (
+                        <option key={subVariation.id} value={subVariation.id}>
+                          {subVariation.name}
+                        </option>
+                      ),
+                  ),
+                )}
+              </Select>
+            </FormControl>
+            <FormControl
+              display={
+                product?.variations?.edges.filter(
+                  ({ node }) =>
+                    node.variations.edges.filter(
+                      ({ node }) => node.variations.edges.length > 0,
+                    ).length > 0,
+                ).length > 0
+                  ? 'default'
+                  : 'none'
+              }
+              isDisabled={!subVariationId}
+            >
+              <Select
+                size="xs"
+                rounded={'lg'}
+                focusBorderColor={green}
+                placeholder="Selecione uma opção"
+                required={
+                  product?.variations?.edges.filter(
+                    ({ node }) =>
+                      node.variations.edges.filter(
+                        ({ node }) => node.variations.edges.length > 0,
+                      ).length > 0,
+                  ).length > 0
+                }
+                onChange={(e) => setUnderVariationId(e.target.value)}
+              >
+                {product.variations.edges.map(({ node: variation }) =>
+                  variation.variations.edges.map(({ node: subVariation }) =>
+                    subVariation.variations.edges.map(
+                      ({ node: underVariation }) =>
+                        underVariation.refItem.id == subVariationId &&
+                        underVariation.isActive && (
+                          <option
+                            key={underVariation.id}
+                            value={underVariation.id}
+                          >
+                            {underVariation.name}
+                          </option>
+                        ),
+                    ),
+                  ),
                 )}
               </Select>
             </FormControl>

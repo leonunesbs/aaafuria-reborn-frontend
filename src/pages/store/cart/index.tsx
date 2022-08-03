@@ -1,14 +1,4 @@
 import {
-  Box,
-  Divider,
-  HStack,
-  Heading,
-  Image,
-  Stack,
-  Text,
-} from '@chakra-ui/react';
-import { Controller, SubmitHandler, useForm } from 'react-hook-form';
-import {
   CustomButton,
   CustomIconButton,
   PageHeading,
@@ -16,17 +6,27 @@ import {
   PriceTag,
   QuantityCartItemSelector,
 } from '@/components/atoms';
-import { MdArrowLeft, MdDelete } from 'react-icons/md';
 import { gql, useMutation, useQuery } from '@apollo/client';
+import {
+  Box,
+  Divider,
+  Heading,
+  HStack,
+  Image,
+  Stack,
+  Text,
+} from '@chakra-ui/react';
 import { useCallback, useContext } from 'react';
+import { Controller, SubmitHandler, useForm } from 'react-hook-form';
+import { MdArrowLeft, MdDelete } from 'react-icons/md';
 
-import { AuthContext } from '@/contexts/AuthContext';
 import { Card } from '@/components/molecules';
-import { GetServerSideProps } from 'next';
-import { HiCash } from 'react-icons/hi';
 import { Layout } from '@/components/templates';
-import { parseCookies } from 'nookies';
+import { AuthContext } from '@/contexts/AuthContext';
+import { GetServerSideProps } from 'next';
 import { useRouter } from 'next/router';
+import { parseCookies } from 'nookies';
+import { HiCash } from 'react-icons/hi';
 
 const GET_CART = gql`
   query getCart {
@@ -42,6 +42,7 @@ const GET_CART = gql`
         edges {
           node {
             id
+            title
             description
             quantity
             item {
@@ -95,6 +96,7 @@ interface CartData {
       edges: {
         node: {
           id: string;
+          title: string;
           item: {
             id: string;
             refItem: {
@@ -202,7 +204,7 @@ function Cart() {
             >
               <Stack spacing={2} w="full">
                 {data?.cart?.items.edges.map(
-                  ({ node: { id, item, quantity, description } }) => {
+                  ({ node: { id, item, quantity, description, title } }) => {
                     return (
                       <Stack
                         key={id}
@@ -236,9 +238,7 @@ function Cart() {
                           </Box>
                           <Box>
                             <Heading as="h2" fontSize={'sm'}>
-                              {item.refItem
-                                ? `${item.refItem.name.toUpperCase()} - ${item.name.toUpperCase()}`
-                                : item.name.toUpperCase()}
+                              {title.toUpperCase()}
                             </Heading>
                             <Text as="h3" fontSize={'xs'}>
                               {item.description}
