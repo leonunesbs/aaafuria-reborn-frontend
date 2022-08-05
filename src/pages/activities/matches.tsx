@@ -123,53 +123,56 @@ function Matches({ allMatches }: MatchesProps) {
           </Text>
         )}
         <SimpleGrid columns={[1, 1, 2, 3]} gap={4}>
-          {allMatches.map((match) => (
-            <Card key={match.id}>
-              <PageHeading size="xs">
-                <ActivityIcon
-                  activityName={match.activity.name}
-                  size={5}
-                  mr={1}
-                />
-                {match.activity.name}
-              </PageHeading>
-              <Text textAlign={'center'} fontSize="xs">
-                {match.tournament}
-              </Text>
-              <Text textAlign={'center'} fontSize="xx-small" mb={2}>
-                {match.description} ({match.style})
-              </Text>
-              <SimpleGrid columns={3} mb={2}>
-                <TeamCard />
-                <StatCard
-                  win={match.win}
-                  points={match.points}
-                  opponentPoints={match.opponentPoints}
-                  extraPoints={match.extraPoints}
-                  extraOpponentPoints={match.extraOpponentPoints}
-                />
-                <TeamCard
-                  opponent
-                  name={match.opponent.name}
-                  logo={match.opponent.logo}
-                />
-              </SimpleGrid>
-              <Text
-                textAlign={'center'}
-                fontSize="xx-small"
-                fontStyle={'italic'}
-              >
-                {new Date(match.scheduleDate as string).toLocaleString(
-                  'pt-BR',
-                  {
-                    dateStyle: 'long',
-                    timeStyle: 'short',
-                    timeZone: 'America/Sao_Paulo',
-                  },
-                )}
-              </Text>
-            </Card>
-          ))}
+          {allMatches.map(
+            (match) =>
+              new Date(match.scheduleDate) >= new Date() && (
+                <Card key={match.id}>
+                  <PageHeading size="xs">
+                    <ActivityIcon
+                      activityName={match.activity.name}
+                      size={5}
+                      mr={1}
+                    />
+                    {match.activity.name}
+                  </PageHeading>
+                  <Text textAlign={'center'} fontSize="xs">
+                    {match.tournament}
+                  </Text>
+                  <Text textAlign={'center'} fontSize="xx-small" mb={2}>
+                    {match.description} ({match.style})
+                  </Text>
+                  <SimpleGrid columns={3} mb={2}>
+                    <TeamCard />
+                    <StatCard
+                      win={match.win}
+                      points={match.points}
+                      opponentPoints={match.opponentPoints}
+                      extraPoints={match.extraPoints}
+                      extraOpponentPoints={match.extraOpponentPoints}
+                    />
+                    <TeamCard
+                      opponent
+                      name={match.opponent.name}
+                      logo={match.opponent.logo}
+                    />
+                  </SimpleGrid>
+                  <Text
+                    textAlign={'center'}
+                    fontSize="xx-small"
+                    fontStyle={'italic'}
+                  >
+                    {new Date(match.scheduleDate as string).toLocaleString(
+                      'pt-BR',
+                      {
+                        dateStyle: 'long',
+                        timeStyle: 'short',
+                        timeZone: 'America/Sao_Paulo',
+                      },
+                    )}
+                  </Text>
+                </Card>
+              ),
+          )}
         </SimpleGrid>
       </Box>
     </Layout>
