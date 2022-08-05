@@ -211,7 +211,7 @@ export const getStaticProps: GetStaticProps = async () => {
         props: {
           allMatches: data.allMatches,
         },
-        revalidate: 60,
+        revalidate: 15,
       };
     });
 };
