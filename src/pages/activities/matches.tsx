@@ -116,7 +116,7 @@ function Matches({ allMatches }: MatchesProps) {
       desc="Histórico de confrontos em competições disputadas pela Fúria."
     >
       <Box maxW="8xl" mx="auto">
-        <PageHeading>Histórico de confrontros</PageHeading>
+        <PageHeading>Confrontros</PageHeading>
         {allMatches && allMatches.length < 1 && (
           <Text textAlign={'center'} fontStyle="italic">
             Não há confrontos anteriores para serem mostrados.
