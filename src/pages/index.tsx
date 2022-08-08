@@ -76,7 +76,7 @@ function Home({ post, partnerships }: HomeProps) {
   const featuresDiv = useRef<HTMLDivElement>(null);
   const partnershipsDiv = useRef<HTMLDivElement>(null);
   const { bg, green, invertedBg } = useContext(ColorContext);
-  const ctaLogo = useColorModeValue('/logo-cinza.webp', '/logo-branco.webp');
+  const ctaLogo = useColorModeValue('/logo-branco.webp', '/logo-cinza.webp');
   const calango = useColorModeValue(
     '/calango-verde.png',
     '/calango-verde-b.png',
