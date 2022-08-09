@@ -29,6 +29,7 @@ const ALL_CARTS = gql`
         edges {
           node {
             id
+            title
             item {
               name
               refItem {
@@ -58,6 +59,7 @@ const DELIVER_CART = gql`
 
 type Item = {
   id: string;
+  title: string;
   item: {
     name: string;
     refItem: {
@@ -139,18 +141,13 @@ function CartsTable({}: CartsTableProps) {
             value: { edges: { node: Item }[] };
           }) => {
             return edges.map((item) => (
-              <Box key={item.node.id} fontSize="xs">
-                {item.node.item.refItem?.name ? (
-                  <Text>
-                    {item.node.quantity}x {item.node.item.refItem.name} (
-                    {item.node.item.name})
-                  </Text>
-                ) : (
-                  <Text>
-                    {item.node.quantity}x {item.node.item.name}
-                  </Text>
-                )}
-                <Text>{item.node.description}</Text>
+              <Box key={item.node.id} fontSize="xs" mb={2}>
+                <Text>
+                  {item.node.quantity}x {item.node.title}
+                </Text>
+                <Text fontStyle={'italic'} fontSize="xx-small">
+                  Obs.: {item.node.description}
+                </Text>
               </Box>
             ));
           },
