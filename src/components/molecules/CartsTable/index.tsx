@@ -145,9 +145,11 @@ function CartsTable({}: CartsTableProps) {
                 <Text>
                   {item.node.quantity}x {item.node.title}
                 </Text>
-                <Text fontStyle={'italic'} fontSize="xx-small">
-                  Obs.: {item.node.description}
-                </Text>
+                {item.node.description && (
+                  <Text fontStyle={'italic'} fontSize="xx-small">
+                    Obs.: {item.node.description}
+                  </Text>
+                )}
               </Box>
             ));
           },
