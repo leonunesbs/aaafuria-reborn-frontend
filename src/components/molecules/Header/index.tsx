@@ -31,12 +31,12 @@ import {
   MdShoppingCart,
   MdStore,
 } from 'react-icons/md';
-import { ReactNode, useContext, useRef } from 'react';
+import { ReactNode, useContext } from 'react';
 
 import { AiFillHome } from 'react-icons/ai';
 import { AuthContext } from '@/contexts/AuthContext';
+import { CgMenu } from 'react-icons/cg';
 import { ColorContext } from '@/contexts/ColorContext';
-import Hamburger from 'hamburger-react';
 import { ImCross } from 'react-icons/im';
 import NextImage from 'next/image';
 import { useRouter } from 'next/router';
@@ -65,7 +65,6 @@ const HeaderMenuItem = ({
 
 export const Header = () => {
   const router = useRouter();
-  const btnRef = useRef<HTMLButtonElement>(null);
   const { isOpen, onToggle, onClose } = useDisclosure();
   const { bg, green } = useContext(ColorContext);
   const { isAuthenticated, signOut, user } = useContext(AuthContext);
@@ -132,25 +131,32 @@ export const Header = () => {
         </HStack>
         <HStack spacing={[2, 2, 4]}>
           <ColorModeToggle />
-          {router.asPath.includes('/loja') && (
-            <CustomIconButton
-              aria-label="cart"
-              icon={<MdShoppingCart size="25px" />}
-              onClick={() => router.push('/store/cart')}
-            />
-          )}
+          <CustomIconButton
+            aria-label="hamburguer-menu"
+            onClick={onToggle}
+            icon={<CgMenu size="25px" />}
+          />
           {isAuthenticated ? (
-            <Avatar
-              display={['none', 'none', 'flex']}
-              name={user?.member.name}
-              src={user?.member.avatar}
-              border={
-                user?.member.hasActiveMembership
-                  ? '2px solid green'
-                  : '2px solid gray'
-              }
-              onClick={() => router.push('/carteirinha')}
-            />
+            <>
+              {router.asPath.includes('/loja') && (
+                <CustomIconButton
+                  aria-label="cart"
+                  icon={<MdShoppingCart size="25px" />}
+                  onClick={() => router.push('/store/cart')}
+                />
+              )}
+              <Avatar
+                display={['none', 'none', 'flex']}
+                name={user?.member.name}
+                src={user?.member.avatar}
+                border={
+                  user?.member.hasActiveMembership
+                    ? '2px solid green'
+                    : '2px solid gray'
+                }
+                onClick={() => router.push('/carteirinha')}
+              />
+            </>
           ) : (
             <CustomButton
               display={['none', 'none', 'flex']}
@@ -159,21 +165,6 @@ export const Header = () => {
               Entrar
             </CustomButton>
           )}
-
-          <CustomIconButton
-            ref={btnRef}
-            aria-label="hamburguer-menu"
-            onClick={onToggle}
-            icon={
-              <Hamburger
-                toggled={isOpen}
-                toggle={onToggle}
-                size={20}
-                hideOutline={false}
-              />
-            }
-            variant="link"
-          />
         </HStack>
       </Flex>
       <Flex flexGrow={1} bgColor={green} h={'0.5'} />
