@@ -461,13 +461,18 @@ function Payment() {
               {data?.payment?.status === 'PENDENTE' && (
                 <>
                   {data?.payment?.method === 'PIX' &&
-                    data.payment?.attachments.edges.length === 0 && (
-                      <Alert status="info" rounded={'md'}>
-                        <AlertIcon />
-                        Adicione o comprovante de pagamento aos anexos abaixo e
-                        aguarde a confirmação do pagamento.
-                      </Alert>
-                    )}
+                  data.payment?.attachments.edges.length === 0 ? (
+                    <Alert status="info" rounded={'md'}>
+                      <AlertIcon />
+                      Adicione o comprovante de pagamento aos anexos abaixo e
+                      aguarde a confirmação do pagamento.
+                    </Alert>
+                  ) : (
+                    <Alert status="success" rounded={'md'}>
+                      <AlertIcon />
+                      Aguarde a confirmação do pagamento.
+                    </Alert>
+                  )}
                 </>
               )}
               <HStack w="full" justify={'space-between'}>
