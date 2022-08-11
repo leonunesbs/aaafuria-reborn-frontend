@@ -78,16 +78,23 @@ function MyPayments() {
             <Table size={'sm'}>
               <Thead>
                 <Tr>
+                  <Th />
                   <Th>Descrição</Th>
                   <Th>Valor</Th>
                   <Th>Criado em</Th>
                   <Th>Status</Th>
-                  <Th />
                 </Tr>
               </Thead>
               <Tbody>
                 {data?.myPayments?.edges?.map(({ node }) => (
                   <Tr key={node.id}>
+                    <Td>
+                      <CustomIconButton
+                        icon={<MdMoreHoriz size="20px" />}
+                        aria-label="ver mais"
+                        onClick={() => router.push(`/bank/payment/${node.id}`)}
+                      />
+                    </Td>
                     <Td>{node.description}</Td>
                     <Td>
                       {node.amount} {node.currency}
@@ -112,13 +119,6 @@ function MyPayments() {
                           {node.status}
                         </Badge>
                       </Text>
-                    </Td>
-                    <Td>
-                      <CustomIconButton
-                        icon={<MdMoreHoriz size="20px" />}
-                        aria-label="ver mais"
-                        onClick={() => router.push(`/bank/payment/${node.id}`)}
-                      />
                     </Td>
                   </Tr>
                 ))}
