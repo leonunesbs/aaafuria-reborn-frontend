@@ -8,7 +8,6 @@ import {
   Image,
   Input,
   SimpleGrid,
-  Spinner,
   Stack,
   Text,
   useColorModeValue,
@@ -204,7 +203,7 @@ function Eventos() {
         h="100vh"
       >
         <Center h="100vh" flexDir="row">
-          <Spinner size="xl" color="green" />
+          Nada para ver aqui. Volte mais tarde.
         </Center>
       </Layout>
     );
