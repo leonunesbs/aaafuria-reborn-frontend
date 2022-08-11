@@ -132,6 +132,13 @@ export const Header = () => {
         </HStack>
         <HStack spacing={[2, 2, 4]}>
           <ColorModeToggle />
+          {router.asPath.includes('/loja') && (
+            <CustomIconButton
+              aria-label="cart"
+              icon={<MdShoppingCart size="25px" />}
+              onClick={() => router.push('/store/cart')}
+            />
+          )}
           {isAuthenticated ? (
             <Avatar
               display={['none', 'none', 'flex']}
@@ -152,13 +159,7 @@ export const Header = () => {
               Entrar
             </CustomButton>
           )}
-          {router.asPath.includes('/loja') && (
-            <CustomIconButton
-              aria-label="cart"
-              icon={<MdShoppingCart size="25px" />}
-              onClick={() => router.push('/store/cart')}
-            />
-          )}
+
           <CustomIconButton
             ref={btnRef}
             aria-label="hamburguer-menu"
