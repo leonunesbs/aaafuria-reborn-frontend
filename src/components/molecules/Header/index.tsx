@@ -28,6 +28,7 @@ import {
   MdLogout,
   MdManageAccounts,
   MdPerson,
+  MdShoppingCart,
   MdStore,
 } from 'react-icons/md';
 import { ReactNode, useContext, useRef } from 'react';
@@ -150,6 +151,13 @@ export const Header = () => {
             >
               Entrar
             </CustomButton>
+          )}
+          {router.asPath.includes('/loja') && (
+            <CustomIconButton
+              aria-label="cart"
+              icon={<MdShoppingCart size="25px" />}
+              onClick={() => router.push('/store/cart')}
+            />
           )}
           <CustomIconButton
             ref={btnRef}
