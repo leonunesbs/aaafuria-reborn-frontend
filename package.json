@@ -35,7 +35,7 @@
     "apollo-upload-client": "17.0.0",
     "framer-motion": "6.3.3",
     "graphql": "16.5.0",
-    "next": "12.1.6",
+    "next": "13.5.0",
     "next-pwa": "5.5.4",
     "nookies": "2.5.2",
     "pix-react": "1.0.3",
